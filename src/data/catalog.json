@@ -1,0 +1,1022 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "slug": "korony-na-vorota",
+      "name": "Короны на ворота",
+      "description": "Кованые короны для украшения ворот и калиток. Придают входной группе элегантный и солидный вид.",
+      "image": "/images/products/kovanaia-korona-na-vorota-prestiz.png"
+    },
+    {
+      "id": 2,
+      "slug": "nakladnye-dekorativnye-uzory",
+      "name": "Накладные декоративные узоры",
+      "description": "Декоративные кованые узоры для украшения заборов, ворот и ограждений. Большой выбор орнаментов.",
+      "image": "/images/products/kovanyi-nakladnoi-uzor-pautinka-1.png"
+    },
+    {
+      "id": 3,
+      "slug": "kovanye-ugolki",
+      "name": "Кованые уголки",
+      "description": "Декоративные кованые уголки для оформления верхних углов ворот и ограждений.",
+      "image": "/images/products/kovanyi-ugolok-versina.png"
+    },
+    {
+      "id": 4,
+      "slug": "kovanye-balyasiny",
+      "name": "Кованые балясины",
+      "description": "Кованые балясины для лестниц, балконов и террас. Разнообразие форм и стилей.",
+      "image": "/images/products/kovanaia-baliasina-buket-1.png"
+    },
+    {
+      "id": 5,
+      "slug": "kovanye-rucki",
+      "name": "Кованые ручки",
+      "description": "Кованые дверные ручки ручной работы. Стильное дополнение к любой двери.",
+      "image": "/images/products/kovanaia-rucka-volna.png"
+    },
+    {
+      "id": 6,
+      "slug": "kovanye-elementy",
+      "name": "Кованые элементы",
+      "description": "Отдельные декоративные кованые элементы: барашки, эски, пики, лебеди и другие.",
+      "image": "/images/products/kovanyi-element-barasek-f1.jpg"
+    },
+    {
+      "id": 7,
+      "slug": "uzory-iz-kvadrata-85x85",
+      "name": "Узоры из квадрата 8,5х8,5 мм",
+      "description": "Кованые узоры, изготовленные из квадрата 8,5х8,5 мм. Идеальны для заполнения секций забора.",
+      "image": "/images/products/kovanyi-nakladnoi-uzor-pavlin-2.png"
+    },
+    {
+      "id": 8,
+      "slug": "uzory-iz-kvadratnoi-truby-15x15",
+      "name": "Узоры из квадратной трубы 15х15 мм",
+      "description": "Кованые узоры из квадратной трубы 15х15 мм. Более массивные и прочные элементы.",
+      "image": "/images/products/nakladnoi-uzor-babocka-s-kvadratnoi-truby.png"
+    },
+    {
+      "id": 9,
+      "slug": "kovanye-stoiki",
+      "name": "Кованые стойки",
+      "description": "Стойки для заборов и ограждений различных диаметров и длин. С кованым наконечником.",
+      "image": "/images/products/truba-stoika-1.png"
+    },
+    {
+      "id": 10,
+      "slug": "kovanye-listiki",
+      "name": "Кованые листики",
+      "description": "Декоративные кованые листья различных форм. Используются как дополнение к узорам.",
+      "image": "/images/products/bizzon-kovka-uzor-bizzon-kovka-uzor-listik-astana-material-kv-10-kv-85.jpg"
+    }
+  ],
+  "products": [
+    {
+      "id": 101,
+      "categorySlug": "korony-na-vorota",
+      "slug": "korona-astana",
+      "name": "Кованая корона на ворота «Астана»",
+      "price": 1450,
+      "image": "/images/products/kovanaia-korona-na-vorota-astana.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Элегантная корона для ворот с симметричным орнаментом. Подходит для парадных ворот."
+    },
+    {
+      "id": 102,
+      "categorySlug": "korony-na-vorota",
+      "slug": "korona-babochka",
+      "name": "Кованая корона на ворота «Бабочка»",
+      "price": 1250,
+      "image": "/images/products/kovanaia-korona-na-vorota-babocka.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Корона в форме бабочки — лёгкий и изящный элемент для ворот."
+    },
+    {
+      "id": 103,
+      "categorySlug": "korony-na-vorota",
+      "slug": "korona-viking-kalitka",
+      "name": "Кованая корона на калитку «Викинг»",
+      "price": 1250,
+      "image": "/images/products/kovanaia-korona-na-kalitku-viking.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Массивная корона в стиле викинг для калиток."
+    },
+    {
+      "id": 104,
+      "categorySlug": "korony-na-vorota",
+      "slug": "korona-volna",
+      "name": "Кованая корона на ворота «Волна»",
+      "price": 1500,
+      "image": "/images/products/kovanaia-korona-na-vorota-volna.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Волнообразная корона для создания плавных линий на воротах."
+    },
+    {
+      "id": 105,
+      "categorySlug": "korony-na-vorota",
+      "slug": "korona-zhasmin",
+      "name": "Кованая корона «Жасмин»",
+      "price": 2500,
+      "image": "/images/products/kovanaia-korona-zasmin-iz-kvadrata-10x10-mm.jpg",
+      "material": "Квадрат 10х10 мм",
+      "description": "Роскошная корона «Жасмин» с утончённым орнаментом."
+    },
+    {
+      "id": 106,
+      "categorySlug": "korony-na-vorota",
+      "slug": "korona-zavitok",
+      "name": "Кованая корона на ворота «Завиток»",
+      "price": 1250,
+      "image": "/images/products/kovanaia-korona-na-vorota-zavitok.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Корона с завитками — классический кованый элемент."
+    },
+    {
+      "id": 107,
+      "categorySlug": "korony-na-vorota",
+      "slug": "korona-kalitka-1",
+      "name": "Кованая корона «Калитка №1»",
+      "price": 950,
+      "image": "/images/products/kovanaia-korona-kalitka-1.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Компактная корона для узких калиток."
+    },
+    {
+      "id": 108,
+      "categorySlug": "korony-na-vorota",
+      "slug": "korona-kalitka-astana",
+      "name": "Кованая корона на калитку «Астана»",
+      "price": 1100,
+      "image": "/images/products/kovanaia-korona-na-kalitku-astana.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Элегантная корона для калитки с орнаментом «Астана»."
+    },
+    {
+      "id": 109,
+      "categorySlug": "korony-na-vorota",
+      "slug": "korona-prestizh",
+      "name": "Кованая корона на ворота «Престиж»",
+      "price": 2500,
+      "badge": "Хит",
+      "image": "/images/products/kovanaia-korona-na-vorota-prestiz.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Премиальная корона «Престиж» — для тех, кто ценит роскошь."
+    },
+    {
+      "id": 110,
+      "categorySlug": "korony-na-vorota",
+      "slug": "korona-ulitka",
+      "name": "Кованая корона на ворота «Улитка»",
+      "price": 1400,
+      "image": "/images/products/kovanaia-korona-na-vorota-ulitka.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Корона с завитками в форме улитки."
+    },
+    {
+      "id": 111,
+      "categorySlug": "korony-na-vorota",
+      "slug": "korona-shafran",
+      "name": "Кованая корона «Шафран»",
+      "price": 4600,
+      "badge": "Премиум",
+      "image": "/images/products/kovanaia-korona-safran-iz-kvadrata-10x10-mm.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Роскошная корона «Шафран» — самый богатый орнамент в коллекции."
+    },
+    {
+      "id": 201,
+      "categorySlug": "nakladnye-dekorativnye-uzory",
+      "slug": "uzor-vosmerka",
+      "name": "Кованый узор «Восьмёрка»",
+      "price": 850,
+      "image": "/images/products/kovanyi-uzor-vosmerka.jpg",
+      "material": "Квадрат 10х10 мм",
+      "description": "Простой и элегантный узор в форме восьмёрки."
+    },
+    {
+      "id": 202,
+      "categorySlug": "nakladnye-dekorativnye-uzory",
+      "slug": "uzor-babochka-1",
+      "name": "Кованый накладной узор «Бабочка»",
+      "price": 1750,
+      "image": "/images/products/kovanyi-nakladnoi-uzor-babocka.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Красивый узор в форме бабочки для заполнения секций."
+    },
+    {
+      "id": 203,
+      "categorySlug": "nakladnye-dekorativnye-uzory",
+      "slug": "uzor-avgust",
+      "name": "Кованый накладной узор «Август»",
+      "price": 1800,
+      "image": "/images/products/kovanyi-nakladnoi-uzor-avgust.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Классический узор «Август» для заборов и ворот."
+    },
+    {
+      "id": 204,
+      "categorySlug": "nakladnye-dekorativnye-uzory",
+      "slug": "uzor-avgust-2",
+      "name": "Кованый узор «Август №2»",
+      "price": 1950,
+      "image": "/images/products/kovanyi-uzor-avgust-2-iz-kvadrata-10x10-mm.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Узор «Август» второй версии — более сложный орнамент."
+    },
+    {
+      "id": 205,
+      "categorySlug": "nakladnye-dekorativnye-uzory",
+      "slug": "uzor-astana",
+      "name": "Кованый накладной узор «Астана»",
+      "price": 1850,
+      "image": "/images/products/kovanyi-nakladnoi-uzor-astana.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Популярный узор «Астана» с симметричным рисунком."
+    },
+    {
+      "id": 206,
+      "categorySlug": "nakladnye-dekorativnye-uzory",
+      "slug": "uzor-babochka-maxaon",
+      "name": "Кованый узор «Бабочка Махаон»",
+      "price": 1800,
+      "image": "/images/products/kovanyi-uzor-babocka-maxaon-iz-kvadrata-10x10-mm-i-kvadrat-85x85-mm.png",
+      "material": "Квадрат 10х10 / 8,5х8,5 мм",
+      "description": "Изящный узор «Бабочка Махаон» с детальной проработкой."
+    },
+    {
+      "id": 207,
+      "categorySlug": "nakladnye-dekorativnye-uzory",
+      "slug": "uzor-zavitok",
+      "name": "Кованый накладной узор «Завиток»",
+      "price": 1700,
+      "image": "/images/products/kovanyi-nakladnoi-uzor-zavitok.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Узор с завитками — универсальный элемент для любых конструкций."
+    },
+    {
+      "id": 208,
+      "categorySlug": "nakladnye-dekorativnye-uzory",
+      "slug": "uzor-vinetka-bolshaya",
+      "name": "Кованый накладной узор «Виньетка большая»",
+      "price": 1600,
+      "image": "/images/products/kovanyi-nakladnoi-uzor-vinetka-bolsaia.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Большая виньетка — богатый орнамент для парадных ворот."
+    },
+    {
+      "id": 209,
+      "categorySlug": "nakladnye-dekorativnye-uzory",
+      "slug": "uzor-vinetka-malenkaya",
+      "name": "Кованый накладной узор «Виньетка маленькая»",
+      "price": 1250,
+      "image": "/images/products/kovanyi-nakladnoi-uzor-vinetka-malenkaia.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Компактная виньетка для калиток и небольших секций."
+    },
+    {
+      "id": 210,
+      "categorySlug": "nakladnye-dekorativnye-uzory",
+      "slug": "uzor-karabas",
+      "name": "Кованый накладной узор «Карабас»",
+      "price": 1250,
+      "image": "/images/products/kovanyi-nakladnoi-uzor-karabas.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Оригинальный узор «Карабас» с характерным рисунком."
+    },
+    {
+      "id": 211,
+      "categorySlug": "nakladnye-dekorativnye-uzory",
+      "slug": "uzor-pautinka",
+      "name": "Кованый накладной узор «Паутинка»",
+      "price": 1900,
+      "badge": "Новинка",
+      "image": "/images/products/kovanyi-nakladnoi-uzor-pautinka-1.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Тонкий и ажурный узор «Паутинка» — выглядит воздушно и изящно."
+    },
+    {
+      "id": 212,
+      "categorySlug": "nakladnye-dekorativnye-uzory",
+      "slug": "uzor-pavlin",
+      "name": "Кованый накладной узор «Павлин»",
+      "price": 2100,
+      "image": "/images/products/kovanyi-nakladnoi-uzor-pavlin-2.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Роскошный узор «Павлин» с раскидистым орнаментом."
+    },
+    {
+      "id": 301,
+      "categorySlug": "kovanye-ugolki",
+      "slug": "ugolok-astana",
+      "name": "Кованый уголок «Астана»",
+      "price": 1700,
+      "image": "/images/products/kovanyi-ugolok-astana.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Уголок «Астана» для оформления верхних углов ворот."
+    },
+    {
+      "id": 302,
+      "categorySlug": "kovanye-ugolki",
+      "slug": "ugolok-babochka",
+      "name": "Кованый уголок «Бабочка»",
+      "price": 800,
+      "image": "/images/products/kovanyi-ugolok-babocka.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Лёгкий уголок с мотивом бабочки."
+    },
+    {
+      "id": 303,
+      "categorySlug": "kovanye-ugolki",
+      "slug": "ugolok-volna",
+      "name": "Кованый уголок «Волна»",
+      "price": 950,
+      "image": "/images/products/kovanyi-ugolok-volna.jpg",
+      "material": "Квадрат 10х10 мм",
+      "description": "Уголок с плавными волнообразными линиями."
+    },
+    {
+      "id": 304,
+      "categorySlug": "kovanye-ugolki",
+      "slug": "ugolok-vershina",
+      "name": "Кованый уголок «Вершина»",
+      "price": 1650,
+      "image": "/images/products/kovanyi-ugolok-versina.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Массивный уголок «Вершина» для крупных ворот."
+    },
+    {
+      "id": 305,
+      "categorySlug": "kovanye-ugolki",
+      "slug": "ugolok-koltso",
+      "name": "Кованый уголок «Кольцо»",
+      "price": 1350,
+      "image": "/images/products/kovanyi-ugolok-kolco.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Уголок с круглым элементом в центре."
+    },
+    {
+      "id": 306,
+      "categorySlug": "kovanye-ugolki",
+      "slug": "ugolok-prestizh",
+      "name": "Кованый уголок «Престиж»",
+      "price": 1400,
+      "image": "/images/products/kovanyi-ugolok-prestiz.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Статусный уголок «Престиж» для солидных ворот."
+    },
+    {
+      "id": 307,
+      "categorySlug": "kovanye-ugolki",
+      "slug": "ugolok-ulitka",
+      "name": "Кованый уголок «Улитка»",
+      "price": 1000,
+      "image": "/images/products/kovanyi-ugolok-ulitka.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Уголок с завитком-улиткой."
+    },
+    {
+      "id": 308,
+      "categorySlug": "kovanye-ugolki",
+      "slug": "ugolok-ulitka-bolshoy",
+      "name": "Кованый уголок «Улитка» большой",
+      "price": 1250,
+      "image": "/images/products/kovanyi-ugolok-ulitka-bolsoi.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Увеличенный уголок «Улитка» для широких ворот."
+    },
+    {
+      "id": 309,
+      "categorySlug": "kovanye-ugolki",
+      "slug": "ugolok-shafran-para",
+      "name": "Кованый уголок «Шафран» (пара)",
+      "price": 4000,
+      "badge": "Премиум",
+      "image": "/images/products/kovanyi-ugolok-safran-para.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Парный уголок «Шафран» — для симметричного оформления."
+    },
+    {
+      "id": 401,
+      "categorySlug": "kovanye-balyasiny",
+      "slug": "balyasina-arka",
+      "name": "Кованая балясина «Арка»",
+      "price": 950,
+      "image": "/images/products/kovanaia-baliasina-arka.png",
+      "material": "Квадрат 10х10 мм, высота 980 мм",
+      "description": "Балясина с арочным мотивом для лестниц и балконов."
+    },
+    {
+      "id": 402,
+      "categorySlug": "kovanye-balyasiny",
+      "slug": "balyasina-bantik",
+      "name": "Кованая балясина «Бантик»",
+      "price": 700,
+      "image": "/images/products/kovanaia-baliasina-bantik.png",
+      "material": "Квадрат 10х10 мм, высота 980 мм",
+      "description": "Балясина с элементом «бантик» — мило и оригинально."
+    },
+    {
+      "id": 403,
+      "categorySlug": "kovanye-balyasiny",
+      "slug": "balyasina-berezka",
+      "name": "Кованая балясина «Берёзка»",
+      "price": 900,
+      "image": "/images/products/kovanaia-baliasina-berezka.png",
+      "material": "Квадрат 10х10 мм, высота 980 мм",
+      "description": "Балясина с растительным мотивом «Берёзка»."
+    },
+    {
+      "id": 404,
+      "categorySlug": "kovanye-balyasiny",
+      "slug": "balyasina-buket-2",
+      "name": "Кованая балясина «Букет №2»",
+      "price": 1200,
+      "image": "/images/products/kovanaia-baliasina-buket-2.png",
+      "material": "Квадрат 10х10 мм, высота 980 мм",
+      "description": "Балясина «Букет» — классика кованого дизайна."
+    },
+    {
+      "id": 405,
+      "categorySlug": "kovanye-balyasiny",
+      "slug": "balyasina-buket-3",
+      "name": "Кованая балясина «Букет №3»",
+      "price": 2450,
+      "image": "/images/products/kovanaia-baliasina-buket-3.png",
+      "material": "Квадрат 10х10 мм, высота 980 мм",
+      "description": "Объёмная балясина «Букет №3» — пышный и нарядный вариант."
+    },
+    {
+      "id": 406,
+      "categorySlug": "kovanye-balyasiny",
+      "slug": "balyasina-buket-3-vyun",
+      "name": "Кованая балясина «Букет №3 - Вьюн»",
+      "price": 3000,
+      "image": "/images/products/kovanaia-baliasina-buket-3.png",
+      "material": "Квадрат 10х10 мм, высота 980 мм",
+      "description": "Балясина «Букет №3» с элементом «Вьюн» — роскошный вариант."
+    },
+    {
+      "id": 407,
+      "categorySlug": "kovanye-balyasiny",
+      "slug": "balyasina-volna",
+      "name": "Кованая балясина «Волна»",
+      "price": 800,
+      "image": "/images/products/kovanaia-baliasina-volna.png",
+      "material": "Квадрат 10х10 мм, высота 980 мм",
+      "description": "Балясина с плавной волнообразной линией."
+    },
+    {
+      "id": 408,
+      "categorySlug": "kovanye-balyasiny",
+      "slug": "balyasina-vostok",
+      "name": "Кованая балясина «Восток»",
+      "price": 1250,
+      "image": "/images/products/baliasina-vostok-razmer-980x400-mm-kvadrat10x10-mm.png",
+      "material": "Квадрат 10х10 мм, 980х400 мм",
+      "description": "Балясина с восточным орнаментом."
+    },
+    {
+      "id": 409,
+      "categorySlug": "kovanye-balyasiny",
+      "slug": "balyasina-gamma",
+      "name": "Кованая балясина «Гамма»",
+      "price": 800,
+      "image": "/images/products/kovanaia-baliasina-gamma.png",
+      "material": "Квадрат 10х10 мм, высота 980 мм",
+      "description": "Балясина «Гамма» — строгая и лаконичная."
+    },
+    {
+      "id": 410,
+      "categorySlug": "kovanye-balyasiny",
+      "slug": "balyasina-gitara",
+      "name": "Кованая балясина «Гитара»",
+      "price": 700,
+      "image": "/images/products/kovanaia-baliasina-gitara.png",
+      "material": "Квадрат 10х10 мм, высота 980 мм",
+      "description": "Балясина в форме гитары — необычный дизайн."
+    },
+    {
+      "id": 411,
+      "categorySlug": "kovanye-balyasiny",
+      "slug": "balyasina-zhasmin",
+      "name": "Кованая балясина «Жасмин»",
+      "price": 1300,
+      "image": "/images/products/baliasina-zasmin-s-kvadrata-10x10-mm.png",
+      "material": "Квадрат 10х10 мм, высота 980 мм",
+      "description": "Балясина «Жасмин» — нежный и элегантный вариант."
+    },
+    {
+      "id": 412,
+      "categorySlug": "kovanye-balyasiny",
+      "slug": "balyasina-buket-1",
+      "name": "Кованая балясина «Букет №1»",
+      "price": 1100,
+      "image": "/images/products/kovanaia-baliasina-buket-1.png",
+      "material": "Квадрат 10х10 мм, высота 980 мм",
+      "description": "Классическая балясина «Букет» — востребованная модель."
+    },
+    {
+      "id": 501,
+      "categorySlug": "kovanye-rucki",
+      "slug": "ruchka-babochka",
+      "name": "Кованая ручка «Бабочка»",
+      "price": 550,
+      "image": "/images/products/kovanaia-rucka-babocka.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Кованая дверная ручка с мотивом бабочки."
+    },
+    {
+      "id": 502,
+      "categorySlug": "kovanye-rucki",
+      "slug": "ruchka-volna",
+      "name": "Кованая ручка «Волна»",
+      "price": 600,
+      "image": "/images/products/kovanaia-rucka-volna.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Ручка с плавной волнообразной формой."
+    },
+    {
+      "id": 503,
+      "categorySlug": "kovanye-rucki",
+      "slug": "ruchka-s-listom",
+      "name": "Кованая ручка с листом",
+      "price": 600,
+      "image": "/images/products/kovanaia-rucka-s-listom.png",
+      "material": "Квадрат 10х10 мм",
+      "description": "Ручка с декоративным кованым листом."
+    },
+    {
+      "id": 601,
+      "categorySlug": "kovanye-elementy",
+      "slug": "element-barasek-f11",
+      "name": "Кованый элемент «Барашек Ф№1.1» 14см",
+      "price": 55,
+      "image": "/images/products/kovanyi-element-barasek-f11.jpg",
+      "material": "Квадрат 10х10 мм, 14 см",
+      "description": "Маленький элемент «Барашек» для заполнения узоров."
+    },
+    {
+      "id": 602,
+      "categorySlug": "kovanye-elementy",
+      "slug": "element-pika-sharik",
+      "name": "Кованый элемент «Пика» Шарик+Листик 2-сторонняя",
+      "price": 135,
+      "image": "/images/products/kovanyi-element-pika-sariklistik-2x-storonniaia.jpg",
+      "material": "Квадрат 10х10 мм",
+      "description": "Двусторонняя пика с шариком и листиком."
+    },
+    {
+      "id": 603,
+      "categorySlug": "kovanye-elementy",
+      "slug": "element-lebed",
+      "name": "Кованый элемент Лебедь «Ф-№9»",
+      "price": 165,
+      "image": "/images/products/kovanyi-element-lebed-f9.jpg",
+      "material": "Квадрат 10х10 мм",
+      "description": "Декоративный элемент в форме лебедя."
+    },
+    {
+      "id": 604,
+      "categorySlug": "kovanye-elementy",
+      "slug": "element-kobra",
+      "name": "Кованый элемент Кобра «Ф№10»",
+      "price": 140,
+      "image": "/images/products/kovanyi-element-kobra-f10.jpg",
+      "material": "Квадрат 10х10 мм",
+      "description": "Элемент «Кобра» — изящный завиток."
+    },
+    {
+      "id": 605,
+      "categorySlug": "kovanye-elementy",
+      "slug": "element-zapyataya-13",
+      "name": "Кованый элемент «Запятая» 13см",
+      "price": 50,
+      "image": "/images/products/kovanyi-element-zapiataia.jpg",
+      "material": "Квадрат 10х10 мм, 13 см",
+      "description": "Компактный элемент «Запятая» для небольших узоров."
+    },
+    {
+      "id": 606,
+      "categorySlug": "kovanye-elementy",
+      "slug": "element-zapyataya-20",
+      "name": "Кованый элемент «Запятая» 20см",
+      "price": 80,
+      "image": "/images/products/kovanyi-element-zapiataia.jpg",
+      "material": "Квадрат 10х10 мм, 20 см",
+      "description": "Элемент «Запятая» увеличенного размера."
+    },
+    {
+      "id": 607,
+      "categorySlug": "kovanye-elementy",
+      "slug": "element-barasek-f1",
+      "name": "Кованый элемент «Барашек Ф№1» 15см",
+      "price": 80,
+      "image": "/images/products/kovanyi-element-barasek-f1.jpg",
+      "material": "Квадрат 10х10 мм, 15 см",
+      "description": "Элемент «Барашек» стандартного размера."
+    },
+    {
+      "id": 608,
+      "categorySlug": "kovanye-elementy",
+      "slug": "element-barasek-f2",
+      "name": "Кованый элемент «Барашек Ф№2» 21см",
+      "price": 100,
+      "image": "/images/products/kovanyi-element-barasek-f2.jpg",
+      "material": "Квадрат 10х10 мм, 21 см",
+      "description": "Большой элемент «Барашек»."
+    },
+    {
+      "id": 609,
+      "categorySlug": "kovanye-elementy",
+      "slug": "element-eska-f3",
+      "name": "Кованый элемент Эска Ф№3",
+      "price": 80,
+      "image": "/images/products/kovanyi-element-eska-f3-f31.jpg",
+      "material": "Квадрат 10х10 мм",
+      "description": "Элемент «Эска» — S-образный завиток."
+    },
+    {
+      "id": 610,
+      "categorySlug": "kovanye-elementy",
+      "slug": "element-eska-f4",
+      "name": "Кованый элемент Эска Ф№4",
+      "price": 95,
+      "image": "/images/products/kovanyi-element-eska-f4-f453.jpg",
+      "material": "Квадрат 10х10 мм",
+      "description": "Элемент «Эска» четвёртого размера."
+    },
+    {
+      "id": 611,
+      "categorySlug": "kovanye-elementy",
+      "slug": "element-eska-f5",
+      "name": "Кованый элемент Эска Ф№5 кручёная",
+      "price": 110,
+      "image": "/images/products/kovanyi-element-eska-f5-krucenaia.jpg",
+      "material": "Квадрат 10х10 мм",
+      "description": "Кручёная «Эска» — текстурный элемент."
+    },
+    {
+      "id": 612,
+      "categorySlug": "kovanye-elementy",
+      "slug": "element-koltso",
+      "name": "Кованый элемент «Кольцо»",
+      "price": 120,
+      "image": "https://bizzon.pro/image/w_400/h_400/kovanyi-element-koltso.jpg",
+      "material": "Квадрат 10х10 мм",
+      "description": "Декоративное кольцо — универсальный элемент."
+    },
+    {
+      "id": 701,
+      "categorySlug": "uzory-iz-kvadrata-85x85",
+      "slug": "uzor-pavlin-2",
+      "name": "Кованый накладной узор «Павлин №2»",
+      "price": 2100,
+      "image": "/images/products/kovanyi-nakladnoi-uzor-pavlin-2.png",
+      "material": "Квадрат 8,5х8,5 мм",
+      "description": "Узор «Павлин» из тонкого квадрата — ажурный и лёгкий."
+    },
+    {
+      "id": 702,
+      "categorySlug": "uzory-iz-kvadrata-85x85",
+      "slug": "uzor-babochka-maxaon-85",
+      "name": "Кованый узор «Бабочка Махаон» 8,5х8,5",
+      "price": 1800,
+      "image": "/images/products/kovanyi-uzor-babocka-maxaon-iz-kvadrata-10x10-mm-i-kvadrat-85x85-mm.png",
+      "material": "Квадрат 8,5х8,5 мм",
+      "description": "Тонкий узор «Бабочка Махаон»."
+    },
+    {
+      "id": 703,
+      "categorySlug": "uzory-iz-kvadrata-85x85",
+      "slug": "uzor-ladia-mal-85",
+      "name": "Кованый узор «Ладья маленькая» 8,5х8,5",
+      "price": 1200,
+      "image": "/images/products/kovanyi-uzor-ladia-malenkaia.png",
+      "material": "Квадрат 8,5х8,5 мм",
+      "description": "Компактный узор «Ладья» для небольших секций."
+    },
+    {
+      "id": 704,
+      "categorySlug": "uzory-iz-kvadrata-85x85",
+      "slug": "uzor-mirazh-85",
+      "name": "Кованый накладной узор «Мираж»",
+      "price": 2200,
+      "image": "/images/products/kovanyi-nakladnoi-uzor-miraz.png",
+      "material": "Квадрат 8,5х8,5 мм",
+      "description": "Узор «Мираж» — сказочный и воздушный."
+    },
+    {
+      "id": 705,
+      "categorySlug": "uzory-iz-kvadrata-85x85",
+      "slug": "uzor-shanyrak",
+      "name": "Кованый накладной узор «Шанырак»",
+      "price": 2500,
+      "badge": "Новинка",
+      "image": "/images/products/kovanyi-nakladnoi-uzor-sanyrak.png",
+      "material": "Квадрат 8,5х8,5 мм",
+      "description": "Национальный орнамент «Шанырак» — символ казахского дома."
+    },
+    {
+      "id": 801,
+      "categorySlug": "uzory-iz-kvadratnoi-truby-15x15",
+      "slug": "korona-astana-truba",
+      "name": "Корона «Астана» из квадратной трубы",
+      "price": 1500,
+      "image": "/images/products/korona-astana-iz-truby-15x15-mm.png",
+      "material": "Труба 15х15 мм",
+      "description": "Корона «Астана» из трубы — более массивный вариант."
+    },
+    {
+      "id": 802,
+      "categorySlug": "uzory-iz-kvadratnoi-truby-15x15",
+      "slug": "korona-volna-truba",
+      "name": "Корона «Волна» из квадратной трубы",
+      "price": 1600,
+      "image": "/images/products/korona-volna-s-kvadratnoi-truby.png",
+      "material": "Труба 15х15 мм",
+      "description": "Волнообразная корона из трубы."
+    },
+    {
+      "id": 803,
+      "categorySlug": "uzory-iz-kvadratnoi-truby-15x15",
+      "slug": "korona-zhasmin-truba",
+      "name": "Корона «Жасмин» из трубы",
+      "price": 2750,
+      "image": "/images/products/korona-zasmin-iz-truby-15x15mm.jpg",
+      "material": "Труба 15х15 мм",
+      "description": "Корона «Жасмин» из трубы — прочная и красивая."
+    },
+    {
+      "id": 804,
+      "categorySlug": "uzory-iz-kvadratnoi-truby-15x15",
+      "slug": "korona-ulitka-truba",
+      "name": "Корона «Улитка» из квадратной трубы",
+      "price": 1550,
+      "image": "/images/products/korona-ulitka-s-kvadratnoi-truby.png",
+      "material": "Труба 15х15 мм",
+      "description": "Корона «Улитка» из трубы."
+    },
+    {
+      "id": 805,
+      "categorySlug": "uzory-iz-kvadratnoi-truby-15x15",
+      "slug": "uzor-avgust-1-truba",
+      "name": "Узор «Август №1» из трубы",
+      "price": 1750,
+      "image": "/images/products/uzor-avgust-1-iz-kvadratnoi-truby-15x15-mm.png",
+      "material": "Труба 15х15 мм",
+      "description": "Узор «Август» из трубы — солидный и надёжный."
+    },
+    {
+      "id": 806,
+      "categorySlug": "uzory-iz-kvadratnoi-truby-15x15",
+      "slug": "uzor-avgust-2-truba",
+      "name": "Накладной узор «Август 2» из трубы",
+      "price": 2000,
+      "image": "/images/products/avgust-2-s-truby.jpg",
+      "material": "Труба 15х15 мм",
+      "description": "Узор «Август №2» — более сложная версия."
+    },
+    {
+      "id": 807,
+      "categorySlug": "uzory-iz-kvadratnoi-truby-15x15",
+      "slug": "uzor-babochka-truba",
+      "name": "Накладной узор «Бабочка» из трубы",
+      "price": 1950,
+      "image": "/images/products/nakladnoi-uzor-babocka-s-kvadratnoi-truby.png",
+      "material": "Труба 15х15 мм",
+      "description": "Узор «Бабочка» из трубы — долговечный и красивый."
+    },
+    {
+      "id": 808,
+      "categorySlug": "uzory-iz-kvadratnoi-truby-15x15",
+      "slug": "uzor-bonzhur-truba",
+      "name": "Накладной узор «Бонжур» из трубы 15х15мм",
+      "price": 2850,
+      "image": "/images/products/uzor-bonzur-iz-truby-15x15mm.png",
+      "material": "Труба 15х15 мм",
+      "description": "Роскошный узор «Бонжур» из трубы."
+    },
+    {
+      "id": 809,
+      "categorySlug": "uzory-iz-kvadratnoi-truby-15x15",
+      "slug": "uzor-mirazh-truba",
+      "name": "Накладной узор «Мираж» из трубы",
+      "price": 2850,
+      "image": "/images/products/nakladnoi-uzor-miraz-s-kvadratnoi-truby.png",
+      "material": "Труба 15х15 мм",
+      "description": "Узор «Мираж» из трубы — сказочный и прочный."
+    },
+    {
+      "id": 810,
+      "categorySlug": "uzory-iz-kvadratnoi-truby-15x15",
+      "slug": "uzor-oblako-truba",
+      "name": "Накладной узор «Облако» из трубы",
+      "price": 1800,
+      "image": "/images/products/nakladnoi-uzor-oblako-s-kvadratnoi-truby.png",
+      "material": "Труба 15х15 мм",
+      "description": "Узор «Облако» — мягкие и плавные линии."
+    },
+    {
+      "id": 811,
+      "categorySlug": "uzory-iz-kvadratnoi-truby-15x15",
+      "slug": "uzor-setochka-truba",
+      "name": "Накладной узор «Сеточка» из трубы",
+      "price": 1900,
+      "image": "/images/products/nakladnoi-uzor-setocka-s-kvadratnoi-truby.png",
+      "material": "Труба 15х15 мм",
+      "description": "Узор «Сеточка» — геометричный и строгий."
+    },
+    {
+      "id": 901,
+      "categorySlug": "kovanye-stoiki",
+      "slug": "stoika-48-1m",
+      "name": "Стойка из трубы Ø 48 мм, длина 1,0 м",
+      "price": 1000,
+      "image": "/images/products/stoika-iz-truby-o-48-mm-dlina-10-m.png",
+      "material": "Труба Ø 48 мм, L=1,0 м",
+      "description": "Стойка из трубы 48 мм с кованым наконечником."
+    },
+    {
+      "id": 902,
+      "categorySlug": "kovanye-stoiki",
+      "slug": "stoika-48-1.2m",
+      "name": "Стойка из трубы Ø 48 мм, длина 1,2 м",
+      "price": 1200,
+      "image": "/images/products/stoika-iz-truby-o-48-mm-dlina-12-m.png",
+      "material": "Труба Ø 48 мм, L=1,2 м",
+      "description": "Стойка из трубы 48 мм, удлинённая."
+    },
+    {
+      "id": 903,
+      "categorySlug": "kovanye-stoiki",
+      "slug": "stoika-57-1m",
+      "name": "Стойка из трубы Ø 57 мм, длина 1,0 м",
+      "price": 1150,
+      "image": "/images/products/stoika-iz-truby-o-57-mm-dlina-10-m.png",
+      "material": "Труба Ø 57 мм, L=1,0 м",
+      "description": "Стойка из трубы 57 мм — усиленная."
+    },
+    {
+      "id": 904,
+      "categorySlug": "kovanye-stoiki",
+      "slug": "stoika-57-1.2m",
+      "name": "Стойка из трубы Ø 57 мм, длина 1,2 м",
+      "price": 1350,
+      "image": "/images/products/stoika-iz-truby-o-57-mm-dlina-12-m.png",
+      "material": "Труба Ø 57 мм, L=1,2 м",
+      "description": "Усиленная стойка из трубы 57 мм."
+    },
+    {
+      "id": 905,
+      "categorySlug": "kovanye-stoiki",
+      "slug": "stoika-76-1m",
+      "name": "Стойка из трубы Ø 76 мм, длина 1,0 м",
+      "price": 1500,
+      "image": "/images/products/stoika-iz-truby-o-76-mm-dlina-10-m.png",
+      "material": "Труба Ø 76 мм, L=1,0 м",
+      "description": "Мощная стойка из трубы 76 мм."
+    },
+    {
+      "id": 906,
+      "categorySlug": "kovanye-stoiki",
+      "slug": "stoika-76-1.2m",
+      "name": "Стойка из трубы Ø 76 мм, длина 1,2 м",
+      "price": 1750,
+      "image": "/images/products/stoika-iz-truby-o-76-mm-dlina-12-m.png",
+      "material": "Труба Ø 76 мм, L=1,2 м",
+      "description": "Мощная стойка из трубы 76 мм, удлинённая."
+    },
+    {
+      "id": 907,
+      "categorySlug": "kovanye-stoiki",
+      "slug": "stoika-kv-50-1.2m",
+      "name": "Стойка квадратная 50х50 мм, длина 1,2 м",
+      "price": 2300,
+      "image": "/images/products/stoika-kvadratnaia-50x50-mm-dlina-12-m.png",
+      "material": "Профиль 50х50 мм, L=1,2 м",
+      "description": "Квадратная стойка 50х50 мм — строгая форма."
+    },
+    {
+      "id": 908,
+      "categorySlug": "kovanye-stoiki",
+      "slug": "stoika-kv-60-1.2m",
+      "name": "Стойка квадратная 60х60 мм, длина 1,2 м",
+      "price": 2600,
+      "image": "/images/products/stoika-kvadratnaia-60x60-mm-dlina-12-m.png",
+      "material": "Профиль 60х60 мм, L=1,2 м",
+      "description": "Массивная квадратная стойка 60х60 мм."
+    },
+    {
+      "id": 909,
+      "categorySlug": "kovanye-stoiki",
+      "slug": "stoika-kv-80-1.2m",
+      "name": "Стойка квадратная 80х80 мм, длина 1,2 м",
+      "price": 3250,
+      "badge": "Макс",
+      "image": "/images/products/stoika-kvadratnaia-80x80-mm-dlina-12-m.png",
+      "material": "Профиль 80х80 мм, L=1,2 м",
+      "description": "Самая мощная стойка 80х80 мм для солидных ограждений."
+    },
+    {
+      "id": 1001,
+      "categorySlug": "kovanye-listiki",
+      "slug": "listik-astana-kv10",
+      "name": "Кованый элемент Листик «Астана» квадрат 10мм",
+      "price": 100,
+      "image": "/images/products/bizzon-kovka-uzor-bizzon-kovka-uzor-listik-astana-material-kv-10-kv-85.jpg",
+      "material": "Квадрат 10 мм",
+      "description": "Листик «Астана» — базовый декоративный элемент."
+    },
+    {
+      "id": 1002,
+      "categorySlug": "kovanye-listiki",
+      "slug": "listik-buket-kv12",
+      "name": "Кованый элемент Листик «Букет» квадрат 12мм",
+      "price": 120,
+      "image": "/images/products/bizzon-kovka-uzor-bizzon-kovka-uzor-listik-buket-material-kv-12-kv-14.jpg",
+      "material": "Квадрат 12 мм",
+      "description": "Листик «Букет» — пышный и объёмный."
+    },
+    {
+      "id": 1003,
+      "categorySlug": "kovanye-listiki",
+      "slug": "listik-buket-ottjazhka-kv12",
+      "name": "Кованый элемент Листик «Букет» с оттяжкой квадрат 12мм",
+      "price": 120,
+      "image": "/images/products/bizzon-kovka-uzor-bizzon-kovka-uzor-listik-buket-material-kv-12-kv-14.jpg",
+      "material": "Квадрат 12 мм",
+      "description": "Листик «Букет» с оттяжкой — утончённая деталь."
+    },
+    {
+      "id": 1004,
+      "categorySlug": "kovanye-listiki",
+      "slug": "listik-karabas-kv10",
+      "name": "Кованый элемент Листик «Карабас» квадрат 10мм",
+      "price": 70,
+      "image": "/images/products/bizzon-kovka-uzor-bizzon-kovka-uzor-listik-palermo-s-ottiazkoi-material-kv-10.jpg",
+      "material": "Квадрат 10 мм",
+      "description": "Компактный листик «Карабас»."
+    },
+    {
+      "id": 1005,
+      "categorySlug": "kovanye-listiki",
+      "slug": "listik-lodochka-kv85",
+      "name": "Кованый элемент Листик «Лодочка» квадрат 8.5мм",
+      "price": 50,
+      "image": "/images/products/bizzon-kovka-uzor-bizzon-kovka-uzor-listik-lodocka-s-ottiazkoi-material-kv12-listik-lodocka-material-kv-10-kv-85-2.jpg",
+      "material": "Квадрат 8,5 мм",
+      "description": "Маленький листик «Лодочка» для тонких узоров."
+    },
+    {
+      "id": 1006,
+      "categorySlug": "kovanye-listiki",
+      "slug": "listik-palermo-kv10",
+      "name": "Кованый элемент Листик «Палермо» с оттяжкой квадрат 10мм",
+      "price": 90,
+      "image": "/images/products/bizzon-kovka-uzor-bizzon-kovka-uzor-listik-palermo-s-ottiazkoi-material-kv-10.jpg",
+      "material": "Квадрат 10 мм",
+      "description": "Листик «Палермо» — изысканный итальянский мотив."
+    },
+    {
+      "id": 1007,
+      "categorySlug": "kovanye-listiki",
+      "slug": "listik-palermo-kv12",
+      "name": "Кованый элемент Листик «Палермо» с оттяжкой квадрат 12мм",
+      "price": 110,
+      "image": "/images/products/bizzon-kovka-uzor-bizzon-kovka-uzor-listik-palermo-s-ottiazkoi-material-kv12.jpg",
+      "material": "Квадрат 12 мм",
+      "description": "Увеличенный листик «Палермо»."
+    },
+    {
+      "id": 1008,
+      "categorySlug": "kovanye-listiki",
+      "slug": "listik-pika-kv10",
+      "name": "Кованый элемент Листик «Пика» квадрат 10мм",
+      "price": 40,
+      "image": "/images/products/bizzon-kovka-uzor-bizzon-kovka-uzor-listik-pika-material-kv10-kv-85.jpg",
+      "material": "Квадрат 10 мм",
+      "description": "Листик «Пика» — остроконечный элемент."
+    },
+    {
+      "id": 1009,
+      "categorySlug": "kovanye-listiki",
+      "slug": "listik-pika-kv85",
+      "name": "Кованый элемент Листик «Пика» квадрат 8,5мм",
+      "price": 35,
+      "image": "/images/products/bizzon-kovka-uzor-bizzon-kovka-uzor-listik-pika-material-kv10-kv-85.jpg",
+      "material": "Квадрат 8,5 мм",
+      "description": "Маленький листик «Пика»."
+    },
+    {
+      "id": 1010,
+      "categorySlug": "kovanye-listiki",
+      "slug": "listik-rozochka-kv85",
+      "name": "Кованый элемент Листик «Розочка» квадрат 8,5мм",
+      "price": 40,
+      "image": "/images/products/bizzon-kovka-uzor-bizzon-kovka-uzor-listik-rozocka-material-kv-85.jpg",
+      "material": "Квадрат 8,5 мм",
+      "description": "Листик «Розочка» — нежный округлый элемент."
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+<template>
+  <div>
+    <div class="py-8">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center gap-2 text-sm text-iron-400 mb-8">
+          <router-link to="/" class="hover:text-gold-500 transition-colors">Главная</router-link>
+          <span>/</span>
+          <span class="text-iron-700">Доставка и оплата</span>
+        </nav>
+
+        <div class="text-center mb-12" v-reveal>
+          <h1 class="ornament-line font-heading text-3xl sm:text-4xl font-semibold text-iron-900 mb-4">Доставка и оплата</h1>
+          <p class="text-iron-500 max-w-xl mx-auto text-[15px]">Удобные способы получения и оплаты заказов</p>
+        </div>
+
+        <div class="mb-16">
+          <div class="text-center mb-8" v-reveal>
+            <h2 class="ornament-line font-heading text-2xl font-semibold text-iron-900 mb-4">Способы доставки</h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div v-for="(d, i) in deliveryMethods" :key="d.title" class="bg-white rounded-xl border border-iron-100/60 p-6 transition-all duration-200 hover:shadow-sm" v-reveal="i * 0.06">
+              <div class="w-11 h-11 bg-gold-50 border border-gold-200/50 rounded-xl flex items-center justify-center mb-4">
+                <span v-html="d.icon"></span>
+              </div>
+              <h3 class="font-medium text-iron-800 mb-2 text-sm">{{ d.title }}</h3>
+              <p class="text-xs text-iron-400 leading-relaxed mb-3">{{ d.desc }}</p>
+              <div class="text-xs font-semibold" :class="d.free ? 'text-green-600' : 'text-gold-600'">{{ d.price }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-16">
+          <div class="text-center mb-8" v-reveal>
+            <h2 class="ornament-line font-heading text-2xl font-semibold text-iron-900 mb-4">Способы оплаты</h2>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div v-for="(p, i) in paymentMethods" :key="p.title" class="bg-white rounded-xl border border-iron-100/60 p-6 transition-all duration-200 hover:shadow-sm" v-reveal="i * 0.06">
+              <div class="w-11 h-11 bg-gold-50 border border-gold-200/50 rounded-xl flex items-center justify-center mb-4">
+                <span v-html="p.icon"></span>
+              </div>
+              <h3 class="font-medium text-iron-800 mb-2 text-sm">{{ p.title }}</h3>
+              <p class="text-xs text-iron-400 leading-relaxed">{{ p.desc }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="py-16 bg-cream-50">
+      <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center" v-reveal>
+        <h2 class="font-heading text-2xl font-semibold text-iron-900 mb-4">Остались вопросы?</h2>
+        <p class="text-iron-500 mb-8 text-[15px]">Свяжитесь с нами, и мы поможем выбрать оптимальный способ доставки для вашего заказа.</p>
+        <router-link to="/contacts" class="inline-flex items-center gap-2 bg-iron-900 hover:bg-gold-600 text-cream-100 px-8 py-3 rounded-xl font-medium transition-all duration-200">
+          Связаться с нами
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+        </router-link>
+      </div>
+    </section>
+  </div>
+</template>
+
+<script setup>
+import { useSeo } from '../composables/useSeo'
+useSeo('Доставка и оплата', 'Способы доставки и оплаты кованых изделий. Транспортные компании, самовывоз, курьерская доставка.')
+
+const deliveryMethods = [
+  {
+    title: 'Транспортная компания',
+    desc: 'Доставка до терминала ТК в вашем городе. Работаем с основными перевозчиками: ПЭК, Деловые Линии, СДЭК, КИТ.',
+    price: 'По тарифу ТК',
+    free: false,
+    icon: '<svg class="w-5 h-5 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5"/></svg>',
+  },
+  {
+    title: 'Самовывоз',
+    desc: 'Вы можете забрать заказ самостоятельно со склада производителя. Предварительно уточните наличие.',
+    price: 'Бесплатно',
+    free: true,
+    icon: '<svg class="w-5 h-5 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"/></svg>',
+  },
+  {
+    title: 'Курьерская доставка',
+    desc: 'Доставка заказа до двери. Удобно для крупных заказов и массивных изделий.',
+    price: 'По тарифу',
+    free: false,
+    icon: '<svg class="w-5 h-5 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h.008M21 12.75H3.375m0 0V5.625A1.125 1.125 0 014.5 4.5h15A1.875 1.875 0 0121.375 6.375v8.25"/></svg>',
+  },
+]
+
+const paymentMethods = [
+  {
+    title: 'Наличные',
+    desc: 'Оплата наличными при получении заказа или при самовывозе.',
+    icon: '<svg class="w-5 h-5 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/></svg>',
+  },
+  {
+    title: 'Банковская карта',
+    desc: 'Оплата картой онлайн через защищённый платёжный шлюз.',
+    icon: '<svg class="w-5 h-5 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z"/></svg>',
+  },
+  {
+    title: 'Банковский перевод',
+    desc: 'Перевод на расчётный счёт для юридических и физических лиц.',
+    icon: '<svg class="w-5 h-5 text-gold-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"/></svg>',
+  },
+]
+</script>
