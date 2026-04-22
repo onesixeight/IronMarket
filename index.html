@@ -3,25 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Декоративные кованые изделия от производителя. Короны, узоры, балясины, решётки и элементы ковки с доставкой по России." />
-  <meta name="keywords" content="кованые изделия, элементы ковки, кованые узоры, балясины, короны на ворота, кованые элементы купить" />
-  <meta property="og:title" content="Ковка — Мастерская кованых изделий" />
-  <meta property="og:description" content="Декоративные кованые изделия от производителя с доставкой по России" />
+  <meta name="description" content="Эталон Ковка — кованые элементы, узоры и комплектующие с продажей и поставкой в Астане и по Казахстану." />
+  <meta name="keywords" content="кованые изделия, элементы ковки, кованые узоры, балясины, короны на ворота, кованые элементы купить, Эталон Ковка, Астана, Казахстан" />
+  <meta name="theme-color" content="#0a0908" />
+  <meta property="og:title" content="Эталон Ковка — кованые элементы в Астане" />
+  <meta property="og:description" content="Каталог кованых элементов, узоров и комплектующих с подбором и поставкой по Астане и Казахстану." />
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ru_RU" />
-  <title>Ковка — Мастерская кованых изделий</title>
-  <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
+  <title>Эталон Ковка — кованые элементы в Астане</title>
+  <link rel="icon" type="image/png" href="/icons/favicon-brand-mark.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     #preloader {
-      position: fixed; inset: 0; z-index: 9999;
-      display: flex; align-items: center; justify-content: center;
-      background: #1a1714;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:
+        radial-gradient(circle at top, rgba(201, 150, 59, 0.12), transparent 34%),
+        linear-gradient(180deg, #090807 0%, #0c0a09 100%);
       transition: opacity 0.4s ease;
     }
-    #preloader svg {
+    #preloader .preloader-mark {
+      width: 72px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      border-radius: 24px;
+      border: 1px solid rgba(201, 150, 59, 0.18);
+      background: linear-gradient(180deg, rgba(20, 18, 16, 0.92), rgba(10, 9, 8, 0.98));
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+    }
+    #preloader img {
+      width: 34px;
+      height: 34px;
+      object-fit: cover;
       animation: preloaderSpin 1.2s linear infinite;
     }
     @keyframes preloaderSpin {
@@ -29,17 +49,12 @@
       to { transform: rotate(360deg); }
     }
   </style>
-  <script>
-    if (localStorage.getItem('theme') === 'dark') {
-      document.documentElement.setAttribute('data-theme', 'dark');
-    }
-  </script>
 </head>
 <body>
   <div id="preloader">
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#c9963b" stroke-width="1.5">
-      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-    </svg>
+    <div class="preloader-mark">
+      <img src="/images/branding/brand-mark-ornament.png" alt="" width="34" height="34" />
+    </div>
   </div>
   <div id="app"></div>
   <script type="module" src="/src/main.js"></script>

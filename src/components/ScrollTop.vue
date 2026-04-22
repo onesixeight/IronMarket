@@ -3,7 +3,7 @@
     <button
       v-show="visible"
       @click="scrollToTop"
-      class="fixed bottom-6 right-6 z-50 w-11 h-11 bg-iron-900 hover:bg-gold-600 text-cream-100 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
+      class="fixed bottom-6 right-6 z-50 w-11 h-11 bg-obsidian-700 hover:bg-gold-600 text-cream-100 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
       aria-label="Наверх"
     >
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">

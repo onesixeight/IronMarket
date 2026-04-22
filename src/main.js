@@ -6,7 +6,8 @@ import { vReveal } from './composables/useScrollReveal'
 import './assets/main.css'
 
 const app = createApp(App)
-app.use(createPinia())
+const pinia = createPinia()
+app.use(pinia)
 app.use(router)
 app.directive('reveal', vReveal)
 app.mount('#app')

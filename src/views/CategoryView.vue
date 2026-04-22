@@ -1,18 +1,18 @@
 <template>
   <div class="py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <nav class="flex items-center gap-2 text-sm text-iron-400 mb-8">
-        <router-link to="/" class="hover:text-gold-500 transition-colors">Главная</router-link>
+      <nav class="flex items-center gap-2 text-sm text-obsidian-500 mb-8">
+        <router-link to="/" class="hover:text-gold-400 transition-colors">Главная</router-link>
         <span>/</span>
-        <router-link to="/catalog" class="hover:text-gold-500 transition-colors">Каталог</router-link>
+        <router-link to="/catalog" class="hover:text-gold-400 transition-colors">Каталог</router-link>
         <span>/</span>
-        <span class="text-iron-700">{{ category?.name }}</span>
+        <span class="text-cream-100">{{ category?.name }}</span>
       </nav>
 
       <div v-if="category">
         <div class="mb-10" v-reveal>
-          <h1 class="ornament-line font-heading text-3xl sm:text-4xl font-semibold text-iron-900 mb-4">{{ category.name }}</h1>
-          <p class="text-iron-500 max-w-3xl text-[15px]">{{ category.description }}</p>
+          <h1 class="ornament-line font-heading text-3xl sm:text-4xl font-semibold text-cream-50 mb-4">{{ category.name }}</h1>
+          <p class="text-cream-100/70 max-w-3xl text-[15px]">{{ category.description }}</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -26,16 +26,16 @@
         />
 
         <div v-if="products.length === 0" class="text-center py-20 animate-fade-in">
-          <svg class="w-16 h-16 mx-auto text-iron-200 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+          <svg class="w-16 h-16 mx-auto text-obsidian-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
             <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5m6 4.125l2.25 2.25m0 0l2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/>
           </svg>
-          <p class="text-iron-400 text-lg font-heading">В этой категории пока нет товаров</p>
+          <p class="text-cream-100/60 text-lg font-heading">В этой категории пока нет товаров</p>
         </div>
       </div>
 
       <div v-else class="text-center py-20 animate-fade-in">
-        <h1 class="font-heading text-3xl font-semibold text-iron-900 mb-4">Категория не найдена</h1>
-        <router-link to="/catalog" class="inline-flex items-center gap-2 text-sm font-medium text-gold-600 hover:text-gold-500 transition-colors group">
+        <h1 class="font-heading text-3xl font-semibold text-cream-50 mb-4">Категория не найдена</h1>
+        <router-link to="/catalog" class="inline-flex items-center gap-2 text-sm font-medium text-gold-400 hover:text-gold-500 transition-colors group">
           <svg class="w-4 h-4 transition-transform group-hover:-translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
           Вернуться в каталог
         </router-link>

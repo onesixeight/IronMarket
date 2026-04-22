@@ -1,33 +1,41 @@
 <template>
-  <div class="relative" ref="wrapper">
+  <div class="relative" ref="trigger">
     <button
-      @click="open = !open"
-      class="flex items-center justify-between gap-2 px-4 py-2.5 bg-white dark:bg-iron-800 border border-iron-100 dark:border-iron-700 rounded-xl text-sm w-full transition-all"
-      :class="open && 'border-amber-400 dark:border-amber-400 ring-2 ring-amber-400/20'"
+      @click="toggle"
+      class="flex items-center justify-between gap-2 px-4 py-2.5 bg-obsidian-800 border border-obsidian-600 rounded-xl text-sm w-full transition-all"
+      :class="open && 'border-gold-400 ring-2 ring-gold-400/20'"
     >
-      <span class="text-iron-700 dark:text-cream-100">{{ selectedLabel }}</span>
-      <svg class="w-3.5 h-3.5 text-iron-400 dark:text-iron-500 transition-transform" :class="open && 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+      <span class="text-cream-100">{{ selectedLabel }}</span>
+      <svg class="w-3.5 h-3.5 text-obsidian-500 transition-transform" :class="open && 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
       </svg>
     </button>
-    <transition name="dropdown">
-      <div v-if="open" class="absolute top-full left-0 right-0 mt-1.5 bg-white dark:bg-iron-800 border border-iron-100 dark:border-iron-700 rounded-xl shadow-lg shadow-iron-900/5 dark:shadow-black/30 z-30 py-1.5 max-h-60 overflow-y-auto">
-        <button
-          v-for="opt in options"
-          :key="opt.value"
-          @click="select(opt)"
-          class="w-full px-4 py-2 text-sm text-left transition-colors"
-          :class="modelValue === opt.value ? 'text-amber-600 dark:text-amber-400 bg-amber-50/60 dark:bg-amber-900/20 font-medium' : 'text-iron-600 dark:text-iron-300 hover:bg-cream-50 dark:hover:bg-iron-700'"
+    <Teleport to="body">
+      <transition name="dropdown">
+        <div
+          v-if="open"
+          ref="dropdown"
+          class="fixed bg-obsidian-800 border border-obsidian-600 rounded-xl shadow-2xl shadow-black/60 py-1.5 max-h-60 overflow-y-auto"
+          :style="dropdownStyle"
+          style="z-index: 9999;"
         >
-          {{ opt.label }}
-        </button>
-      </div>
-    </transition>
+          <button
+            v-for="opt in options"
+            :key="String(opt.value)"
+            @click="select(opt)"
+            class="w-full px-4 py-2 text-sm text-left transition-colors"
+            :class="modelValue === opt.value ? 'text-gold-400 bg-gold-500/15 font-medium' : 'text-cream-100/70 hover:bg-obsidian-700'"
+          >
+            {{ opt.label }}
+          </button>
+        </div>
+      </transition>
+    </Teleport>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 
 const props = defineProps({
   options: { type: Array, required: true },
@@ -37,12 +45,31 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 const open = ref(false)
-const wrapper = ref(null)
+const trigger = ref(null)
+const dropdown = ref(null)
+const dropdownStyle = ref({})
 
 const selectedLabel = computed(() => {
   const opt = props.options.find(o => o.value === props.modelValue)
   return opt ? opt.label : props.placeholder
 })
+
+function updatePosition() {
+  if (!trigger.value || !open.value) return
+  const rect = trigger.value.getBoundingClientRect()
+  dropdownStyle.value = {
+    top: `${rect.bottom + 6}px`,
+    left: `${rect.left}px`,
+    width: `${rect.width}px`,
+  }
+}
+
+function toggle() {
+  open.value = !open.value
+  if (open.value) {
+    nextTick(() => updatePosition())
+  }
+}
 
 function select(opt) {
   emit('update:modelValue', opt.value)
@@ -50,13 +77,35 @@ function select(opt) {
 }
 
 function onClickOutside(e) {
-  if (wrapper.value && !wrapper.value.contains(e.target)) {
+  if (
+    trigger.value && !trigger.value.contains(e.target) &&
+    dropdown.value && !dropdown.value.contains(e.target)
+  ) {
     open.value = false
   }
 }
 
+function onScroll() {
+  if (open.value) updatePosition()
+}
+
+watch(open, (val) => {
+  if (val) {
+    nextTick(() => updatePosition())
+    window.addEventListener('scroll', onScroll, true)
+    window.addEventListener('resize', onScroll)
+  } else {
+    window.removeEventListener('scroll', onScroll, true)
+    window.removeEventListener('resize', onScroll)
+  }
+})
+
 onMounted(() => document.addEventListener('click', onClickOutside))
-onUnmounted(() => document.removeEventListener('click', onClickOutside))
+onUnmounted(() => {
+  document.removeEventListener('click', onClickOutside)
+  window.removeEventListener('scroll', onScroll, true)
+  window.removeEventListener('resize', onScroll)
+})
 </script>
 
 <style scoped>

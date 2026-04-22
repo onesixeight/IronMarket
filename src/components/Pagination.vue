@@ -9,7 +9,7 @@
     </button>
 
     <template v-for="p in visiblePages" :key="p">
-      <span v-if="p === '...'" class="px-2 text-iron-400 dark:text-iron-500 text-sm">...</span>
+      <span v-if="p === '...'" class="px-2 text-obsidian-500 text-sm">...</span>
       <button
         v-else
         @click="goTo(p)"
@@ -76,23 +76,13 @@ const visiblePages = computed(() => {
   border-radius: 0.5rem;
   font-size: 0.8125rem;
   font-weight: 500;
-  color: var(--color-iron-600);
+  color: var(--color-cream-100);
   transition: all 0.15s;
 }
-.page-btn:hover:not(:disabled) { background: var(--color-cream-200); }
+.page-btn:hover:not(:disabled) { background: var(--color-obsidian-700); }
 .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 .page-btn-active {
-  background: var(--color-iron-900);
-  color: var(--color-cream-100);
-}
-:deep(html[data-theme="dark"]) .page-btn {
-  color: var(--color-iron-300);
-}
-:deep(html[data-theme="dark"]) .page-btn:hover:not(:disabled) {
-  background: var(--color-iron-700);
-}
-:deep(html[data-theme="dark"]) .page-btn-active {
-  background: var(--color-amber-600);
-  color: white;
+  background: var(--color-gold-500);
+  color: var(--color-obsidian-950);
 }
 </style>

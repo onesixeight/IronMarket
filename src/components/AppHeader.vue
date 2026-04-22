@@ -1,240 +1,296 @@
 <template>
-  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-charcoal-900/95 dark:bg-iron-950/95 backdrop-blur-md border-b border-white/5 dark:border-iron-800">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16 lg:h-20">
-        <router-link to="/" class="flex items-center gap-3 shrink-0 group">
-          <div class="w-10 h-10 border-2 border-amber-500/60 dark:border-amber-400/60 rounded-sm flex items-center justify-center transition-all duration-300 group-hover:border-amber-400 dark:group-hover:border-amber-300 group-hover:bg-amber-500/15 dark:group-hover:bg-amber-400/15 group-hover:shadow-lg group-hover:shadow-amber-500/20">
-            <svg class="w-5 h-5 text-amber-400 dark:text-amber-400 transition-colors group-hover:text-amber-300 dark:group-hover:text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-            </svg>
-          </div>
-          <div class="hidden sm:block">
-            <div class="font-heading text-xl font-bold text-cream-100 dark:text-cream-100 tracking-wide leading-none group-hover:text-amber-50 transition-colors">Ковка</div>
-            <div class="text-[10px] text-amber-400/90 dark:text-amber-400/90 tracking-[0.2em] uppercase mt-0.5 font-medium">мастерская</div>
-          </div>
+  <header class="fixed inset-x-0 top-0 z-50 border-b border-gold-400/10 bg-obsidian-950/88 backdrop-blur-xl">
+    <div class="mx-auto flex h-[4.5rem] max-w-7xl items-center justify-between px-4 sm:px-6 lg:h-20 lg:px-8">
+      <router-link to="/" class="flex shrink-0 items-center gap-3">
+        <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-gold-400/20 bg-gold-400/8">
+          <img
+            src="/images/branding/brand-mark-ornament.png"
+            alt="Эталон Ковка"
+            class="h-9 w-9 rounded-xl object-cover shadow-[0_10px_24px_rgba(0,0,0,0.26)]"
+          />
+        </div>
+        <div class="hidden sm:block">
+          <div class="font-heading text-lg font-semibold uppercase tracking-[0.12em] text-cream-100">Эталон Ковка</div>
+          <div class="text-[10px] uppercase tracking-[0.24em] text-gold-300/72">Астана • Казахстан</div>
+        </div>
+      </router-link>
+
+      <nav class="hidden items-center gap-2 xl:flex">
+        <router-link v-for="item in navItems" :key="item.to" :to="item.to" class="nav-link">
+          {{ item.label }}
+        </router-link>
+      </nav>
+
+      <div class="flex items-center gap-1 sm:gap-2">
+        <a href="tel:+77785015020" class="hidden px-4 py-2.5 text-sm lg:inline-flex metal-button">
+          +7 778 501 50 20
+        </a>
+
+        <button
+          class="icon-button"
+          aria-label="Поиск"
+          @click="toggleSearch"
+        >
+          <svg class="h-[18px] w-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+        </button>
+
+        <router-link to="/wishlist" class="icon-button relative" aria-label="Избранное">
+          <svg class="h-[18px] w-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+          </svg>
+          <span v-if="wishlist.totalItems > 0" class="counter-pill">
+            {{ wishlist.totalItems }}
+          </span>
         </router-link>
 
-        <nav class="hidden lg:flex items-center gap-1">
-          <router-link to="/" custom v-slot="{ isActive, navigate }">
-            <button @click="navigate" class="nav-link" :class="isActive && 'nav-link-active'">Главная</button>
-          </router-link>
-          <router-link to="/catalog" custom v-slot="{ isActive, navigate }">
-            <button @click="navigate" class="nav-link" :class="isActive && 'nav-link-active'">Каталог</button>
-          </router-link>
-          <router-link to="/about" custom v-slot="{ isActive, navigate }">
-            <button @click="navigate" class="nav-link" :class="isActive && 'nav-link-active'">О нас</button>
-          </router-link>
-          <router-link to="/delivery" custom v-slot="{ isActive, navigate }">
-            <button @click="navigate" class="nav-link" :class="isActive && 'nav-link-active'">Доставка</button>
-          </router-link>
-          <router-link to="/contacts" custom v-slot="{ isActive, navigate }">
-            <button @click="navigate" class="nav-link" :class="isActive && 'nav-link-active'">Контакты</button>
-          </router-link>
-        </nav>
+        <button
+          class="icon-button relative"
+          aria-label="Корзина"
+          @click="openCart"
+        >
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+          </svg>
+          <span v-if="cart.totalItems > 0" class="counter-pill">
+            {{ cart.totalItems }}
+          </span>
+        </button>
 
-        <div class="flex items-center gap-1">
-          <button @click="searchOpen = !searchOpen" class="p-2.5 text-iron-300 dark:text-iron-400 hover:text-amber-400 dark:hover:text-amber-400 transition-all duration-200 rounded-lg hover:bg-amber-500/10 dark:hover:bg-amber-500/10 active:scale-95" aria-label="Поиск">
-            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-            </svg>
-          </button>
-
-          <router-link to="/wishlist" class="relative p-2.5 text-iron-300 dark:text-iron-400 hover:text-amber-400 dark:hover:text-amber-400 transition-all duration-200 rounded-lg hover:bg-amber-500/10 dark:hover:bg-amber-500/10 active:scale-95" aria-label="Избранное">
-            <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
-            </svg>
-            <span v-if="wishlist.totalItems > 0" class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-amber-500 text-iron-900 text-[10px] font-bold rounded-full flex items-center justify-center px-1 shadow-lg shadow-amber-500/30">
-              {{ wishlist.totalItems }}
-            </span>
-          </router-link>
-
-          <button @click="cartOpen = true" class="relative p-2.5 text-iron-300 dark:text-iron-400 hover:text-amber-400 dark:hover:text-amber-400 transition-all duration-200 rounded-lg hover:bg-amber-500/10 dark:hover:bg-amber-500/10 active:scale-95" aria-label="Корзина">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
-            </svg>
-            <span v-if="cart.totalItems > 0" class="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-amber-500 text-iron-900 text-[10px] font-bold rounded-full flex items-center justify-center px-1 shadow-lg shadow-amber-500/30">
-              {{ cart.totalItems }}
-            </span>
-          </button>
-
-          <button @click="theme.toggle()" class="p-2.5 text-iron-300 dark:text-iron-400 hover:text-amber-400 dark:hover:text-amber-400 transition-all duration-200 rounded-lg hover:bg-amber-500/10 dark:hover:bg-amber-500/10 active:scale-95" :aria-label="theme.dark ? 'Светлая тема' : 'Тёмная тема'">
-            <svg v-if="theme.dark" class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>
-            </svg>
-            <svg v-else class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>
-            </svg>
-          </button>
-
-          <button @click="mobileMenu = !mobileMenu" class="lg:hidden p-2.5 text-iron-300 dark:text-iron-400 hover:text-amber-400 dark:hover:text-amber-400 transition-all duration-200 rounded-lg hover:bg-amber-500/10 dark:hover:bg-amber-500/10 active:scale-95" aria-label="Меню">
-            <svg v-if="!mobileMenu" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-              <path stroke-linecap="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
-            </svg>
-            <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-              <path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
-        </div>
+        <button
+          class="icon-button xl:hidden"
+          aria-label="Меню"
+          @click="toggleMobileMenu"
+        >
+          <svg v-if="!mobileMenu" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+          <svg v-else class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
+    </div>
 
-      <div v-if="searchOpen" class="pb-4 animate-fade-in">
+    <div v-if="searchOpen" class="border-t border-gold-400/10 bg-obsidian-950/94 px-4 pb-4 pt-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
         <div class="relative">
           <input
             v-model="productStore.searchQuery"
             type="text"
-            placeholder="Поиск по каталогу..."
-            class="w-full pl-10 pr-4 py-2.5 bg-white/10 dark:bg-iron-800/50 border border-white/10 dark:border-iron-700 rounded-lg text-cream-100 dark:text-cream-100 placeholder-iron-400 dark:placeholder-iron-500 text-sm focus:outline-none focus:border-amber-400/50 dark:focus:border-amber-400/50 focus:bg-white/15 dark:focus:bg-iron-800/70 focus:ring-2 focus:ring-amber-400/20 dark:focus:ring-amber-400/10 transition-all shadow-inner"
-            @input="onSearchInput"
-            @keyup.enter="goToSearch"
+            placeholder="Поиск по каталогу"
+            class="w-full rounded-[1.25rem] border border-gold-400/14 bg-obsidian-900/70 py-3 pl-11 pr-4 text-sm text-cream-100 outline-none transition focus:border-gold-400/32"
             @focus="showDropdown = true"
+            @input="showDropdown = true"
+            @keyup.enter="goToCatalog"
           />
-          <svg class="absolute left-3 top-3 w-4 h-4 text-iron-400 dark:text-iron-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+          <svg class="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gold-300/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
           </svg>
         </div>
-        <div v-if="showDropdown && searchResults.length > 0" class="mt-2 bg-iron-800/95 dark:bg-iron-800/95 backdrop-blur-md border border-white/10 dark:border-iron-700 rounded-xl overflow-hidden shadow-2xl shadow-black/30">
+
+        <div v-if="showDropdown && searchResults.length > 0" class="mt-3 overflow-hidden rounded-[1.5rem] border border-gold-400/10 bg-obsidian-900/96 shadow-2xl shadow-black/40">
           <router-link
             v-for="p in searchResults"
             :key="p.id"
             :to="'/product/' + p.id"
-            @click="showDropdown = false; searchOpen = false"
-            class="flex items-center gap-3 px-4 py-3 hover:bg-white/5 dark:hover:bg-iron-700/50 transition-colors border-b border-white/5 dark:border-iron-700/50 last:border-0"
+            class="flex items-center gap-3 border-b border-gold-400/8 px-4 py-3 transition-colors hover:bg-gold-400/6 last:border-b-0"
+            @click="closeSearch"
           >
-            <img :src="p.image" :alt="p.name" class="w-10 h-10 object-contain bg-cream-50 dark:bg-iron-700 rounded-lg p-1 shadow-sm" />
-            <div class="flex-1 min-w-0">
-              <div class="text-sm text-cream-200 dark:text-cream-100 truncate font-medium">{{ p.name }}</div>
-              <div class="text-xs text-amber-400 dark:text-amber-400 font-semibold">{{ p.price.toLocaleString() }} &#8381;</div>
+            <img :src="p.image" :alt="p.name" class="h-12 w-12 rounded-xl border border-gold-400/10 bg-obsidian-800/86 p-1.5 object-contain" />
+            <div class="min-w-0 flex-1">
+              <div class="truncate text-sm font-medium text-cream-100">{{ p.name }}</div>
+              <div class="mt-1 text-xs uppercase tracking-[0.16em] text-gold-300/72">Каталог</div>
             </div>
+            <div v-if="!p.hidePrice" class="shrink-0 text-sm font-heading text-gold-300">{{ formatPrice(p.price) }}</div>
+            <div v-else class="shrink-0 text-xs text-gold-400/80">Цена по запросу</div>
           </router-link>
         </div>
       </div>
     </div>
 
+  </header>
+
+  <Teleport to="body">
     <transition name="mobile-menu">
-      <div v-if="mobileMenu" class="lg:hidden fixed inset-0 top-16 lg:top-20 z-[55]">
-        <div class="absolute inset-0 bg-iron-900/90 dark:bg-iron-950/90 backdrop-blur-md" @click="mobileMenu = false"></div>
-        <nav class="relative bg-iron-900 dark:bg-iron-900 border-t border-white/5 dark:border-iron-800 w-80 h-full p-4 flex flex-col gap-0.5 shadow-2xl shadow-black/50">
-          <router-link to="/" @click="mobileMenu = false" class="mobile-nav-link">Главная</router-link>
-          <router-link to="/catalog" @click="mobileMenu = false" class="mobile-nav-link">Каталог</router-link>
-          <router-link to="/wishlist" @click="mobileMenu = false" class="mobile-nav-link">Избранное</router-link>
-          <router-link to="/about" @click="mobileMenu = false" class="mobile-nav-link">О нас</router-link>
-          <router-link to="/delivery" @click="mobileMenu = false" class="mobile-nav-link">Доставка</router-link>
-          <router-link to="/contacts" @click="mobileMenu = false" class="mobile-nav-link">Контакты</router-link>
+      <div
+        v-if="mobileMenu"
+        class="fixed inset-0 z-[60] xl:hidden"
+        @click.self="closeMobileMenu"
+      >
+        <div class="absolute inset-0 bg-obsidian-950/78 backdrop-blur-md" @click="closeMobileMenu"></div>
+        <nav class="mobile-sheet absolute inset-y-0 right-0 flex w-[min(20rem,calc(100vw-1rem))] flex-col gap-2 overflow-y-auto border-l border-gold-400/12 bg-obsidian-950/96 px-5 pb-8 pt-[5.5rem] shadow-[0_24px_80px_rgba(0,0,0,0.58)] backdrop-blur-2xl sm:pt-24">
+          <router-link v-for="item in navItems" :key="item.to" :to="item.to" class="mobile-link" @click="closeMobileMenu">
+            {{ item.label }}
+          </router-link>
+          <a href="tel:+77785015020" class="mt-4 text-center metal-button" @click="closeMobileMenu">+7 778 501 50 20</a>
         </nav>
       </div>
     </transition>
-  </header>
+  </Teleport>
 
-  <div class="h-16 lg:h-20"></div>
+  <div class="h-[4.5rem] lg:h-20"></div>
 </template>
 
 <script setup>
-import { ref, computed, inject, onMounted, onUnmounted, watch } from 'vue'
+import { computed, inject, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { formatPrice } from '../composables/usePrice.js'
 import { useCartStore } from '../stores/cart'
-import { useWishlistStore } from '../stores/wishlist'
-import { useThemeStore } from '../stores/theme'
 import { useProductStore } from '../stores/products'
+import { useWishlistStore } from '../stores/wishlist'
 
 const router = useRouter()
 const cart = useCartStore()
 const wishlist = useWishlistStore()
-const theme = useThemeStore()
 const productStore = useProductStore()
-const cartOpen = inject('cartOpen')
+const cartOpen = inject('cartOpen', null)
+
 const searchOpen = ref(false)
-const mobileMenu = ref(false)
-const scrolled = ref(false)
 const showDropdown = ref(false)
-let searchTimeout = null
+const mobileMenu = ref(false)
+
+const navItems = [
+  { to: '/', label: 'Главная' },
+  { to: '/catalog', label: 'Каталог' },
+  { to: '/about', label: 'О нас' },
+  { to: '/delivery', label: 'Доставка' },
+  { to: '/contacts', label: 'Контакты' },
+]
 
 const searchResults = computed(() => {
   if (!productStore.searchQuery) return []
-  return productStore.searchProducts(productStore.searchQuery)
+  return productStore.searchProducts(productStore.searchQuery).slice(0, 6)
 })
 
-function onSearchInput() {
-  showDropdown.value = true
-  clearTimeout(searchTimeout)
-  searchTimeout = setTimeout(() => {}, 300)
+function openCart() {
+  if (cartOpen && typeof cartOpen === 'object' && 'value' in cartOpen) {
+    cartOpen.value = true
+  }
 }
 
-function goToSearch() {
-  router.push('/catalog')
+function toggleSearch() {
+  searchOpen.value = !searchOpen.value
+  showDropdown.value = searchOpen.value
+}
+
+function closeSearch() {
   searchOpen.value = false
   showDropdown.value = false
 }
 
-function onScroll() {
-  scrolled.value = window.scrollY > 20
+function toggleMobileMenu() {
+  closeSearch()
+  mobileMenu.value = !mobileMenu.value
 }
 
-watch(mobileMenu, (val) => {
-  document.body.style.overflow = val ? 'hidden' : ''
+function closeMobileMenu() {
+  mobileMenu.value = false
+}
+
+function goToCatalog() {
+  router.push('/catalog')
+  closeSearch()
+}
+
+watch(mobileMenu, (value) => {
+  document.body.style.overflow = value ? 'hidden' : ''
 })
 
-onMounted(() => window.addEventListener('scroll', onScroll, { passive: true }))
-onUnmounted(() => window.removeEventListener('scroll', onScroll))
+onUnmounted(() => {
+  document.body.style.overflow = ''
+})
 </script>
 
 <style scoped>
 .nav-link {
-  padding: 0.625rem 1rem;
-  font-size: 0.8125rem;
+  border-radius: 999px;
+  padding: 0.72rem 1rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 0.05em;
-  color: var(--color-iron-300);
-  transition: all 0.2s ease;
-  border-radius: 0.5rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  position: relative;
-}
-.nav-link:hover {
-  color: var(--color-amber-400);
-  background: rgba(251, 191, 36, 0.08);
-}
-.nav-link-active {
-  color: var(--color-amber-400);
-  background: rgba(251, 191, 36, 0.12);
-}
-.nav-link-active::after {
-  content: '';
-  position: absolute;
-  bottom: 0.25rem;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 1.25rem;
-  height: 2px;
-  background: var(--color-amber-400);
-  border-radius: 1px;
-}
-:deep(html[data-theme="dark"]) .nav-link {
-  color: var(--color-iron-300);
+  color: rgba(245, 240, 232, 0.64);
+  transition: color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
 }
 
-.mobile-nav-link {
-  display: block;
-  padding: 0.875rem 1.125rem;
-  color: var(--color-iron-300);
-  font-size: 0.9375rem;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  border-radius: 0.625rem;
-  transition: all 0.2s ease;
+.nav-link:hover,
+.nav-link.router-link-active {
+  background: rgba(201, 150, 59, 0.12);
+  color: rgba(244, 201, 112, 1);
 }
-.mobile-nav-link:hover {
-  color: var(--color-amber-400);
-  background: rgba(255,255,255,0.05);
+
+.icon-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(201, 150, 59, 0.12);
+  background: rgba(10, 9, 8, 0.52);
+  color: rgba(245, 240, 232, 0.82);
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.icon-button:hover {
+  transform: translateY(-1px);
+  border-color: rgba(201, 150, 59, 0.24);
+  color: rgba(244, 201, 112, 1);
+  background: rgba(201, 150, 59, 0.08);
+}
+
+.counter-pill {
+  position: absolute;
+  top: -0.15rem;
+  right: -0.15rem;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 999px;
+  padding: 0 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #c9963b;
+  color: #090807;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.mobile-link {
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+  color: rgba(245, 240, 232, 0.78);
+  transition: background-color 0.24s ease, color 0.24s ease, transform 0.24s ease;
+}
+
+.mobile-link:hover,
+.mobile-link.router-link-active {
+  background: rgba(201, 150, 59, 0.12);
+  color: rgba(244, 201, 112, 1);
   transform: translateX(4px);
 }
-:deep(html[data-theme="dark"]) .mobile-nav-link {
-  color: var(--color-iron-300);
+
+.mobile-menu-enter-active,
+.mobile-menu-leave-active {
+  transition: opacity 0.24s ease;
 }
 
-.mobile-menu-enter-active { animation: menuSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-.mobile-menu-leave-active { animation: menuSlide 0.2s ease reverse; }
-@keyframes menuSlide {
-  from { opacity: 0; transform: translateX(-100%); }
-  to { opacity: 1; transform: translateX(0); }
+.mobile-menu-enter-active .mobile-sheet,
+.mobile-menu-leave-active .mobile-sheet {
+  transition: transform 0.28s ease, opacity 0.28s ease;
+}
+
+.mobile-menu-enter-from,
+.mobile-menu-leave-to {
+  opacity: 0;
+}
+
+.mobile-menu-enter-from .mobile-sheet,
+.mobile-menu-leave-to .mobile-sheet {
+  opacity: 0;
+  transform: translateX(18px);
 }
 </style>

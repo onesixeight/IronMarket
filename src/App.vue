@@ -1,13 +1,22 @@
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="site-shell min-h-screen flex flex-col">
+    <div class="site-ambience" aria-hidden="true">
+      <div class="ambient-orb ambient-orb-left"></div>
+      <div class="ambient-orb ambient-orb-right"></div>
+      <div class="ambient-grid"></div>
+      <div class="ambient-noise"></div>
+    </div>
+
     <AppHeader />
-    <main class="flex-1">
+
+    <main class="relative z-10 flex-1">
       <router-view v-slot="{ Component, route }">
-        <transition name="page" mode="out-in">
+        <transition name="page">
           <component :is="Component" :key="route.path" />
         </transition>
       </router-view>
     </main>
+
     <AppFooter />
     <CartDrawer v-if="cartOpen" @close="cartOpen = false" />
     <ToastContainer />
