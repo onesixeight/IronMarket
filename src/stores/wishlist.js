@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { loadStorage, saveStorage } from '../composables/useStorage.js'
 
 export const useWishlistStore = defineStore('wishlist', () => {
-  const items = ref(JSON.parse(localStorage.getItem('wishlist-items') || '[]'))
+  const items = ref(loadStorage('wishlist-items', []))
+
+  const wishedSet = computed(() => new Set(items.value.map(i => i.id)))
 
   function save() {
-    localStorage.setItem('wishlist-items', JSON.stringify(items.value))
+    saveStorage('wishlist-items', items.value)
   }
 
   function toggle(product) {
@@ -17,15 +20,19 @@ export const useWishlistStore = defineStore('wishlist', () => {
         id: product.id,
         name: product.name,
         price: product.price,
+        oldPrice: product.oldPrice,
         image: product.image,
         categorySlug: product.categorySlug,
+        badge: product.badge,
+        material: product.material,
+        hidePrice: product.hidePrice,
       })
     }
     save()
   }
 
   function isWished(productId) {
-    return items.value.some(i => i.id === productId)
+    return wishedSet.value.has(productId)
   }
 
   function clear() {

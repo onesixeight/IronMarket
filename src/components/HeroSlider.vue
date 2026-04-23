@@ -15,6 +15,7 @@
         :alt="slide.title"
         class="w-full h-full object-cover"
         :class="current === i ? 'hero-zoom' : ''"
+        :loading="i === 0 ? 'eager' : 'lazy'"
       />
       <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,5,4,0.94)_0%,rgba(6,5,4,0.72)_45%,rgba(6,5,4,0.44)_100%)]"></div>
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(201,150,59,0.18),transparent_28%)]"></div>

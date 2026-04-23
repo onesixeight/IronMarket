@@ -91,8 +91,7 @@
           <button
             type="submit"
             :disabled="saving || !form.name || !form.categorySlug"
-            class="shimmer w-full sm:w-auto px-8 py-3 rounded-xl font-semibold text-sm text-obsidian-900 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            :style="{ background: 'linear-gradient(135deg, #C9A96E, #D4AF37)' }"
+            class="shimmer w-full sm:w-auto px-8 py-3 rounded-xl font-semibold text-sm text-obsidian-900 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-br from-[#C9A96E] to-[#D4AF37]"
           >
             <span v-if="saving" class="flex items-center justify-center gap-2">
               <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">

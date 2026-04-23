@@ -15,7 +15,16 @@ export const useProductStore = defineStore('products', () => {
 
   const allPriceRange = computed(() => {
     const prices = allProducts.value.map(p => p.price)
+    if (prices.length === 0) return { min: 0, max: 0 }
     return { min: Math.min(...prices), max: Math.max(...prices) }
+  })
+
+  const categoryProductCount = computed(() => {
+    const map = new Map()
+    for (const p of allProducts.value) {
+      map.set(p.categorySlug, (map.get(p.categorySlug) || 0) + 1)
+    }
+    return map
   })
 
   const filteredProducts = computed(() => {
@@ -84,11 +93,42 @@ export const useProductStore = defineStore('products', () => {
       .slice(0, 5)
   }
 
+  function setProducts(products) {
+    allProducts.value = Array.isArray(products) ? products : []
+  }
+
+  function addProduct(product) {
+    const maxId = allProducts.value.reduce((max, p) => Math.max(max, p.id), 0)
+    const newProduct = { ...product, id: maxId + 1 }
+    allProducts.value = [...allProducts.value, newProduct]
+    return newProduct
+  }
+
+  function updateProduct(id, data) {
+    const index = allProducts.value.findIndex(p => p.id === id)
+    if (index !== -1) {
+      const updated = { ...allProducts.value[index], ...data }
+      allProducts.value = allProducts.value.map((p, i) => (i === index ? updated : p))
+      return updated
+    }
+    return null
+  }
+
+  function deleteProduct(id) {
+    const index = allProducts.value.findIndex(p => p.id === id)
+    if (index !== -1) {
+      allProducts.value = allProducts.value.filter(p => p.id !== id)
+      return true
+    }
+    return false
+  }
+
   return {
     categories, allProducts, searchQuery, selectedCategory, sortBy,
     priceMin, priceMax, currentPage, perPage,
-    filteredProducts, paginatedProducts, totalPages, allPriceRange,
+    filteredProducts, paginatedProducts, totalPages, allPriceRange, categoryProductCount,
     getCategoryBySlug, getProductsByCategory, getProductById,
     getRelatedProducts, searchProducts,
+    setProducts, addProduct, updateProduct, deleteProduct,
   }
 })

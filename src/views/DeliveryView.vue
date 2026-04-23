@@ -2,11 +2,7 @@
   <div>
     <div class="py-10">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex items-center gap-2 text-sm text-obsidian-500 mb-10">
-          <router-link to="/" class="hover:text-gold-400 transition-colors">Главная</router-link>
-          <span class="text-obsidian-600">/</span>
-          <span class="text-cream-100">Доставка и оплата</span>
-        </nav>
+        <AppBreadcrumb :items="[{ to: '/', label: 'Главная' }, { label: 'Доставка и оплата' }]" />
 
         <div class="text-center mb-16" v-reveal>
           <h1 class="ornament-line font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-cream-50 mb-6">Доставка и оплата</h1>
@@ -29,7 +25,7 @@
                 <span class="text-gold-400" v-html="d.icon"></span>
               </div>
               <h3 class="font-heading text-base font-bold text-cream-50 mb-2 group-hover:text-gold-300 transition-colors">{{ d.title }}</h3>
-              <p class="text-sm text-cream-100/50 leading-relaxed mb-4">{{ d.desc }}</p>
+              <p class="text-sm text-cream-100/60 leading-relaxed mb-4">{{ d.desc }}</p>
               <div class="text-sm font-semibold" :class="d.free ? 'text-gold-400' : 'text-cream-100/70'">{{ d.price }}</div>
             </div>
           </div>
@@ -51,7 +47,7 @@
                 <span class="text-gold-400" v-html="p.icon"></span>
               </div>
               <h3 class="font-heading text-base font-bold text-cream-50 mb-2 group-hover:text-gold-300 transition-colors">{{ p.title }}</h3>
-              <p class="text-sm text-cream-100/50 leading-relaxed">{{ p.desc }}</p>
+              <p class="text-sm text-cream-100/60 leading-relaxed">{{ p.desc }}</p>
             </div>
           </div>
         </div>
@@ -69,7 +65,7 @@
               v-reveal="i * 0.06"
             >
               <h3 class="font-heading text-base font-bold text-cream-50 mb-2">{{ q.q }}</h3>
-              <p class="text-sm text-cream-100/50 leading-relaxed">{{ q.a }}</p>
+              <p class="text-sm text-cream-100/60 leading-relaxed">{{ q.a }}</p>
             </div>
           </div>
         </div>
@@ -80,7 +76,7 @@
       <div class="absolute inset-0 opacity-[0.03]" style="background-image: repeating-linear-gradient(-45deg, transparent, transparent 30px, currentColor 30px, currentColor 31px);"></div>
       <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center" v-reveal>
         <h2 class="font-heading text-2xl sm:text-3xl font-bold text-cream-50 mb-4">Остались вопросы?</h2>
-        <p class="text-cream-100/50 mb-8 text-[15px]">Свяжитесь с нами, и мы поможем выбрать оптимальный способ доставки</p>
+        <p class="text-cream-100/60 mb-8 text-[15px]">Свяжитесь с нами, и мы поможем выбрать оптимальный способ доставки</p>
         <router-link to="/contacts" class="shimmer inline-flex items-center gap-2 bg-gradient-to-r from-gold-500 to-gold-400 text-obsidian-900 px-8 py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/25">
           Связаться с нами
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
@@ -92,6 +88,7 @@
 
 <script setup>
 import { useSeo } from '../composables/useSeo'
+import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 useSeo('Доставка и оплата', 'Способы доставки и оплаты кованых изделий. Транспортные компании, самовывоз, курьерская доставка.')
 
 const deliveryMethods = [

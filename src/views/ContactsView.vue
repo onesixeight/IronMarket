@@ -1,11 +1,7 @@
 <template>
   <div class="section-shell py-12 lg:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <nav class="flex items-center gap-2 text-sm text-cream-100/38 mb-10">
-        <router-link to="/" class="hover:text-gold-300 transition-colors">Главная</router-link>
-        <span>/</span>
-        <span class="text-cream-100">Контакты</span>
-      </nav>
+      <AppBreadcrumb :items="[{ to: '/', label: 'Главная' }, { label: 'Контакты' }]" />
 
       <div class="grid gap-8 xl:grid-cols-[0.95fr_1.05fr] xl:items-start">
         <div class="surface-panel rounded-[2rem] p-6 sm:p-8 lg:p-10" v-reveal>
@@ -37,7 +33,7 @@
               </div>
               <div>
                 <div class="text-xs uppercase tracking-[0.18em] text-gold-300 mb-2">Email</div>
-                <a href="mailto:info@example.com" class="text-cream-100 text-lg font-semibold hover:text-gold-300 transition-colors">info@example.com</a>
+                <a href="mailto:etalonkovka@mail.ru" class="text-cream-100 text-lg font-semibold hover:text-gold-300 transition-colors">etalonkovka@mail.ru</a>
                 <p class="text-sm text-cream-100/48 mt-2">Подойдёт для спецификаций, запросов по объёму и коммерческих предложений.</p>
               </div>
             </div>
@@ -113,6 +109,7 @@
 <script setup>
 import ContactForm from '../components/ContactForm.vue'
 import { useSeo } from '../composables/useSeo'
+import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 
 useSeo(
   'Контакты',

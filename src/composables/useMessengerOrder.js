@@ -1,6 +1,10 @@
 import { buildTelegramLink, buildWhatsAppLink } from './messengerConfig.js'
 import { formatPrice } from './usePrice.js'
 
+function safeMultiply(price, quantity) {
+  return Math.round(price * quantity * 100) / 100
+}
+
 export function useMessengerOrder() {
   const deliveryLabels = {
     tk: 'Транспортная компания',
@@ -47,7 +51,7 @@ export function useMessengerOrder() {
       if (item.hidePrice) {
         msg += `— ${item.name} x${item.quantity} — цена по запросу\n`
       } else {
-        msg += `— ${item.name} x${item.quantity} — ${formatPrice(item.price * item.quantity)}\n`
+        msg += `— ${item.name} x${item.quantity} — ${formatPrice(safeMultiply(item.price, item.quantity))}\n`
       }
     })
 

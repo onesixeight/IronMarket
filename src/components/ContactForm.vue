@@ -1,8 +1,37 @@
 <template>
   <form ref="formElement" @submit.prevent="openWhatsApp" class="space-y-4">
     <div>
-      <label class="block text-sm font-medium mb-1.5 text-cream-100">{{ resolvedNameLabel }} *</label>
-      <input v-model="form.name" type="text" :placeholder="resolvedNamePlaceholder" required class="form-input" />
+      <label for="contact-name" class="block text-sm font-medium mb-1.5 text-cream-100">{{ nameLabel }} *</label>
+      <input id="contact-name" v-model="form.name" type="text" autocomplete="name" :placeholder="namePlaceholder" required class="form-input" />
+    </div>
+
+    <div v-if="showEmail">
+      <label for="contact-email" class="block text-sm font-medium mb-1.5 text-cream-100">Email</label>
+      <input id="contact-email" v-model="form.email" type="email" autocomplete="email" placeholder="your@email.com" class="form-input" />
+    </div>
+
+    <div>
+      <label for="contact-phone" class="block text-sm font-medium mb-1.5 text-cream-100">Телефон *</label>
+      <input
+        :value="form.phone"
+        type="tel"
+        placeholder="+7 (___) ___-__-__"
+        required
+        autocomplete="tel"
+        class="form-input"
+        @input="onPhoneInput"
+      />
+    </div>
+
+    <div v-if="showMessage">
+      <label for="contact-message" class="block text-sm font-medium mb-1.5 text-cream-100">Сообщение</label>
+      <textarea
+        id="contact-message"
+        v-model="form.message"
+        rows="4"
+        placeholder="Расскажите, что вам нужно..."
+        class="form-input"
+      ></textarea>
     </div>
 
     <div v-if="showEmail">
@@ -13,10 +42,11 @@
     <div>
       <label class="block text-sm font-medium mb-1.5 text-cream-100">Телефон *</label>
       <input
-        v-model="form.phone"
+        :value="form.phone"
         type="tel"
         placeholder="+7 (___) ___-__-__"
         required
+        autocomplete="tel"
         class="form-input"
         @input="onPhoneInput"
       />
@@ -43,7 +73,7 @@
 
     <div class="grid gap-3 sm:grid-cols-2">
       <button type="submit" class="w-full metal-button justify-center">
-        {{ resolvedButtonText }}
+        {{ buttonText }}
       </button>
       <button
         type="button"
@@ -61,8 +91,6 @@ import { computed, reactive, ref } from 'vue'
 import { usePhoneMask } from '../composables/usePhoneMask'
 import { useMessengerLead } from '../composables/useMessengerLead'
 
-const GARBLED_MARKERS = ['\u00D0', '\u00D1', '\u0432\u20AC']
-
 const props = defineProps({
   nameLabel: { type: String, default: 'Имя' },
   namePlaceholder: { type: String, default: 'Как к вам обращаться' },
@@ -74,40 +102,11 @@ const props = defineProps({
   sourceLabel: { type: String, default: 'с сайта Эталон Ковка' },
 })
 
-const FALLBACK_COPY = {
-  nameLabel: 'Имя',
-  namePlaceholder: 'Как к вам обращаться',
-  buttonText: 'Открыть WhatsApp',
-  telegramButtonText: 'Написать в Telegram',
-  sourceLabel: 'с сайта Эталон Ковка',
-}
-
 const { formatPhone } = usePhoneMask()
 const { getWhatsAppLeadLink, getTelegramLeadLink } = useMessengerLead()
 
 const form = reactive({ name: '', email: '', phone: '', message: '', agreement: false })
 const formElement = ref(null)
-
-function isGarbled(value) {
-  return (
-    GARBLED_MARKERS.some((marker) => value.includes(marker)) ||
-    /[\u0420\u0421][A-Za-z]/.test(value)
-  )
-}
-
-const resolvedNameLabel = computed(() =>
-  props.nameLabel && !isGarbled(props.nameLabel) ? props.nameLabel : FALLBACK_COPY.nameLabel
-)
-
-const resolvedNamePlaceholder = computed(() =>
-  props.namePlaceholder && !isGarbled(props.namePlaceholder)
-    ? props.namePlaceholder
-    : FALLBACK_COPY.namePlaceholder
-)
-
-const resolvedButtonText = computed(() =>
-  props.buttonText && !isGarbled(props.buttonText) ? props.buttonText : FALLBACK_COPY.buttonText
-)
 
 const whatsappLink = computed(() =>
   getWhatsAppLeadLink(form, { sourceLabel: props.sourceLabel })

@@ -29,6 +29,8 @@
         <button
           class="icon-button"
           aria-label="Поиск"
+          :aria-expanded="searchOpen"
+          aria-controls="search-panel"
           @click="toggleSearch"
         >
           <svg class="h-[18px] w-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
@@ -46,6 +48,7 @@
         </router-link>
 
         <button
+          ref="cartButtonRef"
           class="icon-button relative"
           aria-label="Корзина"
           @click="openCart"
@@ -61,6 +64,8 @@
         <button
           class="icon-button xl:hidden"
           aria-label="Меню"
+          :aria-expanded="mobileMenu"
+          aria-controls="mobile-menu"
           @click="toggleMobileMenu"
         >
           <svg v-if="!mobileMenu" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
@@ -73,16 +78,17 @@
       </div>
     </div>
 
-    <div v-if="searchOpen" class="border-t border-gold-400/10 bg-obsidian-950/94 px-4 pb-4 pt-4 sm:px-6 lg:px-8">
+    <div v-if="searchOpen" id="search-panel" class="border-t border-gold-400/10 bg-obsidian-950/94 px-4 pb-4 pt-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <div class="relative">
           <input
-            v-model="productStore.searchQuery"
+            v-model="searchInput"
             type="text"
+            aria-label="Поиск по каталогу"
             placeholder="Поиск по каталогу"
             class="w-full rounded-[1.25rem] border border-gold-400/14 bg-obsidian-900/70 py-3 pl-11 pr-4 text-sm text-cream-100 outline-none transition focus:border-gold-400/32"
             @focus="showDropdown = true"
-            @input="showDropdown = true"
+            @input="onSearchInput"
             @keyup.enter="goToCatalog"
           />
           <svg class="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-gold-300/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
@@ -98,7 +104,7 @@
             class="flex items-center gap-3 border-b border-gold-400/8 px-4 py-3 transition-colors hover:bg-gold-400/6 last:border-b-0"
             @click="closeSearch"
           >
-            <img :src="p.image" :alt="p.name" class="h-12 w-12 rounded-xl border border-gold-400/10 bg-obsidian-800/86 p-1.5 object-contain" />
+            <img :src="p.image" :alt="p.name" loading="lazy" class="h-12 w-12 rounded-xl border border-gold-400/10 bg-obsidian-800/86 p-1.5 object-contain" />
             <div class="min-w-0 flex-1">
               <div class="truncate text-sm font-medium text-cream-100">{{ p.name }}</div>
               <div class="mt-1 text-xs uppercase tracking-[0.16em] text-gold-300/72">Каталог</div>
@@ -116,6 +122,7 @@
     <transition name="mobile-menu">
       <div
         v-if="mobileMenu"
+        id="mobile-menu"
         class="fixed inset-0 z-[60] xl:hidden"
         @click.self="closeMobileMenu"
       >
@@ -134,9 +141,12 @@
 </template>
 
 <script setup>
-import { computed, inject, onUnmounted, ref, watch } from 'vue'
+import { computed, inject, provide, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatPrice } from '../composables/usePrice.js'
+import { debounce } from '../composables/useDebounce.js'
+import { lockScroll, unlockScroll } from '../composables/useScrollLock.js'
+import { isTypingTarget } from '../composables/useUtils.js'
 import { useCartStore } from '../stores/cart'
 import { useProductStore } from '../stores/products'
 import { useWishlistStore } from '../stores/wishlist'
@@ -147,9 +157,13 @@ const wishlist = useWishlistStore()
 const productStore = useProductStore()
 const cartOpen = inject('cartOpen', null)
 
+const cartButtonRef = ref(null)
+provide('cartButtonRef', cartButtonRef)
+
 const searchOpen = ref(false)
 const showDropdown = ref(false)
 const mobileMenu = ref(false)
+const searchInput = ref('')
 
 const navItems = [
   { to: '/', label: 'Главная' },
@@ -159,9 +173,18 @@ const navItems = [
   { to: '/contacts', label: 'Контакты' },
 ]
 
+const updateSearch = debounce((val) => {
+  productStore.searchQuery = val
+}, 200)
+
+function onSearchInput() {
+  showDropdown.value = true
+  updateSearch(searchInput.value)
+}
+
 const searchResults = computed(() => {
-  if (!productStore.searchQuery) return []
-  return productStore.searchProducts(productStore.searchQuery).slice(0, 6)
+  if (!searchInput.value) return []
+  return productStore.searchProducts(searchInput.value).slice(0, 6)
 })
 
 function openCart() {
@@ -178,6 +201,8 @@ function toggleSearch() {
 function closeSearch() {
   searchOpen.value = false
   showDropdown.value = false
+  searchInput.value = ''
+  productStore.searchQuery = ''
 }
 
 function toggleMobileMenu() {
@@ -195,11 +220,22 @@ function goToCatalog() {
 }
 
 watch(mobileMenu, (value) => {
-  document.body.style.overflow = value ? 'hidden' : ''
+  if (value) lockScroll()
+  else unlockScroll()
 })
 
+function onKeyDown(e) {
+  if (e.key !== 'Escape') return
+  if (isTypingTarget(e.target)) return
+  closeMobileMenu()
+  closeSearch()
+}
+
+onMounted(() => document.addEventListener('keydown', onKeyDown))
 onUnmounted(() => {
-  document.body.style.overflow = ''
+  document.removeEventListener('keydown', onKeyDown)
+  if (mobileMenu.value) unlockScroll()
+  updateSearch.cancel()
 })
 </script>
 

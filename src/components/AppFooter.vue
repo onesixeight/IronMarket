@@ -43,7 +43,7 @@
             <h3 class="font-heading text-sm uppercase tracking-[0.18em] text-gold-300 mb-5">Контакты</h3>
 
             <div class="space-y-4 text-sm text-cream-100/70">
-              <a href="mailto:info@example.com" class="footer-link block">info@example.com</a>
+              <a href="mailto:etalonkovka@mail.ru" class="footer-link block">etalonkovka@mail.ru</a>
               <div>Пн-Вс: 9:00-18:00</div>
               <div class="text-cream-100/42">Без выходных</div>
             </div>
@@ -64,9 +64,10 @@
 </template>
 
 <script setup>
-import catalog from '../data/catalog.json'
+import { useProductStore } from '../stores/products'
 
-const primaryCategories = catalog.categories.slice(0, 5)
+const productStore = useProductStore()
+const primaryCategories = productStore.categories.slice(0, 5)
 const year = new Date().getFullYear()
 </script>
 

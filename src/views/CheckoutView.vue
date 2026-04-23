@@ -1,13 +1,7 @@
 <template>
   <div class="py-8 min-h-screen">
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <nav class="flex items-center gap-2 text-sm text-obsidian-500 mb-8">
-        <router-link to="/" class="hover:text-gold-400 transition-colors">Главная</router-link>
-        <span>/</span>
-        <router-link to="/cart" class="hover:text-gold-400 transition-colors">Корзина</router-link>
-        <span>/</span>
-        <span class="text-cream-100">Оформление заказа</span>
-      </nav>
+      <AppBreadcrumb :items="[{ to: '/', label: 'Главная' }, { to: '/cart', label: 'Корзина' }, { label: 'Оформление заказа' }]" />
 
       <div class="text-center mb-10" v-reveal>
         <h1 class="ornament-line font-heading text-3xl sm:text-4xl font-semibold text-cream-50 mb-4">
@@ -41,16 +35,19 @@
           <h2 class="font-heading text-lg font-semibold text-cream-50 mb-5">Контактные данные</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">Имя *</label>
-              <input v-model="form.name" type="text" required class="form-input" placeholder="Иван Иванов" />
+              <label for="checkout-name" class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">Имя *</label>
+              <input id="checkout-name" v-model="form.name" type="text" autocomplete="name" class="form-input" :class="errors.name && 'border-red-500'" placeholder="Иван Иванов" />
+              <p v-if="errors.name" class="text-xs text-red-400 mt-1">{{ errors.name }}</p>
             </div>
             <div>
-              <label class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">Телефон *</label>
-              <input v-model="form.phone" type="tel" required class="form-input" placeholder="+7 (___) ___-__-__" @input="onPhoneInput" />
+              <label for="checkout-phone" class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">Телефон *</label>
+              <input id="checkout-phone" :value="form.phone" type="tel" autocomplete="tel" class="form-input" :class="errors.phone && 'border-red-500'" placeholder="+7 (___) ___-__-__" @input="onPhoneInput" />
+              <p v-if="errors.phone" class="text-xs text-red-400 mt-1">{{ errors.phone }}</p>
             </div>
             <div class="sm:col-span-2">
-              <label class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">Email</label>
-              <input v-model="form.email" type="email" class="form-input" placeholder="your@email.com" />
+              <label for="checkout-email" class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">Email</label>
+              <input id="checkout-email" v-model="form.email" type="email" autocomplete="email" class="form-input" :class="errors.email && 'border-red-500'" placeholder="your@email.com" />
+              <p v-if="errors.email" class="text-xs text-red-400 mt-1">{{ errors.email }}</p>
             </div>
           </div>
         </div>
@@ -59,40 +56,46 @@
           <h2 class="font-heading text-lg font-semibold text-cream-50 mb-5">Адрес доставки</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">Город *</label>
+              <label for="checkout-city" class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">Город *</label>
               <input
+                id="checkout-city"
                 v-model="form.city"
                 type="text"
+                autocomplete="address-level2"
                 class="form-input"
                 placeholder="Астана"
                 :required="form.delivery !== 'pickup'"
               />
             </div>
             <div>
-              <label class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">Улица *</label>
+              <label for="checkout-street" class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">Улица *</label>
               <input
+                id="checkout-street"
                 v-model="form.street"
                 type="text"
+                autocomplete="address-line1"
                 class="form-input"
                 placeholder="пр. Туран, 12"
                 :required="form.delivery !== 'pickup'"
               />
             </div>
             <div class="sm:col-span-2">
-              <label class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">
+              <label for="checkout-address" class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">
                 Дом, квартира, офис
               </label>
               <input
+                id="checkout-address"
                 v-model="form.addressLine"
                 type="text"
+                autocomplete="address-line2"
                 class="form-input"
                 placeholder="Подъезд, этаж, квартира или офис"
                 :required="form.delivery === 'courier'"
               />
             </div>
             <div class="sm:col-span-2">
-              <label class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">Комментарий</label>
-              <textarea v-model="form.comment" rows="3" class="form-input" placeholder="Дополнительные пожелания к заказу..."></textarea>
+              <label for="checkout-comment" class="block text-xs font-medium text-gold-400/70 uppercase tracking-wider mb-1.5">Комментарий</label>
+              <textarea id="checkout-comment" v-model="form.comment" rows="3" class="form-input" placeholder="Дополнительные пожелания к заказу..."></textarea>
             </div>
           </div>
           <p class="text-xs text-cream-100/40 mt-4">
@@ -100,8 +103,8 @@
           </p>
         </div>
 
-        <div class="bg-obsidian-800 rounded-xl border border-obsidian-600 p-6">
-          <h2 class="font-heading text-lg font-semibold text-cream-50 mb-5">Способ доставки</h2>
+        <fieldset class="bg-obsidian-800 rounded-xl border border-obsidian-600 p-6">
+          <legend class="font-heading text-lg font-semibold text-cream-50 mb-5">Способ доставки</legend>
           <div class="space-y-2.5">
             <label
               v-for="d in deliveryOptions"
@@ -119,7 +122,7 @@
                   class="peer sr-only"
                 />
                 <div class="w-5 h-5 rounded-full border-2 border-obsidian-500 flex items-center justify-center transition-all peer-checked:border-gold-400">
-                  <div class="w-2.5 h-2.5 rounded-full bg-gold-400 scale-0 peer-checked:scale-100 transition-transform" :class="form.delivery === d.value ? 'scale-100' : 'scale-0'"></div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-gold-400 scale-0 peer-checked:scale-100 transition-transform"></div>
                 </div>
               </div>
               <div class="flex-1">
@@ -129,10 +132,10 @@
               <div class="text-xs font-medium text-gold-400/60">{{ d.price }}</div>
             </label>
           </div>
-        </div>
+        </fieldset>
 
-        <div class="bg-obsidian-800 rounded-xl border border-obsidian-600 p-6">
-          <h2 class="font-heading text-lg font-semibold text-cream-50 mb-5">Способ оплаты</h2>
+        <fieldset class="bg-obsidian-800 rounded-xl border border-obsidian-600 p-6">
+          <legend class="font-heading text-lg font-semibold text-cream-50 mb-5">Способ оплаты</legend>
           <div class="space-y-2.5">
             <label
               v-for="p in paymentOptions"
@@ -150,7 +153,7 @@
                   class="peer sr-only"
                 />
                 <div class="w-5 h-5 rounded-full border-2 border-obsidian-500 flex items-center justify-center transition-all peer-checked:border-gold-400">
-                  <div class="w-2.5 h-2.5 rounded-full bg-gold-400 scale-0 peer-checked:scale-100 transition-transform" :class="form.payment === p.value ? 'scale-100' : 'scale-0'"></div>
+                  <div class="w-2.5 h-2.5 rounded-full bg-gold-400 scale-0 peer-checked:scale-100 transition-transform"></div>
                 </div>
               </div>
               <div>
@@ -159,7 +162,7 @@
               </div>
             </label>
           </div>
-        </div>
+        </fieldset>
 
         <div class="bg-obsidian-800/60 border border-obsidian-600 rounded-xl p-6">
           <h2 class="font-heading text-lg font-semibold text-cream-50 mb-5">Ваш заказ</h2>
@@ -199,10 +202,11 @@
               </svg>
             </label>
           </div>
-          <label for="agreement" class="text-xs text-cream-100/40 leading-relaxed cursor-pointer">
+          <label for="agreement" class="text-xs text-cream-100/50 leading-relaxed cursor-pointer">
             Даю согласие на обработку персональных данных для обратной связи по заказу.
           </label>
         </div>
+        <p v-if="errors.agreement" class="text-xs text-red-400 mt-2">{{ errors.agreement }}</p>
 
         <div class="space-y-3">
           <p class="text-sm text-cream-100/48 leading-relaxed">
@@ -234,15 +238,19 @@
 
 <script setup>
 import { computed, reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useCartStore } from '../stores/cart'
 import { useToastStore } from '../stores/toast'
 import { usePhoneMask } from '../composables/usePhoneMask'
 import { useSeo } from '../composables/useSeo'
 import { useMessengerOrder } from '../composables/useMessengerOrder'
+import { validateCheckout } from '../composables/useCheckoutSchema.js'
 import { formatPrice } from '../composables/usePrice.js'
+import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 
 useSeo('Оформление заказа', 'Оформление заказа на кованые изделия')
 
+const router = useRouter()
 const cart = useCartStore()
 const toast = useToastStore()
 const { formatPhone } = usePhoneMask()
@@ -262,16 +270,13 @@ const form = reactive({
   agreement: false,
 })
 
+const errors = reactive({})
+
 function onPhoneInput(e) {
   form.phone = formatPhone(e.target.value)
 }
 
-const visibleTotal = computed(() =>
-  cart.items.reduce((sum, item) => {
-    if (item.hidePrice) return sum
-    return sum + item.price * item.quantity
-  }, 0)
-)
+const visibleTotal = computed(() => cart.totalPrice)
 
 const hasHiddenPriceOnly = computed(() =>
   cart.items.length > 0 && cart.items.every((i) => i.hidePrice)
@@ -298,13 +303,36 @@ const paymentOptions = [
 ]
 
 function ensureValid() {
-  return checkoutForm.value?.reportValidity() !== false
+  const result = validateCheckout(form)
+  Object.keys(errors).forEach((k) => delete errors[k])
+  if (!result.valid) {
+    Object.assign(errors, result.errors)
+    const firstError = Object.values(result.errors)[0]
+    if (firstError) toast.error(firstError)
+    return false
+  }
+  return true
+}
+
+function resetForm() {
+  Object.keys(form).forEach((key) => {
+    if (key === 'agreement') form[key] = false
+    else if (key === 'delivery') form[key] = 'tk'
+    else if (key === 'payment') form[key] = 'cash'
+    else form[key] = ''
+  })
 }
 
 function openLink(link, label) {
   if (!ensureValid()) return
+  const win = window.open(link, '_blank', 'noopener,noreferrer')
+  if (!win || win.closed) {
+    toast.error(`Браузер заблокировал всплывающее окно. Разрешите pop-ups или скопируйте ссылку вручную.`)
+    return
+  }
   toast.info(`Откроем ${label} с готовым текстом заказа.`)
-  window.open(link, '_blank', 'noopener,noreferrer')
+  resetForm()
+  router.push('/thank-you')
 }
 
 function openWhatsAppOrder() {

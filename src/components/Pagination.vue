@@ -1,33 +1,39 @@
 <template>
-  <div v-if="totalPages > 1" class="flex items-center justify-center gap-1.5 mt-10">
-    <button
-      @click="goTo(currentPage - 1)"
-      :disabled="currentPage === 1"
-      class="page-btn"
-    >
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
-    </button>
-
-    <template v-for="p in visiblePages" :key="p">
-      <span v-if="p === '...'" class="px-2 text-obsidian-500 text-sm">...</span>
+  <nav v-if="totalPages > 1" aria-label="Навигация по страницам">
+    <div class="flex items-center justify-center gap-1.5 mt-10">
       <button
-        v-else
-        @click="goTo(p)"
+        aria-label="Предыдущая страница"
+        @click="goTo(currentPage - 1)"
+        :disabled="currentPage === 1"
         class="page-btn"
-        :class="p === currentPage && 'page-btn-active'"
       >
-        {{ p }}
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
       </button>
-    </template>
 
-    <button
-      @click="goTo(currentPage + 1)"
-      :disabled="currentPage === totalPages"
-      class="page-btn"
-    >
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-    </button>
-  </div>
+      <template v-for="(p, index) in visiblePages" :key="pageKey(p, index)">
+        <span v-if="p === '...'" class="px-2 text-obsidian-500 text-sm" aria-hidden="true">…</span>
+        <button
+          v-else
+          :aria-label="`Страница ${p}`"
+          :aria-current="p === currentPage ? 'page' : undefined"
+          @click="goTo(p)"
+          class="page-btn"
+          :class="p === currentPage && 'page-btn-active'"
+        >
+          {{ p }}
+        </button>
+      </template>
+
+      <button
+        aria-label="Следующая страница"
+        @click="goTo(currentPage + 1)"
+        :disabled="currentPage === totalPages"
+        class="page-btn"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+      </button>
+    </div>
+  </nav>
 </template>
 
 <script setup>
@@ -44,6 +50,10 @@ function goTo(page) {
   if (page >= 1 && page <= props.totalPages) {
     emit('update:currentPage', page)
   }
+}
+
+function pageKey(p, index) {
+  return typeof p === 'number' ? `page-${p}` : `ellipsis-${index}`
 }
 
 const visiblePages = computed(() => {

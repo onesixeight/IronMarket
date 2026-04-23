@@ -7,12 +7,17 @@ export const useToastStore = defineStore('toast', () => {
 
   function add(message, type = 'success', duration = 3000) {
     const id = ++idCounter
-    toasts.value.push({ id, message, type })
-    setTimeout(() => remove(id), duration)
+    const timer = setTimeout(() => remove(id), duration)
+    toasts.value.push({ id, message, type, timer })
   }
 
   function remove(id) {
-    toasts.value = toasts.value.filter(t => t.id !== id)
+    const idx = toasts.value.findIndex(t => t.id === id)
+    if (idx >= 0) {
+      const toast = toasts.value[idx]
+      if (toast.timer) clearTimeout(toast.timer)
+      toasts.value.splice(idx, 1)
+    }
   }
 
   function success(message) { add(message, 'success') }

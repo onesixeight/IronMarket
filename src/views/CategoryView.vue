@@ -1,13 +1,7 @@
 <template>
   <div class="py-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <nav class="flex items-center gap-2 text-sm text-obsidian-500 mb-8">
-        <router-link to="/" class="hover:text-gold-400 transition-colors">Главная</router-link>
-        <span>/</span>
-        <router-link to="/catalog" class="hover:text-gold-400 transition-colors">Каталог</router-link>
-        <span>/</span>
-        <span class="text-cream-100">{{ category?.name }}</span>
-      </nav>
+      <AppBreadcrumb :items="[{ to: '/', label: 'Главная' }, { to: '/catalog', label: 'Каталог' }, { label: category?.name }]" />
 
       <div v-if="category">
         <div class="mb-10" v-reveal>
@@ -51,6 +45,8 @@ import { useProductStore } from '../stores/products'
 import ProductCard from '../components/ProductCard.vue'
 import Pagination from '../components/Pagination.vue'
 import { useSeo } from '../composables/useSeo'
+import { useSchemaOrg, schemaItemList } from '../composables/useSchemaOrg.js'
+import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 
 const route = useRoute()
 const productStore = useProductStore()
@@ -60,6 +56,8 @@ const perPage = 20
 const category = computed(() => productStore.getCategoryBySlug(route.params.slug))
 const products = computed(() => productStore.getProductsByCategory(route.params.slug))
 const totalPages = computed(() => Math.ceil(products.value.length / perPage))
+
+useSchemaOrg(() => schemaItemList(products.value, category.value?.name || 'Категория'))
 const paginatedProducts = computed(() => {
   const start = (currentPage.value - 1) * perPage
   return products.value.slice(start, start + perPage)
@@ -68,5 +66,6 @@ const paginatedProducts = computed(() => {
 watch(() => route.params.slug, () => { currentPage.value = 1 })
 
 const seoTitle = computed(() => category.value ? category.value.name : 'Категория')
-useSeo(seoTitle.value, category.value?.description)
+const seoDesc = computed(() => category.value?.description)
+useSeo(seoTitle, seoDesc)
 </script>

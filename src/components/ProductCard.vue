@@ -1,10 +1,10 @@
 <template>
   <article class="group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-gold-400/10 bg-obsidian-900/82 shadow-[0_24px_60px_rgba(0,0,0,0.22)] transition-transform duration-300 hover:-translate-y-1">
-    <router-link :to="'/product/' + product.id" class="relative block overflow-hidden rounded-t-[1.75rem] bg-[radial-gradient(circle_at_top,rgba(201,150,59,0.14),transparent_48%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(10,9,8,0.02))] p-5">
+    <router-link :to="'/product/' + product.id" class="relative block overflow-hidden rounded-t-[1.75rem] aspect-[4/3] bg-[radial-gradient(circle_at_top,rgba(201,150,59,0.14),transparent_48%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(10,9,8,0.02))]">
       <img
         :src="product.image"
         :alt="product.name"
-        class="h-52 w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+        class="absolute inset-0 h-full w-full object-contain p-5 transition-transform duration-500 ease-out group-hover:scale-[1.05]"
         loading="lazy"
       />
       <div v-if="product.badge" class="absolute left-4 top-4 rounded-full border border-gold-400/18 bg-obsidian-950/88 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold-300">
@@ -49,6 +49,8 @@
 
         <button
           v-if="!product.hidePrice"
+          ref="addToCartBtn"
+          aria-label="Добавить в корзину"
           class="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gold-400 text-obsidian-950 transition-transform duration-200 hover:scale-105 active:scale-95"
           title="В корзину"
           @click="addToCart"
@@ -80,8 +82,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, onUnmounted } from 'vue'
 import { formatPrice } from '../composables/usePrice.js'
+import { useFlyToCart } from '../composables/useFlyToCart.js'
 import { useCartStore } from '../stores/cart'
 import { useToastStore } from '../stores/toast'
 import { useWishlistStore } from '../stores/wishlist'
@@ -93,26 +96,31 @@ const props = defineProps({
 const cart = useCartStore()
 const wishlist = useWishlistStore()
 const toast = useToastStore()
+const { flyFromElement } = useFlyToCart()
+const addToCartBtn = ref(null)
 const added = ref(false)
-const wished = ref(wishlist.isWished(props.product.id))
+const wished = computed(() => wishlist.isWished(props.product.id))
+
+let addTimer = null
 
 function addToCart() {
   cart.addItem(props.product)
   added.value = true
   toast.success(`${props.product.name} добавлен в корзину`)
-  window.setTimeout(() => {
+  flyFromElement(addToCartBtn.value)
+  if (addTimer) clearTimeout(addTimer)
+  addTimer = window.setTimeout(() => {
     added.value = false
   }, 1200)
 }
 
-function toggleWishlist() {
-  wishlist.toggle(props.product)
-  wished.value = !wished.value
+onUnmounted(() => {
+  if (addTimer) clearTimeout(addTimer)
+})
 
-  if (wished.value) {
-    toast.info('Добавлено в избранное')
-  } else {
-    toast.info('Удалено из избранного')
-  }
+function toggleWishlist() {
+  const wasWished = wishlist.isWished(props.product.id)
+  wishlist.toggle(props.product)
+  toast.info(wasWished ? 'Удалено из избранного' : 'Добавлено в избранное')
 }
 </script>

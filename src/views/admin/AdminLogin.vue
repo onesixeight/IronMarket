@@ -11,9 +11,10 @@
         </div>
 
         <form @submit.prevent="handleLogin" class="space-y-5">
-          <div>
-            <label class="block text-xs font-medium text-cream-100/60 uppercase tracking-wider mb-2">Пароль</label>
+          <div class="relative">
+            <label for="admin-password" class="block text-xs font-medium text-cream-100/60 uppercase tracking-wider mb-2">Пароль</label>
             <input
+              id="admin-password"
               v-model="password"
               :type="showPassword ? 'text' : 'password'"
               class="form-input pr-10"
@@ -24,6 +25,7 @@
             <button
               type="button"
               @click="showPassword = !showPassword"
+              :aria-label="showPassword ? 'Скрыть пароль' : 'Показать пароль'"
               class="absolute right-3 top-[38px] text-obsidian-500 hover:text-gold-400 transition-colors"
             >
               <svg v-if="!showPassword" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
@@ -36,17 +38,18 @@
             </button>
           </div>
 
-          <transition name="fade">
-            <p v-if="error" class="text-red-400 text-sm bg-red-400/10 border border-red-400/20 rounded-lg px-4 py-2.5">
-              {{ error }}
-            </p>
-          </transition>
+          <div aria-live="assertive">
+            <transition name="fade">
+              <p v-if="error" class="text-red-400 text-sm bg-red-400/10 border border-red-400/20 rounded-lg px-4 py-2.5">
+                {{ error }}
+              </p>
+            </transition>
+          </div>
 
           <button
             type="submit"
             :disabled="loading || !password"
-            class="shimmer w-full py-3 px-6 rounded-xl font-semibold text-sm tracking-wide text-obsidian-900 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-            :style="{ background: 'linear-gradient(135deg, #C9A96E, #D4AF37)' }"
+            class="shimmer w-full py-3 px-6 rounded-xl font-semibold text-sm tracking-wide text-obsidian-900 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-br from-[#C9A96E] to-[#D4AF37]"
           >
             <span v-if="loading" class="flex items-center justify-center gap-2">
               <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">

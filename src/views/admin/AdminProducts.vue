@@ -8,8 +8,7 @@
         </div>
         <router-link
           to="/admin/products/new"
-          class="shimmer inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-obsidian-900 transition-all duration-200 hover:-translate-y-0.5 shrink-0"
-          :style="{ background: 'linear-gradient(135deg, #C9A96E, #D4AF37)' }"
+          class="shimmer inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm text-obsidian-900 transition-all duration-200 hover:-translate-y-0.5 shrink-0 bg-gradient-to-br from-[#C9A96E] to-[#D4AF37]"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
@@ -82,7 +81,7 @@
                 </td>
                 <td class="px-5 py-3">
                   <span v-if="product.hidePrice" class="text-sm text-cream-100/40 italic">По запросу</span>
-                  <span v-else class="text-sm font-heading font-semibold text-gold-400">{{ product.price?.toLocaleString() }} ?</span>
+                  <span v-else class="text-sm font-heading font-semibold text-gold-400">{{ product.price?.toLocaleString() }} ₸</span>
                 </td>
                 <td class="px-5 py-3 hidden sm:table-cell">
                   <button
@@ -169,8 +168,9 @@ function getCategoryName(slug) {
 }
 
 function toggleHidePrice(product) {
-  adminStore.updateProduct(product.id, { hidePrice: !product.hidePrice })
-  toast.success(product.hidePrice ? 'Цена отображается' : 'Цена скрыта')
+  const nowHidden = !product.hidePrice
+  adminStore.updateProduct(product.id, { hidePrice: nowHidden })
+  toast.success(nowHidden ? 'Цена скрыта' : 'Цена отображается')
 }
 
 function handleDelete(product) {

@@ -47,7 +47,7 @@
           >
             <div class="flex items-start justify-between gap-4 mb-7">
               <div class="w-14 h-14 rounded-[1.15rem] border border-gold-400/14 bg-gold-400/6 p-2.5">
-                <img :src="cat.image" :alt="cat.name" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" />
+                <img :src="cat.image" :alt="cat.name" loading="lazy" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" />
               </div>
               <span class="text-[10px] uppercase tracking-[0.18em] text-gold-300/70">
                 {{ String(i + 1).padStart(2, '0') }}
@@ -124,7 +124,7 @@
 
           <div class="grid gap-4" v-reveal="0.1">
             <div v-for="feature in features" :key="feature.title" class="feature-card">
-              <div class="w-12 h-12 rounded-[1rem] border border-gold-400/12 bg-gold-400/7 flex items-center justify-center shrink-0 text-gold-300" v-html="feature.icon"></div>
+              <div class="w-12 h-12 rounded-[1rem] border border-gold-400/12 bg-gold-400/7 flex items-center justify-center shrink-0 text-gold-300"><component :is="feature.icon" /></div>
               <div>
                 <h3 class="font-heading text-2xl text-cream-100">{{ feature.title }}</h3>
                 <p class="text-sm text-cream-100/58 leading-relaxed mt-2">{{ feature.desc }}</p>
@@ -159,21 +159,25 @@
 </template>
 
 <script setup>
-import catalog from '../data/catalog.json'
+import { computed, h } from 'vue'
 import HeroSlider from '../components/HeroSlider.vue'
 import ProductCard from '../components/ProductCard.vue'
 import ApplicationExamples from '../components/ApplicationExamples.vue'
 import ContactForm from '../components/ContactForm.vue'
 import { useSeo } from '../composables/useSeo'
+import { useSchemaOrg, schemaOrganization } from '../composables/useSchemaOrg.js'
+import { useProductStore } from '../stores/products'
 
 useSeo(
   'Кованые элементы в Астане',
   'Декоративные кованые элементы, узоры, балясины и комплектующие с продажей и поставкой в Астане и по Казахстану.'
 )
 
-const categories = catalog.categories
-const featuredCategories = catalog.categories.slice(0, 8)
-const popularProducts = catalog.products.filter(p => p.badge).slice(0, 6)
+useSchemaOrg(schemaOrganization)
+
+const productStore = useProductStore()
+const featuredCategories = computed(() => productStore.categories.slice(0, 8))
+const popularProducts = computed(() => productStore.allProducts.filter(p => p.badge).slice(0, 6))
 
 const atelierStats = [
   { value: '60+', label: 'позиций в каталоге' },
@@ -196,24 +200,30 @@ const principles = [
 
 const features = [
   {
-    icon: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17l-5.1-5.1m0 0L11.42 4.97m-5.1 5.1H21"/></svg>',
+    icon: () => h('svg', { class: 'w-5 h-5', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24', 'stroke-width': '1.5' }, [
+      h('path', { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', d: 'M11.42 15.17l-5.1-5.1m0 0L11.42 4.97m-5.1 5.1H21' })
+    ]),
     title: 'Продажа и поставка',
     desc: 'Работаем как поставщик по Астане и Казахстану: держим акцент на понятном каталоге, подборе позиций и аккуратной подаче.',
   },
   {
-    icon: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>',
+    icon: () => h('svg', { class: 'w-5 h-5', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24', 'stroke-width': '1.5' }, [
+      h('path', { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', d: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z' })
+    ]),
     title: 'Премиальное ощущение',
     desc: 'Даже утилитарные позиции в каталоге поданы как часть мастерской среды, а не как случайный прайс-лист.',
   },
   {
-    icon: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h.008M21 12.75H3.375m0 0V5.625A1.125 1.125 0 014.5 4.5h15A1.875 1.875 0 0121.375 6.375v8.25"/></svg>',
+    icon: () => h('svg', { class: 'w-5 h-5', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24', 'stroke-width': '1.5' }, [
+      h('path', { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', d: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h.008M21 12.75H3.375m0 0V5.625A1.125 1.125 0 014.5 4.5h15A1.875 1.875 0 0121.375 6.375v8.25' })
+    ]),
     title: 'Под проект и доставку',
     desc: 'Сайт помогает не только выбрать элемент, но и быстро перейти к обсуждению объёма, задач и комплектации.',
   },
 ]
 
 function getProductCount(slug) {
-  return catalog.products.filter(p => p.categorySlug === slug).length
+  return productStore.categoryProductCount.get(slug) || 0
 }
 </script>
 

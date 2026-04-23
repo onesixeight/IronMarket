@@ -9,7 +9,13 @@
           @click="$emit('close')"
         ></button>
         <div class="relative z-10 max-w-5xl max-h-[90vh] p-4" @click.stop>
-          <button @click="$emit('close')" class="absolute -top-1 -right-1 p-2 bg-cream-50/10 hover:bg-cream-50/20 rounded-xl text-cream-100 transition-colors">
+          <button
+            ref="closeBtn"
+            type="button"
+            aria-label="Закрыть"
+            @click="$emit('close')"
+            class="absolute -top-1 -right-1 p-2 bg-cream-50/10 hover:bg-cream-50/20 rounded-xl text-cream-100 transition-colors"
+          >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
           <img :src="src" :alt="alt" class="max-w-full max-h-[85vh] object-contain rounded-lg" />
@@ -20,17 +26,47 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { lockScroll, unlockScroll } from '../composables/useScrollLock.js'
 
 const props = defineProps({ visible: Boolean, src: String, alt: String })
 const emit = defineEmits(['close'])
+
+const closeBtn = ref(null)
+let previouslyFocused = null
 
 function onKey(e) {
   if (e.key === 'Escape') emit('close')
 }
 
+function activate() {
+  const app = document.getElementById('app')
+  if (app) app.inert = true
+  lockScroll()
+}
+
+function deactivate() {
+  const app = document.getElementById('app')
+  if (app) app.inert = false
+  unlockScroll()
+}
+
+watch(() => props.visible, (val) => {
+  if (val) {
+    previouslyFocused = document.activeElement
+    activate()
+    setTimeout(() => closeBtn.value?.focus(), 0)
+  } else {
+    deactivate()
+    previouslyFocused?.focus()
+  }
+})
+
 onMounted(() => document.addEventListener('keydown', onKey))
-onUnmounted(() => document.removeEventListener('keydown', onKey))
+onUnmounted(() => {
+  document.removeEventListener('keydown', onKey)
+  deactivate()
+})
 </script>
 
 <style scoped>

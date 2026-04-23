@@ -1,22 +1,27 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { loadStorage, saveStorage } from '../composables/useStorage.js'
 
 export const useCartStore = defineStore('cart', () => {
-  const items = ref(JSON.parse(localStorage.getItem('cart-items') || '[]'))
+  const items = ref(loadStorage('cart-items', []))
 
   const totalItems = computed(() =>
     items.value.reduce((sum, item) => sum + item.quantity, 0)
   )
 
   const totalPrice = computed(() =>
-    items.value.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    items.value.reduce((sum, item) => {
+      if (item.hidePrice) return sum
+      return sum + (item.price || 0) * item.quantity
+    }, 0)
   )
 
   function save() {
-    localStorage.setItem('cart-items', JSON.stringify(items.value))
+    saveStorage('cart-items', items.value)
   }
 
   function addItem(product, quantity = 1) {
+    quantity = Number(quantity) || 1
     const existing = items.value.find(i => i.id === product.id)
     if (existing) {
       existing.quantity += quantity
@@ -28,6 +33,7 @@ export const useCartStore = defineStore('cart', () => {
         image: product.image,
         slug: product.slug,
         quantity,
+        hidePrice: product.hidePrice || false,
       })
     }
     save()

@@ -2,11 +2,7 @@
   <div>
     <div class="py-10">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <nav class="flex items-center gap-2 text-sm text-obsidian-500 mb-10">
-          <router-link to="/" class="hover:text-gold-400 transition-colors">Главная</router-link>
-          <span class="text-obsidian-600">/</span>
-          <span class="text-cream-100">О компании</span>
-        </nav>
+        <AppBreadcrumb :items="[{ to: '/', label: 'Главная' }, { label: 'О компании' }]" />
 
         <div class="text-center mb-16" v-reveal>
           <h1 class="ornament-line font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-cream-50 mb-6">О компании</h1>
@@ -23,7 +19,7 @@
             v-reveal="i * 0.08"
           >
             <div class="font-heading text-4xl lg:text-5xl font-bold text-gold-400 mb-3">{{ s.value }}</div>
-            <div class="text-xs text-cream-100/50 uppercase tracking-widest font-medium">{{ s.label }}</div>
+            <div class="text-xs text-cream-100/60 uppercase tracking-widest font-medium">{{ s.label }}</div>
           </div>
         </div>
       </div>
@@ -64,7 +60,7 @@
               <span class="text-gold-400" v-html="v.icon"></span>
             </div>
             <h3 class="font-heading text-lg font-bold text-cream-50 mb-3 group-hover:text-gold-300 transition-colors">{{ v.title }}</h3>
-            <p class="text-sm text-cream-100/50 leading-relaxed">{{ v.desc }}</p>
+            <p class="text-sm text-cream-100/60 leading-relaxed">{{ v.desc }}</p>
           </div>
         </div>
       </div>
@@ -74,7 +70,7 @@
       <div class="absolute inset-0 opacity-[0.03]" style="background-image: repeating-linear-gradient(-45deg, transparent, transparent 30px, currentColor 30px, currentColor 31px);"></div>
       <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center" v-reveal>
         <h2 class="font-heading text-3xl sm:text-4xl font-bold text-cream-50 mb-4">Свяжитесь с нами</h2>
-        <p class="text-cream-100/50 mb-10 text-[15px]">Оставьте заявку и мы перезвоним в ближайшее время</p>
+        <p class="text-cream-100/60 mb-10 text-[15px]">Оставьте заявку и мы перезвоним в ближайшее время</p>
         <div class="bg-obsidian-800/80 backdrop-blur-md border border-obsidian-600/50 rounded-2xl p-8 shadow-2xl">
           <ContactForm
             button-text="Отправить заявку"
@@ -91,6 +87,7 @@
 <script setup>
 import ContactForm from '../components/ContactForm.vue'
 import { useSeo } from '../composables/useSeo'
+import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 useSeo('О компании', 'Продажа и поставка декоративных кованых элементов в Астане и по Казахстану. Помогаем с подбором позиций под объект и объём заказа.')
 
 const stats = [

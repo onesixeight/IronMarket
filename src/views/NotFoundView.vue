@@ -1,11 +1,11 @@
 <template>
   <div class="min-h-[70vh] flex items-center justify-center">
     <div class="text-center animate-fade-up px-4">
-      <div class="font-heading text-[8rem] sm:text-[10rem] lg:text-[12rem] font-bold text-gold-400 leading-none mb-4" style="text-shadow: 0 0 80px rgba(201,150,59,0.15);">
+      <div class="font-heading text-[8rem] sm:text-[10rem] lg:text-[12rem] font-bold text-gold-400 leading-none mb-4 drop-shadow-[0_0_80px_rgba(201,150,59,0.15)]">
         404
       </div>
       <h1 class="font-heading text-2xl sm:text-3xl font-bold text-cream-50 mb-4">Страница не найдена</h1>
-      <p class="text-cream-100/50 mb-10 text-[15px] max-w-md mx-auto">
+      <p class="text-cream-100/60 mb-10 text-[15px] max-w-md mx-auto">
         Запрашиваемая страница не существует или была удалена. Попробуйте вернуться на главную.
       </p>
       <div class="flex items-center justify-center gap-4 flex-wrap">
@@ -21,3 +21,8 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { useSeo } from '../composables/useSeo'
+useSeo('Страница не найдена', 'Запрашиваемая страница не существует или была удалена.')
+</script>

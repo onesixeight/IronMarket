@@ -1,11 +1,7 @@
 <template>
   <div class="py-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <nav class="flex items-center gap-2 text-sm text-obsidian-500 mb-10">
-        <router-link to="/" class="hover:text-gold-400 transition-colors">Главная</router-link>
-        <span class="text-obsidian-600">/</span>
-        <span class="text-cream-100">Избранное</span>
-      </nav>
+      <AppBreadcrumb :items="[{ to: '/', label: 'Главная' }, { label: 'Избранное' }]" />
 
       <div class="text-center mb-14" v-reveal>
         <h1 class="ornament-line font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-cream-50 mb-6">Избранное</h1>
@@ -21,7 +17,7 @@
           </svg>
         </div>
         <h2 class="font-heading text-2xl font-bold text-cream-50 mb-3">Список избранного пуст</h2>
-        <p class="text-cream-100/50 mb-8 text-[15px]">Нажмите сердечко на товаре, чтобы добавить</p>
+        <p class="text-cream-100/60 mb-8 text-[15px]">Нажмите сердечко на товаре, чтобы добавить</p>
         <router-link to="/catalog" class="shimmer inline-flex items-center gap-2 bg-gradient-to-r from-gold-500 to-gold-400 text-obsidian-900 px-8 py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all duration-300 hover:shadow-lg hover:shadow-gold-500/25">
           Перейти в каталог
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
@@ -51,6 +47,7 @@
 import { useWishlistStore } from '../stores/wishlist'
 import ProductCard from '../components/ProductCard.vue'
 import { useSeo } from '../composables/useSeo'
+import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 
 useSeo('Избранное', 'Список избранных товаров')
 
