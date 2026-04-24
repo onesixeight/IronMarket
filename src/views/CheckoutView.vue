@@ -298,7 +298,8 @@ const deliveryOptions = [
 
 const paymentOptions = [
   { value: 'cash', label: 'Наличные', desc: 'Оплата при получении или самовывозе' },
-  { value: 'card', label: 'Банковская карта', desc: 'Оплата картой онлайн' },
+  // Enable after connecting a real payment gateway.
+  // { value: 'card', label: 'Банковская карта', desc: 'Оплата картой онлайн' },
   { value: 'transfer', label: 'Банковский перевод', desc: 'Перевод на расчётный счёт' },
 ]
 

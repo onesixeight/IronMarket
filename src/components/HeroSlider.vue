@@ -21,7 +21,7 @@
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(201,150,59,0.18),transparent_28%)]"></div>
     </div>
 
-    <div class="absolute inset-0 z-20 pointer-events-none opacity-[0.05]" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 42px, rgba(201,150,59,0.14) 42px, rgba(201,150,59,0.14) 43px);"></div>
+    <div class="hero-pattern absolute inset-0 z-20 pointer-events-none opacity-[0.05]"></div>
     <div class="absolute inset-0 z-20 pointer-events-none bg-[linear-gradient(180deg,transparent_72%,rgba(6,5,4,0.88)_100%)]"></div>
 
     <div class="relative z-30 flex min-h-full items-center pt-24 pb-28 sm:pt-28 sm:pb-32 lg:pt-32 lg:pb-36">
@@ -133,7 +133,7 @@ const slides = [
     panelText: 'Подскажем по сочетанию элементов, ритму рисунка и комплектованию заказа под реальные размеры и задачи.',
     points: [
       'Подбор декоративных элементов под стиль объекта',
-      'Комплектация частных и дилерских заказов',
+      'Комплектация заказов по всему Казахстану',
       'Понятная консультация по материалам и объёму',
     ],
     facts: [
@@ -165,15 +165,15 @@ const slides = [
     tag: 'Комплектация объектов',
     title: 'Надёжная база для проектов, где важны ритм и качество.',
     subtitle: 'Поставляем декоративные элементы и комплектующие партиями, чтобы вы могли быстро собрать проект без визуального шума и компромиссов.',
-    panelTitle: 'Подходит для монтажников, дилеров и мастерских.',
+    panelTitle: 'Подходит для монтажников, мастерских и частных заказчиков.',
     panelText: 'Если нужен не один элемент, а понятный набор под проект, поможем собрать рабочую спецификацию.',
     points: [
-      'Партии под монтаж и дилерские продажи',
+      'Партии под монтаж и частные заказы',
       'Быстрая ориентация по каталогу и материалам',
       'Аккуратный визуальный язык без случайных решений',
     ],
     facts: [
-      { value: 'B2B', label: 'для партнёров' },
+      { value: 'KZ', label: 'по Казахстану' },
       { value: 'DIY', label: 'для частных задач' },
       { value: '24/7', label: 'каталог онлайн' },
     ],
@@ -220,6 +220,10 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.hero-pattern {
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 42px, rgba(201,150,59,0.14) 42px, rgba(201,150,59,0.14) 43px);
+}
+
 .hero-zoom {
   animation: kenBurns 18s ease-out forwards;
 }

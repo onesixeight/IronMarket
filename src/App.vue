@@ -19,9 +19,6 @@
     </main>
 
     <AppFooter />
-    <Transition name="slide">
-      <CartDrawer v-if="cartOpen" @close="cartOpen = false" />
-    </Transition>
     <ToastContainer />
     <ScrollTop />
     <FloatingMessenger />
@@ -29,16 +26,12 @@
 </template>
 
 <script setup>
-import { ref, provide, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
-import CartDrawer from './components/CartDrawer.vue'
 import ToastContainer from './components/ToastContainer.vue'
 import ScrollTop from './components/ScrollTop.vue'
 import FloatingMessenger from './components/FloatingMessenger.vue'
-
-const cartOpen = ref(false)
-provide('cartOpen', cartOpen)
 
 onMounted(() => {
   const preloader = document.getElementById('preloader')

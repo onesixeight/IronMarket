@@ -146,6 +146,8 @@ vite.config.ts.timestamp-*
 .agents/skills/html/
 .agents/skills/tailwind-css/
 .agents/skills/vue/
+.agents/skills/security-auditor/
+.agents/skills/web-vulnerability-assessment/
 
 # Temp files
 diff.txt

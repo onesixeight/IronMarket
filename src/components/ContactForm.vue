@@ -34,34 +34,6 @@
       ></textarea>
     </div>
 
-    <div v-if="showEmail">
-      <label class="block text-sm font-medium mb-1.5 text-cream-100">Email</label>
-      <input v-model="form.email" type="email" placeholder="your@email.com" class="form-input" />
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium mb-1.5 text-cream-100">Телефон *</label>
-      <input
-        :value="form.phone"
-        type="tel"
-        placeholder="+7 (___) ___-__-__"
-        required
-        autocomplete="tel"
-        class="form-input"
-        @input="onPhoneInput"
-      />
-    </div>
-
-    <div v-if="showMessage">
-      <label class="block text-sm font-medium mb-1.5 text-cream-100">Сообщение</label>
-      <textarea
-        v-model="form.message"
-        rows="4"
-        placeholder="Расскажите, что вам нужно..."
-        class="form-input"
-      ></textarea>
-    </div>
-
     <label class="flex items-start gap-3 text-sm text-cream-100/62 leading-relaxed">
       <input type="checkbox" v-model="form.agreement" required class="mt-1 accent-gold-500" />
       <span>Даю согласие на обработку персональных данных для обратной связи по заявке.</span>

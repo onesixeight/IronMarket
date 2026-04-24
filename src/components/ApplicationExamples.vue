@@ -18,7 +18,6 @@
           v-reveal
           class="example-card group relative overflow-hidden rounded-[1.75rem] border border-gold-400/10"
           :class="index === 0 ? 'lg:col-span-2' : ''"
-          :style="{ transitionDelay: index * 0.06 + 's' }"
         >
           <div :class="index === 0 ? 'aspect-[16/9]' : 'aspect-[4/5]'" class="relative overflow-hidden">
             <img

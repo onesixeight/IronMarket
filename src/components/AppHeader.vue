@@ -38,29 +38,6 @@
           </svg>
         </button>
 
-        <router-link to="/wishlist" class="icon-button relative" aria-label="Избранное">
-          <svg class="h-[18px] w-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-          </svg>
-          <span v-if="wishlist.totalItems > 0" class="counter-pill">
-            {{ wishlist.totalItems }}
-          </span>
-        </router-link>
-
-        <button
-          ref="cartButtonRef"
-          class="icon-button relative"
-          aria-label="Корзина"
-          @click="openCart"
-        >
-          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-          </svg>
-          <span v-if="cart.totalItems > 0" class="counter-pill">
-            {{ cart.totalItems }}
-          </span>
-        </button>
-
         <button
           class="icon-button xl:hidden"
           aria-label="Меню"
@@ -141,24 +118,16 @@
 </template>
 
 <script setup>
-import { computed, inject, provide, onMounted, onUnmounted, ref, watch } from 'vue'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatPrice } from '../composables/usePrice.js'
 import { debounce } from '../composables/useDebounce.js'
 import { lockScroll, unlockScroll } from '../composables/useScrollLock.js'
 import { isTypingTarget } from '../composables/useUtils.js'
-import { useCartStore } from '../stores/cart'
 import { useProductStore } from '../stores/products'
-import { useWishlistStore } from '../stores/wishlist'
 
 const router = useRouter()
-const cart = useCartStore()
-const wishlist = useWishlistStore()
 const productStore = useProductStore()
-const cartOpen = inject('cartOpen', null)
-
-const cartButtonRef = ref(null)
-provide('cartButtonRef', cartButtonRef)
 
 const searchOpen = ref(false)
 const showDropdown = ref(false)
@@ -186,12 +155,6 @@ const searchResults = computed(() => {
   if (!searchInput.value) return []
   return productStore.searchProducts(searchInput.value).slice(0, 6)
 })
-
-function openCart() {
-  if (cartOpen && typeof cartOpen === 'object' && 'value' in cartOpen) {
-    cartOpen.value = true
-  }
-}
 
 function toggleSearch() {
   searchOpen.value = !searchOpen.value

@@ -1,6 +1,6 @@
 <template>
   <footer class="relative overflow-hidden border-t border-gold-400/10 bg-obsidian-950/72">
-    <div class="absolute inset-0 pointer-events-none opacity-[0.08]" style="background: radial-gradient(circle at 12% 0%, rgba(201,150,59,0.18), transparent 28%), radial-gradient(circle at 88% 20%, rgba(183,118,62,0.14), transparent 24%);"></div>
+    <div class="footer-glow absolute inset-0 pointer-events-none opacity-[0.08]"></div>
 
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
       <div class="surface-panel rounded-[2rem] px-6 py-8 sm:px-8 lg:px-12 lg:py-10">
@@ -49,7 +49,7 @@
             </div>
 
             <div class="mt-6 rounded-[1.25rem] border border-gold-400/12 bg-gold-400/6 p-4">
-              <div class="text-xs uppercase tracking-[0.18em] text-gold-300">Для дилеров и монтажников</div>
+              <div class="text-xs uppercase tracking-[0.18em] text-gold-300">Для монтажников и строителей</div>
               <p class="text-sm text-cream-100/62 mt-2 leading-relaxed">Подберём позиции под проект и поможем собрать удобную спецификацию.</p>
             </div>
           </div>
@@ -72,6 +72,12 @@ const year = new Date().getFullYear()
 </script>
 
 <style scoped>
+.footer-glow {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(201,150,59,0.18), transparent 28%),
+    radial-gradient(circle at 88% 20%, rgba(183,118,62,0.14), transparent 24%);
+}
+
 .footer-link {
   color: rgba(245, 240, 232, 0.58);
   transition: color 0.28s ease, transform 0.28s ease;

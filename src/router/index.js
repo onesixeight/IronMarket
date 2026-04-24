@@ -24,12 +24,12 @@ const routes = [
   {
     path: '/cart',
     name: 'Cart',
-    component: () => import('../views/CartView.vue'),
+    redirect: '/catalog',
   },
   {
     path: '/checkout',
     name: 'Checkout',
-    component: () => import('../views/CheckoutView.vue'),
+    redirect: '/contacts',
   },
   {
     path: '/thank-you',
@@ -54,7 +54,7 @@ const routes = [
   {
     path: '/wishlist',
     name: 'Wishlist',
-    component: () => import('../views/WishlistView.vue'),
+    redirect: '/catalog',
   },
   {
     path: '/:pathMatch(.*)*',

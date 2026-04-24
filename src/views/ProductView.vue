@@ -32,15 +32,6 @@
             >
               {{ product.badge }}
             </div>
-            <button
-              @click="toggleWish"
-              class="p-2 rounded-lg transition-all duration-200"
-              :class="wished ? 'bg-gold-400/15 text-gold-400' : 'bg-obsidian-800 text-obsidian-500'"
-            >
-              <svg class="w-5 h-5" :fill="wished ? 'currentColor' : 'none'" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
-              </svg>
-            </button>
           </div>
 
           <h1
@@ -90,51 +81,29 @@
             {{ product.description }}
           </p>
 
-          <div v-if="!product.hidePrice" class="flex items-center gap-4 mb-8">
-            <div
-              class="flex items-center rounded-xl overflow-hidden border border-gold-400/15"
-            >
-              <button
-                @click="qty > 1 && qty--"
-                class="px-4 py-3 text-lg transition-colors duration-200 text-cream-100/60 hover:bg-obsidian-700"
-              >
-                −
-              </button>
-              <span
-                class="px-4 py-3 font-medium min-w-[48px] text-center text-cream-100 border-x border-gold-400/15"
-              >
-                {{ qty }}
-              </span>
-              <button
-                @click="qty = Math.min(qty + 1, 99)"
-                class="px-4 py-3 text-lg transition-colors duration-200 text-cream-100/60 hover:bg-obsidian-700"
-              >
-                +
-              </button>
+          <div class="mb-8 rounded-[1.75rem] border border-gold-400/14 bg-[radial-gradient(circle_at_top_left,rgba(201,150,59,0.14),transparent_42%),linear-gradient(180deg,rgba(20,18,16,0.94),rgba(10,9,8,0.96))] p-5 sm:p-6">
+            <div class="mb-5">
+              <div class="mb-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-gold-300/70">Заявка по позиции</div>
+              <p class="text-sm leading-relaxed text-cream-100/62">
+                Отправьте запрос, и мы уточним наличие, количество, доставку и поможем собрать элементы под ваш проект.
+              </p>
             </div>
 
-            <button
-              ref="addToCartBtn"
-              @click="addToCart"
-              class="flex-1 py-3 px-8 rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] border border-gold-400 text-gold-400 bg-transparent hover:bg-gold-400 hover:text-obsidian-900"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
-              </svg>
-              В корзину
-            </button>
-          </div>
-
-          <div v-else class="mb-8">
             <router-link
               to="/contacts"
-              class="shimmer inline-flex items-center gap-2 py-3 px-8 rounded-xl font-medium transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] bg-gradient-to-br from-[#C9A96E] via-[#D4AF37] to-[#C9A96E] text-obsidian-900"
+              class="shimmer inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#C9A96E] via-[#D4AF37] to-[#C9A96E] px-8 py-3 font-medium text-obsidian-900 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
               </svg>
-              Запросить цену
+              Оставить заявку
             </router-link>
+
+            <div class="mt-5 grid gap-2 sm:grid-cols-3">
+              <div class="rounded-xl border border-gold-400/10 bg-obsidian-950/44 px-3 py-2 text-[11px] text-cream-100/52">Расчёт партии</div>
+              <div class="rounded-xl border border-gold-400/10 bg-obsidian-950/44 px-3 py-2 text-[11px] text-cream-100/52">Подбор аналогов</div>
+              <div class="rounded-xl border border-gold-400/10 bg-obsidian-950/44 px-3 py-2 text-[11px] text-cream-100/52">Доставка по KZ</div>
+            </div>
           </div>
 
           <div class="grid grid-cols-3 gap-3 text-center">
@@ -203,9 +172,6 @@
 import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useProductStore } from '../stores/products'
-import { useCartStore } from '../stores/cart'
-import { useWishlistStore } from '../stores/wishlist'
-import { useToastStore } from '../stores/toast'
 import ProductCard from '../components/ProductCard.vue'
 import ImageLightbox from '../components/ImageLightbox.vue'
 import { useSeo } from '../composables/useSeo'
@@ -214,25 +180,17 @@ import { formatPrice } from '../composables/usePrice.js'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 import RecentlyViewed from '../components/RecentlyViewed.vue'
 import { useRecentlyViewed } from '../composables/useRecentlyViewed.js'
-import { useFlyToCart } from '../composables/useFlyToCart.js'
 
 const route = useRoute()
 const { add: addRecentlyViewed } = useRecentlyViewed()
-const { flyFromElement } = useFlyToCart()
 const productStore = useProductStore()
-const cart = useCartStore()
-const wishlist = useWishlistStore()
-const toast = useToastStore()
-const qty = ref(1)
 const lightbox = ref(false)
-const addToCartBtn = ref(null)
 
 const product = computed(() => productStore.getProductById(Number(route.params.id)))
 
 watch(() => route.params.id, (id) => {
   if (id) {
     addRecentlyViewed(Number(id))
-    qty.value = 1
   }
 }, { immediate: true })
 const category = computed(() => {
@@ -246,8 +204,6 @@ const related = computed(() => {
 
 useSchemaOrg(() => schemaProduct(product))
 
-const wished = computed(() => product.value ? wishlist.isWished(product.value.id) : false)
-
 const breadcrumbItems = computed(() => {
   const items = [{ to: '/', label: 'Главная' }, { to: '/catalog', label: 'Каталог' }]
   if (product.value && category.value) {
@@ -256,22 +212,6 @@ const breadcrumbItems = computed(() => {
   }
   return items
 })
-
-function toggleWish() {
-  if (product.value) {
-    const wasWished = wished.value
-    wishlist.toggle(product.value)
-    toast.info(wasWished ? 'Удалено из избранного' : 'Добавлено в избранное')
-  }
-}
-
-function addToCart() {
-  if (product.value) {
-    cart.addItem(product.value, qty.value)
-    toast.success(`${product.value.name} — добавлен в корзину`)
-    flyFromElement(addToCartBtn.value)
-  }
-}
 
 const seoName = computed(() => product.value?.name || 'Товар не найден')
 const seoImage = computed(() => product.value?.image)

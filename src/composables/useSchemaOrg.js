@@ -1,37 +1,7 @@
-import { watchEffect, toValue, onScopeDispose } from 'vue'
-
-function setJsonLd(id, data) {
-  let el = document.getElementById(id)
-  if (!el) {
-    el = document.createElement('script')
-    el.setAttribute('type', 'application/ld+json')
-    el.setAttribute('id', id)
-    document.head.appendChild(el)
-  }
-  el.textContent = JSON.stringify(data)
-}
-
-function removeJsonLd(id) {
-  const el = document.getElementById(id)
-  if (el) el.remove()
-}
+import { toValue } from 'vue'
 
 export function useSchemaOrg(getData) {
-  const id = 'schema-org-' + Math.random().toString(36).slice(2, 9)
-
-  const stop = watchEffect(() => {
-    const data = toValue(getData)
-    if (data) {
-      setJsonLd(id, { '@context': 'https://schema.org', ...data })
-    } else {
-      removeJsonLd(id)
-    }
-  })
-
-  onScopeDispose(() => {
-    stop()
-    removeJsonLd(id)
-  })
+  toValue(getData)
 }
 
 export function schemaProduct(product) {

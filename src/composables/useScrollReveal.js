@@ -1,13 +1,11 @@
 function setupReveal(el, delay = 0, threshold = 0.1) {
-  el.style.opacity = '0'
-  el.style.transform = 'translateY(24px)'
-  el.style.transition = `opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) ${delay}s`
+  const delayClass = `reveal-delay-${Math.min(Math.max(Math.round(delay * 100), 0), 40)}`
+  el.classList.add('reveal-pending', delayClass)
 
   const observer = new IntersectionObserver(
     ([entry]) => {
       if (entry.isIntersecting) {
-        el.style.opacity = '1'
-        el.style.transform = 'translateY(0)'
+        el.classList.add('reveal-visible')
         observer.unobserve(el)
       }
     },
@@ -22,6 +20,7 @@ function teardownReveal(el) {
     el._scrollObserver.disconnect()
     delete el._scrollObserver
   }
+  el.classList.remove('reveal-pending', 'reveal-visible')
 }
 
 export function useScrollReveal() {

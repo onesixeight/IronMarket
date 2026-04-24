@@ -75,7 +75,7 @@
           </div>
 
           <div class="surface-panel rounded-[2rem] p-6 sm:p-8" v-reveal="0.12">
-            <div class="text-xs uppercase tracking-[0.18em] text-gold-300 mb-3">Для дилеров и монтажников</div>
+            <div class="text-xs uppercase tracking-[0.18em] text-gold-300 mb-3">Для монтажников и строителей</div>
             <h3 class="font-heading text-2xl text-cream-100">Если нужен не один элемент, а понятный набор под объект — это тоже к нам.</h3>
             <p class="text-sm text-cream-100/58 leading-relaxed mt-4 max-w-2xl">
               Подскажем, как собрать визуально чистую композицию и какие позиции лучше взять в связке, чтобы заказ выглядел цельно.

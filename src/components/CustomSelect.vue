@@ -16,42 +16,38 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
       </svg>
     </button>
-    <Teleport to="body">
-      <transition name="dropdown">
-        <div
-          v-if="open"
-          ref="dropdown"
-          class="fixed bg-obsidian-800 border border-obsidian-600 rounded-xl shadow-2xl shadow-black/60 py-1.5 max-h-60 overflow-y-auto"
-          :style="dropdownStyle"
-          style="z-index: 100;"
-          role="listbox"
-          :aria-activedescendant="highlightedIndex >= 0 ? `option-${highlightedIndex}` : undefined"
+    <transition name="dropdown">
+      <div
+        v-if="open"
+        ref="dropdown"
+        class="absolute left-0 right-0 top-[calc(100%+0.375rem)] z-[100] bg-obsidian-800 border border-obsidian-600 rounded-xl shadow-2xl shadow-black/60 py-1.5 max-h-60 overflow-y-auto"
+        role="listbox"
+        :aria-activedescendant="highlightedIndex >= 0 ? `option-${highlightedIndex}` : undefined"
+      >
+        <button
+          v-for="(opt, i) in options"
+          :key="String(opt.value)"
+          :id="`option-${i}`"
+          @click="select(opt)"
+          @mouseenter="highlightedIndex = i"
+          @mousemove="highlightedIndex = i"
+          role="option"
+          :aria-selected="modelValue === opt.value"
+          class="w-full px-4 py-2 text-sm text-left transition-colors"
+          :class="[
+            highlightedIndex === i ? 'bg-gold-400/15 text-gold-300' : 'text-cream-100/70',
+            modelValue === opt.value ? 'font-medium' : ''
+          ]"
         >
-          <button
-            v-for="(opt, i) in options"
-            :key="String(opt.value)"
-            :id="`option-${i}`"
-            @click="select(opt)"
-            @mouseenter="highlightedIndex = i"
-            @mousemove="highlightedIndex = i"
-            role="option"
-            :aria-selected="modelValue === opt.value"
-            class="w-full px-4 py-2 text-sm text-left transition-colors"
-            :class="[
-              highlightedIndex === i ? 'bg-gold-400/15 text-gold-300' : 'text-cream-100/70',
-              modelValue === opt.value ? 'font-medium' : ''
-            ]"
-          >
-            {{ opt.label }}
-          </button>
-        </div>
-      </transition>
-    </Teleport>
+          {{ opt.label }}
+        </button>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 
 const props = defineProps({
   options: { type: Array, required: true },
@@ -64,7 +60,6 @@ const open = ref(false)
 const trigger = ref(null)
 const buttonRef = ref(null)
 const dropdown = ref(null)
-const dropdownStyle = ref({})
 const highlightedIndex = ref(-1)
 
 const selectedLabel = computed(() => {
@@ -72,21 +67,10 @@ const selectedLabel = computed(() => {
   return opt ? opt.label : props.placeholder
 })
 
-function updatePosition() {
-  if (!trigger.value || !open.value) return
-  const rect = trigger.value.getBoundingClientRect()
-  dropdownStyle.value = {
-    top: `${rect.bottom + 6}px`,
-    left: `${rect.left}px`,
-    width: `${rect.width}px`,
-  }
-}
-
 function toggle() {
   open.value = !open.value
   if (open.value) {
     highlightedIndex.value = props.options.findIndex(o => o.value === props.modelValue)
-    nextTick(() => updatePosition())
   }
 }
 
@@ -108,7 +92,6 @@ function onTriggerKey(e) {
       open.value = true
       highlightedIndex.value = props.options.findIndex(o => o.value === props.modelValue)
       if (highlightedIndex.value < 0 && props.options.length) highlightedIndex.value = 0
-      nextTick(() => updatePosition())
     }
     return
   }
@@ -167,27 +150,12 @@ function onClickOutside(e) {
   }
 }
 
-function onScroll() {
-  if (open.value) updatePosition()
-}
-
 function onDocKey(e) {
   if (!open.value) return
   if (e.key === 'Tab') {
     closeList()
   }
 }
-
-watch(open, (val) => {
-  if (val) {
-    nextTick(() => updatePosition())
-    window.addEventListener('scroll', onScroll, true)
-    window.addEventListener('resize', onScroll)
-  } else {
-    window.removeEventListener('scroll', onScroll, true)
-    window.removeEventListener('resize', onScroll)
-  }
-})
 
 onMounted(() => {
   document.addEventListener('click', onClickOutside)
@@ -196,8 +164,6 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('click', onClickOutside)
   document.removeEventListener('keydown', onDocKey)
-  window.removeEventListener('scroll', onScroll, true)
-  window.removeEventListener('resize', onScroll)
 })
 </script>
 

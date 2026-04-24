@@ -25,6 +25,37 @@
       </div>
     </section>
 
+    <section class="section-shell py-16 lg:py-20">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:items-stretch">
+          <div class="surface-panel rounded-[2rem] p-6 sm:p-8 lg:p-10" v-reveal>
+            <div class="eyebrow mb-5">Как заказать</div>
+            <h2 class="section-title text-3xl sm:text-4xl leading-tight">Каталог показывает стиль, а точный расчёт собираем вместе.</h2>
+            <p class="section-lead mt-4 text-sm sm:text-base">
+              Для кованых элементов важны размеры, количество и задача объекта. Поэтому вместо фальшивой корзины мы ведём клиента к заявке и живому подбору.
+            </p>
+            <router-link to="/contacts" class="metal-button mt-8">Оставить заявку</router-link>
+          </div>
+
+          <div class="grid gap-4 md:grid-cols-3">
+            <article
+              v-for="(step, index) in requestSteps"
+              :key="step.title"
+              class="request-step-card"
+              v-reveal="index * 0.06"
+            >
+              <div class="mb-8 flex items-center justify-between">
+                <span class="request-step-index">{{ step.number }}</span>
+                <span class="h-px flex-1 bg-gradient-to-r from-gold-400/40 to-transparent ml-4"></span>
+              </div>
+              <h3 class="font-heading text-2xl leading-tight text-cream-100">{{ step.title }}</h3>
+              <p class="mt-4 text-sm leading-relaxed text-cream-100/58">{{ step.desc }}</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section-shell py-20 lg:py-28">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between mb-14" v-reveal>
@@ -182,7 +213,25 @@ const popularProducts = computed(() => productStore.allProducts.filter(p => p.ba
 const atelierStats = [
   { value: '60+', label: 'позиций в каталоге' },
   { value: '20+', label: 'лет в ремесле' },
-  { value: 'B2B', label: 'поддержка дилеров' },
+  { value: 'KZ', label: 'доставка по Казахстану' },
+]
+
+const requestSteps = [
+  {
+    number: '01',
+    title: 'Выберите основу',
+    desc: 'Откройте каталог или карточку товара и отметьте элементы, которые подходят по стилю и назначению.',
+  },
+  {
+    number: '02',
+    title: 'Опишите задачу',
+    desc: 'В заявке можно указать объект, примерные размеры, количество и город доставки.',
+  },
+  {
+    number: '03',
+    title: 'Получите подбор',
+    desc: 'Мы сверим позиции, предложим аналоги при необходимости и подскажем комплектацию под проект.',
+  },
 ]
 
 const principles = [
@@ -243,6 +292,50 @@ function getProductCount(slug) {
   box-shadow:
     0 24px 48px rgba(0, 0, 0, 0.42),
     0 0 24px rgba(201, 150, 59, 0.08);
+}
+
+.request-step-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+  padding: 1.5rem;
+  border-radius: 1.75rem;
+  border: 1px solid rgba(201, 150, 59, 0.12);
+  background:
+    radial-gradient(circle at 20% 0%, rgba(201, 150, 59, 0.12), transparent 36%),
+    linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(10, 9, 8, 0.98));
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.request-step-card::after {
+  content: '';
+  position: absolute;
+  inset: auto -20% -45% 20%;
+  height: 9rem;
+  border-radius: 999px;
+  background: rgba(201, 150, 59, 0.08);
+  filter: blur(34px);
+  pointer-events: none;
+}
+
+.request-step-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.request-step-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(201, 150, 59, 0.28);
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.42),
+    0 0 24px rgba(201, 150, 59, 0.08);
+}
+
+.request-step-index {
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  line-height: 1;
+  color: rgba(212, 175, 55, 0.92);
 }
 
 .feature-card {

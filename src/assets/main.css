@@ -59,6 +59,42 @@ img {
   min-height: 100vh;
 }
 
+#preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at top, rgba(201, 150, 59, 0.12), transparent 34%),
+    linear-gradient(180deg, #090807 0%, #0c0a09 100%);
+  transition: opacity 0.4s ease;
+}
+
+#preloader .preloader-mark {
+  width: 72px;
+  height: 72px;
+  display: grid;
+  place-items: center;
+  border-radius: 24px;
+  border: 1px solid rgba(201, 150, 59, 0.18);
+  background: linear-gradient(180deg, rgba(20, 18, 16, 0.92), rgba(10, 9, 8, 0.98));
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+#preloader img {
+  width: 34px;
+  height: 34px;
+  object-fit: cover;
+  animation: preloaderSpin 1.2s linear infinite;
+}
+
+@keyframes preloaderSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .site-shell {
   position: relative;
   isolation: isolate;
@@ -289,6 +325,19 @@ h1, h2, h3, h4, h5, h6 {
 .animate-fade-in { animation: fadeIn 0.6s ease both; }
 .animate-scale-in { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
+.reveal-pending {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .stagger-1 { animation-delay: 0.05s; }
 .stagger-2 { animation-delay: 0.1s; }
 .stagger-3 { animation-delay: 0.15s; }
@@ -297,6 +346,20 @@ h1, h2, h3, h4, h5, h6 {
 .stagger-6 { animation-delay: 0.3s; }
 .stagger-7 { animation-delay: 0.35s; }
 .stagger-8 { animation-delay: 0.4s; }
+
+.reveal-delay-4 { transition-delay: 0.04s; }
+.reveal-delay-5 { transition-delay: 0.05s; }
+.reveal-delay-6 { transition-delay: 0.06s; }
+.reveal-delay-8 { transition-delay: 0.08s; }
+.reveal-delay-10 { transition-delay: 0.1s; }
+.reveal-delay-12 { transition-delay: 0.12s; }
+.reveal-delay-15 { transition-delay: 0.15s; }
+.reveal-delay-16 { transition-delay: 0.16s; }
+.reveal-delay-20 { transition-delay: 0.2s; }
+.reveal-delay-25 { transition-delay: 0.25s; }
+.reveal-delay-30 { transition-delay: 0.3s; }
+.reveal-delay-35 { transition-delay: 0.35s; }
+.reveal-delay-40 { transition-delay: 0.4s; }
 
 .ornament-line {
   display: flex;

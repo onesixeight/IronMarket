@@ -22,40 +22,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <style>
-    #preloader {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background:
-        radial-gradient(circle at top, rgba(201, 150, 59, 0.12), transparent 34%),
-        linear-gradient(180deg, #090807 0%, #0c0a09 100%);
-      transition: opacity 0.4s ease;
-    }
-    #preloader .preloader-mark {
-      width: 72px;
-      height: 72px;
-      display: grid;
-      place-items: center;
-      border-radius: 24px;
-      border: 1px solid rgba(201, 150, 59, 0.18);
-      background: linear-gradient(180deg, rgba(20, 18, 16, 0.92), rgba(10, 9, 8, 0.98));
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-    }
-    #preloader img {
-      width: 34px;
-      height: 34px;
-      object-fit: cover;
-      animation: preloaderSpin 1.2s linear infinite;
-    }
-    @keyframes preloaderSpin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-  </style>
 </head>
 <body>
   <div id="preloader">

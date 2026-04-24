@@ -1,8 +1,42 @@
+const validators = {
+  'cart-items': (v) => {
+    if (!Array.isArray(v)) return false
+    return v.every(
+      (i) =>
+        typeof i.id === 'number' &&
+        typeof i.name === 'string' &&
+        typeof i.quantity === 'number' &&
+        typeof i.price === 'number'
+    )
+  },
+  'wishlist-items': (v) => {
+    if (!Array.isArray(v)) return false
+    return v.every(
+      (i) =>
+        typeof i.id === 'number' &&
+        typeof i.name === 'string' &&
+        typeof i.price === 'number'
+    )
+  },
+  'recently-viewed': (v) => {
+    if (!Array.isArray(v)) return false
+    return v.every((i) => typeof i === 'number')
+  },
+}
+
 export function loadStorage(key, fallback = null) {
   try {
     const raw = localStorage.getItem(key)
-    return raw ? JSON.parse(raw) : fallback
+    if (!raw) return fallback
+    const parsed = JSON.parse(raw)
+    const validate = validators[key]
+    if (validate && !validate(parsed)) {
+      localStorage.removeItem(key)
+      return fallback
+    }
+    return parsed
   } catch {
+    localStorage.removeItem(key)
     return fallback
   }
 }
@@ -11,6 +45,5 @@ export function saveStorage(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value))
   } catch {
-    // Silently fail in private mode or when quota is exceeded
   }
 }
