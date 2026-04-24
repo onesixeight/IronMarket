@@ -151,3 +151,4 @@ vite.config.ts.timestamp-*
 
 # Temp files
 diff.txt
+.vercel

@@ -22,8 +22,8 @@
       </nav>
 
       <div class="flex items-center gap-1 sm:gap-2">
-        <a href="tel:+77785015020" class="hidden px-4 py-2.5 text-sm lg:inline-flex metal-button">
-          +7 778 501 50 20
+        <a href="tel:+77758537092" class="hidden px-4 py-2.5 text-sm lg:inline-flex metal-button">
+          +7 775 853 70 92
         </a>
 
         <button
@@ -108,7 +108,7 @@
           <router-link v-for="item in navItems" :key="item.to" :to="item.to" class="mobile-link" @click="closeMobileMenu">
             {{ item.label }}
           </router-link>
-          <a href="tel:+77785015020" class="mt-4 text-center metal-button" @click="closeMobileMenu">+7 778 501 50 20</a>
+          <a href="tel:+77758537092" class="mt-4 text-center metal-button" @click="closeMobileMenu">+7 775 853 70 92</a>
         </nav>
       </div>
     </transition>

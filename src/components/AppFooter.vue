@@ -13,7 +13,7 @@
             </p>
 
             <div class="mt-6 flex flex-wrap gap-3">
-              <a href="tel:+77785015020" class="metal-button">+7 778 501 50 20</a>
+              <a href="tel:+77758537092" class="metal-button">+7 775 853 70 92</a>
               <router-link to="/contacts" class="metal-button-ghost">Написать нам</router-link>
             </div>
           </div>

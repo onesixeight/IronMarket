@@ -20,7 +20,7 @@
               </div>
               <div>
                 <div class="text-xs uppercase tracking-[0.18em] text-gold-300 mb-2">Телефон</div>
-                <a href="tel:+77785015020" class="text-cream-100 text-lg font-semibold hover:text-gold-300 transition-colors">+7 778 501 50 20</a>
+                <a href="tel:+77758537092" class="text-cream-100 text-lg font-semibold hover:text-gold-300 transition-colors">+7 775 853 70 92</a>
                 <p class="text-sm text-cream-100/48 mt-2">Быстро подскажем по наличию, количеству и подбору позиций.</p>
               </div>
             </div>
