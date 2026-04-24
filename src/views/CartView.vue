@@ -109,7 +109,7 @@ import CartItem from '../components/CartItem.vue'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 import ProductCard from '../components/ProductCard.vue'
 
-useSeo('Корзина', 'Ваша корзина покупок')
+useSeo('Корзина', 'Ваша корзина покупок', null, { noindex: true })
 
 const cart = useCartStore()
 const productStore = useProductStore()

@@ -1,7 +1,32 @@
-import { toValue } from 'vue'
+import { toValue, watchEffect, onScopeDispose } from 'vue'
+
+let schemaScript = null
+
+function getSchemaScript() {
+  if (schemaScript) return schemaScript
+  schemaScript = document.querySelector('script[type="application/ld+json"]')
+  if (!schemaScript) {
+    schemaScript = document.createElement('script')
+    schemaScript.type = 'application/ld+json'
+    document.head.appendChild(schemaScript)
+  }
+  return schemaScript
+}
 
 export function useSchemaOrg(getData) {
-  toValue(getData)
+  const stop = watchEffect(() => {
+    const data = toValue(getData)
+    const script = getSchemaScript()
+    if (data) {
+      script.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        ...data,
+      })
+    } else {
+      script.textContent = ''
+    }
+  })
+  onScopeDispose(stop)
 }
 
 export function schemaProduct(product) {

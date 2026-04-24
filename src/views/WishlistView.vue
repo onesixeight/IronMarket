@@ -49,7 +49,7 @@ import ProductCard from '../components/ProductCard.vue'
 import { useSeo } from '../composables/useSeo'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 
-useSeo('Избранное', 'Список избранных товаров')
+useSeo('Избранное', 'Список избранных товаров', null, { noindex: true })
 
 const wishlist = useWishlistStore()
 

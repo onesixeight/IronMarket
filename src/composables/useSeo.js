@@ -1,6 +1,7 @@
 import { watchEffect, toValue, onScopeDispose } from 'vue'
 
 let cachedMetaDesc = null
+let cachedMetaRobots = null
 
 function getMetaDesc() {
   if (cachedMetaDesc) return cachedMetaDesc
@@ -11,6 +12,17 @@ function getMetaDesc() {
     document.head.appendChild(cachedMetaDesc)
   }
   return cachedMetaDesc
+}
+
+function getMetaRobots() {
+  if (cachedMetaRobots) return cachedMetaRobots
+  cachedMetaRobots = document.querySelector('meta[name="robots"]')
+  if (!cachedMetaRobots) {
+    cachedMetaRobots = document.createElement('meta')
+    cachedMetaRobots.setAttribute('name', 'robots')
+    document.head.appendChild(cachedMetaRobots)
+  }
+  return cachedMetaRobots
 }
 
 function setOrCreateMeta(property, content) {
@@ -33,7 +45,7 @@ function setOrCreateMetaName(name, content) {
   el.setAttribute('content', content || '')
 }
 
-export function useSeo(title, description, image) {
+export function useSeo(title, description, image, { noindex = false } = {}) {
   const stop = watchEffect(() => {
     const t = toValue(title)
     const d = toValue(description)
@@ -49,6 +61,8 @@ export function useSeo(title, description, image) {
       'content',
       d || 'Кованые элементы, узоры, балясины и комплектующие с продажей и поставкой в Астане и по Казахстану.'
     )
+
+    getMetaRobots().setAttribute('content', noindex ? 'noindex, nofollow' : 'index, follow')
 
     setOrCreateMeta('og:title', t || 'Эталон Ковка — кованые элементы в Астане')
     setOrCreateMeta('og:description', d || 'Каталог кованых элементов, узоров и комплектующих с подбором и поставкой по Астане и Казахстану.')

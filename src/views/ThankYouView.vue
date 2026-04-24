@@ -45,6 +45,6 @@
 import { useSeo } from '../composables/useSeo'
 import { useSchemaOrg, schemaOrganization } from '../composables/useSchemaOrg.js'
 
-useSeo('Заказ оформлен', 'Спасибо за заказ. Мы свяжемся с вами в ближайшее время.')
+useSeo('Заказ оформлен', 'Спасибо за заказ. Мы свяжемся с вами в ближайшее время.', null, { noindex: true })
 useSchemaOrg(schemaOrganization)
 </script>

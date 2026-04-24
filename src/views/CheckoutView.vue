@@ -248,7 +248,7 @@ import { validateCheckout } from '../composables/useCheckoutSchema.js'
 import { formatPrice } from '../composables/usePrice.js'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 
-useSeo('Оформление заказа', 'Оформление заказа на кованые изделия')
+useSeo('Оформление заказа', 'Оформление заказа на кованые изделия', null, { noindex: true })
 
 const router = useRouter()
 const cart = useCartStore()

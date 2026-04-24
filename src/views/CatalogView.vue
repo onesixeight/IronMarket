@@ -52,7 +52,7 @@
         </router-link>
       </div>
 
-      <div class="mb-8" v-reveal>
+      <div class="relative z-20 mb-8" v-reveal>
         <div class="flex flex-wrap items-center gap-3">
           <div class="flex-1 min-w-[200px]">
             <div class="relative">
