@@ -1,23 +1,4 @@
 const validators = {
-  'cart-items': (v) => {
-    if (!Array.isArray(v)) return false
-    return v.every(
-      (i) =>
-        typeof i.id === 'number' &&
-        typeof i.name === 'string' &&
-        typeof i.quantity === 'number' &&
-        typeof i.price === 'number'
-    )
-  },
-  'wishlist-items': (v) => {
-    if (!Array.isArray(v)) return false
-    return v.every(
-      (i) =>
-        typeof i.id === 'number' &&
-        typeof i.name === 'string' &&
-        typeof i.price === 'number'
-    )
-  },
   'recently-viewed': (v) => {
     if (!Array.isArray(v)) return false
     return v.every((i) => typeof i === 'number')

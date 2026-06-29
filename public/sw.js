@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ironmarket-pwa-v1'
+const CACHE_NAME = 'etalon-pwa-v2'
 const APP_SHELL = [
   '/',
   '/manifest.webmanifest',

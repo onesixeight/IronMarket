@@ -1,62 +1,54 @@
-# Эталон Ковка — Интернет-магазин кованых изделий
+# Эталон Ковка — витрина кованых изделий
 
-Премиальный интернет-магазин декоративных кованых изделий с тёмным люкс-дизайном.
+Премиальная витрина декоративных кованых изделий с тёмным люкс-дизайном. Сайт работает как **витрина-лидогенератор**: пользователь подбирает элементы в каталоге и отправляет заявку напрямую в WhatsApp/Telegram, оплата — через Kaspi после согласования.
 
 ## Стек
 
-- **Vue 3** (Composition API, script setup)
+- **Vue 3** (Composition API, `<script setup>`)
 - **Pinia** (state management)
-- **Tailwind CSS 4** (utility-first + @theme переменные)
-- **Vite** (сборка)
+- **Vue Router 4** (history mode, lazy-загрузка роутов)
+- **Tailwind CSS 4** (utility-first + `@theme` переменные)
+- **Vite 6** (сборка)
+- **PWA** — `manifest.webmanifest` + service worker
 
 ## Установка и запуск
 
 ```bash
 npm install
 npm run dev      # dev-сервер на localhost:5173
-npm run build    # production-сборка в dist/
+npm run build    # production-сборка в dist/ (перед сборкой генерируется sitemap.xml)
 npm run preview  # предпросмотр production-сборки
+npm test         # регрессионные тесты (node --test)
 ```
 
 ## Функционал
 
 ### Каталог
-- 10 категорий кованых изделий
-- 60+ товаров с фото, ценой, описанием, материалом
+- **10 категорий**, **172 товара** с фото, ценой, материалом, описанием, размерами и весом
 - Фильтрация по категории, цене, названию
-- Поиск по каталогу
+- Поиск по каталогу (в шапке + на странице каталога)
 - Пагинация (20 товаров на страницу)
+- Часть позиций — «Цена по запросу» (`hidePrice`)
 
-### Корзина и оформление
-- Добавление в корзину с количеством
-- Боковая выдвижная корзина (CartDrawer)
-- Страница корзины с управлением количеством
-- Оформление заказа: контактные данные, доставка, оплата
-- **Оформление через WhatsApp** — предзаполненное сообщение с составом заказа
-- **Оформление через Telegram** — аналогично
+### Заявки и оплата
+Сайт НЕ содержит онлайн-корзины и онлайн-оплаты — всё через мессенджеры:
+- **Заявка по товару** → WhatsApp / Telegram с предзаполненным сообщением
+- **Форма на странице контактов** → предзаполняется из `?product=<id>`
+- **Оплата через Kaspi** — после подтверждения наличия, количества и доставки
+- `/cart`, `/checkout`, `/wishlist` редиректят на каталог/контакты (сохранили SEO-чистоту и внешние ссылки)
 
-### Избранное
-- Добавление/удаление товаров в избранное
-- Отдельная страница избранного
-
-### Блок «Способы применения»
-- 5 фото-примеров: перила, заборы, балконы, решётки, ворота
-- Premium hover-эффекты с overlay
-
-### Админ-панель (`/admin`)
-- Авторизация по паролю (SHA-256 хеширование)
-- Дашборд со статистикой
-- CRUD товаров: добавление, редактирование, удаление
-- Скрытие цены (hidePrice) — клиент видит «Цена по запросу»
-- Данные хранятся в localStorage
+### Прочее
+- Блок «Способы применения» — 5 фото-примеров с hover-эффектами
+- Недавно просмотренные товары (`localStorage`)
+- SEO: динамические `<title>`/`description`, canonical, JSON-LD (Product/Organization/ItemList), `sitemap.xml`, `robots.txt`
+- Доступность: skip-link, ARIA-атрибуты, `prefers-reduced-motion`
+- Плавающий блок мессенджеров + нижняя мобильная навигация
 
 ### Дизайн
 - Тёмный люкс: угольный фон + золотые акценты
-- Shimmer-эффект на CTA-кнопках и бейджах
+- Shimmer-эффекты на CTA и бейджах
 - Cinzel (заголовки) + Manrope (текст)
-- Ornamental dividers
-- Scroll-анимации (v-reveal)
-- Glassmorphism элементы
+- Ornamental dividers, glassmorphism, scroll-анимации (`v-reveal`)
 
 ## Структура
 
@@ -64,24 +56,35 @@ npm run preview  # предпросмотр production-сборки
 src/
 ├── assets/main.css            # Дизайн-система
 ├── components/                # Vue-компоненты
-├── composables/               # Composables (SEO, phone mask, messenger)
-├── data/catalog.json          # Каталог товаров
+├── composables/               # Composables (SEO, messenger, phone mask, schema)
+├── config/site.js             # SITE_ORIGIN, хелперы URL
+├── data/catalog.json          # Каталог товаров (единственный источник данных)
 ├── router/index.js            # Маршруты
-├── stores/                    # Pinia stores
-└── views/                     # Страницы (+ admin/)
+├── stores/                    # Pinia stores (products, toast)
+└── views/                     # Страницы
+public/
+├── images/                    # Изображения (products, hero, branding, examples)
+├── icons/                     # PWA-иконки, favicon
+├── manifest.webmanifest       # PWA-манифест
+├── sw.js                      # Service worker
+├── sitemap.xml / robots.txt   # Генерируются скриптом при build
+└── _redirects                 # SPA-fallback для хостинга
+scripts/
+├── generate-sitemap.mjs       # prebuild: sitemap.xml + robots.txt
+└── import-bizzon-catalog.mjs  # импорт каталога из источника bizzon
 ```
 
 ## Настройка
 
-### Мессенджеры
-В `src/composables/useMessengerOrder.js` замени плейсхолдеры:
-```js
-const WHATSAPP_PHONE = '70000000000'    // → реальный номер
-const TELEGRAM_USERNAME = 'etalonkovka' // → реальный username
-```
+### Контакты и мессенджеры
+Контакты заданы централизованно и должны совпадать во всех местах:
+- `src/composables/messengerConfig.js` — `WHATSAPP_PHONE`, `TELEGRAM_USERNAME`
+- `src/components/AppFooter.vue` и `src/views/ContactsView.vue` — телефон, email, адрес
+- `src/config/site.js` — `SITE_ORIGIN` (для canonical/sitemap/OG)
 
-### Админ-панель
-Пароль по умолчанию: `admin123`. Хранится как SHA-256 хеш в `src/stores/admin.js`.
+Текущие значения: телефон `+7 775 853 70 92`, email `etalonkovka@mail.ru`, Telegram `@etalonkovka`.
 
-### Контакты
-Обнови телефон, email и адрес в `AppFooter.vue` и `ContactsView.vue`.
+### Каталог товаров
+Единственный источник — `src/data/catalog.json`. После правок запустите `npm run build` (prebuild перегенерирует `sitemap.xml`).
+
+> ⚠️ У админ-панели на сайте **нет**. Не существует пароля по умолчанию. Все упоминания админки/`admin123` в старых материалах устарели и удалены.

@@ -154,3 +154,11 @@ vercel.project.json
 # Temp files
 diff.txt
 .vercel
+
+# Local backup (image optimization)
+src/data/catalog.json.bak
+public/images.bak/
+*.bak
+
+# Local verification screenshots
+*.jpeg
