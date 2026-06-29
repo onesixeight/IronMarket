@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import sharp from 'sharp'
 
 const BASE_URL = 'https://bizzon.pro'
 const OUTPUT_JSON = path.resolve('src/data/catalog.json')
@@ -189,11 +190,6 @@ function extractDetail(html) {
   }
 }
 
-function extFromImageHref(imageHref) {
-  const cleanPath = imageHref.split('?')[0]
-  return path.extname(cleanPath) || '.jpg'
-}
-
 async function ensureDir(dir) {
   await fs.mkdir(dir, { recursive: true })
 }
@@ -236,7 +232,9 @@ async function main() {
       const detail = extractDetail(detailHtml)
       const imageHref = detail.imageHref || card.previewImage
       const imageUrl = new URL(imageHref, BASE_URL).toString()
-      const filename = `${card.slug}${extFromImageHref(imageHref)}`
+      // Конвертируем в WebP при скачивании, чтобы реимпорт каталога
+      // не откатывал оптимизацию изображений.
+      const filename = `${card.slug}.webp`
       const imagePath = path.join(IMAGE_DIR, filename)
       const publicImagePath = `/images/products/bizzon/${filename}`
 
@@ -246,7 +244,12 @@ async function main() {
         downloadedImages.set(imageUrl, imageBuffer)
       }
 
-      await fs.writeFile(imagePath, imageBuffer)
+      // Конверсия в WebP (quality 82) поверх исходного буфера.
+      const webpBuffer = await sharp(imageBuffer)
+        .webp({ quality: 82, effort: 4 })
+        .toBuffer()
+
+      await fs.writeFile(imagePath, webpBuffer)
 
       const kzPrice = Number(card.prices.kz ?? 0)
       const ruPrice = Number(card.prices.ru ?? card.mainPrice ?? 0)
