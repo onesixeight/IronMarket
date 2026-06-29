@@ -1,11 +1,15 @@
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { mkdirSync, writeFileSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { SITE_ORIGIN, toSiteUrl } from '../src/config/site.js'
-import catalog from '../src/data/catalog.json' with { type: 'json' }
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+// JSON грузим через readFileSync вместо static import с атрибутом
+// 'with { type: "json" }' — это совместимо с любой версией Node (включая
+// Node 18/20 на CI/хостингах, где import attributes могут не поддерживаться).
+const catalog = JSON.parse(readFileSync(resolve(projectRoot, 'src/data/catalog.json'), 'utf8'))
+
 const publicDir = resolve(projectRoot, 'public')
 const today = new Date().toISOString().slice(0, 10)
 

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import catalog from '../data/catalog.json' with { type: 'json' }
+import catalog from '../data/catalog.json'
 
 export const useProductStore = defineStore('products', () => {
   const categories = ref(catalog.categories)
