@@ -140,14 +140,16 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# AI agent skills (local only)
-.agents/skills/css/
-.agents/skills/developer/
-.agents/skills/html/
-.agents/skills/tailwind-css/
-.agents/skills/vue/
-.agents/skills/security-auditor/
-.agents/skills/web-vulnerability-assessment/
+# AI agent/tooling files (local only)
+.agents/
+.roo/
+skills/
+docs/superpowers/
+CONTEXT.md
+SKILL.md
+opencode.jsonc
+skills-lock.json
+vercel.project.json
 
 # Temp files
 diff.txt
