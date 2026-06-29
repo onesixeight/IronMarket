@@ -1,27 +1,39 @@
 <template>
   <section
+    aria-label="Главный слайдер"
+    aria-roledescription="carousel"
     class="relative min-h-[560px] sm:min-h-[640px] lg:min-h-[780px] xl:h-[92vh] xl:max-h-[980px] overflow-hidden"
-    @mouseenter="pause"
-    @mouseleave="resume"
+    @mouseenter="pauseForPointer"
+    @mouseleave="resumeAfterPointer"
+    @focusin="pauseForFocus"
   >
     <div
       v-for="(slide, i) in slides"
       :key="slide.title"
       class="absolute inset-0 transition-opacity duration-1000 ease-in-out"
       :class="current === i ? 'opacity-100 z-10' : 'opacity-0 z-0'"
+      role="group"
+      aria-roledescription="slide"
+      :aria-label="`${i + 1} из ${slides.length}: ${slide.tag}`"
+      :aria-hidden="current !== i"
     >
       <img
         :src="slide.image"
         :alt="slide.title"
         class="w-full h-full object-cover"
-        :class="current === i ? 'hero-zoom' : ''"
+        :class="current === i && isHeroMotionReady ? 'hero-image-breathe' : ''"
         :loading="i === 0 ? 'eager' : 'lazy'"
+        :fetchpriority="i === 0 ? 'high' : undefined"
+        decoding="async"
+        width="1536"
+        height="1024"
       />
       <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,5,4,0.94)_0%,rgba(6,5,4,0.72)_45%,rgba(6,5,4,0.44)_100%)]"></div>
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(201,150,59,0.18),transparent_28%)]"></div>
     </div>
 
     <div class="hero-pattern absolute inset-0 z-20 pointer-events-none opacity-[0.05]"></div>
+    <div class="hero-light-sweep absolute inset-0 z-20 pointer-events-none"></div>
     <div class="absolute inset-0 z-20 pointer-events-none bg-[linear-gradient(180deg,transparent_72%,rgba(6,5,4,0.88)_100%)]"></div>
 
     <div class="relative z-30 flex min-h-full items-center pt-24 pb-28 sm:pt-28 sm:pb-32 lg:pt-32 lg:pb-36">
@@ -104,7 +116,19 @@
       </svg>
     </button>
 
-    <div class="absolute bottom-4 sm:bottom-5 lg:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-3">
+    <div class="absolute bottom-4 sm:bottom-5 lg:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 sm:gap-3">
+      <button
+        type="button"
+        class="autoplay-toggle"
+        :class="{ 'is-running': isAutoPlayRunning }"
+        :aria-label="autoPlayLabel"
+        :title="autoPlayLabel"
+        :disabled="prefersReducedMotion"
+        @click.stop="toggleAutoPlay"
+      >
+        <span class="autoplay-dot" :class="{ 'is-paused': !isAutoPlayRunning }" aria-hidden="true"></span>
+      </button>
+      <span class="h-5 w-px bg-gold-400/16" aria-hidden="true"></span>
       <button
         v-for="(_, i) in slides"
         :key="i"
@@ -122,11 +146,35 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
 const current = ref(0)
-const isPaused = ref(false)
-let timer = null
+const isAutoPlayActive = ref(true)
+const isPointerInside = ref(false)
+const prefersReducedMotion = ref(false)
+
+const FIRST_AUTOPLAY_DELAY = 9000
+const AUTOPLAY_DELAY = 7000
+const HERO_MOTION_DELAY = 3000
+let autoplayTimerId = null
+let heroMotionTimerId = null
+let reduceMotionMediaQuery = null
+let reduceMotionChangeHandler = null
+const isHeroMotionReady = ref(false)
+
+const isAutoPlayRunning = computed(() => (
+  isAutoPlayActive.value
+  && !prefersReducedMotion.value
+  && !isPointerInside.value
+))
+
+const autoPlayLabel = computed(() => (
+  prefersReducedMotion.value
+    ? 'Автоперелистывание отключено из-за настроек уменьшения движения'
+    : isAutoPlayActive.value
+      ? 'Поставить автоперелистывание на паузу'
+      : 'Включить автоперелистывание'
+))
 
 const slides = [
   {
@@ -145,7 +193,7 @@ const slides = [
       { value: '20+', label: 'лет в ремесле' },
       { value: '7/7', label: 'без выходных' },
     ],
-    image: '/images/hero/hero-ornamental-pattern-v2.png',
+    image: '/images/hero/hero-ornamental-pattern-v2.webp',
   },
   {
     tag: 'Ворота и ограждения',
@@ -163,7 +211,7 @@ const slides = [
       { value: '1', label: 'единый стиль' },
       { value: '∞', label: 'вариантов сочетаний' },
     ],
-    image: '/images/hero/hero-ornamental-gate-v2.png',
+    image: '/images/hero/hero-ornamental-gate-v2.webp',
   },
   {
     tag: 'Комплектация объектов',
@@ -181,55 +229,218 @@ const slides = [
       { value: 'DIY', label: 'для частных задач' },
       { value: '24/7', label: 'каталог онлайн' },
     ],
-    image: '/images/hero/hero-wrought-iron-fence-v2.png',
+    image: '/images/hero/hero-wrought-iron-fence-v2.webp',
   },
 ]
 
 function next() {
   current.value = (current.value + 1) % slides.length
+  scheduleAutoPlay()
 }
 
 function prev() {
   current.value = (current.value - 1 + slides.length) % slides.length
+  scheduleAutoPlay()
 }
 
 function goTo(i) {
   current.value = i
-  resetTimer()
+  scheduleAutoPlay()
 }
 
-function pause() {
-  isPaused.value = true
+function clearAutoPlay() {
+  if (autoplayTimerId) {
+    window.clearTimeout(autoplayTimerId)
+    autoplayTimerId = null
+  }
 }
 
-function resume() {
-  isPaused.value = false
-  resetTimer()
+function clearHeroMotionDelay() {
+  if (heroMotionTimerId) {
+    window.clearTimeout(heroMotionTimerId)
+    heroMotionTimerId = null
+  }
 }
 
-function resetTimer() {
-  clearInterval(timer)
-  timer = setInterval(() => {
-    if (!isPaused.value) next()
-  }, 6500)
+function startHeroMotionDelay() {
+  clearHeroMotionDelay()
+
+  if (prefersReducedMotion.value) {
+    isHeroMotionReady.value = false
+    return
+  }
+
+  heroMotionTimerId = window.setTimeout(() => {
+    isHeroMotionReady.value = true
+  }, HERO_MOTION_DELAY)
+}
+
+function scheduleAutoPlay(delay = AUTOPLAY_DELAY) {
+  clearAutoPlay()
+
+  if (!isAutoPlayRunning.value) {
+    return
+  }
+
+  autoplayTimerId = window.setTimeout(() => {
+    current.value = (current.value + 1) % slides.length
+    scheduleAutoPlay()
+  }, delay)
+}
+
+function pauseForPointer() {
+  isPointerInside.value = true
+  clearAutoPlay()
+}
+
+function resumeAfterPointer() {
+  isPointerInside.value = false
+  scheduleAutoPlay()
+}
+
+function pauseForFocus(event) {
+  if (event.target?.closest?.('.autoplay-toggle')) {
+    return
+  }
+
+  isAutoPlayActive.value = false
+  clearAutoPlay()
+}
+
+function toggleAutoPlay() {
+  if (prefersReducedMotion.value) {
+    isAutoPlayActive.value = false
+    clearAutoPlay()
+    return
+  }
+
+  isAutoPlayActive.value = !isAutoPlayActive.value
+
+  if (isAutoPlayActive.value) {
+    scheduleAutoPlay()
+  } else {
+    clearAutoPlay()
+  }
 }
 
 onMounted(() => {
-  resetTimer()
+  reduceMotionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+  prefersReducedMotion.value = reduceMotionMediaQuery.matches
+  isAutoPlayActive.value = !prefersReducedMotion.value
+
+  reduceMotionChangeHandler = (event) => {
+    prefersReducedMotion.value = event.matches
+
+    if (event.matches) {
+      isAutoPlayActive.value = false
+      isHeroMotionReady.value = false
+      clearHeroMotionDelay()
+      clearAutoPlay()
+    } else {
+      startHeroMotionDelay()
+      scheduleAutoPlay()
+    }
+  }
+
+  reduceMotionMediaQuery.addEventListener('change', reduceMotionChangeHandler)
+  startHeroMotionDelay()
+  scheduleAutoPlay(FIRST_AUTOPLAY_DELAY)
 })
 
-onUnmounted(() => {
-  clearInterval(timer)
+onBeforeUnmount(() => {
+  clearAutoPlay()
+  clearHeroMotionDelay()
+  reduceMotionMediaQuery?.removeEventListener('change', reduceMotionChangeHandler)
 })
 </script>
 
 <style scoped>
 .hero-pattern {
   background-image: repeating-linear-gradient(45deg, transparent, transparent 42px, rgba(201,150,59,0.14) 42px, rgba(201,150,59,0.14) 43px);
+  background-size: 120px 120px;
+  animation: heroPatternDrift 18s linear 2.2s infinite;
 }
 
-.hero-zoom {
-  animation: kenBurns 18s ease-out forwards;
+.hero-image-breathe {
+  animation: heroImageBreathe 16s ease-in-out forwards;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.hero-light-sweep {
+  opacity: 0.16;
+  background:
+    radial-gradient(circle at 24% 22%, rgba(230, 188, 103, 0.18), transparent 19rem),
+    linear-gradient(112deg, transparent 24%, rgba(245, 240, 232, 0.08) 46%, transparent 64%);
+  mix-blend-mode: screen;
+  transform: translate3d(-2rem, 0, 0) scale(1);
+  animation: heroLightWake 10s ease-in-out 1.8s infinite alternate;
+}
+
+.autoplay-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid rgba(201, 150, 59, 0.18);
+  border-radius: 9999px;
+  background: rgba(10, 9, 8, 0.52);
+  color: rgba(245, 240, 232, 0.76);
+  backdrop-filter: blur(14px);
+  transition:
+    border-color 0.28s ease,
+    background-color 0.28s ease,
+    color 0.28s ease,
+    transform 0.28s ease;
+}
+
+.autoplay-toggle::after {
+  content: '';
+  position: absolute;
+  inset: 0.55rem;
+  border: 1px solid rgba(228, 185, 109, 0.22);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(1);
+}
+
+.autoplay-toggle.is-running::after {
+  animation: autoplayRing 2.2s ease-out infinite;
+}
+
+.autoplay-toggle:hover,
+.autoplay-toggle:focus-visible {
+  border-color: rgba(201, 150, 59, 0.44);
+  background: rgba(201, 150, 59, 0.1);
+  color: var(--color-gold-300);
+  transform: translateY(-1px);
+}
+
+.autoplay-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.autoplay-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 9999px;
+  background: var(--color-gold-300);
+  box-shadow: 0 0 18px rgba(201, 150, 59, 0.48);
+  animation: autoplayPulse 1.8s ease-in-out infinite;
+}
+
+.autoplay-dot.is-paused {
+  background: rgba(245, 240, 232, 0.38);
+  box-shadow: none;
+  animation: none;
+}
+
+.autoplay-toggle:disabled .autoplay-dot {
+  background: rgba(245, 240, 232, 0.3);
 }
 
 .slider-btn {
@@ -283,8 +494,78 @@ onUnmounted(() => {
   opacity: 0;
 }
 
-@keyframes kenBurns {
-  from { transform: scale(1); }
-  to { transform: scale(1.08); }
+@keyframes heroLightWake {
+  0% {
+    opacity: 0.1;
+    transform: translate3d(-2rem, 0, 0) scale(1);
+  }
+
+  100% {
+    opacity: 0.28;
+    transform: translate3d(2rem, -1rem, 0) scale(1.03);
+  }
 }
+
+@keyframes heroPatternDrift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(42px, 42px, 0);
+  }
+}
+
+@keyframes heroImageBreathe {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.026);
+  }
+}
+
+@keyframes autoplayPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.38);
+  }
+}
+
+@keyframes autoplayRing {
+  0% {
+    opacity: 0.44;
+    transform: scale(0.72);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-light-sweep,
+  .hero-pattern,
+  .hero-image-breathe,
+  .autoplay-toggle::after,
+  .autoplay-dot {
+    animation: none;
+  }
+
+  .hero-light-sweep {
+    opacity: 0.12;
+    transform: none;
+  }
+
+  .hero-image-breathe {
+    transform: none;
+  }
+}
+
 </style>

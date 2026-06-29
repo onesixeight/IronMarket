@@ -4,8 +4,10 @@
       <router-link to="/" class="flex shrink-0 items-center gap-3">
         <div class="flex h-11 w-11 items-center justify-center rounded-2xl border border-gold-400/20 bg-gold-400/8">
           <img
-            src="/images/branding/brand-mark-ornament.png"
+            src="/images/branding/brand-mark-ornament-small.webp"
             alt="Эталон Ковка"
+            width="36"
+            height="36"
             class="h-9 w-9 rounded-xl object-cover shadow-[0_10px_24px_rgba(0,0,0,0.26)]"
           />
         </div>

@@ -11,7 +11,9 @@ app.use(pinia)
 app.use(router)
 app.directive('reveal', vReveal)
 
-app.mount('#app')
+router.isReady().then(() => {
+  app.mount('#app')
+})
 
 if ('serviceWorker' in navigator && import.meta.env.PROD) {
   window.addEventListener('load', () => {

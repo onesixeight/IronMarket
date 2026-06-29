@@ -218,6 +218,8 @@ img {
 
 .metal-button,
 .metal-button-ghost {
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -228,12 +230,31 @@ img {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  overflow: hidden;
   transition:
     transform 0.28s ease,
     background-color 0.28s ease,
     color 0.28s ease,
     border-color 0.28s ease,
     box-shadow 0.28s ease;
+}
+
+.metal-button::before,
+.metal-button-ghost::before {
+  content: '';
+  position: absolute;
+  inset: -40% -70%;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 238, 184, 0.3), transparent 32%),
+    linear-gradient(105deg, transparent 36%, rgba(255, 246, 211, 0.32) 48%, transparent 62%);
+  opacity: 0.46;
+  transform: translate3d(-34%, 0, 0) rotate(8deg);
+  animation: metalButtonGlimmer 7.5s ease-in-out 1.8s infinite;
+}
+
+.metal-button-ghost::before {
+  opacity: 0.26;
 }
 
 .metal-button {
@@ -245,6 +266,12 @@ img {
 .metal-button:hover,
 .metal-button-ghost:hover {
   transform: translateY(-2px);
+}
+
+.metal-button:hover::before,
+.metal-button-ghost:hover::before {
+  opacity: 0.58;
+  animation-duration: 4.8s;
 }
 
 .metal-button-ghost {
@@ -402,6 +429,18 @@ p {
   0% { left: -100%; }
   50% { left: 100%; }
   100% { left: 100%; }
+}
+
+@keyframes metalButtonGlimmer {
+  0%,
+  42% {
+    transform: translate3d(-34%, 0, 0) rotate(8deg);
+  }
+
+  72%,
+  100% {
+    transform: translate3d(34%, 0, 0) rotate(8deg);
+  }
 }
 
 .form-input {

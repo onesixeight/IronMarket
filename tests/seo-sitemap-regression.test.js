@@ -18,6 +18,7 @@ assert.match(indexHtml, /<link rel="canonical" href="https:\/\/etalon-kovka\.ver
 assert.match(indexHtml, /<meta property="og:url" content="https:\/\/etalon-kovka\.vercel\.app\/" \/>/)
 assert.match(indexHtml, /<meta name="twitter:image" content="https:\/\/etalon-kovka\.vercel\.app\/images\/branding\/brand-mark-ornament\.png" \/>/)
 assert.match(indexHtml, /<meta property="og:image" content="https:\/\/etalon-kovka\.vercel\.app\/images\/branding\/brand-mark-ornament\.png" \/>/)
+assert.match(indexHtml, /<link rel="preload" as="image" href="\/images\/hero\/hero-ornamental-pattern-v2\.webp" fetchpriority="high" \/>/)
 
 assert.match(useSeo, /from '\.\.\/config\/site\.js'/)
 assert.match(useSeo, /setCanonicalUrl/)

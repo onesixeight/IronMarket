@@ -9,7 +9,6 @@
       class="mobile-bottom-nav__item"
       :class="{ 'is-active': isActive(item), 'is-primary': item.primary }"
       :aria-current="isActive(item) ? 'page' : undefined"
-      :aria-label="item.ariaLabel"
     >
       <span class="mobile-bottom-nav__icon" aria-hidden="true">
         <svg v-if="item.icon === 'home'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
@@ -48,21 +47,18 @@ const navItems = [
   {
     to: '/',
     label: 'Главная',
-    ariaLabel: 'Перейти на главную',
     icon: 'home',
     match: (path) => path === '/',
   },
   {
     to: '/catalog',
     label: 'Каталог',
-    ariaLabel: 'Открыть каталог',
     icon: 'catalog',
     match: (path) => path.startsWith('/catalog') || path.startsWith('/product'),
   },
   {
     to: '/contacts',
     label: 'Заявка',
-    ariaLabel: 'Оставить заявку',
     icon: 'lead',
     primary: true,
     match: (path) => path === '/contacts',
@@ -70,7 +66,6 @@ const navItems = [
   {
     to: '/delivery',
     label: 'Доставка',
-    ariaLabel: 'Условия доставки',
     icon: 'delivery',
     match: (path) => path === '/delivery',
   },
