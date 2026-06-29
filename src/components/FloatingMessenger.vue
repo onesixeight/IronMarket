@@ -1,12 +1,12 @@
 <template>
-  <div class="fixed bottom-6 left-6 z-50 flex flex-col gap-3">
+  <div class="fixed bottom-[6.5rem] left-4 z-50 flex flex-col gap-3 sm:left-6 lg:bottom-6">
     <Transition name="scale">
       <div v-if="open" class="flex flex-col gap-2">
         <a
           :href="whatsappLink"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center justify-center w-12 h-12 rounded-full bg-green-600 text-white shadow-lg transition-transform hover:scale-110"
+          class="flex items-center justify-center w-12 h-12 rounded-full bg-green-600 text-white shadow-lg transition-transform hover:scale-110 active:scale-[0.96]"
           aria-label="Написать в WhatsApp"
         >
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -17,7 +17,7 @@
           :href="telegramLink"
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500 text-white shadow-lg transition-transform hover:scale-110"
+          class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500 text-white shadow-lg transition-transform hover:scale-110 active:scale-[0.96]"
           aria-label="Написать в Telegram"
         >
           <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -29,7 +29,7 @@
 
     <button
       type="button"
-      class="w-14 h-14 rounded-full bg-gradient-to-br from-gold-400 to-gold-500 text-obsidian-900 shadow-xl flex items-center justify-center transition-transform hover:scale-110"
+      class="w-14 h-14 rounded-full bg-gradient-to-br from-gold-400 to-gold-500 text-obsidian-900 shadow-xl flex items-center justify-center transition-transform hover:scale-110 active:scale-[0.96]"
       :class="open ? 'rotate-45' : ''"
       aria-label="Открыть чат"
       @click="open = !open"
@@ -56,7 +56,7 @@ const telegramLink = buildTelegramLink(message)
 </script>
 
 <style scoped>
-.scale-enter-active { transition: all 0.2s ease-out; }
-.scale-leave-active { transition: all 0.15s ease-in; }
+.scale-enter-active { transition: opacity 0.2s ease-out, transform 0.2s ease-out; }
+.scale-leave-active { transition: opacity 0.15s ease-in, transform 0.15s ease-in; }
 .scale-enter-from, .scale-leave-to { opacity: 0; transform: scale(0.8) translateY(10px); }
 </style>

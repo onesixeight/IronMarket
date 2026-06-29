@@ -1,0 +1,43 @@
+{
+  "name": "Эталон Ковка",
+  "short_name": "Ковка",
+  "description": "Кованые элементы, узоры и комплектующие в Астане и по Казахстану.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#060504",
+  "theme_color": "#0a0908",
+  "orientation": "portrait-primary",
+  "lang": "ru-KZ",
+  "categories": ["business", "shopping"],
+  "icons": [
+    {
+      "src": "/icons/pwa-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/pwa-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Каталог",
+      "short_name": "Каталог",
+      "description": "Открыть каталог кованых элементов",
+      "url": "/catalog",
+      "icons": [{ "src": "/icons/pwa-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "Заявка",
+      "short_name": "Заявка",
+      "description": "Связаться по подбору и доставке",
+      "url": "/contacts",
+      "icons": [{ "src": "/icons/pwa-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}

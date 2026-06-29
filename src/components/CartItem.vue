@@ -118,7 +118,10 @@ const cart = useCartStore()
   color: var(--color-gold-400);
   font-size: 0.75rem;
   font-weight: 600;
-  transition: all 0.15s;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
   background: transparent;
 }
 .qty-btn:hover {

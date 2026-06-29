@@ -18,7 +18,9 @@
             class="text-center p-8 bg-obsidian-800 border border-obsidian-600/50 rounded-2xl transition-all duration-300 hover:border-gold-400/30 hover:-translate-y-1 hover:shadow-lg hover:shadow-gold-500/10"
             v-reveal="i * 0.08"
           >
-            <div class="font-heading text-4xl lg:text-5xl font-bold text-gold-400 mb-3">{{ s.value }}</div>
+            <div class="font-heading text-4xl lg:text-5xl font-bold text-gold-400 mb-3">
+              <AnimatedCounter :value="s.value" :delay="i * 120" />
+            </div>
             <div class="text-xs text-cream-100/60 uppercase tracking-widest font-medium">{{ s.label }}</div>
           </div>
         </div>
@@ -89,6 +91,7 @@ import { h } from 'vue'
 import ContactForm from '../components/ContactForm.vue'
 import { useSeo } from '../composables/useSeo'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
+import AnimatedCounter from '../components/AnimatedCounter.vue'
 useSeo('О компании', 'Продажа и поставка декоративных кованых элементов в Астане и по Казахстану. Помогаем с подбором позиций под объект и объём заказа.')
 
 const IconShield = () => h('svg', { class: 'w-6 h-6', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24', 'stroke-width': '1.5' }, [

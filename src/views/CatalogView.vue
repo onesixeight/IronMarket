@@ -63,7 +63,7 @@
                 :value="productStore.searchQuery"
                 type="text"
                 placeholder="Поиск по каталогу..."
-                class="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm transition-all focus:outline-none bg-obsidian-800 border border-gold-400/10 text-cream-100 focus:border-gold-400 focus:shadow-[0_0_0_3px_rgba(201,150,59,0.15)]"
+                class="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm transition-[border-color,box-shadow,background-color,color] focus:outline-none bg-obsidian-800 border border-gold-400/10 text-cream-100 focus:border-gold-400 focus:shadow-[0_0_0_3px_rgba(201,150,59,0.15)]"
                 @input="onSearchInput"
               />
             </div>
@@ -73,12 +73,14 @@
             :options="categoryOptions"
             v-model="productStore.selectedCategory"
             placeholder="Все категории"
+            aria-label="Категория"
           />
 
           <CustomSelect
             :options="sortOptions"
             v-model="productStore.sortBy"
             placeholder="Сортировка"
+            aria-label="Сортировка"
           />
         </div>
       </div>

@@ -1,18 +1,19 @@
 <template>
   <form ref="formElement" @submit.prevent="openWhatsApp" class="space-y-4">
     <div>
-      <label for="contact-name" class="block text-sm font-medium mb-1.5 text-cream-100">{{ nameLabel }} *</label>
-      <input id="contact-name" v-model="form.name" type="text" autocomplete="name" :placeholder="namePlaceholder" required class="form-input" />
+      <label :for="fieldIds.name" class="block text-sm font-medium mb-1.5 text-cream-100">{{ nameLabel }} *</label>
+      <input :id="fieldIds.name" v-model="form.name" type="text" autocomplete="name" :placeholder="namePlaceholder" required class="form-input" />
     </div>
 
     <div v-if="showEmail">
-      <label for="contact-email" class="block text-sm font-medium mb-1.5 text-cream-100">Email</label>
-      <input id="contact-email" v-model="form.email" type="email" autocomplete="email" placeholder="your@email.com" class="form-input" />
+      <label :for="fieldIds.email" class="block text-sm font-medium mb-1.5 text-cream-100">Email</label>
+      <input :id="fieldIds.email" v-model="form.email" type="email" autocomplete="email" placeholder="your@email.com" class="form-input" />
     </div>
 
     <div>
-      <label for="contact-phone" class="block text-sm font-medium mb-1.5 text-cream-100">Телефон *</label>
+      <label :for="fieldIds.phone" class="block text-sm font-medium mb-1.5 text-cream-100">Телефон *</label>
       <input
+        :id="fieldIds.phone"
         :value="form.phone"
         type="tel"
         placeholder="+7 (___) ___-__-__"
@@ -24,9 +25,9 @@
     </div>
 
     <div v-if="showMessage">
-      <label for="contact-message" class="block text-sm font-medium mb-1.5 text-cream-100">Сообщение</label>
+      <label :for="fieldIds.message" class="block text-sm font-medium mb-1.5 text-cream-100">Сообщение</label>
       <textarea
-        id="contact-message"
+        :id="fieldIds.message"
         v-model="form.message"
         rows="4"
         placeholder="Расскажите, что вам нужно..."
@@ -59,7 +60,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive, ref, useId } from 'vue'
 import { usePhoneMask } from '../composables/usePhoneMask'
 import { useMessengerLead } from '../composables/useMessengerLead'
 
@@ -79,6 +80,13 @@ const { getWhatsAppLeadLink, getTelegramLeadLink } = useMessengerLead()
 
 const form = reactive({ name: '', email: '', phone: '', message: '', agreement: false })
 const formElement = ref(null)
+const formId = useId()
+const fieldIds = {
+  name: `${formId}-name`,
+  email: `${formId}-email`,
+  phone: `${formId}-phone`,
+  message: `${formId}-message`,
+}
 
 const whatsappLink = computed(() =>
   getWhatsAppLeadLink(form, { sourceLabel: props.sourceLabel })

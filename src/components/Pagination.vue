@@ -78,17 +78,23 @@ const visiblePages = computed(() => {
 
 <style scoped>
 .page-btn {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.75rem;
+  height: 2.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 0.5rem;
   font-size: 0.8125rem;
   font-weight: 500;
+  font-variant-numeric: tabular-nums;
   color: var(--color-cream-100);
-  transition: all 0.15s;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
+.page-btn:active:not(:disabled) { transform: scale(0.96); }
 .page-btn:hover:not(:disabled) { background: var(--color-obsidian-700); }
 .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 .page-btn-active {

@@ -1,6 +1,6 @@
 <template>
   <section
-    class="relative min-h-[720px] lg:min-h-[780px] xl:h-[92vh] xl:max-h-[980px] overflow-hidden"
+    class="relative min-h-[560px] sm:min-h-[640px] lg:min-h-[780px] xl:h-[92vh] xl:max-h-[980px] overflow-hidden"
     @mouseenter="pause"
     @mouseleave="resume"
   >
@@ -109,10 +109,14 @@
         v-for="(_, i) in slides"
         :key="i"
         @click="goTo(i)"
-        class="h-2 rounded-full transition-all duration-500"
-        :class="current === i ? 'bg-gold-300 w-11 shadow-[0_0_18px_rgba(201,150,59,0.35)]' : 'bg-white/18 w-5 hover:bg-white/34'"
+        class="flex h-10 items-center justify-center rounded-full px-1"
         :aria-label="`Слайд ${i + 1}`"
-      />
+      >
+        <span
+          class="block h-2 rounded-full transition-[width,background-color,box-shadow] duration-500"
+          :class="current === i ? 'bg-gold-300 w-11 shadow-[0_0_18px_rgba(201,150,59,0.35)]' : 'bg-white/18 w-5 hover:bg-white/34'"
+        ></span>
+      </button>
     </div>
   </section>
 </template>
@@ -243,7 +247,11 @@ onUnmounted(() => {
   background: rgba(10, 9, 8, 0.42);
   color: rgba(245, 240, 232, 0.82);
   backdrop-filter: blur(12px);
-  transition: all 0.28s ease;
+  transition:
+    border-color 0.28s ease,
+    background-color 0.28s ease,
+    color 0.28s ease,
+    transform 0.28s ease;
 }
 
 .slider-btn:hover {
@@ -254,7 +262,9 @@ onUnmounted(() => {
 
 .hero-text-enter-active,
 .hero-card-enter-active {
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-text-leave-active,

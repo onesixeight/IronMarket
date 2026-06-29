@@ -26,8 +26,8 @@
       <div class="mt-auto flex items-end justify-between gap-3 border-t border-gold-400/10 pt-5">
         <div v-if="!product.hidePrice">
           <div class="mb-1 text-[11px] uppercase tracking-[0.16em] text-cream-100/34">Стоимость</div>
-          <div class="font-heading text-2xl text-gold-300">{{ formatPrice(product.price) }}</div>
-          <div v-if="product.oldPrice" class="mt-1 text-xs line-through text-cream-100/32">
+          <div class="font-heading text-2xl tabular-nums text-gold-300">{{ formatPrice(product.price) }}</div>
+          <div v-if="product.oldPrice" class="mt-1 text-xs tabular-nums line-through text-cream-100/32">
             {{ formatPrice(product.oldPrice) }}
           </div>
         </div>

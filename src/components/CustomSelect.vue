@@ -4,12 +4,14 @@
       ref="buttonRef"
       @click="toggle"
       @keydown="onTriggerKey"
-      class="flex items-center justify-between gap-2 px-4 py-2.5 bg-obsidian-800 border border-obsidian-600 rounded-xl text-sm w-full transition-all"
+      class="flex items-center justify-between gap-2 px-4 py-2.5 bg-obsidian-800 border border-obsidian-600 rounded-xl text-sm w-full transition-[border-color,box-shadow,background-color,color]"
       :class="open && 'border-gold-400 ring-2 ring-gold-400/20'"
       role="combobox"
       aria-haspopup="listbox"
+      :aria-label="ariaLabel || placeholder"
+      :aria-controls="listboxId"
       :aria-expanded="open"
-      :aria-activedescendant="highlightedIndex >= 0 ? `option-${highlightedIndex}` : undefined"
+      :aria-activedescendant="highlightedIndex >= 0 ? optionId(highlightedIndex) : undefined"
     >
       <span class="text-cream-100">{{ selectedLabel }}</span>
       <svg class="w-3.5 h-3.5 text-obsidian-500 transition-transform" :class="open && 'rotate-180'" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -22,12 +24,13 @@
         ref="dropdown"
         class="absolute left-0 right-0 top-[calc(100%+0.375rem)] z-[100] bg-obsidian-800 border border-obsidian-600 rounded-xl shadow-2xl shadow-black/60 py-1.5 max-h-60 overflow-y-auto"
         role="listbox"
-        :aria-activedescendant="highlightedIndex >= 0 ? `option-${highlightedIndex}` : undefined"
+        :id="listboxId"
+        :aria-activedescendant="highlightedIndex >= 0 ? optionId(highlightedIndex) : undefined"
       >
         <button
           v-for="(opt, i) in options"
           :key="String(opt.value)"
-          :id="`option-${i}`"
+          :id="optionId(i)"
           @click="select(opt)"
           @mouseenter="highlightedIndex = i"
           @mousemove="highlightedIndex = i"
@@ -47,12 +50,13 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick, useId } from 'vue'
 
 const props = defineProps({
   options: { type: Array, required: true },
   modelValue: { type: [String, Number, null], default: null },
   placeholder: { type: String, default: 'Выберите' },
+  ariaLabel: { type: String, default: '' },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -61,6 +65,8 @@ const trigger = ref(null)
 const buttonRef = ref(null)
 const dropdown = ref(null)
 const highlightedIndex = ref(-1)
+const selectId = useId()
+const listboxId = `${selectId}-listbox`
 
 const selectedLabel = computed(() => {
   const opt = props.options.find(o => o.value === props.modelValue)
@@ -136,9 +142,13 @@ function onTriggerKey(e) {
 
 function scrollToHighlighted() {
   nextTick(() => {
-    const el = dropdown.value?.querySelector(`#option-${highlightedIndex.value}`)
+    const el = document.getElementById(optionId(highlightedIndex.value))
     el?.scrollIntoView({ block: 'nearest' })
   })
+}
+
+function optionId(index) {
+  return `${selectId}-option-${index}`
 }
 
 function onClickOutside(e) {

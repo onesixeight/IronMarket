@@ -14,7 +14,7 @@
           />
           <button
             type="button"
-            class="absolute bottom-4 right-4 p-2 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity cursor-zoom-in bg-gold-400/10 border border-gold-400/20"
+            class="absolute bottom-4 right-4 p-2 rounded-lg opacity-100 transition-opacity cursor-zoom-in bg-gold-400/10 border border-gold-400/20 sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100 focus-visible:opacity-100"
             aria-label="Открыть изображение крупнее"
             @click="lightbox = true"
           >
@@ -42,13 +42,13 @@
 
           <div class="flex items-end gap-4 mb-6" v-if="!product.hidePrice">
             <span
-              class="text-3xl font-bold font-heading text-gold-400"
+              class="text-3xl font-bold font-heading tabular-nums text-gold-400"
             >
               {{ formatPrice(product.price) }}
             </span>
             <span
               v-if="product.oldPrice"
-              class="text-lg line-through text-obsidian-500"
+              class="text-lg tabular-nums line-through text-obsidian-500"
             >
               {{ formatPrice(product.oldPrice) }}
             </span>
