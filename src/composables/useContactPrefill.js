@@ -78,6 +78,17 @@ export function buildCategoryContactMessage(category) {
   return lines.join('\n')
 }
 
+export function buildDeliveryContactMessage() {
+  return [
+    'Здравствуйте! Хочу уточнить доставку кованых элементов.',
+    'Город доставки: ',
+    'Что нужно доставить: ',
+    'Примерное количество/объём: ',
+    '',
+    'Подскажите удобный способ доставки и что нужно уточнить для расчёта.',
+  ].join('\n')
+}
+
 export function buildContactPrefillMessage(options = {}) {
   if (options.product) {
     return buildProductContactMessage(options.product, options)
@@ -89,6 +100,10 @@ export function buildContactPrefillMessage(options = {}) {
 
   if (options.task) {
     return buildScenarioContactMessage(options.task)
+  }
+
+  if (options.topic === 'delivery') {
+    return buildDeliveryContactMessage()
   }
 
   return ''

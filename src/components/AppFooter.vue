@@ -33,7 +33,7 @@
             <h3 class="font-heading text-sm uppercase tracking-[0.18em] text-gold-300 mb-5">Навигация</h3>
             <ul class="space-y-3 text-sm">
               <li><router-link to="/about" class="footer-link">О компании</router-link></li>
-              <li><router-link to="/delivery" class="footer-link">Доставка и оплата</router-link></li>
+              <li><router-link to="/delivery" class="footer-link">Доставка</router-link></li>
               <li><router-link to="/catalog" class="footer-link">Весь каталог</router-link></li>
               <li><router-link to="/contacts" class="footer-link">Контакты</router-link></li>
             </ul>

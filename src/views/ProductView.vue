@@ -1,11 +1,11 @@
 <template>
-  <div class="py-8 bg-obsidian-900 min-h-[80vh]">
+  <div class="product-page section-shell py-8 bg-obsidian-900 min-h-[80vh]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <AppBreadcrumb :items="breadcrumbItems" />
 
-      <div v-if="product" class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
+      <div v-if="product" class="product-detail-grid grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
         <div
-          class="rounded-2xl p-8 lg:p-12 flex items-center justify-center relative group transition-all duration-300 bg-obsidian-800 border border-gold-400/[0.08] hover:border-gold-400/20"
+          class="product-media-card rounded-2xl p-8 lg:p-12 flex items-center justify-center relative group transition-all duration-300 bg-obsidian-800 border border-gold-400/[0.08] hover:border-gold-400/20"
         >
           <img
             :src="product.image"
@@ -24,7 +24,7 @@
           </button>
         </div>
 
-        <div>
+        <div class="product-info-panel">
           <div class="flex items-center gap-3 mb-5">
             <div
               v-if="product.badge"
@@ -59,6 +59,14 @@
             >
               Цена по запросу
             </span>
+          </div>
+
+          <div class="product-payment-note mb-6" role="note">
+            <div class="product-payment-kicker">Оплата через Kaspi</div>
+            <p>
+              Оплата производится через Kaspi после подтверждения наличия, количества и доставки.
+              На сайте онлайн-оплата не списывается.
+            </p>
           </div>
 
           <div
@@ -119,6 +127,16 @@
               Или заполнить форму на сайте
             </router-link>
 
+            <div class="product-order-steps mt-5" aria-label="Как проходит заявка по товару">
+              <div v-for="step in productOrderSteps" :key="step.title" class="product-order-step">
+                <span>{{ step.number }}</span>
+                <div>
+                  <strong>{{ step.title }}</strong>
+                  <p>{{ step.text }}</p>
+                </div>
+              </div>
+            </div>
+
             <div class="mt-5 grid gap-2 sm:grid-cols-3">
               <div class="rounded-xl border border-gold-400/10 bg-obsidian-950/44 px-3 py-2 text-[11px] text-cream-100/52">Расчёт партии</div>
               <div class="rounded-xl border border-gold-400/10 bg-obsidian-950/44 px-3 py-2 text-[11px] text-cream-100/52">Подбор аналогов</div>
@@ -126,24 +144,11 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-3 gap-3 text-center">
-            <div class="p-3 rounded-xl bg-obsidian-700 border border-gold-400/[0.06]">
-              <svg class="w-5 h-5 mx-auto mb-1.5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h.008M21 12.75H3.375m0 0V5.625A1.125 1.125 0 014.5 4.5h15A1.875 1.875 0 0121.375 6.375v8.25"/>
-              </svg>
-              <div class="text-[11px] text-cream-100/50">Быстрая доставка</div>
-            </div>
-            <div class="p-3 rounded-xl bg-obsidian-700 border border-gold-400/[0.06]">
-              <svg class="w-5 h-5 mx-auto mb-1.5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
-              </svg>
-              <div class="text-[11px] text-cream-100/50">Гарантия качества</div>
-            </div>
-            <div class="p-3 rounded-xl bg-obsidian-700 border border-gold-400/[0.06]">
-              <svg class="w-5 h-5 mx-auto mb-1.5 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
-              </svg>
-              <div class="text-[11px] text-cream-100/50">Консультация</div>
+          <div class="product-trust-grid">
+            <div v-for="item in productTrustItems" :key="item.title" class="product-trust-card">
+              <span class="product-trust-icon">{{ item.icon }}</span>
+              <strong>{{ item.title }}</strong>
+              <small>{{ item.text }}</small>
             </div>
           </div>
         </div>
@@ -228,6 +233,47 @@ const productInquiryLinks = computed(() => ({
   telegram: getProductTelegramLink(product.value),
 }))
 
+const productOrderSteps = [
+  {
+    number: '01',
+    title: 'Проверяем наличие',
+    text: 'Уточняем позицию, количество и возможные аналоги.',
+  },
+  {
+    number: '02',
+    title: 'Согласуем доставку',
+    text: 'Считаем город, объём и удобный способ отправки.',
+  },
+  {
+    number: '03',
+    title: 'Оплата через Kaspi',
+    text: 'После подтверждения заказа отправляем данные для оплаты.',
+  },
+]
+
+const productTrustItems = [
+  {
+    icon: 'K',
+    title: 'Kaspi после согласования',
+    text: 'Оплата только после подтверждения наличия, количества и доставки.',
+  },
+  {
+    icon: '01',
+    title: 'Подбор аналогов',
+    text: 'Если позиции нет или нужен комплект, подскажем замену.',
+  },
+  {
+    icon: 'KZ',
+    title: 'Доставка по KZ',
+    text: 'Самовывоз, курьер или транспортная компания после заявки.',
+  },
+  {
+    icon: '✓',
+    title: 'Живая консультация',
+    text: 'Можно отправить фото, размеры или описание объекта.',
+  },
+]
+
 useSchemaOrg(() => schemaProduct(product))
 
 const breadcrumbItems = computed(() => {
@@ -243,3 +289,205 @@ const seoName = computed(() => product.value?.name || 'Товар не найд�
 const seoImage = computed(() => product.value?.image)
 useSeo(seoName, () => product.value?.description || 'Запрашиваемый товар не найден.', seoImage)
 </script>
+
+<style scoped>
+.product-detail-grid {
+  align-items: start;
+}
+
+.product-media-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 24rem;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(201, 150, 59, 0.16), transparent 42%),
+    linear-gradient(180deg, rgba(245, 240, 232, 0.06), rgba(10, 9, 8, 0.96));
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.product-media-card::before {
+  content: '';
+  position: absolute;
+  inset: 1rem;
+  pointer-events: none;
+  border: 1px solid rgba(201, 150, 59, 0.08);
+  border-radius: 1.25rem;
+}
+
+.product-media-card::after {
+  content: '';
+  position: absolute;
+  inset: auto -18% -28% 18%;
+  height: 12rem;
+  pointer-events: none;
+  border-radius: 999px;
+  background: rgba(201, 150, 59, 0.1);
+  filter: blur(38px);
+}
+
+.product-media-card img,
+.product-media-card button {
+  position: relative;
+  z-index: 1;
+}
+
+.product-info-panel {
+  position: relative;
+}
+
+.product-payment-note {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid rgba(201, 150, 59, 0.14);
+  border-radius: 1.25rem;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(201, 150, 59, 0.11), transparent 34%),
+    rgba(10, 9, 8, 0.44);
+}
+
+.product-payment-kicker {
+  width: fit-content;
+  border-radius: 999px;
+  border: 1px solid rgba(201, 150, 59, 0.18);
+  background: rgba(201, 150, 59, 0.08);
+  padding: 0.28rem 0.65rem;
+  color: rgb(228, 185, 109);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.product-payment-note p {
+  color: rgba(245, 240, 232, 0.62);
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+
+.product-order-steps {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.product-order-step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: start;
+  border-radius: 1rem;
+  border: 1px solid rgba(201, 150, 59, 0.1);
+  background: rgba(10, 9, 8, 0.38);
+  padding: 0.85rem;
+}
+
+.product-order-step > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(201, 150, 59, 0.18);
+  color: rgb(228, 185, 109);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  background: rgba(201, 150, 59, 0.08);
+}
+
+.product-order-step strong {
+  display: block;
+  color: rgb(245, 240, 232);
+  font-size: 0.88rem;
+}
+
+.product-order-step p {
+  margin-top: 0.2rem;
+  color: rgba(245, 240, 232, 0.5);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.product-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.product-trust-card {
+  min-height: 100%;
+  border-radius: 1.15rem;
+  border: 1px solid rgba(201, 150, 59, 0.1);
+  background:
+    radial-gradient(circle at 20% 0%, rgba(201, 150, 59, 0.08), transparent 42%),
+    rgba(20, 18, 16, 0.74);
+  padding: 0.9rem;
+  transition:
+    transform 0.28s ease,
+    border-color 0.28s ease,
+    background-color 0.28s ease;
+}
+
+.product-trust-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(201, 150, 59, 0.28);
+  background-color: rgba(201, 150, 59, 0.06);
+}
+
+.product-trust-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  margin-bottom: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(201, 150, 59, 0.16);
+  color: rgb(228, 185, 109);
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  background: rgba(201, 150, 59, 0.08);
+}
+
+.product-trust-card strong {
+  display: block;
+  color: rgb(245, 240, 232);
+  font-size: 0.82rem;
+  line-height: 1.25;
+}
+
+.product-trust-card small {
+  display: block;
+  margin-top: 0.4rem;
+  color: rgba(245, 240, 232, 0.48);
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+@media (min-width: 1024px) {
+  .product-media-card,
+  .product-info-panel {
+    position: sticky;
+    top: 6.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-media-card {
+    min-height: 19rem;
+  }
+
+  .product-trust-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-trust-card,
+  .product-media-card img {
+    transition: none;
+  }
+}
+</style>

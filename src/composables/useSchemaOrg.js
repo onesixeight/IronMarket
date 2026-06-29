@@ -1,5 +1,7 @@
 import { toValue, watchEffect, onScopeDispose } from 'vue'
 
+import { DEFAULT_SOCIAL_IMAGE, SITE_NAME, toAbsoluteSiteUrl, toSiteUrl } from '../config/site.js'
+
 let schemaScript = null
 
 function getSchemaScript() {
@@ -37,7 +39,7 @@ export function schemaProduct(product) {
     name: p.name,
     image: p.image,
     description: p.description || p.name,
-    brand: { '@type': 'Brand', name: 'Эталон Ковка' },
+    brand: { '@type': 'Brand', name: SITE_NAME },
   }
   if (!p.hidePrice) {
     result.offers = {
@@ -54,9 +56,9 @@ export function schemaProduct(product) {
 export function schemaOrganization() {
   return {
     '@type': 'Organization',
-    name: 'Эталон Ковка',
-    url: 'https://etalon-kovka.kz',
-    logo: 'https://etalon-kovka.kz/images/branding/brand-mark-ornament.png',
+    name: SITE_NAME,
+    url: toSiteUrl('/'),
+    logo: toAbsoluteSiteUrl(DEFAULT_SOCIAL_IMAGE),
     description:
       'Продажа и поставка декоративных кованых элементов в Астане и по Казахстану.',
     contactPoint: {

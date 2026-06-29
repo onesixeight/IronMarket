@@ -1,44 +1,84 @@
-import { readFileSync, writeFileSync } from 'fs'
-import { fileURLToPath } from 'url'
-import { dirname, join } from 'path'
+import { mkdirSync, writeFileSync } from 'node:fs'
+import { dirname, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const catalog = JSON.parse(readFileSync(join(__dirname, '../src/data/catalog.json'), 'utf8'))
+import { SITE_ORIGIN, toSiteUrl } from '../src/config/site.js'
+import catalog from '../src/data/catalog.json' with { type: 'json' }
 
-const baseUrl = 'https://etalon-kovka.kz'
-const today = new Date().toISOString().split('T')[0]
+const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+const publicDir = resolve(projectRoot, 'public')
+const today = new Date().toISOString().slice(0, 10)
 
-const staticUrls = [
-  { loc: '/', priority: '1.0' },
-  { loc: '/catalog', priority: '0.9' },
-  { loc: '/about', priority: '0.7' },
-  { loc: '/contacts', priority: '0.8' },
-  { loc: '/delivery', priority: '0.7' },
-  { loc: '/wishlist', priority: '0.5' },
-  { loc: '/cart', priority: '0.5' },
+const staticRoutes = [
+  { path: '/', changefreq: 'weekly', priority: '1.0' },
+  { path: '/catalog', changefreq: 'weekly', priority: '0.9' },
+  { path: '/about', changefreq: 'monthly', priority: '0.6' },
+  { path: '/delivery', changefreq: 'monthly', priority: '0.6' },
+  { path: '/contacts', changefreq: 'monthly', priority: '0.8' },
 ]
 
-const categoryUrls = catalog.categories.map(c => ({
-  loc: `/catalog/${c.slug}`,
+const categoryRoutes = catalog.categories.map((category) => ({
+  path: `/catalog/${category.slug}`,
+  changefreq: 'weekly',
   priority: '0.8',
 }))
 
-const productUrls = catalog.products.map(p => ({
-  loc: `/product/${p.id}`,
-  priority: '0.7',
+const productRoutes = catalog.products.map((product) => ({
+  path: `/product/${product.id}`,
+  changefreq: 'weekly',
+  priority: product.badge ? '0.7' : '0.6',
 }))
 
-const allUrls = [...staticUrls, ...categoryUrls, ...productUrls]
+function escapeXml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&apos;')
+}
 
-const xml = `<?xml version="1.0" encoding="UTF-8"?>
+function normalizePath(path) {
+  if (path === '/') return '/'
+  return `/${String(path).replace(/^\/+|\/+$/g, '')}`
+}
+
+const seen = new Set()
+const routes = [...staticRoutes, ...categoryRoutes, ...productRoutes].filter((route) => {
+  const path = normalizePath(route.path)
+  if (seen.has(path)) return false
+  seen.add(path)
+  route.path = path
+  return true
+})
+
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${allUrls.map(u => `  <url>
-    <loc>${baseUrl}${u.loc}</loc>
+${routes
+  .map(
+    (route) => `  <url>
+    <loc>${escapeXml(toSiteUrl(route.path))}</loc>
     <lastmod>${today}</lastmod>
-    <priority>${u.priority}</priority>
-  </url>`).join('\n')}
+    <changefreq>${route.changefreq}</changefreq>
+    <priority>${route.priority}</priority>
+  </url>`
+  )
+  .join('\n')}
 </urlset>
 `
 
-writeFileSync(join(__dirname, '../public/sitemap.xml'), xml)
-console.log(`Sitemap generated: ${allUrls.length} URLs`)
+const robots = `User-agent: *
+Allow: /
+Disallow: /cart
+Disallow: /checkout
+Disallow: /wishlist
+Disallow: /thank-you
+
+Sitemap: ${SITE_ORIGIN}/sitemap.xml
+`
+
+mkdirSync(publicDir, { recursive: true })
+writeFileSync(resolve(publicDir, 'sitemap.xml'), sitemap, 'utf8')
+writeFileSync(resolve(publicDir, 'robots.txt'), robots, 'utf8')
+
+console.log(`Generated sitemap.xml with ${routes.length} URLs`)

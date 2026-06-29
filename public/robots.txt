@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /admin
+Disallow: /cart
+Disallow: /checkout
+Disallow: /wishlist
+Disallow: /thank-you
 
-Sitemap: https://etalon-kovka.kz/sitemap.xml
+Sitemap: https://etalon-kovka.vercel.app/sitemap.xml

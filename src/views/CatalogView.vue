@@ -3,35 +3,61 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <AppBreadcrumb :items="[{ to: '/', label: 'Главная' }, { label: 'Каталог' }]" />
 
-      <div class="text-center mb-12" v-reveal>
-        <h1
-          class="ornament-line text-3xl sm:text-4xl font-bold mb-4 justify-center font-heading text-gold-400"
-        >
-          Каталог продукции
-        </h1>
-        <p
-          class="max-w-xl mx-auto text-base leading-relaxed text-cream-100/60"
-        >
-          Декоративные кованые элементы и узоры для создания уникальных решений
-        </p>
-      </div>
+      <section class="catalog-hero mb-8 sm:mb-10" v-reveal>
+        <div class="catalog-hero-copy">
+          <div class="eyebrow mb-5">Каталог мастерской</div>
+          <h1 class="section-title text-3xl sm:text-5xl lg:text-6xl leading-[0.96]">
+            Кованые элементы для ворот, ограждений и лестниц.
+          </h1>
+          <p class="section-lead mt-5 max-w-2xl text-sm sm:text-base">
+            Выбирайте декоративные детали по задаче, категории или артикулу. Если не знаете точный набор, отправьте заявку: поможем собрать аккуратную композицию под объект, объём и доставку.
+          </p>
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <router-link :to="{ path: '/contacts', query: { task: 'gates' } }" class="metal-button justify-center">
+              Получить подбор
+            </router-link>
+            <a href="#catalog-products" class="metal-button-ghost justify-center">
+              Смотреть позиции
+            </a>
+          </div>
+        </div>
+
+        <aside class="catalog-hero-panel" aria-label="Каталог в цифрах">
+          <div class="catalog-hero-mark" aria-hidden="true">
+            <span>Iron</span>
+            <strong>KZ</strong>
+          </div>
+
+          <div class="grid gap-3">
+            <div v-for="stat in catalogStats" :key="stat.label" class="catalog-hero-stat">
+              <span>{{ stat.value }}</span>
+              <small>{{ stat.label }}</small>
+            </div>
+          </div>
+
+          <p class="mt-5 rounded-[1.25rem] border border-gold-400/12 bg-obsidian-950/48 p-4 text-sm leading-relaxed text-cream-100/58">
+            Без онлайн-оплаты и случайной корзины: сайт помогает выбрать, а финальный расчёт делаем после уточнения размеров и количества.
+          </p>
+        </aside>
+      </section>
 
       <CatalogProjectShortcuts v-reveal="0.04" />
 
       <div
         v-if="!selectedCategory"
-        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-20"
+        class="catalog-category-grid mb-16 sm:mb-20"
       >
         <router-link
           v-for="(cat, i) in categories"
           :key="cat.id"
           :to="'/catalog/' + cat.slug"
-          class="group rounded-xl overflow-hidden transition-all duration-500 ease-out border border-gold-400/[0.08] bg-obsidian-800 hover:border-gold-400/30 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.4),0_0_24px_rgba(201,150,59,0.08)]"
+          class="catalog-category-card group"
+          :style="{ '--category-index': i }"
+          :aria-label="`Открыть категорию ${cat.name}`"
           v-reveal="i * 0.04"
         >
-          <div
-            class="p-4 h-28 flex items-center justify-center bg-obsidian-700"
-          >
+          <div class="catalog-category-image">
             <img
               :src="cat.image"
               :alt="cat.name"
@@ -39,23 +65,26 @@
               loading="lazy"
             />
           </div>
-          <div
-            class="p-2.5 text-center border-t border-gold-400/[0.08] bg-obsidian-800"
-          >
-            <h2
-              class="text-xs font-medium leading-snug transition-colors duration-300 text-cream-100"
-            >
+          <div class="catalog-category-content">
+            <div class="mb-2 flex items-center justify-between gap-2">
+              <span class="catalog-category-number">{{ String(i + 1).padStart(2, '0') }}</span>
+              <span class="catalog-category-count">{{ getProductCount(cat.slug) }} товаров</span>
+            </div>
+            <h2 class="catalog-category-title">
               {{ cat.name }}
             </h2>
-            <p class="text-[10px] mt-0.5 text-cream-100/40">
-              {{ getProductCount(cat.slug) }} товаров
-            </p>
           </div>
         </router-link>
       </div>
 
-      <div class="relative z-20 mb-8" v-reveal>
-        <div class="flex flex-wrap items-center gap-3">
+      <section class="catalog-control-bar mb-8" aria-label="Фильтры каталога" v-reveal>
+        <div class="catalog-control-summary">
+          <span>Сейчас в подборке</span>
+          <strong>{{ productStore.filteredProducts.length }} позиций</strong>
+          <small>из {{ productStore.allProducts.length }} в каталоге</small>
+        </div>
+
+        <div class="catalog-control-fields">
           <div class="flex-1 min-w-[200px]">
             <div class="relative">
               <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-obsidian-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
@@ -85,9 +114,9 @@
             aria-label="Сортировка"
           />
         </div>
-      </div>
+      </section>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div id="catalog-products" class="grid scroll-mt-28 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         <ProductCard v-for="p in productStore.paginatedProducts" :key="p.id" :product="p" />
       </div>
 
@@ -151,6 +180,11 @@ useSeo('Каталог продукции', 'Полный каталог дек�
 useSchemaOrg(() => schemaItemList(productStore.filteredProducts, 'Каталог кованых элементов'))
 const categories = computed(() => productStore.categories)
 const selectedCategory = computed(() => productStore.selectedCategory)
+const catalogStats = computed(() => [
+  { value: productStore.allProducts.length, label: 'позиций в каталоге' },
+  { value: categories.value.length, label: 'категорий' },
+  { value: 'KZ', label: 'доставка по Казахстану' },
+])
 
 watch(
   () => [productStore.searchQuery, productStore.selectedCategory, productStore.sortBy],
@@ -179,3 +213,276 @@ function resetCatalogFilters() {
   productStore.currentPage = 1
 }
 </script>
+
+<style scoped>
+.catalog-hero {
+  position: relative;
+  display: grid;
+  gap: 1.5rem;
+  overflow: hidden;
+  padding: 1.5rem;
+  border: 1px solid rgba(201, 150, 59, 0.14);
+  border-radius: 2rem;
+  background:
+    radial-gradient(circle at 14% 0%, rgba(201, 150, 59, 0.16), transparent 34%),
+    radial-gradient(circle at 92% 12%, rgba(245, 240, 232, 0.08), transparent 26%),
+    linear-gradient(135deg, rgba(20, 18, 16, 0.98), rgba(8, 7, 6, 0.98));
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+}
+
+.catalog-hero::before {
+  content: '';
+  position: absolute;
+  inset: 1rem;
+  pointer-events: none;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(201, 150, 59, 0.06);
+}
+
+.catalog-hero::after {
+  content: '';
+  position: absolute;
+  right: -8rem;
+  bottom: -9rem;
+  width: 22rem;
+  height: 22rem;
+  pointer-events: none;
+  border-radius: 999px;
+  background: rgba(201, 150, 59, 0.11);
+  filter: blur(54px);
+}
+
+.catalog-hero-copy,
+.catalog-hero-panel {
+  position: relative;
+  z-index: 1;
+}
+
+.catalog-hero-panel {
+  display: grid;
+  gap: 1rem;
+  align-self: stretch;
+  padding: 1rem;
+  border: 1px solid rgba(201, 150, 59, 0.12);
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(180deg, rgba(10, 9, 8, 0.66), rgba(10, 9, 8, 0.92));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.catalog-hero-mark {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(201, 150, 59, 0.12);
+  font-family: var(--font-heading);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.catalog-hero-mark span {
+  color: rgba(245, 240, 232, 0.42);
+}
+
+.catalog-hero-mark strong {
+  color: rgb(212, 175, 55);
+  font-size: 1.35rem;
+}
+
+.catalog-hero-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(201, 150, 59, 0.1);
+  border-radius: 1.1rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.catalog-hero-stat span {
+  color: rgb(228, 185, 109);
+  font-family: var(--font-heading);
+  font-size: 1.65rem;
+  line-height: 1;
+}
+
+.catalog-hero-stat small {
+  max-width: 9rem;
+  color: rgba(245, 240, 232, 0.48);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.catalog-category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.catalog-category-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(201, 150, 59, 0.1);
+  border-radius: 1.35rem;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(201, 150, 59, 0.08), transparent 42%),
+    linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(10, 9, 8, 0.98));
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+  transition-delay: calc(var(--category-index) * 8ms);
+}
+
+.catalog-category-card:hover,
+.catalog-category-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: rgba(201, 150, 59, 0.34);
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.34),
+    0 0 28px rgba(201, 150, 59, 0.08);
+  outline: none;
+}
+
+.catalog-category-card:focus-visible {
+  box-shadow:
+    0 0 0 3px rgba(201, 150, 59, 0.18),
+    0 18px 42px rgba(0, 0, 0, 0.34);
+}
+
+.catalog-category-card::after {
+  content: '';
+  position: absolute;
+  inset: auto -24% -46% 16%;
+  height: 7rem;
+  pointer-events: none;
+  border-radius: 999px;
+  background: rgba(201, 150, 59, 0.1);
+  filter: blur(34px);
+}
+
+.catalog-category-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 7.75rem;
+  padding: 1rem;
+  background: linear-gradient(180deg, rgba(245, 240, 232, 0.06), rgba(10, 9, 8, 0.04));
+}
+
+.catalog-category-content {
+  position: relative;
+  z-index: 1;
+  padding: 0.9rem;
+  border-top: 1px solid rgba(201, 150, 59, 0.1);
+}
+
+.catalog-category-number,
+.catalog-category-count {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.catalog-category-number {
+  color: rgba(228, 185, 109, 0.84);
+}
+
+.catalog-category-count {
+  color: rgba(245, 240, 232, 0.36);
+}
+
+.catalog-category-title {
+  min-height: 2.4rem;
+  color: rgb(245, 240, 232);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.catalog-control-bar {
+  position: relative;
+  z-index: 20;
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(201, 150, 59, 0.12);
+  border-radius: 1.5rem;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(201, 150, 59, 0.08), transparent 30%),
+    linear-gradient(180deg, rgba(20, 18, 16, 0.92), rgba(10, 9, 8, 0.94));
+  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.24);
+}
+
+.catalog-control-summary {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 12rem;
+}
+
+.catalog-control-summary span,
+.catalog-control-summary small {
+  color: rgba(245, 240, 232, 0.42);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.catalog-control-summary strong {
+  color: rgb(228, 185, 109);
+  font-family: var(--font-heading);
+  font-size: 1.65rem;
+  line-height: 1.1;
+}
+
+.catalog-control-fields {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .catalog-hero {
+    padding: 2rem;
+  }
+
+  .catalog-category-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .catalog-hero {
+    grid-template-columns: minmax(0, 1fr) 22rem;
+    align-items: stretch;
+    padding: 2.5rem;
+  }
+
+  .catalog-category-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .catalog-control-bar {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    padding: 1.15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .catalog-category-card {
+    transition-delay: 0ms;
+  }
+}
+</style>

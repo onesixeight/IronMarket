@@ -1,11 +1,11 @@
 import { buildTelegramLink, buildWhatsAppLink } from './messengerConfig.js'
 
-const DEFAULT_SITE_ORIGIN = 'https://etalon-kovka.vercel.app'
+import { SITE_ORIGIN } from '../config/site.js'
 
 function getSiteOrigin(options = {}) {
   if (options.origin) return options.origin.replace(/\/$/, '')
   if (typeof window !== 'undefined' && window.location?.origin) return window.location.origin
-  return DEFAULT_SITE_ORIGIN
+  return SITE_ORIGIN
 }
 
 export function getProductUrl(product, options = {}) {

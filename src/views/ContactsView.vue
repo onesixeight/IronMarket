@@ -143,15 +143,21 @@ const contactCategory = computed(() => {
   return categorySlug ? productStore.getCategoryBySlug(categorySlug) : null
 })
 const contactScenario = computed(() => getContactScenario(route.query.task))
+const deliveryContextLabel = computed(() => (route.query.topic === 'delivery' ? 'Доставка' : ''))
 const contactInitialMessage = computed(() =>
   buildContactPrefillMessage({
     product: contactProduct.value,
     category: contactCategory.value,
     task: route.query.task,
+    topic: route.query.topic,
   })
 )
 const contactContextLabel = computed(() =>
-  contactProduct.value?.name || contactCategory.value?.name || contactScenario.value?.title || ''
+  contactProduct.value?.name ||
+  contactCategory.value?.name ||
+  contactScenario.value?.title ||
+  deliveryContextLabel.value ||
+  ''
 )
 </script>
 
