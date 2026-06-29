@@ -143,7 +143,7 @@ const slides = [
     facts: [
       { value: '60+', label: 'позиций в каталоге' },
       { value: '20+', label: 'лет в ремесле' },
-      { value: '7/6', label: 'дней связи' },
+      { value: '7/7', label: 'без выходных' },
     ],
     image: '/images/hero/hero-ornamental-pattern-v2.png',
   },

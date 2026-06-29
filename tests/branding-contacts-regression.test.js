@@ -16,3 +16,5 @@ assert.match(contacts, /Без выходных/, 'Contacts view should show the
 assert.match(contacts, /Астана, просп\. Богенбай Батыра, 6\/4/, 'Contacts page should show the Astana address above the map')
 assert.match(contacts, /iframe/, 'Contacts page should embed a map iframe')
 assert.match(contacts, /yandex/i, 'Contacts page should use a Yandex map embed')
+assert.match(contacts, /text=%D0%90%D1%81%D1%82%D0%B0%D0%BD%D0%B0/, 'Yandex map should search by the public Astana address')
+assert.match(contacts, /z=17/, 'Yandex map should use the stable address-level zoom')

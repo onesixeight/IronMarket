@@ -8,6 +8,8 @@ const catalogView = readFileSync(resolve(projectRoot, 'src/views/CatalogView.vue
 
 assert.match(catalogView, /class="catalog-hero/)
 assert.match(catalogView, /catalogStats/)
+assert.doesNotMatch(catalogView, /catalog-hero-mark/)
+assert.doesNotMatch(catalogView, />Iron</i)
 assert.match(catalogView, /productStore\.allProducts\.length/)
 assert.match(catalogView, /productStore\.filteredProducts\.length/)
 assert.match(catalogView, /href="#catalog-products"/)

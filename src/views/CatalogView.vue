@@ -24,11 +24,6 @@
         </div>
 
         <aside class="catalog-hero-panel" aria-label="Каталог в цифрах">
-          <div class="catalog-hero-mark" aria-hidden="true">
-            <span>Iron</span>
-            <strong>KZ</strong>
-          </div>
-
           <div class="grid gap-3">
             <div v-for="stat in catalogStats" :key="stat.label" class="catalog-hero-stat">
               <span>{{ stat.value }}</span>
@@ -268,27 +263,6 @@ function resetCatalogFilters() {
   background:
     linear-gradient(180deg, rgba(10, 9, 8, 0.66), rgba(10, 9, 8, 0.92));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-
-.catalog-hero-mark {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-bottom: 0.85rem;
-  border-bottom: 1px solid rgba(201, 150, 59, 0.12);
-  font-family: var(--font-heading);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.catalog-hero-mark span {
-  color: rgba(245, 240, 232, 0.42);
-}
-
-.catalog-hero-mark strong {
-  color: rgb(212, 175, 55);
-  font-size: 1.35rem;
 }
 
 .catalog-hero-stat {

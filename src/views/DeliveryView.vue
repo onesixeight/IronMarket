@@ -96,7 +96,14 @@
 
               <div class="space-y-3">
                 <details v-for="(item, index) in faq" :key="item.q" class="delivery-faq" :open="index === 0">
-                  <summary>{{ item.q }}</summary>
+                  <summary>
+                    <span>{{ item.q }}</span>
+                    <span class="delivery-faq-toggle" aria-hidden="true">
+                      <svg viewBox="0 0 20 20" fill="none">
+                        <path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </span>
+                  </summary>
                   <p>{{ item.a }}</p>
                 </details>
               </div>
@@ -262,6 +269,10 @@ const faq = [
   color: rgb(212, 175, 55);
 }
 
+.delivery-icon {
+  margin-bottom: 1rem;
+}
+
 .flow-index {
   font-family: var(--font-heading);
   font-size: 1.15rem;
@@ -275,6 +286,10 @@ const faq = [
 }
 
 .delivery-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   cursor: pointer;
   list-style: none;
   padding: 1rem 1.1rem;
@@ -284,6 +299,40 @@ const faq = [
 
 .delivery-faq summary::-webkit-details-marker {
   display: none;
+}
+
+.delivery-faq summary > span:first-child {
+  min-width: 0;
+}
+
+.delivery-faq-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 auto;
+  border: 1px solid rgba(201, 150, 59, 0.18);
+  border-radius: 999px;
+  background: rgba(201, 150, 59, 0.08);
+  color: rgb(228, 185, 109);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease;
+}
+
+.delivery-faq-toggle svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.24s ease;
+}
+
+.delivery-faq[open] .delivery-faq-toggle {
+  border-color: rgba(201, 150, 59, 0.34);
+  background: rgba(201, 150, 59, 0.16);
+}
+
+.delivery-faq[open] .delivery-faq-toggle svg {
+  transform: rotate(180deg);
 }
 
 .delivery-faq p {
