@@ -243,23 +243,6 @@ onUnmounted(() => {
   background: rgba(201, 150, 59, 0.08);
 }
 
-.counter-pill {
-  position: absolute;
-  top: -0.15rem;
-  right: -0.15rem;
-  min-width: 1.15rem;
-  height: 1.15rem;
-  border-radius: 999px;
-  padding: 0 0.25rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #c9963b;
-  color: #090807;
-  font-size: 0.65rem;
-  font-weight: 700;
-}
-
 .mobile-link {
   border-radius: 1rem;
   padding: 0.9rem 1rem;

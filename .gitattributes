@@ -1,0 +1,15 @@
+# Нормализация переводов строк: в репозитории всё хранится с LF.
+# На Windows при checkout исходники остаются LF (а не CRLF), что убирает
+# «whitespace-only» диффы и лишние предупреждения git при коммите.
+* text=auto eol=lf
+
+# Бинарные файлы — не нормализовать.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.woff2 binary
+*.woff binary
+*.ttf binary
+*.otf binary
