@@ -56,6 +56,8 @@
       </div>
     </section>
 
+    <LeadPicker />
+
     <section class="section-shell py-20 lg:py-28">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between mb-14" v-reveal>
@@ -166,6 +168,8 @@
       </div>
     </section>
 
+    <FaqSection />
+
     <section class="section-shell py-20 lg:py-28">
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8" v-reveal>
         <div class="surface-panel rounded-[2rem] p-8 sm:p-10 lg:p-12 text-center">
@@ -195,6 +199,8 @@ import HeroSlider from '../components/HeroSlider.vue'
 import ProductCard from '../components/ProductCard.vue'
 import ApplicationExamples from '../components/ApplicationExamples.vue'
 import ContactForm from '../components/ContactForm.vue'
+import LeadPicker from '../components/LeadPicker.vue'
+import FaqSection from '../components/FaqSection.vue'
 import { useSeo } from '../composables/useSeo'
 import { useSchemaOrg, schemaOrganization } from '../composables/useSchemaOrg.js'
 import { useProductStore } from '../stores/products'

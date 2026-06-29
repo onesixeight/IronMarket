@@ -63,11 +63,21 @@
               Чем точнее задача, тем быстрее подскажем категории, позиции и сценарий заказа.
             </p>
 
+            <div v-if="contactContextLabel" class="mt-5 rounded-[1.25rem] border border-gold-400/12 bg-obsidian-950/44 p-4">
+              <div class="text-[10px] uppercase tracking-[0.2em] text-gold-300/70">Форма подготовлена</div>
+              <div class="mt-1 font-heading text-xl text-cream-100">{{ contactContextLabel }}</div>
+              <p class="mt-2 text-sm leading-relaxed text-cream-100/54">
+                Текст заявки уже вставлен в поле сообщения. Можно дописать размеры, количество или город доставки.
+              </p>
+            </div>
+
             <div class="mt-8 rounded-[1.5rem] border border-gold-400/10 bg-gold-400/4 p-5 sm:p-6">
               <ContactForm
                 button-text="Отправить сообщение"
                 :show-email="true"
                 :show-message="true"
+                :initial-message="contactInitialMessage"
+                message-placeholder="Например: нужны элементы для ворот, 4 секции, город Астана"
                 name-placeholder="Ваше имя"
                 :dark="true"
               />
@@ -107,13 +117,41 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import ContactForm from '../components/ContactForm.vue'
 import { useSeo } from '../composables/useSeo'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
+import { buildContactPrefillMessage, getContactScenario } from '../composables/useContactPrefill.js'
+import { useProductStore } from '../stores/products'
 
 useSeo(
   'Контакты',
   'Свяжитесь с Эталон Ковка: телефон, email и форма запроса для подбора кованых элементов и комплектующих.'
+)
+
+const route = useRoute()
+const productStore = useProductStore()
+
+const contactProduct = computed(() => {
+  const productId = Number(route.query.product)
+  return Number.isFinite(productId) ? productStore.getProductById(productId) : null
+})
+
+const contactCategory = computed(() => {
+  const categorySlug = typeof route.query.category === 'string' ? route.query.category : ''
+  return categorySlug ? productStore.getCategoryBySlug(categorySlug) : null
+})
+const contactScenario = computed(() => getContactScenario(route.query.task))
+const contactInitialMessage = computed(() =>
+  buildContactPrefillMessage({
+    product: contactProduct.value,
+    category: contactCategory.value,
+    task: route.query.task,
+  })
+)
+const contactContextLabel = computed(() =>
+  contactProduct.value?.name || contactCategory.value?.name || contactScenario.value?.title || ''
 )
 </script>
 

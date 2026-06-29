@@ -9,6 +9,8 @@
           <p class="text-cream-100/70 max-w-3xl text-[15px]">{{ category.description }}</p>
         </div>
 
+        <CategoryRequestPanel :category="category" :product-count="products.length" v-reveal="0.04" />
+
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <ProductCard v-for="(p, i) in paginatedProducts" :key="p.id" :product="p" v-reveal="i * 0.04" />
         </div>
@@ -43,6 +45,7 @@ import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useProductStore } from '../stores/products'
 import ProductCard from '../components/ProductCard.vue'
+import CategoryRequestPanel from '../components/CategoryRequestPanel.vue'
 import Pagination from '../components/Pagination.vue'
 import { useSeo } from '../composables/useSeo'
 import { useSchemaOrg, schemaItemList } from '../composables/useSchemaOrg.js'

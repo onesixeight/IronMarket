@@ -30,7 +30,7 @@
         :id="fieldIds.message"
         v-model="form.message"
         rows="4"
-        placeholder="Расскажите, что вам нужно..."
+        :placeholder="messagePlaceholder"
         class="form-input"
       ></textarea>
     </div>
@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref, useId } from 'vue'
+import { computed, reactive, ref, useId, watch } from 'vue'
 import { usePhoneMask } from '../composables/usePhoneMask'
 import { useMessengerLead } from '../composables/useMessengerLead'
 
@@ -73,12 +73,15 @@ const props = defineProps({
   showMessage: { type: Boolean, default: false },
   dark: { type: Boolean, default: true },
   sourceLabel: { type: String, default: 'с сайта Эталон Ковка' },
+  initialMessage: { type: String, default: '' },
+  messagePlaceholder: { type: String, default: 'Расскажите, что вам нужно...' },
 })
 
 const { formatPhone } = usePhoneMask()
 const { getWhatsAppLeadLink, getTelegramLeadLink } = useMessengerLead()
 
-const form = reactive({ name: '', email: '', phone: '', message: '', agreement: false })
+const syncedInitialMessage = ref(props.initialMessage || '')
+const form = reactive({ name: '', email: '', phone: '', message: syncedInitialMessage.value, agreement: false })
 const formElement = ref(null)
 const formId = useId()
 const fieldIds = {
@@ -94,6 +97,17 @@ const whatsappLink = computed(() =>
 
 const telegramLink = computed(() =>
   getTelegramLeadLink(form, { sourceLabel: props.sourceLabel })
+)
+
+watch(
+  () => props.initialMessage,
+  (message) => {
+    const nextMessage = message || ''
+    if (!form.message || form.message === syncedInitialMessage.value) {
+      form.message = nextMessage
+    }
+    syncedInitialMessage.value = nextMessage
+  }
 )
 
 function onPhoneInput(e) {

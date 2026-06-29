@@ -89,14 +89,34 @@
               </p>
             </div>
 
+            <div class="grid gap-3 sm:grid-cols-2">
+              <a
+                :href="productInquiryLinks.whatsapp"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="shimmer inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#C9A96E] via-[#D4AF37] to-[#C9A96E] px-8 py-3 font-medium text-obsidian-900 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
+                </svg>
+                WhatsApp
+              </a>
+
+              <a
+                :href="productInquiryLinks.telegram"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gold-400/18 bg-obsidian-950/64 px-8 py-3 font-medium text-gold-300 transition-all duration-300 hover:border-gold-300/40 hover:bg-gold-400/8 active:scale-[0.98]"
+              >
+                Telegram
+              </a>
+            </div>
+
             <router-link
-              to="/contacts"
-              class="shimmer inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#C9A96E] via-[#D4AF37] to-[#C9A96E] px-8 py-3 font-medium text-obsidian-900 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] sm:w-auto"
+              :to="{ path: '/contacts', query: { product: product.id } }"
+              class="mt-4 inline-flex text-sm font-medium text-cream-100/56 transition-colors hover:text-gold-300"
             >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"/>
-              </svg>
-              Оставить заявку
+              Или заполнить форму на сайте
             </router-link>
 
             <div class="mt-5 grid gap-2 sm:grid-cols-3">
@@ -180,6 +200,7 @@ import { formatPrice } from '../composables/usePrice.js'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 import RecentlyViewed from '../components/RecentlyViewed.vue'
 import { useRecentlyViewed } from '../composables/useRecentlyViewed.js'
+import { getProductTelegramLink, getProductWhatsAppLink } from '../composables/useProductInquiry.js'
 
 const route = useRoute()
 const { add: addRecentlyViewed } = useRecentlyViewed()
@@ -201,6 +222,11 @@ const related = computed(() => {
   if (!product.value) return []
   return productStore.getRelatedProducts(product.value.id)
 })
+
+const productInquiryLinks = computed(() => ({
+  whatsapp: getProductWhatsAppLink(product.value),
+  telegram: getProductTelegramLink(product.value),
+}))
 
 useSchemaOrg(() => schemaProduct(product))
 

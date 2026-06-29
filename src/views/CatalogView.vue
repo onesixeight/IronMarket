@@ -16,6 +16,8 @@
         </p>
       </div>
 
+      <CatalogProjectShortcuts v-reveal="0.04" />
+
       <div
         v-if="!selectedCategory"
         class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-20"
@@ -98,17 +100,27 @@
 
       <div
         v-if="productStore.filteredProducts.length === 0"
-        class="text-center py-20"
+        class="mx-auto max-w-2xl py-20 text-center"
       >
-        <svg class="w-16 h-16 mx-auto mb-4 text-obsidian-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-        </svg>
-        <p class="text-lg font-bold font-heading text-cream-100/70">
-          Товары не найдены
-        </p>
-        <p class="text-sm mt-1 text-cream-100/50">
-          Попробуйте изменить параметры поиска
-        </p>
+        <div class="rounded-[2rem] border border-gold-400/12 bg-obsidian-800/70 p-8 sm:p-10">
+          <svg class="w-16 h-16 mx-auto mb-5 text-gold-400/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+          </svg>
+          <p class="font-heading text-2xl text-cream-100">
+            Не нашли нужную позицию?
+          </p>
+          <p class="mx-auto mt-3 max-w-md text-sm leading-relaxed text-cream-100/54">
+            Сбросьте фильтры или отправьте заявку: по описанию объекта мы подскажем, какие элементы лучше смотреть.
+          </p>
+          <div class="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+            <button type="button" class="metal-button-ghost justify-center" @click="resetCatalogFilters">
+              Сбросить фильтры
+            </button>
+            <router-link :to="{ path: '/contacts', query: { task: 'gates' } }" class="metal-button justify-center">
+              Подобрать элементы
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -118,6 +130,7 @@
 import { computed, watch } from 'vue'
 import { useProductStore } from '../stores/products'
 import ProductCard from '../components/ProductCard.vue'
+import CatalogProjectShortcuts from '../components/CatalogProjectShortcuts.vue'
 import CustomSelect from '../components/CustomSelect.vue'
 import Pagination from '../components/Pagination.vue'
 import { useSeo } from '../composables/useSeo'
@@ -157,5 +170,12 @@ const sortOptions = [
 
 function getProductCount(slug) {
   return productStore.categoryProductCount.get(slug) || 0
+}
+
+function resetCatalogFilters() {
+  productStore.searchQuery = ''
+  productStore.selectedCategory = null
+  productStore.sortBy = 'name'
+  productStore.currentPage = 1
 }
 </script>
