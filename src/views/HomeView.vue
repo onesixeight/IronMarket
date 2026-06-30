@@ -60,48 +60,45 @@
 
     <section class="section-shell py-20 lg:py-28">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between mb-14" v-reveal>
-          <div class="max-w-2xl">
+        <div class="surface-panel category-section-panel rounded-[2rem] p-5 sm:p-6 lg:p-8" v-reveal>
+          <div class="max-w-2xl category-heading-block mb-10 sm:mb-12">
             <div class="eyebrow mb-5">Категории</div>
             <h2 class="section-title text-3xl sm:text-4xl">Ключевые группы кованых элементов.</h2>
           </div>
-          <p class="section-lead max-w-xl text-sm sm:text-base">
-            Быстрый вход в основные направления каталога: от декоративных узоров и балясин до элементов для ворот и секций.
-          </p>
-        </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-          <router-link
-            v-for="(cat, i) in featuredCategories"
-            :key="cat.id"
-            :to="'/catalog/' + cat.slug"
-            class="category-card group"
-            v-reveal="i * 0.05"
-          >
-            <div class="flex items-start justify-between gap-4 mb-7">
-              <div class="w-14 h-14 rounded-[1.15rem] border border-gold-400/14 bg-gold-400/6 p-2.5">
-                <img :src="cat.image" :alt="cat.name" loading="lazy" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" />
+          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            <router-link
+              v-for="(cat, i) in featuredCategories"
+              :key="cat.id"
+              :to="'/catalog/' + cat.slug"
+              class="category-card group"
+              v-reveal="i * 0.05"
+            >
+              <div class="category-card-media flex items-start justify-between gap-4">
+                <div class="w-14 h-14 rounded-[1.15rem] border border-gold-400/14 bg-gold-400/6 p-2.5">
+                  <img :src="cat.image" :alt="cat.name" loading="lazy" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" />
+                </div>
+                <span class="text-[10px] uppercase tracking-[0.18em] text-gold-300/70">
+                  {{ String(i + 1).padStart(2, '0') }}
+                </span>
               </div>
-              <span class="text-[10px] uppercase tracking-[0.18em] text-gold-300/70">
-                {{ String(i + 1).padStart(2, '0') }}
-              </span>
-            </div>
 
-            <h3 class="font-heading text-xl text-cream-100 leading-tight">{{ cat.name }}</h3>
-            <p class="mt-3 text-sm leading-relaxed text-cream-100/56 min-h-[4.5rem]">
-              {{ cat.description }}
-            </p>
+              <h3 class="category-card-title font-heading text-xl text-cream-100 leading-tight">{{ cat.name }}</h3>
+              <p class="category-card-description mt-3 text-sm leading-relaxed text-cream-100/56">
+                {{ cat.description }}
+              </p>
 
-            <div class="mt-6 flex items-center justify-between border-t border-gold-400/10 pt-4">
-              <span class="text-xs uppercase tracking-[0.18em] text-cream-100/38">{{ getProductCount(cat.slug) }} позиций</span>
-              <span class="inline-flex items-center gap-2 text-sm text-gold-300">
-                Смотреть
-                <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
-                </svg>
-              </span>
-            </div>
-          </router-link>
+              <div class="category-card-footer flex items-center justify-between border-t border-gold-400/10 pt-4">
+                <span class="text-xs uppercase tracking-[0.18em] text-cream-100/38">{{ getProductCount(cat.slug) }} позиций</span>
+                <span class="inline-flex items-center gap-2 text-sm text-gold-300">
+                  Смотреть
+                  <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
+                  </svg>
+                </span>
+              </div>
+            </router-link>
+          </div>
         </div>
       </div>
     </section>
@@ -284,12 +281,31 @@ function getProductCount(slug) {
 
 <style scoped>
 .category-card {
-  display: block;
+  display: flex;
+  min-height: 22.75rem;
+  flex-direction: column;
   padding: 1.5rem;
   border-radius: 1.75rem;
   border: 1px solid rgba(201, 150, 59, 0.1);
   background: linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(10, 9, 8, 0.96));
   transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.category-card-media {
+  min-height: 3.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.category-card-title {
+  min-height: 4.5rem;
+}
+
+.category-card-description {
+  min-height: 5.25rem;
+}
+
+.category-card-footer {
+  margin-top: auto;
 }
 
 .category-card:hover {
@@ -298,6 +314,17 @@ function getProductCount(slug) {
   box-shadow:
     0 24px 48px rgba(0, 0, 0, 0.42),
     0 0 24px rgba(201, 150, 59, 0.08);
+}
+
+@media (max-width: 639px) {
+  .category-card {
+    min-height: auto;
+  }
+
+  .category-card-title,
+  .category-card-description {
+    min-height: 0;
+  }
 }
 
 .request-step-card {
