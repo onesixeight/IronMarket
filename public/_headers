@@ -10,4 +10,4 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://mc.yandex.ru; style-src 'self'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://wa.me https://t.me https://mc.yandex.ru; frame-src https://yandex.ru https://*.yandex.ru; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://mc.yandex.ru https://www.googletagmanager.com; style-src 'self'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://wa.me https://t.me https://mc.yandex.ru https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com; frame-src https://yandex.ru https://*.yandex.ru; frame-ancestors 'none'; base-uri 'self'; form-action 'self'

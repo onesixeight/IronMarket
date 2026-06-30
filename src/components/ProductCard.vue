@@ -55,6 +55,7 @@
             rel="noopener noreferrer"
             class="inline-flex items-center justify-center rounded-2xl border border-gold-400/24 bg-gold-400/8 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-cream-100 transition-all duration-200 hover:border-gold-300/44 hover:bg-gold-400/14 active:scale-95"
             :aria-label="`Спросить в WhatsApp про ${product.name}`"
+            @click="trackCardLead"
           >
             Спросить
           </a>
@@ -66,6 +67,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { trackLead } from '../composables/useAnalytics.js'
 import { formatPrice } from '../composables/usePrice.js'
 import { getProductWhatsAppLink } from '../composables/useProductInquiry.js'
 
@@ -74,4 +76,12 @@ const props = defineProps({
 })
 
 const whatsappInquiryLink = computed(() => getProductWhatsAppLink(props.product))
+
+function trackCardLead() {
+  trackLead('whatsapp', {
+    source: 'product_card',
+    product_id: props.product.id,
+    category_slug: props.product.categorySlug,
+  })
+}
 </script>

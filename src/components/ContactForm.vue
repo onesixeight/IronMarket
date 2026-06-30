@@ -61,6 +61,7 @@
 
 <script setup>
 import { computed, reactive, ref, useId, watch } from 'vue'
+import { trackLead } from '../composables/useAnalytics.js'
 import { usePhoneMask } from '../composables/usePhoneMask'
 import { useMessengerLead } from '../composables/useMessengerLead'
 
@@ -118,16 +119,17 @@ function ensureValid() {
   return formElement.value?.reportValidity() !== false
 }
 
-function openLink(link) {
+function openLink(link, channel) {
   if (!ensureValid()) return
+  trackLead(channel, { source: 'contact_form' })
   window.open(link, '_blank', 'noopener,noreferrer')
 }
 
 function openWhatsApp() {
-  openLink(whatsappLink.value)
+  openLink(whatsappLink.value, 'whatsapp')
 }
 
 function openTelegram() {
-  openLink(telegramLink.value)
+  openLink(telegramLink.value, 'telegram')
 }
 </script>

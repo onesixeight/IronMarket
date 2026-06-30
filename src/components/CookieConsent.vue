@@ -18,7 +18,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { initYandexMetrika } from '../composables/useYandexMetrika.js'
+import { initAnalytics } from '../composables/useAnalytics.js'
 
 const STORAGE_KEY = 'cookie-consent'
 const visible = ref(false)
@@ -27,7 +27,7 @@ onMounted(() => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored === 'accepted') {
-      initYandexMetrika()
+      initAnalytics()
       return
     }
     if (stored === 'declined') {
@@ -43,7 +43,7 @@ function accept() {
   try {
     localStorage.setItem(STORAGE_KEY, 'accepted')
   } catch {}
-  initYandexMetrika()
+  initAnalytics()
   visible.value = false
 }
 

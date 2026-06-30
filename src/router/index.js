@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { trackPageView } from '../composables/useAnalytics.js'
 
 const routes = [
   {
@@ -79,12 +80,10 @@ const router = createRouter({
   },
 })
 
-// Отправка просмотра страницы в Яндекс.Метрику при навигации SPA.
-// trackPageView безопасно no-op, пока счётчик не инициализирован (до consent).
+// Отправка просмотра страницы в подключенные аналитические системы при навигации SPA.
+// trackPageView безопасно no-op, пока аналитика не инициализирована (до consent).
 router.afterEach((to) => {
-  import('../composables/useYandexMetrika.js').then(({ trackPageView }) => {
-    trackPageView(to.fullPath)
-  })
+  trackPageView(to.fullPath)
 })
 
 export default router

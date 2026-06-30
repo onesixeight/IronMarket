@@ -1,54 +1,69 @@
-// Яндекс.Метрика для Vue SPA.
-// Замени Ym_COUNTER_ID ниже на свой номер счётчика из интерфейса Метрики.
-// Скрипт грузится только после согласия пользователя (см. CookieConsent),
-// поэтому window.ym может быть undefined до согласия — все вызовы безопасны.
+const DEFAULT_YANDEX_METRIKA_ID = '110264764'
 
-export const YM_COUNTER_ID = '00000000' // ← поставь свой номер счётчика Метрики
+export const YM_COUNTER_ID = String(
+  import.meta.env.VITE_YANDEX_METRIKA_ID || DEFAULT_YANDEX_METRIKA_ID
+).trim()
 
+const YM_SCRIPT_ID = 'yandex-metrika-tag'
 const YM_SCRIPT_SRC = 'https://mc.yandex.ru/metrika/tag.js'
+const YM_PLACEHOLDER_IDS = new Set(['00000000', 'XXXXXXXX'])
 
 let loaded = false
 
-/** Загружает скрипт Метрики. Вызывается после согласия пользователя. */
+export function isYandexMetrikaConfigured() {
+  return Boolean(YM_COUNTER_ID) && !YM_PLACEHOLDER_IDS.has(YM_COUNTER_ID)
+}
+
 export function initYandexMetrika() {
-  if (loaded || typeof window === 'undefined') return
-  if (window.ym) {
-    loaded = true
-    return
-  }
+  if (typeof window === 'undefined' || !isYandexMetrikaConfigured()) return false
+  if (loaded) return true
 
   window.ym =
     window.ym ||
     function () {
       ;(window.ym.a = window.ym.a || []).push(arguments)
     }
-  window.ym.l = +new Date()
+  window.ym.l = window.ym.l || +new Date()
 
-  const script = document.createElement('script')
-  script.async = true
-  script.src = YM_SCRIPT_SRC
-  document.head.appendChild(script)
+  if (!document.getElementById(YM_SCRIPT_ID)) {
+    const script = document.createElement('script')
+    script.id = YM_SCRIPT_ID
+    script.async = true
+    script.src = YM_SCRIPT_SRC
+    document.head.appendChild(script)
+  }
 
-  // Инициализация счётчика (современный tag.js).
   window.ym(YM_COUNTER_ID, 'init', {
     clickmap: true,
     trackLinks: true,
     accurateTrackBounce: true,
     webvisor: true,
-    defer: false,
+    ecommerce: 'dataLayer',
+    defer: true,
   })
 
   loaded = true
+  return true
 }
 
-/** Отправляет просмотр страницы. Вызывается из router.afterEach. */
-export function trackPageView(path) {
-  if (typeof window === 'undefined' || !window.ym) return
-  window.ym(YM_COUNTER_ID, 'hit', path || window.location.pathname)
+export function trackYandexPageView(path, options = {}) {
+  if (typeof window === 'undefined' || !loaded || !window.ym) return
+
+  window.ym(YM_COUNTER_ID, 'hit', path || currentPath(), {
+    title: options.title || document.title,
+    referer: options.referer,
+  })
 }
 
-/** Достигновение цели. Например: trackGoal('whatsapp_click'). */
+export function trackPageView(path, options) {
+  trackYandexPageView(path, options)
+}
+
 export function trackGoal(target, params) {
-  if (typeof window === 'undefined' || !window.ym) return
+  if (typeof window === 'undefined' || !loaded || !window.ym || !target) return
   window.ym(YM_COUNTER_ID, 'reachGoal', target, params)
+}
+
+function currentPath() {
+  return `${window.location.pathname}${window.location.search}${window.location.hash}`
 }
