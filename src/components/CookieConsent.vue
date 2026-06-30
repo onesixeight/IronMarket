@@ -3,9 +3,9 @@
     <div v-if="visible" class="consent" role="dialog" aria-label="Согласие на использование cookies" aria-live="polite">
       <div class="consent-body">
         <p class="consent-text">
-          Мы используем Яндекс.Метрику, чтобы сайт был удобнее: смотрим, что
-          нравится посетителям, и улучшаем подбор кованых элементов. Подробнее —
-          в <router-link to="/about" class="consent-link" @click="accept">политике</router-link>.
+          Мы используем cookie, чтобы сайт работал удобнее: запоминаем
+          выбранные позиции и улучшаем подбор кованых элементов.
+          <router-link to="/about" class="consent-link" @click="accept">Подробнее</router-link>.
         </p>
         <div class="consent-actions">
           <button type="button" class="consent-btn consent-decline" @click="decline">Отклонить</button>
