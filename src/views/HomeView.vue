@@ -105,27 +105,52 @@
 
     <section class="section-shell py-20 lg:py-28">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid gap-10 xl:grid-cols-[0.55fr_1fr] xl:items-start">
-          <div v-reveal>
-            <div class="eyebrow mb-5">Подборка</div>
-            <h2 class="section-title text-3xl sm:text-4xl">Популярные товары для быстрых проектов.</h2>
-            <p class="section-lead mt-4 text-sm sm:text-base">
-              Часто заказываемые позиции, с которых удобно начинать подбор элементов под ворота, ограждения и декоративные вставки.
-            </p>
+        <div class="surface-panel popular-products-panel rounded-[2rem] p-5 sm:p-6 lg:p-8" v-reveal>
+          <div class="popular-products-layout">
+            <div class="popular-products-copy">
+              <div class="eyebrow mb-5">Подборка</div>
+              <h2 class="section-title text-3xl sm:text-4xl leading-tight">Популярные товары для быстрых проектов.</h2>
+              <p class="section-lead mt-4 text-sm sm:text-base">
+                Часто заказываемые позиции, с которых удобно начинать подбор элементов под ворота, ограждения и декоративные вставки.
+              </p>
 
-            <div class="mt-8 flex flex-wrap gap-3">
-              <router-link to="/catalog" class="metal-button">Весь каталог</router-link>
-              <router-link to="/contacts" class="metal-button-ghost">Нужен совет</router-link>
+              <div class="popular-products-points" aria-label="Что входит в подборку">
+                <span>Ворота</span>
+                <span>Ограждения</span>
+                <span>Лестницы</span>
+              </div>
+
+              <div class="mt-8 flex flex-wrap gap-3">
+                <router-link to="/catalog" class="metal-button">Весь каталог</router-link>
+                <router-link to="/contacts" class="metal-button-ghost">Нужен совет</router-link>
+              </div>
             </div>
-          </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
-            <ProductCard
-              v-for="(p, i) in popularProducts"
-              :key="p.id"
-              :product="p"
-              v-reveal="i * 0.05"
-            />
+            <div class="popular-products-grid">
+              <router-link
+                v-for="(p, i) in popularProducts"
+                :key="p.id"
+                :to="'/product/' + p.id"
+                class="popular-product-card group"
+                v-reveal="i * 0.05"
+              >
+                <span class="popular-product-image">
+                  <img :src="p.image" :alt="p.name" loading="lazy" />
+                </span>
+
+                <span class="popular-product-copy">
+                  <span class="popular-product-index">{{ String(i + 1).padStart(2, '0') }}</span>
+                  <span class="popular-product-title">{{ p.name }}</span>
+                  <span v-if="p.material" class="popular-product-material">{{ p.material }}</span>
+                  <span class="popular-product-action">
+                    Смотреть
+                    <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                    </svg>
+                  </span>
+                </span>
+              </router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -193,7 +218,6 @@
 <script setup>
 import { computed, h } from 'vue'
 import HeroSlider from '../components/HeroSlider.vue'
-import ProductCard from '../components/ProductCard.vue'
 import ApplicationExamples from '../components/ApplicationExamples.vue'
 import ContactForm from '../components/ContactForm.vue'
 import LeadPicker from '../components/LeadPicker.vue'
@@ -211,7 +235,19 @@ useSchemaOrg(schemaOrganization)
 
 const productStore = useProductStore()
 const featuredCategories = computed(() => productStore.categories.slice(0, 8))
-const popularProducts = computed(() => productStore.allProducts.filter(p => p.badge).slice(0, 6))
+const POPULAR_PRODUCT_IDS = [6150, 6160, 6173, 6199]
+const POPULAR_PRODUCTS_LIMIT = 4
+const popularProducts = computed(() => {
+  const selected = POPULAR_PRODUCT_IDS
+    .map((id) => productStore.getProductById(id))
+    .filter(Boolean)
+  const selectedIds = new Set(selected.map((product) => product.id))
+  const fallback = productStore.allProducts
+    .filter((product) => !selectedIds.has(product.id))
+    .slice(0, POPULAR_PRODUCTS_LIMIT - selected.length)
+
+  return [...selected, ...fallback].slice(0, POPULAR_PRODUCTS_LIMIT)
+})
 
 const atelierStats = [
   { value: '60+', label: 'позиций в каталоге' },
@@ -280,6 +316,190 @@ function getProductCount(slug) {
 </script>
 
 <style scoped>
+.popular-products-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.popular-products-panel::after {
+  content: '';
+  position: absolute;
+  inset: -18% -24% auto 46%;
+  height: 18rem;
+  border-radius: 999px;
+  background: rgba(201, 150, 59, 0.08);
+  filter: blur(46px);
+  pointer-events: none;
+}
+
+.popular-products-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.popular-products-layout {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+.popular-products-copy {
+  min-width: 0;
+}
+
+.popular-products-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.5rem;
+}
+
+.popular-products-points span {
+  border: 1px solid rgba(201, 150, 59, 0.14);
+  border-radius: 999px;
+  background: rgba(201, 150, 59, 0.06);
+  color: rgba(248, 241, 224, 0.54);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  padding: 0.55rem 0.85rem;
+  text-transform: uppercase;
+}
+
+.popular-products-grid {
+  align-self: center;
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: 1fr;
+}
+
+.popular-product-card {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  gap: 1rem;
+  min-height: 9.25rem;
+  padding: 1rem;
+  border: 1px solid rgba(201, 150, 59, 0.1);
+  border-radius: 1.35rem;
+  background:
+    radial-gradient(circle at 15% 0%, rgba(201, 150, 59, 0.12), transparent 38%),
+    rgba(10, 9, 8, 0.56);
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.popular-product-card:hover,
+.popular-product-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(201, 150, 59, 0.3);
+  background:
+    radial-gradient(circle at 15% 0%, rgba(201, 150, 59, 0.16), transparent 42%),
+    rgba(10, 9, 8, 0.7);
+  outline: none;
+}
+
+.popular-product-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  border-radius: 1rem;
+  background: rgba(248, 241, 224, 0.94);
+  overflow: hidden;
+}
+
+.popular-product-image img {
+  width: 100%;
+  height: 100%;
+  max-height: 6.5rem;
+  object-fit: contain;
+  padding: 0.6rem;
+  transition: transform 0.35s ease;
+}
+
+.popular-product-card:hover .popular-product-image img,
+.popular-product-card:focus-visible .popular-product-image img {
+  transform: scale(1.05);
+}
+
+.popular-product-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.popular-product-index {
+  color: rgba(212, 175, 55, 0.72);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.popular-product-title {
+  display: -webkit-box;
+  margin-top: 0.4rem;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: rgb(248, 241, 224);
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  line-height: 1.12;
+}
+
+.popular-product-material {
+  margin-top: 0.65rem;
+  overflow: hidden;
+  color: rgba(248, 241, 224, 0.42);
+  font-size: 0.82rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.popular-product-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: auto;
+  padding-top: 0.9rem;
+  color: rgb(212, 175, 55);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .popular-products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .popular-products-layout {
+    grid-template-columns: minmax(18rem, 0.48fr) minmax(0, 1fr);
+  }
+
+  .popular-products-copy {
+    position: sticky;
+    top: 7rem;
+  }
+
+  .popular-products-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .popular-product-card {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+  }
+
+  .popular-product-image img {
+    max-height: 5.75rem;
+  }
+}
+
 .category-card {
   display: flex;
   min-height: 22.75rem;
