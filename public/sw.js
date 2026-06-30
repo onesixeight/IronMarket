@@ -1,17 +1,57 @@
-const CACHE_NAME = 'etalon-pwa-v2'
+const CACHE_NAME = 'etalon-pwa-v3'
+const PRECACHE_ASSETS = []
 const APP_SHELL = [
   '/',
+  '/index.html',
   '/manifest.webmanifest',
   '/icons/pwa-192.png',
   '/icons/pwa-512.png',
   '/icons/apple-touch-icon.png',
 ]
+const PRECACHE_URLS = [...new Set([...APP_SHELL, ...PRECACHE_ASSETS])]
+
+function shouldCacheResponse(response) {
+  return response && response.ok && response.type === 'basic'
+}
+
+async function putInCache(request, response) {
+  if (!shouldCacheResponse(response)) return
+
+  const cache = await caches.open(CACHE_NAME)
+  await cache.put(request, response.clone())
+}
+
+async function cacheFirst(request) {
+  const cachedResponse = await caches.match(request)
+  if (cachedResponse) return cachedResponse
+
+  const networkResponse = await fetch(request)
+  await putInCache(request, networkResponse)
+  return networkResponse
+}
+
+async function networkFirst(request, fallbackUrl) {
+  try {
+    const networkResponse = await fetch(request)
+    await putInCache(request, networkResponse)
+    return networkResponse
+  } catch {
+    return (await caches.match(request)) || (fallbackUrl ? await caches.match(fallbackUrl) : null) || Response.error()
+  }
+}
+
+function isStaticAsset(request, url) {
+  return (
+    url.pathname.startsWith('/assets/') ||
+    ['font', 'image', 'script', 'style', 'worker'].includes(request.destination)
+  )
+}
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches
       .open(CACHE_NAME)
-      .then((cache) => cache.addAll(APP_SHELL))
+      .then((cache) => cache.addAll(PRECACHE_URLS))
       .then(() => self.skipWaiting()),
   )
 })
@@ -34,22 +74,14 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return
 
   if (request.mode === 'navigate') {
-    event.respondWith(fetch(request).catch(() => caches.match('/')))
+    event.respondWith(networkFirst(request, '/'))
     return
   }
 
-  event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      if (cachedResponse) return cachedResponse
+  if (isStaticAsset(request, url)) {
+    event.respondWith(cacheFirst(request))
+    return
+  }
 
-      return fetch(request).then((networkResponse) => {
-        if (networkResponse.ok && networkResponse.type === 'basic') {
-          const responseToCache = networkResponse.clone()
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, responseToCache))
-        }
-
-        return networkResponse
-      })
-    }),
-  )
+  event.respondWith(networkFirst(request))
 })
