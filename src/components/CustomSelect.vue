@@ -18,34 +18,37 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
       </svg>
     </button>
-    <transition name="dropdown">
-      <div
-        v-if="open"
-        ref="dropdown"
-        class="absolute left-0 right-0 top-[calc(100%+0.375rem)] z-[100] bg-obsidian-800 border border-obsidian-600 rounded-xl shadow-2xl shadow-black/60 py-1.5 max-h-60 overflow-y-auto"
-        role="listbox"
-        :id="listboxId"
-        :aria-activedescendant="highlightedIndex >= 0 ? optionId(highlightedIndex) : undefined"
-      >
-        <button
-          v-for="(opt, i) in options"
-          :key="String(opt.value)"
-          :id="optionId(i)"
-          @click="select(opt)"
-          @mouseenter="highlightedIndex = i"
-          @mousemove="highlightedIndex = i"
-          role="option"
-          :aria-selected="modelValue === opt.value"
-          class="w-full px-4 py-2 text-sm text-left transition-colors"
-          :class="[
-            highlightedIndex === i ? 'bg-gold-400/15 text-gold-300' : 'text-cream-100/70',
-            modelValue === opt.value ? 'font-medium' : ''
-          ]"
+    <Teleport to="body">
+      <transition name="dropdown">
+        <div
+          v-if="open"
+          ref="dropdown"
+          class="custom-select-dropdown bg-obsidian-800 border border-obsidian-600 rounded-xl shadow-2xl shadow-black/60 py-1.5 max-h-60 overflow-y-auto"
+          :style="dropdownStyle"
+          role="listbox"
+          :id="listboxId"
+          :aria-activedescendant="highlightedIndex >= 0 ? optionId(highlightedIndex) : undefined"
         >
-          {{ opt.label }}
-        </button>
-      </div>
-    </transition>
+          <button
+            v-for="(opt, i) in options"
+            :key="String(opt.value)"
+            :id="optionId(i)"
+            @click="select(opt)"
+            @mouseenter="highlightedIndex = i"
+            @mousemove="highlightedIndex = i"
+            role="option"
+            :aria-selected="modelValue === opt.value"
+            class="w-full px-4 py-2 text-sm text-left transition-colors"
+            :class="[
+              highlightedIndex === i ? 'bg-gold-400/15 text-gold-300' : 'text-cream-100/70',
+              modelValue === opt.value ? 'font-medium' : '',
+            ]"
+          >
+            {{ opt.label }}
+          </button>
+        </div>
+      </transition>
+    </Teleport>
   </div>
 </template>
 
@@ -65,8 +68,10 @@ const trigger = ref(null)
 const buttonRef = ref(null)
 const dropdown = ref(null)
 const highlightedIndex = ref(-1)
+const dropdownStyle = ref({})
 const selectId = useId()
 const listboxId = `${selectId}-listbox`
+let positionFrame = 0
 
 const selectedLabel = computed(() => {
   const opt = props.options.find(o => o.value === props.modelValue)
@@ -74,10 +79,12 @@ const selectedLabel = computed(() => {
 })
 
 function toggle() {
-  open.value = !open.value
   if (open.value) {
-    highlightedIndex.value = props.options.findIndex(o => o.value === props.modelValue)
+    closeList()
+    return
   }
+
+  openList()
 }
 
 function select(opt) {
@@ -86,18 +93,48 @@ function select(opt) {
   highlightedIndex.value = -1
 }
 
+async function openList() {
+  open.value = true
+  highlightedIndex.value = props.options.findIndex(o => o.value === props.modelValue)
+  if (highlightedIndex.value < 0 && props.options.length) highlightedIndex.value = 0
+
+  updateDropdownPosition()
+  await nextTick()
+  updateDropdownPosition()
+  scrollToHighlighted()
+}
+
 function closeList() {
   open.value = false
   highlightedIndex.value = -1
+}
+
+function updateDropdownPosition() {
+  if (!open.value || !trigger.value) return
+
+  const rect = trigger.value.getBoundingClientRect()
+  dropdownStyle.value = {
+    left: `${rect.left}px`,
+    top: `${rect.bottom + 6}px`,
+    width: `${rect.width}px`,
+  }
+}
+
+function queueDropdownPositionUpdate() {
+  if (!open.value) return
+  if (positionFrame) cancelAnimationFrame(positionFrame)
+
+  positionFrame = requestAnimationFrame(() => {
+    positionFrame = 0
+    updateDropdownPosition()
+  })
 }
 
 function onTriggerKey(e) {
   if (!open.value) {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
-      open.value = true
-      highlightedIndex.value = props.options.findIndex(o => o.value === props.modelValue)
-      if (highlightedIndex.value < 0 && props.options.length) highlightedIndex.value = 0
+      openList()
     }
     return
   }
@@ -152,10 +189,10 @@ function optionId(index) {
 }
 
 function onClickOutside(e) {
-  if (
-    trigger.value && !trigger.value.contains(e.target) &&
-    dropdown.value && !dropdown.value.contains(e.target)
-  ) {
+  const clickedTrigger = trigger.value?.contains(e.target)
+  const clickedDropdown = dropdown.value?.contains(e.target)
+
+  if (!clickedTrigger && !clickedDropdown) {
     closeList()
   }
 }
@@ -170,14 +207,24 @@ function onDocKey(e) {
 onMounted(() => {
   document.addEventListener('click', onClickOutside)
   document.addEventListener('keydown', onDocKey)
+  window.addEventListener('resize', queueDropdownPositionUpdate)
+  window.addEventListener('scroll', queueDropdownPositionUpdate, true)
 })
 onUnmounted(() => {
   document.removeEventListener('click', onClickOutside)
   document.removeEventListener('keydown', onDocKey)
+  window.removeEventListener('resize', queueDropdownPositionUpdate)
+  window.removeEventListener('scroll', queueDropdownPositionUpdate, true)
+  if (positionFrame) cancelAnimationFrame(positionFrame)
 })
 </script>
 
 <style scoped>
+.custom-select-dropdown {
+  position: fixed;
+  z-index: 100;
+}
+
 .dropdown-enter-active { animation: dropIn 0.2s cubic-bezier(0.16, 1, 0.3, 1); }
 .dropdown-leave-active { animation: dropIn 0.15s ease reverse; }
 @keyframes dropIn {
