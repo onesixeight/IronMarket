@@ -42,7 +42,9 @@ onMounted(() => {
 function accept() {
   try {
     localStorage.setItem(STORAGE_KEY, 'accepted')
-  } catch {}
+  } catch {
+    // Cookie consent should not block the form when storage is unavailable.
+  }
   initAnalytics()
   visible.value = false
 }
@@ -50,7 +52,9 @@ function accept() {
 function decline() {
   try {
     localStorage.setItem(STORAGE_KEY, 'declined')
-  } catch {}
+  } catch {
+    // Cookie consent should still close when storage is unavailable.
+  }
   visible.value = false
 }
 </script>

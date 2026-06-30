@@ -26,5 +26,6 @@ export function saveStorage(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value))
   } catch {
+    // Optional browser storage should never break the shopping flow.
   }
 }

@@ -78,7 +78,7 @@ const props = defineProps({
   messagePlaceholder: { type: String, default: 'Расскажите, что вам нужно...' },
 })
 
-const { formatPhone } = usePhoneMask()
+const { formatPhoneInputEvent } = usePhoneMask()
 const { getWhatsAppLeadLink, getTelegramLeadLink } = useMessengerLead()
 
 const syncedInitialMessage = ref(props.initialMessage || '')
@@ -112,7 +112,7 @@ watch(
 )
 
 function onPhoneInput(e) {
-  form.phone = formatPhone(e.target.value)
+  form.phone = formatPhoneInputEvent(e)
 }
 
 function ensureValid() {

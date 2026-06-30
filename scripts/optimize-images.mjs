@@ -17,8 +17,7 @@
 
 import { readFile, writeFile, readdir, stat, rm } from 'node:fs/promises'
 import { existsSync } from 'node:fs'
-import { createReadStream } from 'node:fs'
-import { join, dirname, extname, basename, relative } from 'node:path'
+import { join, dirname, extname, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import sharp from 'sharp'

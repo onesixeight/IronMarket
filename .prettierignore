@@ -1,0 +1,12 @@
+.agents
+.codex
+.roo
+.vercel
+.wrangler
+coverage
+dist
+node_modules
+CONTEXT.md
+package-lock.json
+public/robots.txt
+public/sitemap.xml
