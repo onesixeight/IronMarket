@@ -1,14 +1,21 @@
 <template>
   <section class="section-shell py-20 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between mb-14" v-reveal>
-        <div class="max-w-2xl">
+      <div class="application-examples-intro surface-panel rounded-[2rem] p-6 sm:p-8 lg:p-10 mb-14" v-reveal>
+        <div class="application-examples-copy">
           <div class="eyebrow mb-5">Где это работает</div>
-          <h2 class="section-title text-3xl sm:text-4xl">Кованые элементы для частных и коммерческих пространств.</h2>
+          <h2 class="section-title text-3xl sm:text-4xl leading-tight">Кованые элементы для частных и коммерческих пространств.</h2>
+          <p class="section-lead mt-4 max-w-2xl text-sm sm:text-base">
+            Наши изделия помогают собрать цельный образ дома, ограждения или фасада: от спокойной классики до насыщенного декоративного рисунка.
+          </p>
         </div>
-        <p class="section-lead max-w-xl text-sm sm:text-base">
-          Наши изделия помогают собрать цельный образ дома, ограждения или фасада: от спокойной классики до насыщенного декоративного рисунка.
-        </p>
+
+        <div class="application-examples-points" aria-label="Основные сценарии применения">
+          <div v-for="point in introPoints" :key="point.label" class="application-examples-point">
+            <span class="application-examples-point-value">{{ point.value }}</span>
+            <span class="application-examples-point-label">{{ point.label }}</span>
+          </div>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
@@ -70,9 +77,64 @@ const examples = [
   { image: '/images/examples/app-grilles.jpg', title: 'Решётки и проёмы', desc: 'Функциональные решения для окон и ниш с аккуратным декоративным рисунком.' },
   { image: '/images/examples/app-gates.jpg', title: 'Ворота и калитки', desc: 'От строгих линий до более насыщенных орнаментов — под разные стили и типы объектов.' },
 ]
+
+const introPoints = [
+  { value: '01', label: 'Интерьеры' },
+  { value: '02', label: 'Ограждения' },
+  { value: '03', label: 'Фасады' },
+]
 </script>
 
 <style scoped>
+.application-examples-intro {
+  display: grid;
+  gap: 2rem;
+  align-items: end;
+}
+
+.application-examples-copy {
+  min-width: 0;
+}
+
+.application-examples-points {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.application-examples-point {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 4.25rem;
+  padding: 1rem 1.15rem;
+  border-radius: 1.1rem;
+  border: 1px solid rgba(201, 150, 59, 0.12);
+  background: rgba(10, 9, 8, 0.44);
+}
+
+.application-examples-point-value {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  line-height: 1;
+  color: rgba(212, 175, 55, 0.94);
+}
+
+.application-examples-point-label {
+  color: rgba(248, 241, 224, 0.5);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+@media (min-width: 1024px) {
+  .application-examples-intro {
+    grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.42fr);
+  }
+}
+
 .example-card {
   background: linear-gradient(180deg, rgba(20, 18, 16, 0.92), rgba(10, 9, 8, 0.96));
   transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
