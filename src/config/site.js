@@ -1,4 +1,4 @@
-export const SITE_ORIGIN = 'https://etalon-kovka.vercel.app'
+export const SITE_ORIGIN = 'https://etalon-kovka.kz'
 export const SITE_NAME = 'Эталон Ковка'
 export const DEFAULT_SOCIAL_IMAGE = '/images/branding/brand-mark-ornament.png'
 

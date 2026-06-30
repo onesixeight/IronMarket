@@ -5,4 +5,4 @@ Disallow: /checkout
 Disallow: /wishlist
 Disallow: /thank-you
 
-Sitemap: https://etalon-kovka.vercel.app/sitemap.xml
+Sitemap: https://etalon-kovka.kz/sitemap.xml

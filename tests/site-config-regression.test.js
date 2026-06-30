@@ -18,20 +18,20 @@ assert.ok(existsSync(siteConfigPath), 'shared site config should exist')
 const siteConfig = readFileSync(siteConfigPath, 'utf8')
 const site = await import(pathToFileURL(siteConfigPath).href)
 
-assert.match(siteConfig, /export const SITE_ORIGIN = 'https:\/\/etalon-kovka\.vercel\.app'/)
+assert.match(siteConfig, /export const SITE_ORIGIN = 'https:\/\/etalon-kovka\.kz'/)
 assert.match(siteConfig, /export const SITE_NAME = /)
 assert.match(siteConfig, /export const DEFAULT_SOCIAL_IMAGE = '\/images\/branding\/brand-mark-ornament\.png'/)
 assert.match(siteConfig, /export function toSiteUrl/)
 assert.match(siteConfig, /export function toAbsoluteSiteUrl/)
 
-assert.equal(site.SITE_ORIGIN, 'https://etalon-kovka.vercel.app')
+assert.equal(site.SITE_ORIGIN, 'https://etalon-kovka.kz')
 assert.equal(site.DEFAULT_SOCIAL_IMAGE, '/images/branding/brand-mark-ornament.png')
-assert.equal(site.toSiteUrl('/'), 'https://etalon-kovka.vercel.app/')
-assert.equal(site.toSiteUrl('/catalog'), 'https://etalon-kovka.vercel.app/catalog')
-assert.equal(site.toSiteUrl('catalog/uzory'), 'https://etalon-kovka.vercel.app/catalog/uzory')
+assert.equal(site.toSiteUrl('/'), 'https://etalon-kovka.kz/')
+assert.equal(site.toSiteUrl('/catalog'), 'https://etalon-kovka.kz/catalog')
+assert.equal(site.toSiteUrl('catalog/uzory'), 'https://etalon-kovka.kz/catalog/uzory')
 assert.equal(
   site.toAbsoluteSiteUrl('/images/branding/brand-mark-ornament.png'),
-  'https://etalon-kovka.vercel.app/images/branding/brand-mark-ornament.png'
+  'https://etalon-kovka.kz/images/branding/brand-mark-ornament.png'
 )
 assert.equal(site.toAbsoluteSiteUrl('https://cdn.example.com/image.png'), 'https://cdn.example.com/image.png')
 
@@ -48,7 +48,7 @@ for (const [name, content] of Object.entries({
 })) {
   assert.doesNotMatch(
     content,
-    /https:\/\/etalon-kovka\.vercel\.app/,
+    /https:\/\/etalon-kovka\.vercel\.app|https:\/\/etalon-kovka\.kz/,
     `${name} should read the public origin from shared site config`
   )
 }
