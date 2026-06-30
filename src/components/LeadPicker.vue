@@ -2,8 +2,8 @@
   <section class="section-shell py-20 lg:py-28">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="project-picker rounded-[2rem] p-6 sm:p-8 lg:p-10" v-reveal>
-        <div class="grid gap-8 xl:grid-cols-[0.82fr_1.18fr] xl:items-start">
-          <div>
+        <div class="project-picker-layout">
+          <div class="project-picker-copy">
             <div class="eyebrow mb-5">Быстрый подбор</div>
             <h2 class="section-title text-3xl sm:text-4xl leading-tight">
               Не знаете, с чего начать? Выберите задачу, а сообщение соберётся само.
@@ -12,22 +12,22 @@
               Без корзины и оплаты: просто короткий запрос в мессенджер. Мы уточним размеры, количество, город и подскажем подходящие элементы.
             </p>
 
-            <div class="mt-8 rounded-[1.5rem] border border-gold-400/12 bg-obsidian-950/46 p-5">
-              <div class="text-xs uppercase tracking-[0.2em] text-gold-300/76">Вы выбрали</div>
-              <h3 class="mt-2 font-heading text-2xl text-cream-100">{{ selectedScenario.title }}</h3>
-              <p class="mt-3 text-sm leading-relaxed text-cream-100/58">{{ selectedScenario.prompt }}</p>
+            <div class="selected-scenario-card rounded-[1.5rem] border border-gold-400/12 bg-obsidian-950/46 p-5">
+              <div class="text-xs uppercase tracking-[0.2em] text-gold-300/76">{{ selectedScenario ? 'Вы выбрали' : 'Начните с выбора' }}</div>
+              <h3 class="mt-2 font-heading text-2xl text-cream-100">{{ selectedScenarioTitle }}</h3>
+              <p class="mt-3 text-sm leading-relaxed text-cream-100/58">{{ selectedScenarioPrompt }}</p>
             </div>
           </div>
 
-          <div>
-            <div class="grid gap-3 sm:grid-cols-2">
+          <div class="project-picker-panel">
+            <div class="scenario-grid">
               <button
                 v-for="scenario in projectScenarios"
                 :key="scenario.id"
                 type="button"
                 class="scenario-card"
-                :class="{ 'scenario-card-active': scenario.id === selectedScenario.id }"
-                :aria-pressed="scenario.id === selectedScenario.id"
+                :class="{ 'scenario-card-active': scenario.id === selectedId }"
+                :aria-pressed="scenario.id === selectedId"
                 @click="selectedId = scenario.id"
               >
                 <span class="scenario-card-icon">{{ scenario.icon }}</span>
@@ -38,12 +38,12 @@
               </button>
             </div>
 
-            <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+            <div class="picker-actions">
               <a
                 :href="getScenarioWhatsAppLink(selectedScenario)"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="metal-button justify-center"
+                class="picker-action metal-button justify-center"
               >
                 Написать в WhatsApp
               </a>
@@ -51,13 +51,13 @@
                 :href="getScenarioTelegramLink(selectedScenario)"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="metal-button-ghost justify-center"
+                class="picker-action metal-button-ghost justify-center"
               >
                 Telegram
               </a>
               <router-link
                 :to="selectedContactRoute"
-                class="inline-flex items-center justify-center rounded-xl border border-cream-100/10 bg-cream-100/5 px-5 py-3 text-sm font-medium text-cream-100/72 transition-all duration-300 hover:border-gold-300/30 hover:bg-gold-400/8 hover:text-gold-300"
+                class="picker-action inline-flex items-center justify-center rounded-xl border border-cream-100/10 bg-cream-100/5 px-5 py-3 text-sm font-medium text-cream-100/72 transition-all duration-300 hover:border-gold-300/30 hover:bg-gold-400/8 hover:text-gold-300"
               >
                 Заполнить форму
               </router-link>
@@ -76,17 +76,30 @@ import { buildScenarioContactMessage, contactScenarios } from '../composables/us
 
 const projectScenarios = contactScenarios
 
-const selectedId = ref(projectScenarios[0].id)
+const defaultPickerMessage = [
+  'Здравствуйте! Нужен подбор кованых элементов.',
+  'Пока не выбрал точную задачу, хочу понять, какие позиции из каталога подойдут под мой проект.',
+  '',
+  'Подскажите, что нужно уточнить для расчёта.',
+].join('\n')
+
+const selectedId = ref(null)
 const selectedScenario = computed(
-  () => projectScenarios.find((scenario) => scenario.id === selectedId.value) || projectScenarios[0]
+  () => projectScenarios.find((scenario) => scenario.id === selectedId.value) || null
 )
-const selectedContactRoute = computed(() => ({
-  path: '/contacts',
-  query: { task: selectedScenario.value.id },
-}))
+const selectedScenarioTitle = computed(() => selectedScenario.value?.title || 'Выберите задачу справа')
+const selectedScenarioPrompt = computed(() => (
+  selectedScenario.value?.prompt
+  || 'Нажмите на подходящий сценарий, и мы подставим его в сообщение для заявки.'
+))
+const selectedContactRoute = computed(() => (
+  selectedScenario.value
+    ? { path: '/contacts', query: { task: selectedScenario.value.id } }
+    : { path: '/contacts' }
+))
 
 function buildScenarioMessage(scenario) {
-  return buildScenarioContactMessage(scenario)
+  return scenario ? buildScenarioContactMessage(scenario) : defaultPickerMessage
 }
 
 function getScenarioWhatsAppLink(scenario) {
@@ -126,11 +139,45 @@ function getScenarioTelegramLink(scenario) {
   z-index: 1;
 }
 
+.project-picker-layout {
+  display: grid;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.project-picker-copy,
+.project-picker-panel {
+  min-width: 0;
+}
+
+.project-picker-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-scenario-card {
+  margin-top: 2rem;
+}
+
+.project-picker-panel {
+  display: grid;
+  gap: 1.5rem;
+  align-content: start;
+}
+
+.scenario-grid {
+  display: grid;
+  grid-auto-rows: 1fr;
+  gap: 0.85rem;
+}
+
 .scenario-card {
   display: flex;
+  align-items: flex-start;
   gap: 1rem;
   width: 100%;
-  min-height: 8rem;
+  min-height: 8.25rem;
+  height: 100%;
   padding: 1.1rem;
   text-align: left;
   border-radius: 1.35rem;
@@ -170,6 +217,8 @@ function getScenarioTelegramLink(scenario) {
 .scenario-card-content {
   display: grid;
   gap: 0.45rem;
+  min-width: 0;
+  align-content: start;
 }
 
 .scenario-card-title {
@@ -183,5 +232,51 @@ function getScenarioTelegramLink(scenario) {
   font-size: 0.86rem;
   line-height: 1.55;
   color: rgba(248, 241, 224, 0.56);
+}
+
+.picker-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.picker-action {
+  width: 100%;
+  min-height: 3.25rem;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .scenario-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .picker-actions {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.82fr) minmax(0, 0.95fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .project-picker-layout {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+
+  .selected-scenario-card {
+    margin-top: auto;
+  }
+
+  .project-picker-panel {
+    grid-template-rows: 1fr auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .scenario-card {
+    min-height: auto;
+  }
+
+  .picker-action {
+    white-space: normal;
+  }
 }
 </style>

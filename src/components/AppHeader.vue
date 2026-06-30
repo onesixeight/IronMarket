@@ -18,7 +18,7 @@
       </router-link>
 
       <nav class="hidden items-center gap-2 xl:flex">
-        <router-link v-for="item in navItems" :key="item.to" :to="item.to" class="nav-link">
+        <router-link v-for="item in navItems" :key="item.label" :to="item.to" class="nav-link">
           {{ item.label }}
         </router-link>
       </nav>
@@ -29,6 +29,7 @@
         </a>
 
         <button
+          ref="searchButtonElement"
           class="icon-button"
           aria-label="Поиск"
           :aria-expanded="searchOpen"
@@ -41,7 +42,7 @@
         </button>
 
         <button
-          class="icon-button xl:hidden"
+          class="icon-button mobile-menu-trigger xl:hidden"
           aria-label="Меню"
           :aria-expanded="mobileMenu"
           aria-controls="mobile-menu"
@@ -57,7 +58,12 @@
       </div>
     </div>
 
-    <div v-if="searchOpen" id="search-panel" class="border-t border-gold-400/10 bg-obsidian-950/94 px-4 pb-4 pt-4 sm:px-6 lg:px-8">
+    <div
+      v-if="searchOpen"
+      id="search-panel"
+      ref="searchPanelElement"
+      class="border-t border-gold-400/10 bg-obsidian-950/94 px-4 pb-4 pt-4 sm:px-6 lg:px-8"
+    >
       <div class="mx-auto max-w-7xl">
         <div class="relative">
           <input
@@ -107,7 +113,7 @@
       >
         <div class="absolute inset-0 bg-obsidian-950/78 backdrop-blur-md" @click="closeMobileMenu"></div>
         <nav class="mobile-sheet absolute inset-y-0 right-0 flex w-[min(20rem,calc(100vw-1rem))] flex-col gap-2 overflow-y-auto border-l border-gold-400/12 bg-obsidian-950/96 px-5 pb-8 pt-[5.5rem] shadow-[0_24px_80px_rgba(0,0,0,0.58)] backdrop-blur-2xl sm:pt-24">
-          <router-link v-for="item in navItems" :key="item.to" :to="item.to" class="mobile-link" @click="closeMobileMenu">
+          <router-link v-for="item in navItems" :key="item.label" :to="item.to" class="mobile-link" @click="closeMobileMenu">
             {{ item.label }}
           </router-link>
           <a href="tel:+77758537092" class="mt-4 text-center metal-button" @click="closeMobileMenu">+7 775 853 70 92</a>
@@ -135,6 +141,8 @@ const searchOpen = ref(false)
 const showDropdown = ref(false)
 const mobileMenu = ref(false)
 const searchInput = ref('')
+const searchButtonElement = ref(null)
+const searchPanelElement = ref(null)
 
 const navItems = [
   { to: '/', label: 'Главная' },
@@ -196,9 +204,23 @@ function onKeyDown(e) {
   closeSearch()
 }
 
-onMounted(() => document.addEventListener('keydown', onKeyDown))
+function onDocumentPointerDown(e) {
+  if (!searchOpen.value) return
+
+  const target = e.target
+  if (searchButtonElement.value?.contains(target)) return
+  if (searchPanelElement.value?.contains(target)) return
+
+  closeSearch()
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', onKeyDown)
+  document.addEventListener('pointerdown', onDocumentPointerDown)
+})
 onUnmounted(() => {
   document.removeEventListener('keydown', onKeyDown)
+  document.removeEventListener('pointerdown', onDocumentPointerDown)
   if (mobileMenu.value) unlockScroll()
   updateSearch.cancel()
 })
@@ -241,6 +263,12 @@ onUnmounted(() => {
   border-color: rgba(201, 150, 59, 0.24);
   color: rgba(244, 201, 112, 1);
   background: rgba(201, 150, 59, 0.08);
+}
+
+@media (min-width: 1280px) {
+  .mobile-menu-trigger {
+    display: none;
+  }
 }
 
 .mobile-link {

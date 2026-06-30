@@ -95,7 +95,7 @@
               </div>
 
               <div class="space-y-3">
-                <details v-for="(item, index) in faq" :key="item.q" class="delivery-faq" :open="index === 0">
+                <details v-for="item in faq" :key="item.q" class="delivery-faq">
                   <summary>
                     <span>{{ item.q }}</span>
                     <span class="delivery-faq-toggle" aria-hidden="true">
@@ -116,9 +116,9 @@
     <section class="relative overflow-hidden bg-obsidian-950 py-20">
       <div class="diagonal-lines absolute inset-0 opacity-[0.03]"></div>
       <div class="relative z-10 mx-auto max-w-2xl px-4 text-center sm:px-6 lg:px-8" v-reveal>
-        <h2 class="font-heading text-2xl font-bold text-cream-50 sm:text-3xl">Нужно понять доставку под ваш объём?</h2>
+        <h2 class="font-heading text-2xl font-bold text-cream-50 sm:text-3xl">Поможем рассчитать доставку для вашего заказа.</h2>
         <p class="mb-8 mt-4 text-[15px] text-cream-100/60">
-          Откройте форму, и мы уже подготовим текст заявки по доставке. Останется дописать город и примерный объём.
+          Откройте форму с готовым текстом заявки. Останется указать город, позиции и примерный объём.
         </p>
         <router-link :to="deliveryInquiryRoute" class="metal-button justify-center">
           Уточнить доставку

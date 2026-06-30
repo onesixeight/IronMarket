@@ -11,10 +11,9 @@
 
       <div class="space-y-3" v-reveal="0.08">
         <details
-          v-for="(item, index) in faqItems"
+          v-for="item in faqItems"
           :key="item.question"
           class="faq-item group"
-          :open="index === 0"
         >
           <summary class="faq-summary">
             <span>{{ item.question }}</span>

@@ -5,7 +5,11 @@ import { fileURLToPath } from 'node:url'
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const main = readFileSync(resolve(projectRoot, 'src/main.js'), 'utf8')
+const router = readFileSync(resolve(projectRoot, 'src/router/index.js'), 'utf8')
 
 assert.match(main, /router\.isReady\(\)\.then\(\(\) => \{/)
 assert.match(main, /app\.mount\('#app'\)/)
 assert.ok(main.indexOf('router.isReady()') < main.indexOf("app.mount('#app')"))
+assert.match(router, /redirect: '\/catalog'/)
+assert.doesNotMatch(router, /if \(to\.hash\)/)
+assert.doesNotMatch(router, /document\.querySelector\(to\.hash\)/)

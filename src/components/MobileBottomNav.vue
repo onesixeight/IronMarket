@@ -4,7 +4,7 @@
 
     <router-link
       v-for="item in navItems"
-      :key="item.to"
+      :key="item.label"
       :to="item.to"
       class="mobile-bottom-nav__item"
       :class="{ 'is-active': isActive(item), 'is-primary': item.primary }"

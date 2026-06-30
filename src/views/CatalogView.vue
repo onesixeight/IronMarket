@@ -3,76 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <AppBreadcrumb :items="[{ to: '/', label: 'Главная' }, { label: 'Каталог' }]" />
 
-      <section class="catalog-hero mb-8 sm:mb-10" v-reveal>
-        <div class="catalog-hero-copy">
-          <div class="eyebrow mb-5">Каталог мастерской</div>
-          <h1 class="section-title text-3xl sm:text-5xl lg:text-6xl leading-[0.96]">
-            Кованые элементы для ворот, ограждений и лестниц.
-          </h1>
-          <p class="section-lead mt-5 max-w-2xl text-sm sm:text-base">
-            Выбирайте декоративные детали по задаче, категории или артикулу. Если не знаете точный набор, отправьте заявку: поможем собрать аккуратную композицию под объект, объём и доставку.
-          </p>
-
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <router-link :to="{ path: '/contacts', query: { task: 'gates' } }" class="metal-button justify-center">
-              Получить подбор
-            </router-link>
-            <a href="#catalog-products" class="metal-button-ghost justify-center">
-              Смотреть позиции
-            </a>
-          </div>
-        </div>
-
-        <aside class="catalog-hero-panel" aria-label="Каталог в цифрах">
-          <div class="grid gap-3">
-            <div v-for="stat in catalogStats" :key="stat.label" class="catalog-hero-stat">
-              <span>{{ stat.value }}</span>
-              <small>{{ stat.label }}</small>
-            </div>
-          </div>
-
-          <p class="mt-5 rounded-[1.25rem] border border-gold-400/12 bg-obsidian-950/48 p-4 text-sm leading-relaxed text-cream-100/58">
-            Без онлайн-оплаты и случайной корзины: сайт помогает выбрать, а финальный расчёт делаем после уточнения размеров и количества.
-          </p>
-        </aside>
-      </section>
-
-      <CatalogProjectShortcuts v-reveal="0.04" />
-
-      <div
-        v-if="!selectedCategory"
-        class="catalog-category-grid mb-16 sm:mb-20"
-      >
-        <router-link
-          v-for="(cat, i) in categories"
-          :key="cat.id"
-          :to="'/catalog/' + cat.slug"
-          class="catalog-category-card group"
-          :style="{ '--category-index': i }"
-          :aria-label="`Открыть категорию ${cat.name}`"
-          v-reveal="i * 0.04"
-        >
-          <div class="catalog-category-image">
-            <img
-              :src="cat.image"
-              :alt="cat.name"
-              class="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-110"
-              loading="lazy"
-            />
-          </div>
-          <div class="catalog-category-content">
-            <div class="mb-2 flex items-center justify-between gap-2">
-              <span class="catalog-category-number">{{ String(i + 1).padStart(2, '0') }}</span>
-              <span class="catalog-category-count">{{ getProductCount(cat.slug) }} товаров</span>
-            </div>
-            <h2 class="catalog-category-title">
-              {{ cat.name }}
-            </h2>
-          </div>
-        </router-link>
-      </div>
-
-      <section class="catalog-control-bar mb-8" aria-label="Фильтры каталога" v-reveal>
+      <section id="catalog-products" class="catalog-control-bar mb-8" aria-label="Фильтры каталога" v-reveal>
         <div class="catalog-control-summary">
           <span>Сейчас в подборке</span>
           <strong>{{ productStore.filteredProducts.length }} позиций</strong>
@@ -111,7 +42,7 @@
         </div>
       </section>
 
-      <div id="catalog-products" class="grid scroll-mt-28 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         <ProductCard v-for="p in productStore.paginatedProducts" :key="p.id" :product="p" />
       </div>
 
@@ -145,6 +76,75 @@
             </router-link>
           </div>
         </div>
+      </div>
+
+      <section class="catalog-hero mt-12 mb-8 sm:mb-10" v-reveal>
+        <div class="catalog-hero-copy">
+          <div class="eyebrow mb-5">Каталог мастерской</div>
+          <h1 class="section-title text-3xl sm:text-5xl lg:text-6xl leading-[0.96]">
+            Кованые элементы для ворот, ограждений и лестниц.
+          </h1>
+          <p class="section-lead mt-5 max-w-2xl text-sm sm:text-base">
+            Выбирайте декоративные детали по задаче, категории или артикулу. Если не знаете точный набор, отправьте заявку: поможем собрать аккуратную композицию под объект, объём и доставку.
+          </p>
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <router-link :to="{ path: '/contacts', query: { task: 'gates' } }" class="metal-button justify-center">
+              Получить подбор
+            </router-link>
+            <router-link to="/catalog" class="metal-button-ghost justify-center">
+              Смотреть позиции
+            </router-link>
+          </div>
+        </div>
+
+        <aside class="catalog-hero-panel" aria-label="Каталог в цифрах">
+          <div class="grid gap-3">
+            <div v-for="stat in catalogStats" :key="stat.label" class="catalog-hero-stat">
+              <span>{{ stat.value }}</span>
+              <small>{{ stat.label }}</small>
+            </div>
+          </div>
+
+          <p class="mt-5 rounded-[1.25rem] border border-gold-400/12 bg-obsidian-950/48 p-4 text-sm leading-relaxed text-cream-100/58">
+            Без онлайн-оплаты и случайной корзины: сайт помогает выбрать, а финальный расчёт делаем после уточнения размеров и количества.
+          </p>
+        </aside>
+      </section>
+
+      <CatalogProjectShortcuts class="mt-12" v-reveal="0.04" />
+
+      <div
+        v-if="!selectedCategory"
+        class="catalog-category-grid mt-8 mb-16 sm:mb-20"
+      >
+        <router-link
+          v-for="(cat, i) in categories"
+          :key="cat.id"
+          :to="'/catalog/' + cat.slug"
+          class="catalog-category-card group"
+          :style="{ '--category-index': i }"
+          :aria-label="`Открыть категорию ${cat.name}`"
+          v-reveal="i * 0.04"
+        >
+          <div class="catalog-category-image">
+            <img
+              :src="cat.image"
+              :alt="cat.name"
+              class="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-110"
+              loading="lazy"
+            />
+          </div>
+          <div class="catalog-category-content">
+            <div class="mb-2 flex items-center justify-between gap-2">
+              <span class="catalog-category-number">{{ String(i + 1).padStart(2, '0') }}</span>
+              <span class="catalog-category-count">{{ getProductCount(cat.slug) }} товаров</span>
+            </div>
+            <h2 class="catalog-category-title">
+              {{ cat.name }}
+            </h2>
+          </div>
+        </router-link>
       </div>
     </div>
   </div>

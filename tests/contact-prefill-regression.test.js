@@ -55,7 +55,9 @@ const productView = readFileSync(resolve(projectRoot, 'src/views/ProductView.vue
 
 assert.match(leadPicker, /selectedContactRoute/)
 assert.match(leadPicker, /path: '\/contacts'/)
-assert.match(leadPicker, /query: \{ task: selectedScenario\.value\.id \}/)
+assert.match(leadPicker, /const selectedId = ref\(null\)/)
+assert.match(leadPicker, /selectedScenario\.value[\s\S]*query: \{ task: selectedScenario\.value\.id \}/)
+assert.match(leadPicker, /: \{ path: '\/contacts' \}/)
 
 assert.match(contactForm, /initialMessage/)
 assert.match(contactForm, /messagePlaceholder/)

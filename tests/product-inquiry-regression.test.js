@@ -61,6 +61,7 @@ assert.match(leadPicker, /buildScenarioMessage/)
 assert.match(leadPicker, /getScenarioWhatsAppLink/)
 assert.match(leadPicker, /aria-pressed/)
 assert.match(leadPicker, /contactScenarios/)
+assert.match(leadPicker, /const selectedId = ref\(null\)/)
 
 for (const scenarioId of ['gates', 'railings', 'fences', 'stairs']) {
   assert.match(contactPrefill, new RegExp(`id: '${scenarioId}'`))
@@ -69,6 +70,7 @@ for (const scenarioId of ['gates', 'railings', 'fences', 'stairs']) {
 assert.match(faqSection, /faqItems/)
 assert.match(faqSection, /<details/)
 assert.match(faqSection, /<summary/)
+assert.doesNotMatch(faqSection, /:open=/)
 
 assert.match(homeView, /import LeadPicker/)
 assert.match(homeView, /<LeadPicker/)

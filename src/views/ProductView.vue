@@ -71,14 +71,14 @@
 
           <div
             v-if="product.material"
-            class="mb-6 flex items-center gap-3 p-4 rounded-xl bg-obsidian-700 border border-gold-400/[0.08]"
+            class="product-material-note mb-6 flex items-center gap-3 p-4 rounded-xl"
           >
-            <svg class="w-5 h-5 shrink-0 text-gold-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <svg class="w-5 h-5 shrink-0 text-gold-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42"/>
             </svg>
             <div>
-              <div class="text-[10px] uppercase tracking-wider text-obsidian-500">Материал</div>
-              <div class="font-medium text-sm text-cream-100">{{ product.material }}</div>
+              <div class="product-material-label">Материал</div>
+              <div class="font-semibold text-sm text-cream-50">{{ product.material }}</div>
             </div>
           </div>
 
@@ -378,6 +378,24 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
   color: rgba(245, 240, 232, 0.62);
   font-size: 0.88rem;
   line-height: 1.65;
+}
+
+.product-material-note {
+  border: 1px solid rgba(201, 150, 59, 0.16);
+  background:
+    radial-gradient(circle at 0% 0%, rgba(201, 150, 59, 0.1), transparent 38%),
+    rgba(31, 28, 23, 0.88);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.product-material-label {
+  margin-bottom: 0.18rem;
+  color: rgba(228, 185, 109, 0.82);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
 .product-order-steps {
