@@ -36,6 +36,12 @@
     </div>
   </div>
   <div id="app"></div>
+  <!-- Яндекс.Метрика: noscript-фолбэк для пользователей без JS.
+       Замените 00000000 на номер счётчика (также в src/composables/useYandexMetrika.js).
+       Скрипт tag.js грузится динамически только после согласия (CookieConsent). -->
+  <noscript>
+    <div><img src="https://mc.yandex.ru/watch/00000000" style="position:absolute; left:-9999px" alt="" /></div>
+  </noscript>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

@@ -79,4 +79,12 @@ const router = createRouter({
   },
 })
 
+// Отправка просмотра страницы в Яндекс.Метрику при навигации SPA.
+// trackPageView безопасно no-op, пока счётчик не инициализирован (до consent).
+router.afterEach((to) => {
+  import('../composables/useYandexMetrika.js').then(({ trackPageView }) => {
+    trackPageView(to.fullPath)
+  })
+})
+
 export default router

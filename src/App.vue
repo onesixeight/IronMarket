@@ -24,6 +24,7 @@
     <FloatingMessenger />
     <div class="h-28 lg:hidden" aria-hidden="true"></div>
     <MobileBottomNav />
+    <CookieConsent />
   </div>
 </template>
 
@@ -35,6 +36,7 @@ import ToastContainer from './components/ToastContainer.vue'
 import ScrollTop from './components/ScrollTop.vue'
 import FloatingMessenger from './components/FloatingMessenger.vue'
 import MobileBottomNav from './components/MobileBottomNav.vue'
+import CookieConsent from './components/CookieConsent.vue'
 
 onMounted(() => {
   const preloader = document.getElementById('preloader')
