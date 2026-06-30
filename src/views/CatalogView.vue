@@ -19,6 +19,7 @@
               <input
                 :value="productStore.searchQuery"
                 type="text"
+                data-testid="catalog-search-input"
                 placeholder="Поиск по каталогу..."
                 class="w-full pl-10 pr-4 py-2.5 rounded-xl text-sm transition-[border-color,box-shadow,background-color,color] focus:outline-none bg-obsidian-800 border border-gold-400/10 text-cream-100 focus:border-gold-400 focus:shadow-[0_0_0_3px_rgba(201,150,59,0.15)]"
                 @input="onSearchInput"

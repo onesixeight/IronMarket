@@ -18,7 +18,7 @@
       </router-link>
 
       <nav class="hidden items-center gap-2 xl:flex">
-        <router-link v-for="item in navItems" :key="item.label" :to="item.to" class="nav-link">
+        <router-link v-for="item in navItems" :key="item.label" :to="item.to" class="nav-link" :data-testid="getNavTestId(item.to)">
           {{ item.label }}
         </router-link>
       </nav>
@@ -31,6 +31,7 @@
         <button
           ref="searchButtonElement"
           class="icon-button"
+          data-testid="header-search-button"
           aria-label="Поиск"
           :aria-expanded="searchOpen"
           aria-controls="search-panel"
@@ -62,6 +63,7 @@
       v-if="searchOpen"
       id="search-panel"
       ref="searchPanelElement"
+      data-testid="header-search-panel"
       class="border-t border-gold-400/10 bg-obsidian-950/94 px-4 pb-4 pt-4 sm:px-6 lg:px-8"
     >
       <div class="mx-auto max-w-7xl">
@@ -69,6 +71,7 @@
           <input
             v-model="searchInput"
             type="text"
+            data-testid="header-search-input"
             aria-label="Поиск по каталогу"
             placeholder="Поиск по каталогу"
             class="w-full rounded-[1.25rem] border border-gold-400/14 bg-obsidian-900/70 py-3 pl-11 pr-4 text-sm text-cream-100 outline-none transition focus:border-gold-400/32"
@@ -86,6 +89,7 @@
             v-for="p in searchResults"
             :key="p.id"
             :to="'/product/' + p.id"
+            data-testid="header-search-result"
             class="flex items-center gap-3 border-b border-gold-400/8 px-4 py-3 transition-colors hover:bg-gold-400/6 last:border-b-0"
             @click="closeSearch"
           >
@@ -161,6 +165,10 @@ const updateSearch = debounce((val) => {
 function onSearchInput() {
   showDropdown.value = true
   updateSearch(searchInput.value)
+}
+
+function getNavTestId(to) {
+  return to === '/' ? 'nav-home' : `nav-${to.replace('/', '')}`
 }
 
 const searchResults = computed(() => {

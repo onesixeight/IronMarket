@@ -6,8 +6,10 @@ import pluginVue from 'eslint-plugin-vue'
 const sourceFiles = [
   'src/**/*.{js,vue}',
   'tests/**/*.js',
+  'e2e/**/*.js',
   'scripts/**/*.mjs',
   'vite.config.js',
+  'playwright.config.js',
   'eslint.config.js',
   'prettier.config.js',
 ]

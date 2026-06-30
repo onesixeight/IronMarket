@@ -2,12 +2,12 @@
   <form ref="formElement" @submit.prevent="openWhatsApp" class="space-y-4">
     <div>
       <label :for="fieldIds.name" class="block text-sm font-medium mb-1.5 text-cream-100">{{ nameLabel }} *</label>
-      <input :id="fieldIds.name" v-model="form.name" type="text" autocomplete="name" :placeholder="namePlaceholder" required class="form-input" />
+      <input :id="fieldIds.name" v-model="form.name" type="text" autocomplete="name" :placeholder="namePlaceholder" required class="form-input" data-testid="contact-name" />
     </div>
 
     <div v-if="showEmail">
       <label :for="fieldIds.email" class="block text-sm font-medium mb-1.5 text-cream-100">Email</label>
-      <input :id="fieldIds.email" v-model="form.email" type="email" autocomplete="email" placeholder="your@email.com" class="form-input" />
+      <input :id="fieldIds.email" v-model="form.email" type="email" autocomplete="email" placeholder="your@email.com" class="form-input" data-testid="contact-email" />
     </div>
 
     <div>
@@ -16,6 +16,7 @@
         :id="fieldIds.phone"
         :value="form.phone"
         type="tel"
+        data-testid="contact-phone"
         placeholder="+7 (___) ___-__-__"
         required
         autocomplete="tel"
@@ -29,6 +30,7 @@
       <textarea
         :id="fieldIds.message"
         v-model="form.message"
+        data-testid="contact-message"
         rows="4"
         :placeholder="messagePlaceholder"
         class="form-input"
@@ -36,7 +38,7 @@
     </div>
 
     <label class="flex items-start gap-3 text-sm text-cream-100/62 leading-relaxed">
-      <input type="checkbox" v-model="form.agreement" required class="mt-1 accent-gold-500" />
+      <input type="checkbox" v-model="form.agreement" required class="mt-1 accent-gold-500" data-testid="contact-agreement" />
       <span>Даю согласие на обработку персональных данных для обратной связи по заявке.</span>
     </label>
 
@@ -45,12 +47,13 @@
     </p>
 
     <div class="grid gap-3 sm:grid-cols-2">
-      <button type="submit" class="w-full metal-button justify-center">
+      <button type="submit" class="w-full metal-button justify-center" data-testid="contact-whatsapp-submit">
         {{ buttonText }}
       </button>
       <button
         type="button"
         class="w-full metal-button-ghost justify-center"
+        data-testid="contact-telegram-submit"
         @click="openTelegram"
       >
         {{ telegramButtonText }}

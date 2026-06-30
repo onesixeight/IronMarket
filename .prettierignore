@@ -4,6 +4,8 @@
 .vercel
 .wrangler
 coverage
+playwright-report
+test-results
 dist
 node_modules
 CONTEXT.md

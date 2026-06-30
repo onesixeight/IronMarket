@@ -1,5 +1,5 @@
 <template>
-  <article class="group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-gold-400/10 bg-obsidian-900/82 shadow-[0_24px_60px_rgba(0,0,0,0.22)] transition-transform duration-300 hover:-translate-y-1">
+  <article data-testid="product-card" class="group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-gold-400/10 bg-obsidian-900/82 shadow-[0_24px_60px_rgba(0,0,0,0.22)] transition-transform duration-300 hover:-translate-y-1">
     <router-link :to="'/product/' + product.id" class="relative block overflow-hidden rounded-t-[1.75rem] aspect-[4/3] bg-[radial-gradient(circle_at_top,rgba(201,150,59,0.14),transparent_48%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(10,9,8,0.02))]">
       <img
         :src="product.image"
@@ -41,6 +41,7 @@
         <div class="mt-4 grid grid-cols-[1fr_auto] gap-2">
           <router-link
             :to="'/product/' + product.id"
+            data-testid="product-card-detail"
             class="inline-flex items-center justify-center gap-2 rounded-2xl border border-gold-400/18 bg-obsidian-950/70 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-gold-300 transition-all duration-200 hover:border-gold-300/40 hover:bg-gold-400/8 active:scale-95"
             title="Подробнее"
           >
@@ -54,6 +55,7 @@
             :href="whatsappInquiryLink"
             target="_blank"
             rel="noopener noreferrer"
+            data-testid="product-card-whatsapp"
             class="inline-flex items-center justify-center rounded-2xl border border-gold-400/24 bg-gold-400/8 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-cream-100 transition-all duration-200 hover:border-gold-300/44 hover:bg-gold-400/14 active:scale-95"
             :aria-label="`Спросить в WhatsApp про ${product.name}`"
             @click="trackCardLead"

@@ -9,6 +9,7 @@
           :href="whatsappLink"
           target="_blank"
           rel="noopener noreferrer"
+          data-testid="floating-whatsapp-link"
           class="flex items-center justify-center w-12 h-12 rounded-full bg-green-600 text-white shadow-lg transition-transform hover:scale-110 active:scale-[0.96]"
           aria-label="Написать в WhatsApp"
           @click="trackMessengerLead('whatsapp')"
@@ -21,6 +22,7 @@
           :href="telegramLink"
           target="_blank"
           rel="noopener noreferrer"
+          data-testid="floating-telegram-link"
           class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500 text-white shadow-lg transition-transform hover:scale-110 active:scale-[0.96]"
           aria-label="Написать в Telegram"
           @click="trackMessengerLead('telegram')"
@@ -34,6 +36,7 @@
 
     <button
       type="button"
+      data-testid="floating-messenger-toggle"
       class="w-14 h-14 rounded-full bg-gradient-to-br from-gold-400 to-gold-500 text-obsidian-900 shadow-xl flex items-center justify-center transition-transform hover:scale-110 active:scale-[0.96]"
       :class="open ? 'rotate-45' : ''"
       :aria-expanded="open"

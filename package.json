@@ -13,6 +13,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "node --test",
+    "test:e2e": "playwright test",
+    "test:e2e:ci": "npm run build && playwright test",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -22,6 +24,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/vite": "^4.1.0",
     "@vitejs/plugin-vue": "^5.2.3",
     "eslint": "^10.6.0",
