@@ -1,7 +1,10 @@
 <template>
-  <div class="fixed bottom-[6.5rem] left-4 z-50 flex flex-col gap-3 sm:left-6 lg:bottom-6">
+  <div
+    ref="floatingMessengerRef"
+    class="fixed bottom-[6.5rem] left-4 z-50 flex flex-col gap-3 sm:left-6 lg:bottom-6"
+  >
     <Transition name="scale">
-      <div v-if="open" class="flex flex-col gap-2">
+      <div v-if="open" id="floating-messenger-links" class="flex flex-col gap-2">
         <a
           :href="whatsappLink"
           target="_blank"
@@ -33,8 +36,10 @@
       type="button"
       class="w-14 h-14 rounded-full bg-gradient-to-br from-gold-400 to-gold-500 text-obsidian-900 shadow-xl flex items-center justify-center transition-transform hover:scale-110 active:scale-[0.96]"
       :class="open ? 'rotate-45' : ''"
-      aria-label="Открыть чат"
-      @click="open = !open"
+      :aria-expanded="open"
+      aria-controls="floating-messenger-links"
+      :aria-label="open ? 'Закрыть чат' : 'Открыть чат'"
+      @click="toggleMessenger"
     >
       <svg v-if="!open" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/>
@@ -47,19 +52,41 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { trackLead } from '../composables/useAnalytics.js'
 import { buildWhatsAppLink, buildTelegramLink } from '../composables/messengerConfig.js'
 
 const open = ref(false)
+const floatingMessengerRef = ref(null)
 
 const message = 'Здравствуйте! У меня вопрос по кованым изделиям.'
 const whatsappLink = buildWhatsAppLink(message)
 const telegramLink = buildTelegramLink(message)
 
+function toggleMessenger() {
+  open.value = !open.value
+}
+
+function handleDocumentPointerDown(event) {
+  if (!open.value) return
+
+  const target = event.target
+  if (target instanceof Node && floatingMessengerRef.value?.contains(target)) return
+
+  open.value = false
+}
+
 function trackMessengerLead(channel) {
   trackLead(channel, { source: 'floating_messenger' })
 }
+
+onMounted(() => {
+  document.addEventListener('pointerdown', handleDocumentPointerDown)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('pointerdown', handleDocumentPointerDown)
+})
 </script>
 
 <style scoped>

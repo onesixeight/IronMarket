@@ -4,7 +4,7 @@
       <div class="project-picker rounded-[2rem] p-6 sm:p-8 lg:p-10" v-reveal>
         <div class="project-picker-layout">
           <div class="project-picker-copy">
-            <div class="eyebrow mb-5">Быстрый подбор</div>
+            <div class="eyebrow project-picker-eyebrow mb-5">Быстрый подбор</div>
             <h2 class="section-title text-3xl sm:text-4xl leading-tight">
               Не знаете, с чего начать? Выберите задачу, а сообщение соберётся само.
             </h2>
@@ -153,6 +153,12 @@ function getScenarioTelegramLink(scenario) {
 .project-picker-copy {
   display: flex;
   flex-direction: column;
+}
+
+.project-picker-eyebrow {
+  align-self: flex-start;
+  inline-size: fit-content;
+  max-inline-size: 100%;
 }
 
 .selected-scenario-card {
