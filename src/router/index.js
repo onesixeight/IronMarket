@@ -72,11 +72,7 @@ const router = createRouter({
       return savedPosition
     }
 
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        resolve({ left: 0, top: 0 })
-      }, 0)
-    })
+    return { left: 0, top: 0 }
   },
 })
 

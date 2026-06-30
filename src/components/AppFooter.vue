@@ -6,14 +6,14 @@
       <div class="surface-panel rounded-[2rem] px-6 py-8 sm:px-8 lg:px-12 lg:py-10">
         <div class="grid gap-10 lg:grid-cols-[1.35fr_0.9fr_0.9fr_1fr]">
           <div>
-            <div class="eyebrow mb-5">Астана и Казахстан</div>
+            <div class="eyebrow mb-5">{{ CONTACTS.location.region }}</div>
             <h2 class="section-title text-2xl sm:text-3xl leading-tight">Подбираем и поставляем кованые элементы для частных и коммерческих объектов.</h2>
             <p class="section-lead mt-4 max-w-md text-sm sm:text-base">
               Работаем как продавец и поставщик: помогаем выбрать декоративные элементы и комплектуем заказы для ворот, ограждений, лестниц и фасадных решений.
             </p>
 
             <div class="mt-6 flex flex-wrap gap-3">
-              <a href="tel:+77758537092" class="metal-button">+7 775 853 70 92</a>
+              <a :href="CONTACTS.phone.href" class="metal-button">{{ CONTACTS.phone.display }}</a>
               <router-link to="/contacts" class="metal-button-ghost">Написать нам</router-link>
             </div>
           </div>
@@ -43,9 +43,9 @@
             <h3 class="font-heading text-sm uppercase tracking-[0.18em] text-gold-300 mb-5">Контакты</h3>
 
             <div class="space-y-4 text-sm text-cream-100/70">
-              <a href="mailto:etalonkovka@mail.ru" class="footer-link block">etalonkovka@mail.ru</a>
-              <div>Пн-Вс: 9:00-18:00</div>
-              <div class="text-cream-100/42">Без выходных</div>
+              <a :href="CONTACTS.email.href" class="footer-link block">{{ CONTACTS.email.value }}</a>
+              <div>{{ CONTACTS.hours.primary }}</div>
+              <div class="text-cream-100/42">{{ CONTACTS.hours.note }}</div>
             </div>
 
             <div class="mt-6 rounded-[1.25rem] border border-gold-400/12 bg-gold-400/6 p-4">
@@ -65,6 +65,7 @@
 
 <script setup>
 import { useProductStore } from '../stores/products'
+import { CONTACTS } from '../config/contacts.js'
 
 const productStore = useProductStore()
 const primaryCategories = productStore.categories.slice(0, 5)

@@ -5,7 +5,7 @@
 
       <div class="grid gap-8 xl:grid-cols-[0.95fr_1.05fr] xl:items-start">
         <div class="surface-panel rounded-[2rem] p-6 sm:p-8 lg:p-10" v-reveal>
-          <div class="eyebrow mb-5">Астана • Казахстан</div>
+          <div class="eyebrow mb-5">{{ CONTACTS.location.short }}</div>
           <h1 class="section-title text-3xl sm:text-4xl lg:text-5xl leading-tight">Обсудим проект, объём заказа или подбор элементов.</h1>
           <p class="section-lead mt-5 max-w-xl text-sm sm:text-base">
             Если нужен расчёт, консультация по каталогу или подбор позиций под объект, напишите или позвоните. Поможем быстро сориентироваться.
@@ -20,7 +20,7 @@
               </div>
               <div>
                 <div class="text-xs uppercase tracking-[0.18em] text-gold-300 mb-2">Телефон</div>
-                <a href="tel:+77758537092" class="text-cream-100 text-lg font-semibold hover:text-gold-300 transition-colors">+7 775 853 70 92</a>
+                <a :href="CONTACTS.phone.href" class="text-cream-100 text-lg font-semibold hover:text-gold-300 transition-colors">{{ CONTACTS.phone.display }}</a>
                 <p class="text-sm text-cream-100/48 mt-2">Быстро подскажем по наличию, количеству и подбору позиций.</p>
               </div>
             </div>
@@ -33,7 +33,7 @@
               </div>
               <div>
                 <div class="text-xs uppercase tracking-[0.18em] text-gold-300 mb-2">Email</div>
-                <a href="mailto:etalonkovka@mail.ru" class="text-cream-100 text-lg font-semibold hover:text-gold-300 transition-colors">etalonkovka@mail.ru</a>
+                <a :href="CONTACTS.email.href" class="text-cream-100 text-lg font-semibold hover:text-gold-300 transition-colors">{{ CONTACTS.email.value }}</a>
                 <p class="text-sm text-cream-100/48 mt-2">Подойдёт для спецификаций, запросов по объёму и коммерческих предложений.</p>
               </div>
             </div>
@@ -47,8 +47,8 @@
               <div>
                 <div class="text-xs uppercase tracking-[0.18em] text-gold-300 mb-2">Режим работы</div>
                 <div class="grid gap-1 text-sm text-cream-100/62">
-                  <div>Пн-Вс: 9:00-18:00</div>
-                  <div>Без выходных</div>
+                  <div>{{ CONTACTS.hours.primary }}</div>
+                  <div>{{ CONTACTS.hours.note }}</div>
                 </div>
               </div>
             </div>
@@ -94,15 +94,15 @@
 
           <div class="surface-panel rounded-[2rem] p-6 sm:p-8" v-reveal="0.16">
             <div class="text-xs uppercase tracking-[0.18em] text-gold-300 mb-3">Адрес</div>
-            <h3 class="font-heading text-2xl text-cream-100">Астана, просп. Богенбай Батыра, 6/4</h3>
+            <h3 class="font-heading text-2xl text-cream-100">{{ CONTACTS.location.address }}</h3>
             <p class="text-sm text-cream-100/58 leading-relaxed mt-4">
               Можно заранее написать или позвонить, чтобы мы подготовили ориентиры по наличию и подбору позиций под ваш проект.
             </p>
 
             <div class="mt-6 overflow-hidden rounded-[1.5rem] border border-gold-400/12 bg-obsidian-950/72 shadow-[0_18px_45px_rgba(0,0,0,0.28)]">
               <iframe
-                src="https://yandex.ru/map-widget/v1/?text=%D0%90%D1%81%D1%82%D0%B0%D0%BD%D0%B0%2C%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF.%20%D0%91%D0%BE%D0%B3%D0%B5%D0%BD%D0%B1%D0%B0%D0%B9%20%D0%91%D0%B0%D1%82%D1%8B%D1%80%D0%B0%2C%206%2F4&z=17"
-                title="Карта: Астана, просп. Богенбай Батыра, 6/4"
+                :src="CONTACTS.location.mapUrl"
+                :title="CONTACTS.location.mapTitle"
                 class="h-[320px] w-full border-0 sm:h-[380px]"
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
@@ -123,6 +123,7 @@ import ContactForm from '../components/ContactForm.vue'
 import { useSeo } from '../composables/useSeo'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 import { buildContactPrefillMessage, getContactScenario } from '../composables/useContactPrefill.js'
+import { CONTACTS } from '../config/contacts.js'
 import { useProductStore } from '../stores/products'
 
 useSeo(

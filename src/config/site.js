@@ -1,6 +1,7 @@
 export const SITE_ORIGIN = 'https://etalon-kovka.kz'
 export const SITE_NAME = 'Эталон Ковка'
 export const DEFAULT_SOCIAL_IMAGE = '/images/branding/brand-mark-ornament.png'
+export const DEFAULT_PRODUCT_IMAGE = '/images/branding/brand-mark-ornament-small.webp'
 
 function isAbsoluteUrl(value) {
   return /^https?:\/\//i.test(String(value))

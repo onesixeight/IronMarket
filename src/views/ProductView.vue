@@ -11,6 +11,7 @@
             :src="product.image"
             :alt="product.name"
             class="max-w-full max-h-[500px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+            @error="applyImageFallback"
           />
           <button
             type="button"
@@ -206,6 +207,7 @@ import { useSchemaOrg, schemaProduct } from '../composables/useSchemaOrg.js'
 import { formatPrice } from '../composables/usePrice.js'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 import RecentlyViewed from '../components/RecentlyViewed.vue'
+import { applyImageFallback } from '../composables/useImageFallback.js'
 import { useRecentlyViewed } from '../composables/useRecentlyViewed.js'
 import { getProductTelegramLink, getProductWhatsAppLink } from '../composables/useProductInquiry.js'
 import { trackLead } from '../composables/useAnalytics.js'

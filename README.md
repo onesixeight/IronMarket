@@ -56,8 +56,10 @@ npm test         # регрессионные тесты (node --test)
 src/
 ├── assets/main.css            # Дизайн-система
 ├── components/                # Vue-компоненты
-├── composables/               # Composables (SEO, messenger, phone mask, schema)
-├── config/site.js             # SITE_ORIGIN, хелперы URL
+├── composables/               # Composables (SEO, messenger, phone mask, schema, fallback images)
+├── config/
+│   ├── contacts.js            # телефон, email, адрес, часы, мессенджеры
+│   └── site.js                # SITE_ORIGIN, хелперы URL, дефолтные изображения
 ├── data/catalog.json          # Каталог товаров (единственный источник данных)
 ├── router/index.js            # Маршруты
 ├── stores/                    # Pinia stores (products, toast)
@@ -68,7 +70,7 @@ public/
 ├── manifest.webmanifest       # PWA-манифест
 ├── sw.js                      # Service worker
 ├── sitemap.xml / robots.txt   # Генерируются скриптом при build
-└── _redirects                 # SPA-fallback для хостинга
+└── _headers                   # security/cache headers для статического хостинга
 scripts/
 ├── generate-sitemap.mjs       # prebuild: sitemap.xml + robots.txt
 └── import-bizzon-catalog.mjs  # импорт каталога из источника bizzon
@@ -78,11 +80,18 @@ scripts/
 
 ### Контакты и мессенджеры
 Контакты заданы централизованно и должны совпадать во всех местах:
-- `src/composables/messengerConfig.js` — `WHATSAPP_PHONE`, `TELEGRAM_USERNAME`
-- `src/components/AppFooter.vue` и `src/views/ContactsView.vue` — телефон, email, адрес
+- `src/config/contacts.js` — телефон, email, адрес, часы, WhatsApp и Telegram
+- `src/composables/messengerConfig.js` — строит ссылки WhatsApp/Telegram из `contacts.js`
 - `src/config/site.js` — `SITE_ORIGIN` (для canonical/sitemap/OG)
 
 Текущие значения: телефон `+7 775 853 70 92`, email `etalonkovka@mail.ru`, Telegram `@etalonkovka`.
+
+### Аналитика
+Переменные окружения описаны в `.env.example`:
+- `VITE_YANDEX_METRIKA_ID`
+- `VITE_GOOGLE_ANALYTICS_ID`
+
+Счётчики запускаются только после согласия пользователя на cookies/аналитику.
 
 ### Каталог товаров
 Единственный источник — `src/data/catalog.json`. После правок запустите `npm run build` (prebuild перегенерирует `sitemap.xml`).

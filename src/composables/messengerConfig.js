@@ -1,5 +1,6 @@
-export const WHATSAPP_PHONE = '77758537092'
-export const TELEGRAM_USERNAME = 'etalonkovka'
+import { TELEGRAM_USERNAME, WHATSAPP_PHONE } from '../config/contacts.js'
+
+export { TELEGRAM_USERNAME, WHATSAPP_PHONE }
 
 export function buildWhatsAppLink(message) {
   return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`

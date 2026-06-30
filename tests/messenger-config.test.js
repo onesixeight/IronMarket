@@ -1,10 +1,13 @@
 import assert from 'node:assert/strict'
 
+import { CONTACTS } from '../src/config/contacts.js'
 import { buildWhatsAppLink, buildTelegramLink, WHATSAPP_PHONE, TELEGRAM_USERNAME } from '../src/composables/messengerConfig.js'
 
 // Константы контактов.
 assert.equal(WHATSAPP_PHONE, '77758537092')
 assert.equal(TELEGRAM_USERNAME, 'etalonkovka')
+assert.equal(WHATSAPP_PHONE, CONTACTS.phone.raw)
+assert.equal(TELEGRAM_USERNAME, CONTACTS.telegram.username)
 
 // WhatsApp-ссылка содержит номер и encodeURIComponent-сообщение.
 const wa = buildWhatsAppLink('Здравствуйте!')

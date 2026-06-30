@@ -1,6 +1,7 @@
 import { toValue, watchEffect, onScopeDispose } from 'vue'
 
 import { DEFAULT_SOCIAL_IMAGE, SITE_NAME, toAbsoluteSiteUrl, toSiteUrl } from '../config/site.js'
+import { CONTACTS } from '../config/contacts.js'
 
 let schemaScript = null
 
@@ -59,11 +60,21 @@ export function schemaOrganization() {
     name: SITE_NAME,
     url: toSiteUrl('/'),
     logo: toAbsoluteSiteUrl(DEFAULT_SOCIAL_IMAGE),
+    telephone: CONTACTS.phone.tel,
+    email: CONTACTS.email.value,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: CONTACTS.location.streetAddress,
+      addressLocality: CONTACTS.location.city,
+      addressCountry: 'KZ',
+    },
     description:
       'Продажа и поставка декоративных кованых элементов в Астане и по Казахстану.',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'sales',
+      telephone: CONTACTS.phone.tel,
+      email: CONTACTS.email.value,
       areaServed: 'KZ',
       availableLanguage: ['Russian', 'Kazakh'],
     },

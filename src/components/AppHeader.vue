@@ -13,7 +13,7 @@
         </div>
         <div class="hidden sm:block">
           <div class="font-heading text-lg font-semibold uppercase tracking-[0.12em] text-cream-100">Эталон Ковка</div>
-          <div class="text-[10px] uppercase tracking-[0.24em] text-gold-300/72">Астана • Казахстан</div>
+          <div class="text-[10px] uppercase tracking-[0.24em] text-gold-300/72">{{ CONTACTS.location.short }}</div>
         </div>
       </router-link>
 
@@ -24,8 +24,8 @@
       </nav>
 
       <div class="flex items-center gap-1 sm:gap-2">
-        <a href="tel:+77758537092" class="hidden px-4 py-2.5 text-sm lg:inline-flex metal-button">
-          +7 775 853 70 92
+        <a :href="CONTACTS.phone.href" class="hidden px-4 py-2.5 text-sm lg:inline-flex metal-button">
+          {{ CONTACTS.phone.display }}
         </a>
 
         <button
@@ -89,7 +89,7 @@
             class="flex items-center gap-3 border-b border-gold-400/8 px-4 py-3 transition-colors hover:bg-gold-400/6 last:border-b-0"
             @click="closeSearch"
           >
-            <img :src="p.image" :alt="p.name" loading="lazy" class="h-12 w-12 rounded-xl border border-gold-400/10 bg-obsidian-800/86 p-1.5 object-contain" />
+            <img :src="p.image" :alt="p.name" loading="lazy" class="h-12 w-12 rounded-xl border border-gold-400/10 bg-obsidian-800/86 p-1.5 object-contain" @error="applyImageFallback" />
             <div class="min-w-0 flex-1">
               <div class="truncate text-sm font-medium text-cream-100">{{ p.name }}</div>
               <div class="mt-1 text-xs uppercase tracking-[0.16em] text-gold-300/72">Каталог</div>
@@ -116,7 +116,7 @@
           <router-link v-for="item in navItems" :key="item.label" :to="item.to" class="mobile-link" @click="closeMobileMenu">
             {{ item.label }}
           </router-link>
-          <a href="tel:+77758537092" class="mt-4 text-center metal-button" @click="closeMobileMenu">+7 775 853 70 92</a>
+          <a :href="CONTACTS.phone.href" class="mt-4 text-center metal-button" @click="closeMobileMenu">{{ CONTACTS.phone.display }}</a>
         </nav>
       </div>
     </transition>
@@ -130,8 +130,10 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatPrice } from '../composables/usePrice.js'
 import { debounce } from '../composables/useDebounce.js'
+import { applyImageFallback } from '../composables/useImageFallback.js'
 import { lockScroll, unlockScroll } from '../composables/useScrollLock.js'
 import { isTypingTarget } from '../composables/useUtils.js'
+import { CONTACTS } from '../config/contacts.js'
 import { useProductStore } from '../stores/products'
 
 const router = useRouter()

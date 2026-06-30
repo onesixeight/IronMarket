@@ -18,7 +18,7 @@
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
-          <img :src="src" :alt="alt" class="max-w-full max-h-[85vh] object-contain rounded-lg" />
+          <img :src="src" :alt="alt" class="max-w-full max-h-[85vh] object-contain rounded-lg" @error="applyImageFallback" />
         </div>
       </div>
     </transition>
@@ -27,6 +27,7 @@
 
 <script setup>
 import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { applyImageFallback } from '../composables/useImageFallback.js'
 import { lockScroll, unlockScroll } from '../composables/useScrollLock.js'
 
 const props = defineProps({ visible: Boolean, src: String, alt: String })
