@@ -1,6 +1,13 @@
 <template>
   <Transition name="consent">
-    <div v-if="visible" class="consent" role="dialog" aria-label="Согласие на использование cookies" aria-live="polite">
+    <div
+      v-if="visible"
+      class="consent"
+      role="dialog"
+      aria-label="Согласие на использование cookies"
+      aria-live="polite"
+      data-testid="cookie-consent"
+    >
       <div class="consent-body">
         <p class="consent-text">
           Мы используем cookie, чтобы сайт работал удобнее: запоминаем
@@ -8,8 +15,8 @@
           <router-link to="/about" class="consent-link" @click="accept">Подробнее</router-link>.
         </p>
         <div class="consent-actions">
-          <button type="button" class="consent-btn consent-decline" @click="decline">Отклонить</button>
-          <button type="button" class="consent-btn consent-accept" @click="accept">Принять</button>
+          <button type="button" class="consent-btn consent-decline" data-testid="cookie-decline" @click="decline">Отклонить</button>
+          <button type="button" class="consent-btn consent-accept" data-testid="cookie-accept" @click="accept">Принять</button>
         </div>
       </div>
     </div>

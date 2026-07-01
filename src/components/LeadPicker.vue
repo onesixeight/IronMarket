@@ -28,6 +28,7 @@
                 class="scenario-card"
                 :class="{ 'scenario-card-active': scenario.id === selectedId }"
                 :aria-pressed="scenario.id === selectedId"
+                :data-testid="`lead-scenario-${scenario.id}`"
                 @click="selectedId = scenario.id; trackScenarioSelect(scenario.id)"
               >
                 <span class="scenario-card-icon">{{ scenario.icon }}</span>
@@ -44,6 +45,7 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="picker-action metal-button justify-center"
+                data-testid="lead-picker-whatsapp"
                 @click="trackScenarioLead('whatsapp')"
               >
                 Написать в WhatsApp
@@ -53,6 +55,7 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="picker-action metal-button-ghost justify-center"
+                data-testid="lead-picker-telegram"
                 @click="trackScenarioLead('telegram')"
               >
                 Telegram
@@ -60,6 +63,7 @@
               <router-link
                 :to="selectedContactRoute"
                 class="picker-action inline-flex items-center justify-center rounded-xl border border-cream-100/10 bg-cream-100/5 px-5 py-3 text-sm font-medium text-cream-100/72 transition-all duration-300 hover:border-gold-300/30 hover:bg-gold-400/8 hover:text-gold-300"
+                data-testid="lead-picker-form"
                 @click="trackContactFormOpen({ source: 'lead_picker', scenario_id: selectedScenario?.id || undefined })"
               >
                 Заполнить форму
