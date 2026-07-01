@@ -1,6 +1,18 @@
 import assert from 'node:assert/strict'
 
-import { schemaProduct, schemaItemList } from '../src/composables/useSchemaOrg.js'
+import { schemaOrganization, schemaProduct, schemaItemList } from '../src/composables/useSchemaOrg.js'
+
+// --- schemaOrganization: локальная компания с контактами и адресом ---
+const organization = schemaOrganization()
+assert.equal(organization['@type'], 'LocalBusiness')
+assert.equal(organization.name, 'Эталон Ковка')
+assert.equal(organization.url, 'https://etalon-kovka.kz/')
+assert.equal(organization.telephone, '+77758537092')
+assert.equal(organization.email, 'etalonkovka@mail.ru')
+assert.equal(organization.address.streetAddress, 'просп. Богенбай Батыра, 6/4, 16 ряд, 14 место')
+assert.equal(organization.address.addressLocality, 'Астана')
+assert.equal(organization.openingHours, 'Mo-Su 09:00-18:00')
+assert.equal(organization.priceRange, 'KZT')
 
 // --- schemaProduct: цена показывается, когда не скрыта ---
 const priced = schemaProduct({ id: 10, name: 'Балясина', image: '/x.webp', price: 1500, description: 'Опора' })

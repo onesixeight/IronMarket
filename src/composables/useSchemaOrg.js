@@ -57,18 +57,21 @@ export function schemaProduct(product) {
 
 export function schemaOrganization() {
   return {
-    '@type': 'Organization',
+    '@type': 'LocalBusiness',
     name: SITE_NAME,
     url: toSiteUrl('/'),
     logo: toAbsoluteSiteUrl(DEFAULT_SOCIAL_IMAGE),
     telephone: CONTACTS.phone.tel,
     email: CONTACTS.email.value,
+    priceRange: 'KZT',
+    openingHours: 'Mo-Su 09:00-18:00',
     address: {
       '@type': 'PostalAddress',
       streetAddress: CONTACTS.location.streetAddress,
       addressLocality: CONTACTS.location.city,
       addressCountry: 'KZ',
     },
+    areaServed: CONTACTS.location.region,
     description:
       'Продажа и поставка декоративных кованых элементов в Астане и по Казахстану.',
     contactPoint: {
