@@ -97,9 +97,15 @@ scripts/
 Текущие значения: телефон `+7 775 853 70 92`, email `etalonkovka@mail.ru`, адрес `Астана, просп. Богенбай Батыра, 6/4, 16 ряд 14 место`, Telegram `@etalonkovka`.
 
 ### Аналитика
-Переменные окружения описаны в `.env.example`:
+Публичные ID счётчиков лежат в `.env.production`, чтобы GitHub/Cloudflare build собирался одинаково без ручных переменных:
+- `VITE_GOOGLE_ANALYTICS_ID=G-3TYNDM52D9`
+- `VITE_YANDEX_METRIKA_ID=110264764`
+
+Шаблон для локальных переопределений описан в `.env.example`:
 - `VITE_YANDEX_METRIKA_ID`
 - `VITE_GOOGLE_ANALYTICS_ID`
+
+Локальный `.env.local` остаётся ignored и не должен попадать в Git.
 
 Счётчики запускаются только после согласия пользователя на cookies/аналитику.
 Основные события без персональных данных: `catalog_open`, `product_open`, `contact_form_open`, `lead_scenario_select`, `lead_whatsapp`, `lead_telegram`. Для Google Analytics заявка также уходит как `generate_lead`, а открытие товара — как `select_item`.

@@ -22,8 +22,12 @@ const homeView = read('src/views/HomeView.vue')
 const indexHtml = read('index.html')
 const headers = read('public/_headers')
 const vercel = read('vercel.json')
+const productionEnv = read('.env.production')
 
 assert.ok(existsSync(resolve(projectRoot, '.env.example')), '.env.example should document analytics env ids')
+assert.ok(existsSync(resolve(projectRoot, '.env.production')), '.env.production should keep public analytics ids available to hosted builds')
+assert.match(productionEnv, /^VITE_GOOGLE_ANALYTICS_ID=G-3TYNDM52D9$/m)
+assert.match(productionEnv, /^VITE_YANDEX_METRIKA_ID=110264764$/m)
 
 assert.match(googleAnalytics, /import\.meta\.env\.VITE_GOOGLE_ANALYTICS_ID/)
 assert.match(googleAnalytics, /https:\/\/www\.googletagmanager\.com\/gtag\/js/)
