@@ -19,6 +19,8 @@
     "test:e2e:ci": "npm run build && playwright test",
     "verify:seo": "node scripts/verify-seo-launch.mjs",
     "verify:seo:ci": "npm run build && npm run verify:seo",
+    "verify:perf": "node scripts/verify-performance-budget.mjs",
+    "verify:perf:ci": "npm run build && npm run verify:perf",
     "prerender": "node scripts/prerender-routes.mjs",
     "format": "prettier --write ."
   },
