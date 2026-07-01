@@ -45,6 +45,14 @@ export function trackGoal(target, params = {}) {
   trackYandexGoal(target, params)
 }
 
+export function trackCatalogOpen(params = {}) {
+  trackGoal('catalog_open', params)
+}
+
+export function trackContactFormOpen(params = {}) {
+  trackGoal('contact_form_open', params)
+}
+
 export function trackLead(channel, params = {}) {
   if (!channel || !initialized) return
 
@@ -55,6 +63,20 @@ export function trackLead(channel, params = {}) {
 
   trackGoogleEvent('generate_lead', payload)
   trackYandexGoal(`lead_${channel}`, payload)
+}
+
+export function trackProductOpen(product, params = {}) {
+  if (!product || !initialized) return
+
+  const payload = {
+    item_id: product.id,
+    item_name: product.name,
+    item_category: product.categorySlug,
+    ...params,
+  }
+
+  trackGoogleEvent('select_item', payload)
+  trackYandexGoal('product_open', payload)
 }
 
 function buildPageViewPayload(path) {

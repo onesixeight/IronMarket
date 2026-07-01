@@ -28,7 +28,7 @@
                 class="scenario-card"
                 :class="{ 'scenario-card-active': scenario.id === selectedId }"
                 :aria-pressed="scenario.id === selectedId"
-                @click="selectedId = scenario.id"
+                @click="selectedId = scenario.id; trackScenarioSelect(scenario.id)"
               >
                 <span class="scenario-card-icon">{{ scenario.icon }}</span>
                 <span class="scenario-card-content">
@@ -44,6 +44,7 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="picker-action metal-button justify-center"
+                @click="trackScenarioLead('whatsapp')"
               >
                 Написать в WhatsApp
               </a>
@@ -52,12 +53,14 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="picker-action metal-button-ghost justify-center"
+                @click="trackScenarioLead('telegram')"
               >
                 Telegram
               </a>
               <router-link
                 :to="selectedContactRoute"
                 class="picker-action inline-flex items-center justify-center rounded-xl border border-cream-100/10 bg-cream-100/5 px-5 py-3 text-sm font-medium text-cream-100/72 transition-all duration-300 hover:border-gold-300/30 hover:bg-gold-400/8 hover:text-gold-300"
+                @click="trackContactFormOpen({ source: 'lead_picker', scenario_id: selectedScenario?.id || undefined })"
               >
                 Заполнить форму
               </router-link>
@@ -72,6 +75,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { buildTelegramLink, buildWhatsAppLink } from '../composables/messengerConfig.js'
+import { trackContactFormOpen, trackGoal, trackLead } from '../composables/useAnalytics.js'
 import { buildScenarioContactMessage, contactScenarios } from '../composables/useContactPrefill.js'
 
 const projectScenarios = contactScenarios
@@ -108,6 +112,20 @@ function getScenarioWhatsAppLink(scenario) {
 
 function getScenarioTelegramLink(scenario) {
   return buildTelegramLink(buildScenarioMessage(scenario))
+}
+
+function trackScenarioLead(channel) {
+  trackLead(channel, {
+    source: 'lead_picker',
+    scenario_id: selectedScenario.value?.id || undefined,
+  })
+}
+
+function trackScenarioSelect(id) {
+  trackGoal('lead_scenario_select', {
+    source: 'lead_picker',
+    scenario_id: id,
+  })
 }
 </script>
 

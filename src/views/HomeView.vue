@@ -34,7 +34,7 @@
             <p class="section-lead mt-4 text-sm sm:text-base">
               Для кованых элементов важны размеры, количество и задача объекта. Поэтому вместо фальшивой корзины мы ведём клиента к заявке и живому подбору.
             </p>
-            <router-link to="/contacts" class="metal-button mt-8">Оставить заявку</router-link>
+            <router-link to="/contacts" class="metal-button mt-8" @click="trackContactFormOpen({ source: 'home_order_steps' })">Оставить заявку</router-link>
           </div>
 
           <div class="grid gap-4 md:grid-cols-3">
@@ -121,8 +121,8 @@
               </div>
 
               <div class="mt-8 flex flex-wrap gap-3">
-                <router-link to="/catalog" class="metal-button">Весь каталог</router-link>
-                <router-link to="/contacts" class="metal-button-ghost">Нужен совет</router-link>
+                <router-link to="/catalog" class="metal-button" @click="trackCatalogOpen({ source: 'home_popular_products' })">Весь каталог</router-link>
+                <router-link to="/contacts" class="metal-button-ghost" @click="trackContactFormOpen({ source: 'home_popular_products' })">Нужен совет</router-link>
               </div>
             </div>
 
@@ -133,6 +133,7 @@
                 :to="'/product/' + p.id"
                 class="popular-product-card group"
                 v-reveal="i * 0.05"
+                @click="trackProductOpen(p, { source: 'home_popular_products' })"
               >
                 <span class="popular-product-image">
                   <img :src="p.image" :alt="p.name" loading="lazy" decoding="async" sizes="(max-width: 480px) 88px, 104px" />
@@ -223,6 +224,7 @@ import ContactForm from '../components/ContactForm.vue'
 import LeadPicker from '../components/LeadPicker.vue'
 import FaqSection from '../components/FaqSection.vue'
 import { useSeo } from '../composables/useSeo'
+import { trackCatalogOpen, trackContactFormOpen, trackProductOpen } from '../composables/useAnalytics.js'
 import { useSchemaOrg, schemaOrganization } from '../composables/useSchemaOrg.js'
 import { useProductStore } from '../stores/products'
 

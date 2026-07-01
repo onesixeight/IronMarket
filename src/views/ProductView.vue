@@ -131,6 +131,7 @@
             <router-link
               :to="{ path: '/contacts', query: { product: product.id } }"
               class="mt-4 inline-flex text-sm font-medium text-cream-100/56 transition-colors hover:text-gold-300"
+              @click="trackProductContactFormOpen"
             >
               Или заполнить форму на сайте
             </router-link>
@@ -215,7 +216,7 @@ import RecentlyViewed from '../components/RecentlyViewed.vue'
 import { applyImageFallback } from '../composables/useImageFallback.js'
 import { useRecentlyViewed } from '../composables/useRecentlyViewed.js'
 import { getProductTelegramLink, getProductWhatsAppLink } from '../composables/useProductInquiry.js'
-import { trackLead } from '../composables/useAnalytics.js'
+import { trackContactFormOpen, trackLead } from '../composables/useAnalytics.js'
 
 const route = useRoute()
 const { add: addRecentlyViewed } = useRecentlyViewed()
@@ -247,6 +248,16 @@ function trackProductLead(channel) {
   if (!product.value) return
 
   trackLead(channel, {
+    source: 'product_page',
+    product_id: product.value.id,
+    category_slug: product.value.categorySlug,
+  })
+}
+
+function trackProductContactFormOpen() {
+  if (!product.value) return
+
+  trackContactFormOpen({
     source: 'product_page',
     product_id: product.value.id,
     category_slug: product.value.categorySlug,

@@ -18,7 +18,7 @@
       </router-link>
 
       <nav class="hidden items-center gap-2 xl:flex">
-        <router-link v-for="item in navItems" :key="item.label" :to="item.to" class="nav-link" :data-testid="getNavTestId(item.to)">
+        <router-link v-for="item in navItems" :key="item.label" :to="item.to" class="nav-link" :data-testid="getNavTestId(item.to)" @click="trackNavClick(item, 'desktop_header')">
           {{ item.label }}
         </router-link>
       </nav>
@@ -91,7 +91,7 @@
             :to="'/product/' + p.id"
             data-testid="header-search-result"
             class="flex items-center gap-3 border-b border-gold-400/8 px-4 py-3 transition-colors hover:bg-gold-400/6 last:border-b-0"
-            @click="closeSearch"
+            @click="openSearchResult(p)"
           >
             <img :src="p.image" :alt="p.name" loading="lazy" decoding="async" sizes="48px" class="h-12 w-12 rounded-xl border border-gold-400/10 bg-obsidian-800/86 p-1.5 object-contain" @error="applyImageFallback" />
             <div class="min-w-0 flex-1">
@@ -117,7 +117,7 @@
       >
         <div class="absolute inset-0 bg-obsidian-950/78 backdrop-blur-md" @click="closeMobileMenu"></div>
         <nav class="mobile-sheet absolute inset-y-0 right-0 flex w-[min(20rem,calc(100vw-1rem))] flex-col gap-2 overflow-y-auto border-l border-gold-400/12 bg-obsidian-950/96 px-5 pb-8 pt-[5.5rem] shadow-[0_24px_80px_rgba(0,0,0,0.58)] backdrop-blur-2xl sm:pt-24">
-          <router-link v-for="item in navItems" :key="item.label" :to="item.to" class="mobile-link" @click="closeMobileMenu">
+          <router-link v-for="item in navItems" :key="item.label" :to="item.to" class="mobile-link" @click="trackNavClick(item, 'mobile_menu')">
             {{ item.label }}
           </router-link>
           <a :href="CONTACTS.phone.href" class="mt-4 text-center metal-button" @click="closeMobileMenu">{{ CONTACTS.phone.display }}</a>
@@ -134,6 +134,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatPrice } from '../composables/usePrice.js'
 import { debounce } from '../composables/useDebounce.js'
+import { trackCatalogOpen, trackProductOpen } from '../composables/useAnalytics.js'
 import { applyImageFallback } from '../composables/useImageFallback.js'
 import { lockScroll, unlockScroll } from '../composables/useScrollLock.js'
 import { isTypingTarget } from '../composables/useUtils.js'
@@ -198,7 +199,27 @@ function closeMobileMenu() {
 }
 
 function goToCatalog() {
+  trackCatalogOpen({
+    source: 'header_search',
+    search_query: searchInput.value || undefined,
+  })
   router.push('/catalog')
+  closeSearch()
+}
+
+function trackNavClick(item, source) {
+  if (item.to === '/catalog') {
+    trackCatalogOpen({ source })
+  }
+
+  closeMobileMenu()
+}
+
+function openSearchResult(product) {
+  trackProductOpen(product, {
+    source: 'header_search',
+    search_query: searchInput.value || undefined,
+  })
   closeSearch()
 }
 

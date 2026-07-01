@@ -102,6 +102,7 @@ scripts/
 - `VITE_GOOGLE_ANALYTICS_ID`
 
 Счётчики запускаются только после согласия пользователя на cookies/аналитику.
+Основные события без персональных данных: `catalog_open`, `product_open`, `contact_form_open`, `lead_scenario_select`, `lead_whatsapp`, `lead_telegram`. Для Google Analytics заявка также уходит как `generate_lead`, а открытие товара — как `select_item`.
 
 ## Проверки качества
 

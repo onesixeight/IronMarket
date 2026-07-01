@@ -1,6 +1,6 @@
 <template>
   <article data-testid="product-card" class="group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-gold-400/10 bg-obsidian-900/82 shadow-[0_24px_60px_rgba(0,0,0,0.22)] transition-transform duration-300 hover:-translate-y-1">
-    <router-link :to="'/product/' + product.id" class="relative block overflow-hidden rounded-t-[1.75rem] aspect-[4/3] bg-[radial-gradient(circle_at_top,rgba(201,150,59,0.14),transparent_48%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(10,9,8,0.02))]">
+    <router-link :to="'/product/' + product.id" class="relative block overflow-hidden rounded-t-[1.75rem] aspect-[4/3] bg-[radial-gradient(circle_at_top,rgba(201,150,59,0.14),transparent_48%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(10,9,8,0.02))]" @click="trackCardOpen('product_card_image')">
       <img
         :src="product.image"
         :alt="product.name"
@@ -17,7 +17,7 @@
 
     <div class="flex flex-1 flex-col px-5 pb-5 pt-4">
       <h3 class="min-h-[2.8rem] text-[15px] font-semibold leading-snug text-cream-100">
-        <router-link :to="'/product/' + product.id" class="transition-colors duration-200 hover:text-gold-300">
+        <router-link :to="'/product/' + product.id" class="transition-colors duration-200 hover:text-gold-300" @click="trackCardOpen('product_card_title')">
           {{ product.name }}
         </router-link>
       </h3>
@@ -46,6 +46,7 @@
             data-testid="product-card-detail"
             class="inline-flex items-center justify-center gap-2 rounded-2xl border border-gold-400/18 bg-obsidian-950/70 px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-gold-300 transition-all duration-200 hover:border-gold-300/40 hover:bg-gold-400/8 active:scale-95"
             title="Подробнее"
+            @click="trackCardOpen('product_card_detail')"
           >
             Подробнее
             <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.7">
@@ -72,7 +73,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { trackLead } from '../composables/useAnalytics.js'
+import { trackLead, trackProductOpen } from '../composables/useAnalytics.js'
 import { applyImageFallback } from '../composables/useImageFallback.js'
 import { formatPrice } from '../composables/usePrice.js'
 import { getProductWhatsAppLink } from '../composables/useProductInquiry.js'
@@ -89,5 +90,9 @@ function trackCardLead() {
     product_id: props.product.id,
     category_slug: props.product.categorySlug,
   })
+}
+
+function trackCardOpen(source) {
+  trackProductOpen(props.product, { source })
 }
 </script>
