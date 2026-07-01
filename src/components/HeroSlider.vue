@@ -19,11 +19,13 @@
     >
       <img
         :src="slide.image"
+        :srcset="slide.srcset"
         :alt="slide.title"
         class="w-full h-full object-cover"
         :class="current === i && isHeroMotionReady ? 'hero-image-breathe' : ''"
         :loading="i === 0 ? 'eager' : 'lazy'"
         :fetchpriority="i === 0 ? 'high' : undefined"
+        sizes="100vw"
         decoding="async"
         width="1536"
         height="1024"
@@ -194,6 +196,7 @@ const slides = [
       { value: '7/7', label: 'без выходных' },
     ],
     image: '/images/hero/hero-ornamental-pattern-v2.webp',
+    srcset: '/images/hero/hero-ornamental-pattern-v2-768w.webp 768w, /images/hero/hero-ornamental-pattern-v2-1200w.webp 1200w, /images/hero/hero-ornamental-pattern-v2.webp 1536w',
   },
   {
     tag: 'Ворота и ограждения',
@@ -212,6 +215,7 @@ const slides = [
       { value: '∞', label: 'вариантов сочетаний' },
     ],
     image: '/images/hero/hero-ornamental-gate-v2.webp',
+    srcset: '/images/hero/hero-ornamental-gate-v2-768w.webp 768w, /images/hero/hero-ornamental-gate-v2-1200w.webp 1200w, /images/hero/hero-ornamental-gate-v2.webp 1536w',
   },
   {
     tag: 'Комплектация объектов',
@@ -230,6 +234,7 @@ const slides = [
       { value: '24/7', label: 'каталог онлайн' },
     ],
     image: '/images/hero/hero-wrought-iron-fence-v2.webp',
+    srcset: '/images/hero/hero-wrought-iron-fence-v2-768w.webp 768w, /images/hero/hero-wrought-iron-fence-v2-1200w.webp 1200w, /images/hero/hero-wrought-iron-fence-v2.webp 1536w',
   },
 ]
 

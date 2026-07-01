@@ -6,6 +6,8 @@
         :alt="product.name"
         class="absolute inset-0 h-full w-full object-contain p-5 transition-transform duration-500 ease-out group-hover:scale-[1.05]"
         loading="lazy"
+        decoding="async"
+        sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 100vw"
         @error="applyImageFallback"
       />
       <div v-if="product.badge" class="absolute left-4 top-4 rounded-full border border-gold-400/18 bg-obsidian-950/88 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold-300">

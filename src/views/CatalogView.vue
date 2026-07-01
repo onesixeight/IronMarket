@@ -134,6 +134,8 @@
               :alt="cat.name"
               class="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-110"
               loading="lazy"
+              decoding="async"
+              sizes="124px"
             />
           </div>
           <div class="catalog-category-content">

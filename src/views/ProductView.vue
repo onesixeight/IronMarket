@@ -11,6 +11,8 @@
             :src="product.image"
             :alt="product.name"
             class="max-w-full max-h-[500px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+            decoding="async"
+            sizes="(min-width: 1024px) 50vw, 100vw"
             @error="applyImageFallback"
           />
           <button

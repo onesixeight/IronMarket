@@ -4,8 +4,12 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const catalog = JSON.parse(fs.readFileSync(new URL('../src/data/catalog.json', import.meta.url), 'utf8'))
+const catalogView = fs.readFileSync(new URL('../src/views/CatalogView.vue', import.meta.url), 'utf8')
 const publicDir = fileURLToPath(new URL('../public', import.meta.url))
 const imagePaths = [...new Set([...catalog.categories, ...catalog.products].map((item) => item.image))]
+
+assert.match(catalogView, /decoding="async"/, 'Catalog category thumbnails should decode async')
+assert.match(catalogView, /sizes="124px"/, 'Catalog category thumbnails should advertise their rendered size')
 
 function pngColorType(buffer) {
   const signature = buffer.subarray(0, 8).toString('hex')

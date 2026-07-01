@@ -93,7 +93,7 @@
             class="flex items-center gap-3 border-b border-gold-400/8 px-4 py-3 transition-colors hover:bg-gold-400/6 last:border-b-0"
             @click="closeSearch"
           >
-            <img :src="p.image" :alt="p.name" loading="lazy" class="h-12 w-12 rounded-xl border border-gold-400/10 bg-obsidian-800/86 p-1.5 object-contain" @error="applyImageFallback" />
+            <img :src="p.image" :alt="p.name" loading="lazy" decoding="async" sizes="48px" class="h-12 w-12 rounded-xl border border-gold-400/10 bg-obsidian-800/86 p-1.5 object-contain" @error="applyImageFallback" />
             <div class="min-w-0 flex-1">
               <div class="truncate text-sm font-medium text-cream-100">{{ p.name }}</div>
               <div class="mt-1 text-xs uppercase tracking-[0.16em] text-gold-300/72">Каталог</div>

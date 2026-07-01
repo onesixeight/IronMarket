@@ -33,6 +33,27 @@ assert.match(
 )
 assert.match(
   applicationExamples,
+  /:srcset="item\.srcset"/,
+  'Application examples should expose responsive image candidates'
+)
+assert.match(
+  applicationExamples,
+  /buildExampleSrcset\(example\.image\)/,
+  'Application examples should derive srcset from the source image'
+)
+assert.match(
+  applicationExamples,
+  /512w\.jpg 512w/,
+  'Application examples should include compact mobile image candidates'
+)
+assert.match(
+  applicationExamples,
+  /:sizes="index === 0 \? '\(min-width: 1024px\) 66vw, 100vw' : '\(min-width: 1024px\) 33vw, \(min-width: 640px\) 50vw, 100vw'"/,
+  'Application examples should declare realistic rendered image sizes'
+)
+assert.match(applicationExamples, /decoding="async"/, 'Application example images should decode async')
+assert.match(
+  applicationExamples,
   /\.application-examples-intro\s*\{[\s\S]*display: grid;/,
   'Application examples intro should use a full-width internal grid'
 )
