@@ -16,7 +16,7 @@ assert.doesNotMatch(header, /M12 2L2 7l10 5 10-5/, 'Header should no longer use 
 
 assert.equal(CONTACTS.phone.display, '+7 775 853 70 92')
 assert.equal(CONTACTS.email.value, 'etalonkovka@mail.ru')
-assert.equal(CONTACTS.location.address, 'Астана, просп. Богенбай Батыра, 6/4')
+assert.equal(CONTACTS.location.address, 'Астана, просп. Богенбай Батыра, 6/4, 16 ряд, 14 место')
 assert.equal(CONTACTS.hours.primary, 'Пн-Вс: 9:00-18:00')
 assert.equal(CONTACTS.hours.note, 'Без выходных')
 assert.match(contactsConfig, /WHATSAPP_PHONE = CONTACTS\.phone\.raw/, 'WhatsApp phone should be exported from the contact config')
