@@ -45,7 +45,7 @@ export function schemaProduct(product) {
   if (!p.hidePrice) {
     result.offers = {
       '@type': 'Offer',
-      url: typeof window !== 'undefined' ? window.location.href : '',
+      url: p.id ? toSiteUrl(`/product/${p.id}`) : toSiteUrl('/catalog'),
       priceCurrency: 'KZT',
       price: String(p.price),
       availability: 'https://schema.org/InStock',
@@ -94,10 +94,7 @@ export function schemaItemList(products, listName) {
         '@type': 'Product',
         name: p.name,
         image: p.image,
-        url:
-          typeof window !== 'undefined'
-            ? `${window.location.origin}/product/${p.id}`
-            : `/product/${p.id}`,
+        url: toSiteUrl(`/product/${p.id}`),
         offers: {
           '@type': 'Offer',
           priceCurrency: 'KZT',

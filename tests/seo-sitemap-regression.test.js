@@ -47,6 +47,11 @@ assert.match(sitemap, new RegExp(`<loc>https://etalon-kovka\\.kz/catalog/${catal
 assert.match(sitemap, new RegExp(`<loc>https://etalon-kovka\\.kz/product/${catalog.products[0].id}</loc>`))
 assert.doesNotMatch(sitemap, /\/cart<\/loc>|\/checkout<\/loc>|\/wishlist<\/loc>/)
 
+const sitemapGenerator = readFileSync(generatorPath, 'utf8')
+assert.match(sitemapGenerator, /buildSiteRoutes\(\)/)
+assert.match(sitemapGenerator, /readExistingLastmodByLoc/)
+assert.match(sitemapGenerator, /existingLastmodByLoc\.get\(loc\) \|\| today/)
+
 assert.match(robots, /User-agent: \*/)
 assert.match(robots, /Allow: \//)
 assert.match(robots, /Disallow: \/cart/)

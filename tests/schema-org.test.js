@@ -3,11 +3,12 @@ import assert from 'node:assert/strict'
 import { schemaProduct, schemaItemList } from '../src/composables/useSchemaOrg.js'
 
 // --- schemaProduct: цена показывается, когда не скрыта ---
-const priced = schemaProduct({ name: 'Балясина', image: '/x.webp', price: 1500, description: 'Опора' })
+const priced = schemaProduct({ id: 10, name: 'Балясина', image: '/x.webp', price: 1500, description: 'Опора' })
 assert.equal(priced['@type'], 'Product')
 assert.equal(priced.name, 'Балясина')
 assert.equal(priced.brand.name, 'Эталон Ковка')
 assert.equal(priced.offers.priceCurrency, 'KZT')
+assert.equal(priced.offers.url, 'https://etalon-kovka.kz/product/10')
 assert.equal(priced.offers.price, '1500') // строка
 assert.equal(priced.offers.availability, 'https://schema.org/InStock')
 
@@ -33,6 +34,7 @@ assert.equal(list.itemListElement.length, 2)
 assert.equal(list.itemListElement[0].position, 1)
 assert.equal(list.itemListElement[1].position, 2)
 assert.equal(list.itemListElement[0].item.offers.availability, 'https://schema.org/InStock')
+assert.equal(list.itemListElement[0].item.url, 'https://etalon-kovka.kz/product/1')
 assert.equal(list.itemListElement[0].item.offers.price, '100')
 assert.equal(list.itemListElement[1].item.offers.availability, 'https://schema.org/PreOrder')
 assert.equal(list.itemListElement[1].item.offers.price, '0')

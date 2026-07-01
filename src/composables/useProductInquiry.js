@@ -4,6 +4,7 @@ import { SITE_ORIGIN } from '../config/site.js'
 
 function getSiteOrigin(options = {}) {
   if (options.origin) return options.origin.replace(/\/$/, '')
+  if (import.meta.env?.PROD) return SITE_ORIGIN
   if (typeof window !== 'undefined' && window.location?.origin) return window.location.origin
   return SITE_ORIGIN
 }

@@ -9,12 +9,13 @@
   "scripts": {
     "prebuild": "node scripts/generate-sitemap.mjs",
     "dev": "vite",
-    "build": "vite build && node scripts/inject-sw-precache.mjs",
+    "build": "vite build && node scripts/inject-sw-precache.mjs && node scripts/prerender-routes.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "node --test",
     "test:e2e": "playwright test",
     "test:e2e:ci": "npm run build && playwright test",
+    "prerender": "node scripts/prerender-routes.mjs",
     "format": "prettier --write ."
   },
   "dependencies": {

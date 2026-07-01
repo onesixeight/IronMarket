@@ -1,37 +1,16 @@
-import { mkdirSync, writeFileSync, readFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { SITE_ORIGIN, toSiteUrl } from '../src/config/site.js'
+import { buildSiteRoutes } from './site-routes.mjs'
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-// JSON грузим через readFileSync вместо static import с атрибутом
-// 'with { type: "json" }' — это совместимо с любой версией Node (включая
-// Node 18/20 на CI/хостингах, где import attributes могут не поддерживаться).
-const catalog = JSON.parse(readFileSync(resolve(projectRoot, 'src/data/catalog.json'), 'utf8'))
-
 const publicDir = resolve(projectRoot, 'public')
+const sitemapPath = resolve(publicDir, 'sitemap.xml')
 const today = new Date().toISOString().slice(0, 10)
-
-const staticRoutes = [
-  { path: '/', changefreq: 'weekly', priority: '1.0' },
-  { path: '/catalog', changefreq: 'weekly', priority: '0.9' },
-  { path: '/about', changefreq: 'monthly', priority: '0.6' },
-  { path: '/delivery', changefreq: 'monthly', priority: '0.6' },
-  { path: '/contacts', changefreq: 'monthly', priority: '0.8' },
-]
-
-const categoryRoutes = catalog.categories.map((category) => ({
-  path: `/catalog/${category.slug}`,
-  changefreq: 'weekly',
-  priority: '0.8',
-}))
-
-const productRoutes = catalog.products.map((product) => ({
-  path: `/product/${product.id}`,
-  changefreq: 'weekly',
-  priority: product.badge ? '0.7' : '0.6',
-}))
+const routes = buildSiteRoutes()
+const existingLastmodByLoc = readExistingLastmodByLoc(sitemapPath)
 
 function escapeXml(value) {
   return String(value)
@@ -42,19 +21,24 @@ function escapeXml(value) {
     .replaceAll("'", '&apos;')
 }
 
-function normalizePath(path) {
-  if (path === '/') return '/'
-  return `/${String(path).replace(/^\/+|\/+$/g, '')}`
+function readExistingLastmodByLoc(path) {
+  if (!existsSync(path)) return new Map()
+
+  const source = readFileSync(path, 'utf8')
+  const entries = new Map()
+  const urlPattern = /<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g
+
+  for (const match of source.matchAll(urlPattern)) {
+    entries.set(match[1], match[2])
+  }
+
+  return entries
 }
 
-const seen = new Set()
-const routes = [...staticRoutes, ...categoryRoutes, ...productRoutes].filter((route) => {
-  const path = normalizePath(route.path)
-  if (seen.has(path)) return false
-  seen.add(path)
-  route.path = path
-  return true
-})
+function getLastmod(route) {
+  const loc = toSiteUrl(route.path)
+  return route.lastmod || existingLastmodByLoc.get(loc) || today
+}
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -62,7 +46,7 @@ ${routes
   .map(
     (route) => `  <url>
     <loc>${escapeXml(toSiteUrl(route.path))}</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${getLastmod(route)}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
   </url>`
@@ -82,7 +66,7 @@ Sitemap: ${SITE_ORIGIN}/sitemap.xml
 `
 
 mkdirSync(publicDir, { recursive: true })
-writeFileSync(resolve(publicDir, 'sitemap.xml'), sitemap, 'utf8')
+writeFileSync(sitemapPath, sitemap, 'utf8')
 writeFileSync(resolve(publicDir, 'robots.txt'), robots, 'utf8')
 
 console.log(`Generated sitemap.xml with ${routes.length} URLs`)
