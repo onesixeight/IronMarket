@@ -3,23 +3,27 @@ import { toValue, watchEffect, onScopeDispose } from 'vue'
 import { DEFAULT_SOCIAL_IMAGE, SITE_NAME, toAbsoluteSiteUrl, toSiteUrl } from '../config/site.js'
 import { CONTACTS } from '../config/contacts.js'
 
-let schemaScript = null
+const schemaScripts = new Map()
 
-function getSchemaScript() {
-  if (schemaScript) return schemaScript
-  schemaScript = document.querySelector('script[type="application/ld+json"]')
+function getSchemaScript(id = 'primary') {
+  if (schemaScripts.has(id)) return schemaScripts.get(id)
+
+  let schemaScript = document.querySelector(`script[type="application/ld+json"][data-schema-id="${id}"]`)
   if (!schemaScript) {
     schemaScript = document.createElement('script')
     schemaScript.type = 'application/ld+json'
+    schemaScript.dataset.schemaId = id
     document.head.appendChild(schemaScript)
   }
+  schemaScripts.set(id, schemaScript)
   return schemaScript
 }
 
-export function useSchemaOrg(getData) {
+export function useSchemaOrg(getData, options = {}) {
+  const schemaId = options.id || 'primary'
   const stop = watchEffect(() => {
     const data = toValue(getData)
-    const script = getSchemaScript()
+    const script = getSchemaScript(schemaId)
     if (data) {
       script.textContent = JSON.stringify({
         '@context': 'https://schema.org',
@@ -29,7 +33,14 @@ export function useSchemaOrg(getData) {
       script.textContent = ''
     }
   })
-  onScopeDispose(stop)
+  onScopeDispose(() => {
+    stop()
+    const script = schemaScripts.get(schemaId)
+    if (script) {
+      script.remove()
+      schemaScripts.delete(schemaId)
+    }
+  })
 }
 
 export function schemaProduct(product) {
@@ -107,6 +118,23 @@ export function schemaItemList(products, listName) {
             ? 'https://schema.org/PreOrder'
             : 'https://schema.org/InStock',
         },
+      },
+    })),
+  }
+}
+
+export function schemaFaqPage(items) {
+  const list = toValue(items)
+  if (!Array.isArray(list) || list.length === 0) return null
+
+  return {
+    '@type': 'FAQPage',
+    mainEntity: list.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
       },
     })),
   }

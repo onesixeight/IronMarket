@@ -1,6 +1,11 @@
 import assert from 'node:assert/strict'
 
-import { schemaOrganization, schemaProduct, schemaItemList } from '../src/composables/useSchemaOrg.js'
+import {
+  schemaFaqPage,
+  schemaOrganization,
+  schemaProduct,
+  schemaItemList,
+} from '../src/composables/useSchemaOrg.js'
 
 // --- schemaOrganization: локальная компания с контактами и адресом ---
 const organization = schemaOrganization()
@@ -57,4 +62,15 @@ assert.equal(list.itemListElement[1].item.offers.price, '0')
 assert.equal(schemaItemList([], 'X'), null)
 assert.equal(schemaItemList(null, 'X'), null)
 
-console.log('✓ schema-org: schemaProduct / schemaItemList')
+// --- schemaFaqPage: FAQPage с вопросами и ответами ---
+const faq = schemaFaqPage([
+  { question: 'Можно ли заказать доставку?', answer: 'Да, после уточнения города и объёма.' },
+  { question: 'Можно ли отправить эскиз?', answer: 'Да, в мессенджере.' },
+])
+assert.equal(faq['@type'], 'FAQPage')
+assert.equal(faq.mainEntity.length, 2)
+assert.equal(faq.mainEntity[0]['@type'], 'Question')
+assert.equal(faq.mainEntity[0].acceptedAnswer['@type'], 'Answer')
+assert.equal(schemaFaqPage([]), null)
+
+console.log('✓ schema-org: organization / product / item list / FAQ')

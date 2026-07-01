@@ -127,6 +127,9 @@ function run() {
 
   const home = assertRouteMetadata('/', /Эталон Ковка|Кованые элементы/)
   assertCheck(hasSchemaType(home.schemas, 'LocalBusiness'), 'home page has LocalBusiness JSON-LD')
+  const faqSchema = home.schemas.find((schema) => schema['@type'] === 'FAQPage')
+  assertCheck(Boolean(faqSchema), 'home page has FAQPage JSON-LD')
+  assertCheck((faqSchema?.mainEntity?.length || 0) >= 6, 'home FAQPage JSON-LD includes commercial questions')
 
   const catalogPage = assertRouteMetadata('/catalog', /Каталог продукции|Кованые элементы/)
   assertCheck(hasSchemaType(catalogPage.schemas, 'ItemList'), 'catalog page has ItemList JSON-LD')
