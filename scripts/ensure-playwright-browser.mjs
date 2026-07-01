@@ -20,8 +20,16 @@ async function pathExists(path) {
 }
 
 function runPlaywrightInstall() {
+  const installArgs = ['install']
+
+  if (process.platform === 'linux') {
+    installArgs.push('--with-deps')
+  }
+
+  installArgs.push('chromium')
+
   return new Promise((resolveInstall, rejectInstall) => {
-    const child = spawn(process.execPath, [playwrightCli, 'install', 'chromium'], {
+    const child = spawn(process.execPath, [playwrightCli, ...installArgs], {
       cwd: projectRoot,
       env: process.env,
       stdio: 'inherit',
