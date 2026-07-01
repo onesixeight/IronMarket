@@ -18,7 +18,10 @@ npm install
 npm run dev      # dev-сервер на localhost:5173
 npm run build    # production-сборка в dist/ (перед сборкой генерируется sitemap.xml)
 npm run preview  # предпросмотр production-сборки
+npm run lint     # ESLint
 npm test         # регрессионные тесты (node --test)
+npm run test:e2e # Playwright E2E по критическим сценариям
+npm run format   # Prettier
 ```
 
 ## Функционал
@@ -40,8 +43,9 @@ npm test         # регрессионные тесты (node --test)
 ### Прочее
 - Блок «Способы применения» — 5 фото-примеров с hover-эффектами
 - Недавно просмотренные товары (`localStorage`)
-- SEO: динамические `<title>`/`description`, canonical, JSON-LD (Product/Organization/ItemList), `sitemap.xml`, `robots.txt`
+- SEO: динамические `<title>`/`description`, canonical, JSON-LD (Product/Organization/ItemList), prerender indexable-страниц, `sitemap.xml`, `robots.txt`
 - Доступность: skip-link, ARIA-атрибуты, `prefers-reduced-motion`
+- PWA/service worker: hashed JS/CSS чанки Vite добавляются в precache при build
 - Плавающий блок мессенджеров + нижняя мобильная навигация
 
 ### Дизайн
@@ -72,7 +76,10 @@ public/
 ├── sitemap.xml / robots.txt   # Генерируются скриптом при build
 └── _headers                   # security/cache headers для статического хостинга
 scripts/
-├── generate-sitemap.mjs       # prebuild: sitemap.xml + robots.txt
+├── generate-sitemap.mjs       # prebuild: sitemap.xml + robots.txt с source-based lastmod
+├── inject-sw-precache.mjs     # добавляет JS/CSS чанки Vite в service worker precache
+├── prerender-routes.mjs       # prerender indexable-страниц в dist/
+├── site-routes.mjs            # общий список индексируемых маршрутов
 └── import-bizzon-catalog.mjs  # импорт каталога из источника bizzon
 ```
 
@@ -84,7 +91,7 @@ scripts/
 - `src/composables/messengerConfig.js` — строит ссылки WhatsApp/Telegram из `contacts.js`
 - `src/config/site.js` — `SITE_ORIGIN` (для canonical/sitemap/OG)
 
-Текущие значения: телефон `+7 775 853 70 92`, email `etalonkovka@mail.ru`, Telegram `@etalonkovka`.
+Текущие значения: телефон `+7 775 853 70 92`, email `etalonkovka@mail.ru`, адрес `Астана, просп. Богенбай Батыра, 6/4, 16 ряд 14 место`, Telegram `@etalonkovka`.
 
 ### Аналитика
 Переменные окружения описаны в `.env.example`:
@@ -92,6 +99,20 @@ scripts/
 - `VITE_GOOGLE_ANALYTICS_ID`
 
 Счётчики запускаются только после согласия пользователя на cookies/аналитику.
+
+## Проверки качества
+
+Основной набор перед пушем:
+
+```bash
+npm test
+npm run lint
+npm run build
+npm run test:e2e
+git diff --check
+```
+
+E2E покрывает критические сценарии: переход в каталог, поиск, карточку товара с SEO/inquiry-ссылками, закрытие поиска по клику вне панели, форму контактов и плавающие мессенджеры.
 
 ### Каталог товаров
 Единственный источник — `src/data/catalog.json`. После правок запустите `npm run build` (prebuild перегенерирует `sitemap.xml`).
