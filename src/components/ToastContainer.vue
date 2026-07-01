@@ -2,7 +2,7 @@
   <div class="fixed top-20 right-4 z-[70] flex flex-col gap-2 pointer-events-none" role="status" aria-live="polite">
     <transition-group name="toast">
       <div
-        v-for="toast in toastStore.toasts"
+        v-for="toast in toasts"
         :key="toast.id"
         class="pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg border backdrop-blur-sm min-w-[280px] max-w-sm"
         :class="toastClass(toast.type)"
@@ -13,7 +13,7 @@
           <svg v-else class="w-4 h-4 text-gold-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/></svg>
         </span>
         <span class="text-sm font-medium">{{ toast.message }}</span>
-        <button @click="toastStore.remove(toast.id)" class="ml-auto shrink-0 opacity-60 hover:opacity-100 transition-opacity">
+        <button @click="remove(toast.id)" class="ml-auto shrink-0 opacity-60 hover:opacity-100 transition-opacity">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
@@ -22,8 +22,9 @@
 </template>
 
 <script setup>
-import { useToastStore } from '../stores/toast'
-const toastStore = useToastStore()
+import { useToast } from '../composables/useToast.js'
+
+const { toasts, remove } = useToast()
 
 function toastClass(type) {
   switch (type) {
