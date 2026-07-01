@@ -13,7 +13,7 @@ assert.doesNotMatch(homeView, /category-intro-note/, 'Category section should no
 assert.doesNotMatch(homeView, /Навигация по каталогу/, 'Category heading should not repeat the catalog navigation idea')
 assert.doesNotMatch(homeView, /Быстрый вход в основные направления/, 'Category cards should explain the navigation without extra copy')
 assert.ok(
-  homeView.indexOf('class="surface-panel category-section-panel') < homeView.indexOf('class="category-card group"'),
+  homeView.indexOf('class="surface-panel category-section-panel') < homeView.indexOf('class="category-card premium-card premium-card--lift group"'),
   'Category cards should live inside the wrapped category section'
 )
 assert.match(homeView, /class="category-card-media/, 'Category cards should reserve a stable media row')

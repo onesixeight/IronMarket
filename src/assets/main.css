@@ -94,6 +94,35 @@
   --font-body: 'Manrope', system-ui, sans-serif;
 }
 
+:root {
+  --rgb-gold-400: 201 150 59;
+  --rgb-gold-300: 228 185 109;
+  --rgb-cream-100: 245 240 232;
+  --rgb-obsidian-950: 6 5 4;
+  --rgb-obsidian-900: 10 9 8;
+  --rgb-obsidian-800: 20 18 16;
+  --rgb-obsidian-700: 30 27 24;
+
+  --surface-gold-border-subtle: rgb(var(--rgb-gold-400) / 0.1);
+  --surface-gold-border-soft: rgb(var(--rgb-gold-400) / 0.12);
+  --surface-gold-border-medium: rgb(var(--rgb-gold-400) / 0.18);
+  --surface-gold-border-hover: rgb(var(--rgb-gold-400) / 0.28);
+  --surface-gold-wash: rgb(var(--rgb-gold-400) / 0.08);
+  --surface-gold-glow: rgb(var(--rgb-gold-400) / 0.12);
+  --surface-gold-shadow: rgb(var(--rgb-gold-400) / 0.08);
+  --surface-cream-muted: rgb(var(--rgb-cream-100) / 0.62);
+  --surface-card-bg: linear-gradient(180deg, rgb(var(--rgb-obsidian-800) / 0.96), rgb(var(--rgb-obsidian-900) / 0.96));
+  --surface-card-bg-strong: linear-gradient(180deg, rgb(var(--rgb-obsidian-800) / 0.96), rgb(var(--rgb-obsidian-900) / 0.98));
+  --surface-card-radial: radial-gradient(circle at 18% 0%, var(--surface-gold-glow), transparent 35%);
+  --surface-card-shadow-hover:
+    0 24px 48px rgb(0 0 0 / 0.42),
+    0 0 24px var(--surface-gold-shadow);
+  --surface-card-transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
 html {
   background:
     radial-gradient(circle at top, rgba(201, 150, 59, 0.08), transparent 30%),
@@ -239,11 +268,49 @@ img {
 .surface-panel {
   background:
     linear-gradient(180deg, rgba(30, 27, 24, 0.92), rgba(11, 10, 9, 0.96));
-  border: 1px solid rgba(201, 150, 59, 0.12);
+  border: 1px solid var(--surface-gold-border-soft);
   box-shadow:
     0 24px 80px rgba(0, 0, 0, 0.38),
     inset 0 1px 0 rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(18px);
+}
+
+.premium-card {
+  border: 1px solid var(--surface-gold-border-subtle);
+  border-radius: 1.75rem;
+  background: var(--surface-card-bg);
+  transition: var(--surface-card-transition);
+}
+
+.premium-card--strong {
+  background: var(--surface-card-bg-strong);
+}
+
+.premium-card--glow {
+  background:
+    var(--surface-card-radial),
+    var(--surface-card-bg-strong);
+}
+
+.premium-card--lift:hover {
+  transform: translateY(-4px);
+  border-color: var(--surface-gold-border-hover);
+  box-shadow: var(--surface-card-shadow-hover);
+}
+
+.premium-card--soft-lift:hover {
+  transform: translateY(-3px);
+  border-color: var(--surface-gold-border-hover);
+  box-shadow: 0 20px 44px rgb(0 0 0 / 0.32);
+}
+
+.premium-icon-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.16);
+  background: var(--surface-gold-wash);
+  color: rgb(var(--rgb-gold-300));
 }
 
 .eyebrow {
@@ -252,8 +319,8 @@ img {
   gap: 0.75rem;
   padding: 0.45rem 1rem;
   border-radius: 9999px;
-  border: 1px solid rgba(201, 150, 59, 0.18);
-  background: rgba(201, 150, 59, 0.08);
+  border: 1px solid var(--surface-gold-border-medium);
+  background: var(--surface-gold-wash);
   color: var(--color-gold-300);
   font-size: 0.7rem;
   font-weight: 700;
@@ -279,7 +346,7 @@ img {
 }
 
 .section-lead {
-  color: rgba(245, 240, 232, 0.62);
+  color: var(--surface-cream-muted);
   line-height: 1.8;
   text-wrap: pretty;
 }

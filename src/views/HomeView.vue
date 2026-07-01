@@ -41,7 +41,7 @@
             <article
               v-for="(step, index) in requestSteps"
               :key="step.title"
-              class="request-step-card"
+              class="request-step-card premium-card premium-card--glow premium-card--lift"
               v-reveal="index * 0.06"
             >
               <div class="mb-8 flex items-center justify-between">
@@ -71,7 +71,7 @@
               v-for="(cat, i) in featuredCategories"
               :key="cat.id"
               :to="'/catalog/' + cat.slug"
-              class="category-card group"
+              class="category-card premium-card premium-card--lift group"
               v-reveal="i * 0.05"
             >
               <div class="category-card-media flex items-start justify-between gap-4">
@@ -178,7 +178,7 @@
           </div>
 
           <div class="grid gap-4" v-reveal="0.1">
-            <div v-for="feature in features" :key="feature.title" class="feature-card">
+            <div v-for="feature in features" :key="feature.title" class="feature-card premium-card">
               <div class="w-12 h-12 rounded-[1rem] border border-gold-400/12 bg-gold-400/7 flex items-center justify-center shrink-0 text-gold-300"><component :is="feature.icon" /></div>
               <div>
                 <h3 class="font-heading text-2xl text-cream-100">{{ feature.title }}</h3>
@@ -505,10 +505,6 @@ function getProductCount(slug) {
   min-height: 22.75rem;
   flex-direction: column;
   padding: 1.5rem;
-  border-radius: 1.75rem;
-  border: 1px solid rgba(201, 150, 59, 0.1);
-  background: linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(10, 9, 8, 0.96));
-  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .category-card-media {
@@ -528,14 +524,6 @@ function getProductCount(slug) {
   margin-top: auto;
 }
 
-.category-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(201, 150, 59, 0.28);
-  box-shadow:
-    0 24px 48px rgba(0, 0, 0, 0.42),
-    0 0 24px rgba(201, 150, 59, 0.08);
-}
-
 @media (max-width: 639px) {
   .category-card {
     min-height: auto;
@@ -552,12 +540,6 @@ function getProductCount(slug) {
   overflow: hidden;
   min-height: 100%;
   padding: 1.5rem;
-  border-radius: 1.75rem;
-  border: 1px solid rgba(201, 150, 59, 0.12);
-  background:
-    radial-gradient(circle at 20% 0%, rgba(201, 150, 59, 0.12), transparent 36%),
-    linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(10, 9, 8, 0.98));
-  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .request-step-card::after {
@@ -576,14 +558,6 @@ function getProductCount(slug) {
   z-index: 1;
 }
 
-.request-step-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(201, 150, 59, 0.28);
-  box-shadow:
-    0 24px 48px rgba(0, 0, 0, 0.42),
-    0 0 24px rgba(201, 150, 59, 0.08);
-}
-
 .request-step-index {
   font-family: var(--font-heading);
   font-size: 1.9rem;
@@ -596,8 +570,5 @@ function getProductCount(slug) {
   gap: 1rem;
   align-items: flex-start;
   padding: 1.5rem;
-  border-radius: 1.75rem;
-  border: 1px solid rgba(201, 150, 59, 0.1);
-  background: linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(10, 9, 8, 0.96));
 }
 </style>

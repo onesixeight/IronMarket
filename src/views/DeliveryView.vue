@@ -48,10 +48,10 @@
             <article
               v-for="(method, index) in deliveryMethods"
               :key="method.title"
-              class="delivery-card group"
+              class="delivery-card premium-card premium-card--glow premium-card--soft-lift group"
               v-reveal="index * 0.08"
             >
-              <div class="delivery-icon">
+              <div class="delivery-icon premium-icon-box">
                 <component :is="method.icon" />
               </div>
               <h3 class="font-heading text-xl text-cream-100">{{ method.title }}</h3>
@@ -73,10 +73,10 @@
             <article
               v-for="(step, index) in deliverySteps"
               :key="step.title"
-              class="flow-card"
+              class="flow-card premium-card premium-card--glow premium-card--soft-lift"
               v-reveal="index * 0.08"
             >
-              <div class="flow-index">{{ step.number }}</div>
+              <div class="flow-index premium-icon-box">{{ step.number }}</div>
               <h3 class="mt-5 font-heading text-xl text-cream-100">{{ step.title }}</h3>
               <p class="mt-3 text-sm leading-relaxed text-cream-100/56">{{ step.desc }}</p>
             </article>
@@ -240,33 +240,14 @@ const faq = [
 .delivery-card,
 .flow-card {
   min-height: 100%;
-  border-radius: 1.75rem;
-  border: 1px solid rgba(201, 150, 59, 0.1);
-  background:
-    radial-gradient(circle at 16% 0%, rgba(201, 150, 59, 0.11), transparent 34%),
-    linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(10, 9, 8, 0.97));
   padding: 1.5rem;
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.delivery-card:hover,
-.flow-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(201, 150, 59, 0.28);
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.32);
 }
 
 .delivery-icon,
 .flow-index {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   width: 3rem;
   height: 3rem;
   border-radius: 1rem;
-  border: 1px solid rgba(201, 150, 59, 0.16);
-  background: rgba(201, 150, 59, 0.08);
-  color: rgb(212, 175, 55);
 }
 
 .delivery-icon {
