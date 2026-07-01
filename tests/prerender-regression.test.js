@@ -10,6 +10,10 @@ const projectRoot = fileURLToPath(new URL('..', import.meta.url))
 const packageJson = JSON.parse(fs.readFileSync(path.join(projectRoot, 'package.json'), 'utf8'))
 const sitemapGenerator = fs.readFileSync(path.join(projectRoot, 'scripts/generate-sitemap.mjs'), 'utf8')
 const prerenderScript = fs.readFileSync(path.join(projectRoot, 'scripts/prerender-routes.mjs'), 'utf8')
+const playwrightBrowserScript = fs.readFileSync(
+  path.join(projectRoot, 'scripts/ensure-playwright-browser.mjs'),
+  'utf8',
+)
 
 const routes = buildSiteRoutes(catalog)
 const routePaths = routes.map((route) => route.path)
@@ -27,8 +31,16 @@ assert.ok(!routePaths.includes('/checkout'), 'Prerender routes should skip redir
 assert.ok(!routePaths.includes('/thank-you'), 'Prerender routes should skip noindex thank-you pages')
 
 assert.match(packageJson.scripts.build, /prerender-routes\.mjs/, 'Production build should prerender indexable routes')
+assert.match(
+  packageJson.scripts.build,
+  /ensure-playwright-browser\.mjs && node scripts\/prerender-routes\.mjs/,
+  'Production build should install Playwright Chromium before prerendering on deploy hosts',
+)
 assert.equal(packageJson.scripts.prerender, 'node scripts/prerender-routes.mjs')
 assert.match(sitemapGenerator, /buildSiteRoutes\(\)/, 'Sitemap and prerender should share route generation')
+assert.match(playwrightBrowserScript, /chromium\.executablePath\(\)/)
+assert.match(playwrightBrowserScript, /playwright\/cli\.js/)
+assert.match(playwrightBrowserScript, /'install', 'chromium'/)
 assert.match(prerenderScript, /from '@playwright\/test'/, 'Prerender should use the existing Playwright dependency')
 assert.match(prerenderScript, /vite preview/, 'Prerender should render against the production preview server')
 assert.match(prerenderScript, /routeOutputPath\(route\.path\)/, 'Prerender should write one HTML file per route')

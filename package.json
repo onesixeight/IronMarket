@@ -9,7 +9,7 @@
   "scripts": {
     "prebuild": "node scripts/generate-sitemap.mjs",
     "dev": "vite",
-    "build": "vite build && node scripts/inject-sw-precache.mjs && node scripts/prerender-routes.mjs",
+    "build": "vite build && node scripts/inject-sw-precache.mjs && node scripts/ensure-playwright-browser.mjs && node scripts/prerender-routes.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "node --test",
