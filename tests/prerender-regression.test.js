@@ -31,6 +31,11 @@ assert.ok(!routePaths.includes('/checkout'), 'Prerender routes should skip redir
 assert.ok(!routePaths.includes('/thank-you'), 'Prerender routes should skip noindex thank-you pages')
 
 assert.match(packageJson.scripts.build, /prerender-routes\.mjs/, 'Production build should prerender indexable routes')
+assert.doesNotMatch(
+  packageJson.scripts['build:static'],
+  /prerender-routes\.mjs|ensure-playwright-browser\.mjs/,
+  'Static deploy build should avoid browser-based prerender on hosts without system Playwright dependencies',
+)
 assert.match(
   packageJson.scripts.build,
   /ensure-playwright-browser\.mjs && node scripts\/prerender-routes\.mjs/,

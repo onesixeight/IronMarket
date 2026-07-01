@@ -24,6 +24,7 @@ assert.match(serviceWorker, /cache\.addAll\(PRECACHE_URLS\)/, 'Service worker sh
 assert.match(serviceWorker, /request\.mode === 'navigate'/, 'Service worker should handle SPA navigations separately')
 assert.match(serviceWorker, /url\.pathname\.startsWith\('\/assets\/'\)/, 'Service worker should cache Vite assets')
 assert.match(packageJson.scripts.build, /inject-sw-precache\.mjs/, 'Build should inject hashed Vite assets into dist/sw.js')
+assert.match(packageJson.scripts['build:static'], /inject-sw-precache\.mjs/, 'Static deploy build should also inject hashed Vite assets into dist/sw.js')
 assert.match(swPrecacheScript, /const precacheExtensions = new Set\(\['\.css', '\.js'\]\)/, 'Precache script should target CSS and JS chunks')
 assert.match(swPrecacheScript, /dist\/sw\.js was not found/, 'Precache script should fail loudly when build output is missing')
 assert.match(app, /<MobileBottomNav \/>/, 'App shell should render the mobile bottom navigation')

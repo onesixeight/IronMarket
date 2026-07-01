@@ -31,6 +31,7 @@ assert.match(useSchemaOrg, /url: toSiteUrl\('\/'\)/)
 assert.match(useSchemaOrg, /logo: toAbsoluteSiteUrl\(DEFAULT_SOCIAL_IMAGE\)/)
 
 assert.match(packageJson, /"prebuild": "node scripts\/generate-sitemap\.mjs"/)
+assert.match(packageJson, /"prebuild:static": "node scripts\/generate-sitemap\.mjs"/)
 assert.ok(existsSync(generatorPath), 'sitemap generator should exist')
 assert.ok(existsSync(sitemapPath), 'sitemap.xml should exist')
 assert.ok(existsSync(robotsPath), 'robots.txt should exist')
