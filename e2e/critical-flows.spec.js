@@ -30,6 +30,34 @@ test('catalog search filters products and keeps inquiry links valid', async ({ p
   await expect(page).toHaveURL(/\/product\/\d+$/)
 })
 
+test('product page exposes SEO metadata, inquiry link, and recently viewed', async ({ page }) => {
+  await page.goto('/product/6150')
+
+  const productImage = page.getByTestId('product-detail-image')
+  await expect(productImage).toBeVisible()
+  await expect.poll(async () => productImage.evaluate((image) => image.complete && image.naturalWidth > 0)).toBe(true)
+
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://etalon-kovka.kz/product/6150')
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', 'https://etalon-kovka.kz/product/6150')
+
+  const productSchemas = await page.locator('script[type="application/ld+json"]').evaluateAll((nodes) => (
+    nodes
+      .map((node) => JSON.parse(node.textContent || '{}'))
+      .filter((schema) => schema['@type'] === 'Product')
+  ))
+  expect(productSchemas.some((schema) => String(schema.url).endsWith('/product/6150'))).toBe(true)
+
+  const whatsappLink = page.getByTestId('product-whatsapp-link')
+  await expect(whatsappLink).toHaveAttribute('href', /^https:\/\/wa\.me\//)
+  expect(decodeURIComponent(await whatsappLink.getAttribute('href'))).toContain('/product/6150')
+
+  await page.goto('/product/6151')
+
+  const recentlyViewed = page.getByTestId('recently-viewed')
+  await expect(recentlyViewed).toBeVisible()
+  await expect(recentlyViewed.locator('a[href="/product/6150"]').first()).toBeVisible()
+})
+
 test('header search shows results and closes on outside click', async ({ page }) => {
   await page.goto('/')
 

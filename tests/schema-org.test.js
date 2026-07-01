@@ -7,14 +7,16 @@ const priced = schemaProduct({ id: 10, name: 'Балясина', image: '/x.webp
 assert.equal(priced['@type'], 'Product')
 assert.equal(priced.name, 'Балясина')
 assert.equal(priced.brand.name, 'Эталон Ковка')
+assert.equal(priced.url, 'https://etalon-kovka.kz/product/10')
 assert.equal(priced.offers.priceCurrency, 'KZT')
 assert.equal(priced.offers.url, 'https://etalon-kovka.kz/product/10')
 assert.equal(priced.offers.price, '1500') // строка
 assert.equal(priced.offers.availability, 'https://schema.org/InStock')
 
 // --- schemaProduct: при hidePrice блок offers отсутствует ---
-const hidden = schemaProduct({ name: 'Корона', image: '/y.webp', price: 0, hidePrice: true })
+const hidden = schemaProduct({ id: 11, name: 'Корона', image: '/y.webp', price: 0, hidePrice: true })
 assert.equal(hidden.offers, undefined)
+assert.equal(hidden.url, 'https://etalon-kovka.kz/product/11')
 assert.equal(hidden.description, 'Корона') // fallback на имя при пустом описании
 
 // --- schemaProduct: null-продукт возвращает null ---

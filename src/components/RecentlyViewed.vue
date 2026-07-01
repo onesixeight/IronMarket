@@ -1,5 +1,5 @@
 <template>
-  <div v-if="products.length > 0" class="mt-16">
+  <div v-if="products.length > 0" data-testid="recently-viewed" class="mt-16">
     <div class="text-center mb-8" v-reveal>
       <h2 class="ornament-line font-heading text-xl font-bold text-cream-100 justify-center">
         Недавно просмотренные

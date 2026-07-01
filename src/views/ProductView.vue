@@ -10,6 +10,7 @@
           <img
             :src="product.image"
             :alt="product.name"
+            data-testid="product-detail-image"
             class="max-w-full max-h-[500px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
             decoding="async"
             sizes="(min-width: 1024px) 50vw, 100vw"
@@ -105,6 +106,7 @@
                 :href="productInquiryLinks.whatsapp"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-testid="product-whatsapp-link"
                 class="shimmer inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#C9A96E] via-[#D4AF37] to-[#C9A96E] px-8 py-3 font-medium text-obsidian-900 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
                 @click="trackProductLead('whatsapp')"
               >
@@ -118,6 +120,7 @@
                 :href="productInquiryLinks.telegram"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-testid="product-telegram-link"
                 class="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gold-400/18 bg-obsidian-950/64 px-8 py-3 font-medium text-gold-300 transition-all duration-300 hover:border-gold-300/40 hover:bg-gold-400/8 active:scale-[0.98]"
                 @click="trackProductLead('telegram')"
               >

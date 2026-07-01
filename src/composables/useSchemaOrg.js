@@ -40,12 +40,13 @@ export function schemaProduct(product) {
     name: p.name,
     image: p.image,
     description: p.description || p.name,
+    url: p.id ? toSiteUrl(`/product/${p.id}`) : toSiteUrl('/catalog'),
     brand: { '@type': 'Brand', name: SITE_NAME },
   }
   if (!p.hidePrice) {
     result.offers = {
       '@type': 'Offer',
-      url: p.id ? toSiteUrl(`/product/${p.id}`) : toSiteUrl('/catalog'),
+      url: result.url,
       priceCurrency: 'KZT',
       price: String(p.price),
       availability: 'https://schema.org/InStock',
