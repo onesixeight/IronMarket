@@ -224,10 +224,10 @@ const faq = [
   gap: 0.75rem;
   align-items: flex-start;
   border-radius: 1rem;
-  border: 1px solid rgba(201, 150, 59, 0.1);
-  background: rgba(10, 9, 8, 0.42);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.1);
+  background: rgb(var(--rgb-obsidian-900) / 0.42);
   padding: 0.9rem 1rem;
-  color: rgba(248, 241, 224, 0.68);
+  color: rgb(var(--rgb-cream-warm) / 0.68);
   font-size: 0.9rem;
   line-height: 1.55;
 }
@@ -262,8 +262,8 @@ const faq = [
 .delivery-faq {
   overflow: hidden;
   border-radius: 1.1rem;
-  border: 1px solid rgba(201, 150, 59, 0.1);
-  background: rgba(10, 9, 8, 0.38);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.1);
+  background: rgb(var(--rgb-obsidian-900) / 0.38);
 }
 
 .delivery-faq summary {
@@ -293,11 +293,11 @@ const faq = [
   width: 2rem;
   height: 2rem;
   flex: 0 0 auto;
-  border: 1px solid rgba(201, 150, 59, 0.18);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.18);
   border-radius: 999px;
-  background: rgba(201, 150, 59, 0.08);
+  background: rgb(var(--rgb-gold-400) / 0.08);
   color: rgb(228, 185, 109);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 1px 0 rgb(var(--rgb-white) / 0.05);
   transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease;
 }
 
@@ -308,8 +308,8 @@ const faq = [
 }
 
 .delivery-faq[open] .delivery-faq-toggle {
-  border-color: rgba(201, 150, 59, 0.34);
-  background: rgba(201, 150, 59, 0.16);
+  border-color: rgb(var(--rgb-gold-400) / 0.34);
+  background: rgb(var(--rgb-gold-400) / 0.16);
 }
 
 .delivery-faq[open] .delivery-faq-toggle svg {
@@ -318,7 +318,7 @@ const faq = [
 
 .delivery-faq p {
   padding: 0 1.1rem 1.1rem;
-  color: rgba(248, 241, 224, 0.58);
+  color: rgb(var(--rgb-cream-warm) / 0.58);
   font-size: 0.9rem;
   line-height: 1.65;
 }

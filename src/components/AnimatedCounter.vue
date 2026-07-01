@@ -121,6 +121,6 @@ onUnmounted(() => {
   justify-content: center;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.01em;
-  text-shadow: 0 0 22px rgba(201, 150, 59, 0.2);
+  text-shadow: 0 0 22px rgb(var(--rgb-gold-400) / 0.2);
 }
 </style>

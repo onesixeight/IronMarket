@@ -87,14 +87,14 @@ function isActive(item) {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.35rem;
   padding: 0.42rem;
-  border: 1px solid rgba(201, 150, 59, 0.18);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.18);
   border-radius: 1.65rem;
   background:
-    linear-gradient(180deg, rgba(20, 18, 16, 0.88), rgba(6, 5, 4, 0.94)),
-    radial-gradient(circle at 50% -20%, rgba(201, 150, 59, 0.28), transparent 58%);
+    linear-gradient(180deg, rgb(var(--rgb-obsidian-800) / 0.88), rgb(var(--rgb-obsidian-950) / 0.94)),
+    radial-gradient(circle at 50% -20%, rgb(var(--rgb-gold-400) / 0.28), transparent 58%);
   box-shadow:
-    0 22px 70px rgba(0, 0, 0, 0.54),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 22px 70px rgb(var(--rgb-black) / 0.54),
+    inset 0 1px 0 rgb(var(--rgb-white) / 0.04);
   backdrop-filter: blur(20px);
 }
 
@@ -103,7 +103,7 @@ function isActive(item) {
   inset: -1px;
   z-index: -1;
   border-radius: inherit;
-  background: linear-gradient(90deg, transparent, rgba(201, 150, 59, 0.32), transparent);
+  background: linear-gradient(90deg, transparent, rgb(var(--rgb-gold-400) / 0.32), transparent);
   opacity: 0.34;
   pointer-events: none;
 }
@@ -118,7 +118,7 @@ function isActive(item) {
   flex-direction: column;
   gap: 0.24rem;
   border-radius: 1.2rem;
-  color: rgba(245, 240, 232, 0.66);
+  color: rgb(var(--rgb-cream-100) / 0.66);
   transition:
     transform 0.22s ease,
     color 0.22s ease,
@@ -131,8 +131,8 @@ function isActive(item) {
 }
 
 .mobile-bottom-nav__item.is-active {
-  color: rgba(244, 201, 112, 1);
-  background: rgba(201, 150, 59, 0.1);
+  color: rgb(var(--rgb-gold-light) / 1);
+  background: rgb(var(--rgb-gold-400) / 0.1);
 }
 
 .mobile-bottom-nav__item.is-primary {
@@ -140,7 +140,7 @@ function isActive(item) {
   transform: translateY(-0.38rem);
   color: #080706;
   background: linear-gradient(135deg, #c9963b, #e4b96d 52%, #b7763e);
-  box-shadow: 0 12px 26px rgba(201, 150, 59, 0.25);
+  box-shadow: 0 12px 26px rgb(var(--rgb-gold-400) / 0.25);
 }
 
 .mobile-bottom-nav__item.is-primary:active {
@@ -149,7 +149,7 @@ function isActive(item) {
 
 .mobile-bottom-nav__item.is-primary.is-active {
   color: #060504;
-  box-shadow: 0 16px 34px rgba(201, 150, 59, 0.34);
+  box-shadow: 0 16px 34px rgb(var(--rgb-gold-400) / 0.34);
 }
 
 .mobile-bottom-nav__icon {
@@ -177,7 +177,7 @@ function isActive(item) {
 
 @supports not (backdrop-filter: blur(20px)) {
   .mobile-bottom-nav {
-    background: rgba(6, 5, 4, 0.98);
+    background: rgb(var(--rgb-obsidian-950) / 0.98);
   }
 }
 

@@ -244,14 +244,14 @@ onUnmounted(() => {
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(245, 240, 232, 0.64);
+  color: rgb(var(--rgb-cream-100) / 0.64);
   transition: color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
 }
 
 .nav-link:hover,
 .nav-link.router-link-active {
-  background: rgba(201, 150, 59, 0.12);
-  color: rgba(244, 201, 112, 1);
+  background: rgb(var(--rgb-gold-400) / 0.12);
+  color: rgb(var(--rgb-gold-light) / 1);
 }
 
 .icon-button {
@@ -262,17 +262,17 @@ onUnmounted(() => {
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 999px;
-  border: 1px solid rgba(201, 150, 59, 0.12);
-  background: rgba(10, 9, 8, 0.52);
-  color: rgba(245, 240, 232, 0.82);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.12);
+  background: rgb(var(--rgb-obsidian-900) / 0.52);
+  color: rgb(var(--rgb-cream-100) / 0.82);
   transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
 
 .icon-button:hover {
   transform: translateY(-1px);
-  border-color: rgba(201, 150, 59, 0.24);
-  color: rgba(244, 201, 112, 1);
-  background: rgba(201, 150, 59, 0.08);
+  border-color: rgb(var(--rgb-gold-400) / 0.24);
+  color: rgb(var(--rgb-gold-light) / 1);
+  background: rgb(var(--rgb-gold-400) / 0.08);
 }
 
 @media (min-width: 1280px) {
@@ -284,14 +284,14 @@ onUnmounted(() => {
 .mobile-link {
   border-radius: 1rem;
   padding: 0.9rem 1rem;
-  color: rgba(245, 240, 232, 0.78);
+  color: rgb(var(--rgb-cream-100) / 0.78);
   transition: background-color 0.24s ease, color 0.24s ease, transform 0.24s ease;
 }
 
 .mobile-link:hover,
 .mobile-link.router-link-active {
-  background: rgba(201, 150, 59, 0.12);
-  color: rgba(244, 201, 112, 1);
+  background: rgb(var(--rgb-gold-400) / 0.12);
+  color: rgb(var(--rgb-gold-light) / 1);
   transform: translateX(4px);
 }
 

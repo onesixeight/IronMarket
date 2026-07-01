@@ -115,12 +115,12 @@ function getScenarioTelegramLink(scenario) {
 .project-picker {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(201, 150, 59, 0.12);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.12);
   background:
-    radial-gradient(circle at 16% 12%, rgba(201, 150, 59, 0.16), transparent 34%),
-    radial-gradient(circle at 86% 16%, rgba(255, 255, 255, 0.06), transparent 28%),
-    linear-gradient(135deg, rgba(20, 18, 16, 0.98), rgba(8, 7, 6, 0.98));
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.36);
+    radial-gradient(circle at 16% 12%, rgb(var(--rgb-gold-400) / 0.16), transparent 34%),
+    radial-gradient(circle at 86% 16%, rgb(var(--rgb-white) / 0.06), transparent 28%),
+    linear-gradient(135deg, rgb(var(--rgb-obsidian-800) / 0.98), rgb(8 7 6 / 0.98));
+  box-shadow: 0 28px 70px rgb(var(--rgb-black) / 0.36);
 }
 
 .project-picker::after {
@@ -129,7 +129,7 @@ function getScenarioTelegramLink(scenario) {
   inset: auto -12% -48% 24%;
   height: 13rem;
   border-radius: 999px;
-  background: rgba(201, 150, 59, 0.1);
+  background: rgb(var(--rgb-gold-400) / 0.1);
   filter: blur(42px);
   pointer-events: none;
 }
@@ -187,23 +187,23 @@ function getScenarioTelegramLink(scenario) {
   padding: 1.1rem;
   text-align: left;
   border-radius: 1.35rem;
-  border: 1px solid rgba(201, 150, 59, 0.1);
-  background: rgba(10, 9, 8, 0.54);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.1);
+  background: rgb(var(--rgb-obsidian-900) / 0.54);
   transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
 }
 
 .scenario-card:hover,
 .scenario-card:focus-visible {
   transform: translateY(-2px);
-  border-color: rgba(201, 150, 59, 0.28);
-  background: rgba(201, 150, 59, 0.08);
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.28);
+  border-color: rgb(var(--rgb-gold-400) / 0.28);
+  background: rgb(var(--rgb-gold-400) / 0.08);
+  box-shadow: 0 18px 38px rgb(var(--rgb-black) / 0.28);
   outline: none;
 }
 
 .scenario-card-active {
-  border-color: rgba(212, 175, 55, 0.58);
-  background: linear-gradient(135deg, rgba(201, 150, 59, 0.16), rgba(10, 9, 8, 0.66));
+  border-color: rgb(var(--rgb-gold-bright) / 0.58);
+  background: linear-gradient(135deg, rgb(var(--rgb-gold-400) / 0.16), rgb(var(--rgb-obsidian-900) / 0.66));
 }
 
 .scenario-card-icon {
@@ -214,10 +214,10 @@ function getScenarioTelegramLink(scenario) {
   height: 2.75rem;
   flex: 0 0 auto;
   border-radius: 1rem;
-  border: 1px solid rgba(201, 150, 59, 0.2);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.2);
   color: rgb(212, 175, 55);
   font-family: var(--font-heading);
-  background: rgba(201, 150, 59, 0.08);
+  background: rgb(var(--rgb-gold-400) / 0.08);
 }
 
 .scenario-card-content {
@@ -237,7 +237,7 @@ function getScenarioTelegramLink(scenario) {
 .scenario-card-desc {
   font-size: 0.86rem;
   line-height: 1.55;
-  color: rgba(248, 241, 224, 0.56);
+  color: rgb(var(--rgb-cream-warm) / 0.56);
 }
 
 .picker-actions {

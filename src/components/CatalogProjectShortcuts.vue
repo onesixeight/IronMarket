@@ -53,10 +53,10 @@ const catalogShortcutItems = computed(() =>
   margin-bottom: 2rem;
   padding: 1.25rem;
   border-radius: 1.75rem;
-  border: 1px solid rgba(201, 150, 59, 0.12);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.12);
   background:
-    radial-gradient(circle at 12% 0%, rgba(201, 150, 59, 0.13), transparent 32%),
-    linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(10, 9, 8, 0.96));
+    radial-gradient(circle at 12% 0%, rgb(var(--rgb-gold-400) / 0.13), transparent 32%),
+    linear-gradient(180deg, rgb(var(--rgb-obsidian-800) / 0.96), rgb(var(--rgb-obsidian-900) / 0.96));
 }
 
 .shortcut-card {
@@ -65,28 +65,28 @@ const catalogShortcutItems = computed(() =>
   min-height: 9rem;
   padding: 1rem;
   border-radius: 1.25rem;
-  border: 1px solid rgba(201, 150, 59, 0.1);
-  background: rgba(10, 9, 8, 0.48);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.1);
+  background: rgb(var(--rgb-obsidian-900) / 0.48);
   transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
 
 .shortcut-card:hover,
 .shortcut-card:focus-visible {
   transform: translateY(-2px);
-  border-color: rgba(201, 150, 59, 0.32);
-  background: rgba(201, 150, 59, 0.08);
+  border-color: rgb(var(--rgb-gold-400) / 0.32);
+  background: rgb(var(--rgb-gold-400) / 0.08);
   outline: none;
 }
 
 .shortcut-index {
   width: fit-content;
   border-radius: 999px;
-  border: 1px solid rgba(201, 150, 59, 0.18);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.18);
   padding: 0.25rem 0.55rem;
   font-family: var(--font-heading);
   font-size: 0.78rem;
   color: rgb(212, 175, 55);
-  background: rgba(201, 150, 59, 0.08);
+  background: rgb(var(--rgb-gold-400) / 0.08);
 }
 
 .shortcut-title {
@@ -99,7 +99,7 @@ const catalogShortcutItems = computed(() =>
 .shortcut-desc {
   font-size: 0.82rem;
   line-height: 1.55;
-  color: rgba(248, 241, 224, 0.54);
+  color: rgb(var(--rgb-cream-warm) / 0.54);
 }
 
 @media (min-width: 640px) {

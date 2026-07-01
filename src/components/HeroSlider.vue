@@ -404,7 +404,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .hero-pattern {
-  background-image: repeating-linear-gradient(45deg, transparent, transparent 42px, rgba(201,150,59,0.14) 42px, rgba(201,150,59,0.14) 43px);
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 42px, rgb(var(--rgb-gold-400) / 0.14) 42px, rgb(var(--rgb-gold-400) / 0.14) 43px);
   background-size: 120px 120px;
 }
 
@@ -421,8 +421,8 @@ onBeforeUnmount(() => {
 .hero-light-sweep {
   opacity: 0.16;
   background:
-    radial-gradient(circle at 24% 22%, rgba(230, 188, 103, 0.18), transparent 19rem),
-    linear-gradient(112deg, transparent 24%, rgba(245, 240, 232, 0.08) 46%, transparent 64%);
+    radial-gradient(circle at 24% 22%, rgb(230 188 103 / 0.18), transparent 19rem),
+    linear-gradient(112deg, transparent 24%, rgb(var(--rgb-cream-100) / 0.08) 46%, transparent 64%);
   transform: translate3d(-2rem, 0, 0) scale(1);
 }
 
@@ -437,10 +437,10 @@ onBeforeUnmount(() => {
   justify-content: center;
   width: 2.35rem;
   height: 2.35rem;
-  border: 1px solid rgba(201, 150, 59, 0.18);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.18);
   border-radius: 9999px;
-  background: rgba(10, 9, 8, 0.52);
-  color: rgba(245, 240, 232, 0.76);
+  background: rgb(var(--rgb-obsidian-900) / 0.52);
+  color: rgb(var(--rgb-cream-100) / 0.76);
   backdrop-filter: blur(14px);
   transition:
     border-color 0.28s ease,
@@ -453,7 +453,7 @@ onBeforeUnmount(() => {
   content: '';
   position: absolute;
   inset: 0.55rem;
-  border: 1px solid rgba(228, 185, 109, 0.22);
+  border: 1px solid rgb(var(--rgb-gold-300) / 0.22);
   border-radius: inherit;
   opacity: 0;
   pointer-events: none;
@@ -466,8 +466,8 @@ onBeforeUnmount(() => {
 
 .autoplay-toggle:hover,
 .autoplay-toggle:focus-visible {
-  border-color: rgba(201, 150, 59, 0.44);
-  background: rgba(201, 150, 59, 0.1);
+  border-color: rgb(var(--rgb-gold-400) / 0.44);
+  background: rgb(var(--rgb-gold-400) / 0.1);
   color: var(--color-gold-300);
   transform: translateY(-1px);
 }
@@ -482,18 +482,18 @@ onBeforeUnmount(() => {
   height: 0.6rem;
   border-radius: 9999px;
   background: var(--color-gold-300);
-  box-shadow: 0 0 18px rgba(201, 150, 59, 0.48);
+  box-shadow: 0 0 18px rgb(var(--rgb-gold-400) / 0.48);
   animation: autoplayPulse 1.8s ease-in-out infinite;
 }
 
 .autoplay-dot.is-paused {
-  background: rgba(245, 240, 232, 0.38);
+  background: rgb(var(--rgb-cream-100) / 0.38);
   box-shadow: none;
   animation: none;
 }
 
 .autoplay-toggle:disabled .autoplay-dot {
-  background: rgba(245, 240, 232, 0.3);
+  background: rgb(var(--rgb-cream-100) / 0.3);
 }
 
 .slider-btn {
@@ -507,9 +507,9 @@ onBeforeUnmount(() => {
   height: 3rem;
   transform: translateY(-50%);
   border-radius: 9999px;
-  border: 1px solid rgba(201, 150, 59, 0.18);
-  background: rgba(10, 9, 8, 0.42);
-  color: rgba(245, 240, 232, 0.82);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.18);
+  background: rgb(var(--rgb-obsidian-900) / 0.42);
+  color: rgb(var(--rgb-cream-100) / 0.82);
   backdrop-filter: blur(12px);
   transition:
     border-color 0.28s ease,
@@ -519,9 +519,9 @@ onBeforeUnmount(() => {
 }
 
 .slider-btn:hover {
-  border-color: rgba(201, 150, 59, 0.42);
+  border-color: rgb(var(--rgb-gold-400) / 0.42);
   color: var(--color-gold-300);
-  background: rgba(201, 150, 59, 0.08);
+  background: rgb(var(--rgb-gold-400) / 0.08);
 }
 
 .hero-text-enter-active,

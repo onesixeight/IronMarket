@@ -219,13 +219,13 @@ function resetCatalogFilters() {
   gap: 1.5rem;
   overflow: hidden;
   padding: 1.5rem;
-  border: 1px solid rgba(201, 150, 59, 0.14);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.14);
   border-radius: 2rem;
   background:
-    radial-gradient(circle at 14% 0%, rgba(201, 150, 59, 0.16), transparent 34%),
-    radial-gradient(circle at 92% 12%, rgba(245, 240, 232, 0.08), transparent 26%),
-    linear-gradient(135deg, rgba(20, 18, 16, 0.98), rgba(8, 7, 6, 0.98));
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+    radial-gradient(circle at 14% 0%, rgb(var(--rgb-gold-400) / 0.16), transparent 34%),
+    radial-gradient(circle at 92% 12%, rgb(var(--rgb-cream-100) / 0.08), transparent 26%),
+    linear-gradient(135deg, rgb(var(--rgb-obsidian-800) / 0.98), rgb(8 7 6 / 0.98));
+  box-shadow: 0 28px 80px rgb(var(--rgb-black) / 0.34);
 }
 
 .catalog-hero::before {
@@ -234,7 +234,7 @@ function resetCatalogFilters() {
   inset: 1rem;
   pointer-events: none;
   border-radius: 1.5rem;
-  border: 1px solid rgba(201, 150, 59, 0.06);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.06);
 }
 
 .catalog-hero::after {
@@ -246,7 +246,7 @@ function resetCatalogFilters() {
   height: 22rem;
   pointer-events: none;
   border-radius: 999px;
-  background: rgba(201, 150, 59, 0.11);
+  background: rgb(var(--rgb-gold-400) / 0.11);
   filter: blur(54px);
 }
 
@@ -261,11 +261,11 @@ function resetCatalogFilters() {
   gap: 1rem;
   align-self: stretch;
   padding: 1rem;
-  border: 1px solid rgba(201, 150, 59, 0.12);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.12);
   border-radius: 1.5rem;
   background:
-    linear-gradient(180deg, rgba(10, 9, 8, 0.66), rgba(10, 9, 8, 0.92));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    linear-gradient(180deg, rgb(var(--rgb-obsidian-900) / 0.66), rgb(var(--rgb-obsidian-900) / 0.92));
+  box-shadow: inset 0 1px 0 rgb(var(--rgb-white) / 0.04);
 }
 
 .catalog-hero-stat {
@@ -274,9 +274,9 @@ function resetCatalogFilters() {
   justify-content: space-between;
   gap: 1rem;
   padding: 0.95rem 1rem;
-  border: 1px solid rgba(201, 150, 59, 0.1);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.1);
   border-radius: 1.1rem;
-  background: rgba(255, 255, 255, 0.035);
+  background: rgb(var(--rgb-white) / 0.035);
 }
 
 .catalog-hero-stat span {
@@ -288,7 +288,7 @@ function resetCatalogFilters() {
 
 .catalog-hero-stat small {
   max-width: 9rem;
-  color: rgba(245, 240, 232, 0.48);
+  color: rgb(var(--rgb-cream-100) / 0.48);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -306,11 +306,11 @@ function resetCatalogFilters() {
 .catalog-category-card {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(201, 150, 59, 0.1);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.1);
   border-radius: 1.35rem;
   background:
-    radial-gradient(circle at 50% 0%, rgba(201, 150, 59, 0.08), transparent 42%),
-    linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(10, 9, 8, 0.98));
+    radial-gradient(circle at 50% 0%, rgb(var(--rgb-gold-400) / 0.08), transparent 42%),
+    linear-gradient(180deg, rgb(var(--rgb-obsidian-800) / 0.96), rgb(var(--rgb-obsidian-900) / 0.98));
   transition:
     transform 0.35s ease,
     border-color 0.35s ease,
@@ -321,17 +321,17 @@ function resetCatalogFilters() {
 .catalog-category-card:hover,
 .catalog-category-card:focus-visible {
   transform: translateY(-4px);
-  border-color: rgba(201, 150, 59, 0.34);
+  border-color: rgb(var(--rgb-gold-400) / 0.34);
   box-shadow:
-    0 18px 42px rgba(0, 0, 0, 0.34),
-    0 0 28px rgba(201, 150, 59, 0.08);
+    0 18px 42px rgb(var(--rgb-black) / 0.34),
+    0 0 28px rgb(var(--rgb-gold-400) / 0.08);
   outline: none;
 }
 
 .catalog-category-card:focus-visible {
   box-shadow:
-    0 0 0 3px rgba(201, 150, 59, 0.18),
-    0 18px 42px rgba(0, 0, 0, 0.34);
+    0 0 0 3px rgb(var(--rgb-gold-400) / 0.18),
+    0 18px 42px rgb(var(--rgb-black) / 0.34);
 }
 
 .catalog-category-card::after {
@@ -341,7 +341,7 @@ function resetCatalogFilters() {
   height: 7rem;
   pointer-events: none;
   border-radius: 999px;
-  background: rgba(201, 150, 59, 0.1);
+  background: rgb(var(--rgb-gold-400) / 0.1);
   filter: blur(34px);
 }
 
@@ -351,14 +351,14 @@ function resetCatalogFilters() {
   justify-content: center;
   height: 7.75rem;
   padding: 1rem;
-  background: linear-gradient(180deg, rgba(245, 240, 232, 0.06), rgba(10, 9, 8, 0.04));
+  background: linear-gradient(180deg, rgb(var(--rgb-cream-100) / 0.06), rgb(var(--rgb-obsidian-900) / 0.04));
 }
 
 .catalog-category-content {
   position: relative;
   z-index: 1;
   padding: 0.9rem;
-  border-top: 1px solid rgba(201, 150, 59, 0.1);
+  border-top: 1px solid rgb(var(--rgb-gold-400) / 0.1);
 }
 
 .catalog-category-number,
@@ -370,11 +370,11 @@ function resetCatalogFilters() {
 }
 
 .catalog-category-number {
-  color: rgba(228, 185, 109, 0.84);
+  color: rgb(var(--rgb-gold-300) / 0.84);
 }
 
 .catalog-category-count {
-  color: rgba(245, 240, 232, 0.36);
+  color: rgb(var(--rgb-cream-100) / 0.36);
 }
 
 .catalog-category-title {
@@ -391,12 +391,12 @@ function resetCatalogFilters() {
   display: grid;
   gap: 1rem;
   padding: 1rem;
-  border: 1px solid rgba(201, 150, 59, 0.12);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.12);
   border-radius: 1.5rem;
   background:
-    radial-gradient(circle at 12% 0%, rgba(201, 150, 59, 0.08), transparent 30%),
-    linear-gradient(180deg, rgba(20, 18, 16, 0.92), rgba(10, 9, 8, 0.94));
-  box-shadow: 0 20px 52px rgba(0, 0, 0, 0.24);
+    radial-gradient(circle at 12% 0%, rgb(var(--rgb-gold-400) / 0.08), transparent 30%),
+    linear-gradient(180deg, rgb(var(--rgb-obsidian-800) / 0.92), rgb(var(--rgb-obsidian-900) / 0.94));
+  box-shadow: 0 20px 52px rgb(var(--rgb-black) / 0.24);
 }
 
 .catalog-control-summary {
@@ -407,7 +407,7 @@ function resetCatalogFilters() {
 
 .catalog-control-summary span,
 .catalog-control-summary small {
-  color: rgba(245, 240, 232, 0.42);
+  color: rgb(var(--rgb-cream-100) / 0.42);
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.16em;

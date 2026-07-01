@@ -78,12 +78,12 @@ const year = new Date().getFullYear()
 <style scoped>
 .footer-glow {
   background:
-    radial-gradient(circle at 12% 0%, rgba(201,150,59,0.18), transparent 28%),
-    radial-gradient(circle at 88% 20%, rgba(183,118,62,0.14), transparent 24%);
+    radial-gradient(circle at 12% 0%, rgb(var(--rgb-gold-400) / 0.18), transparent 28%),
+    radial-gradient(circle at 88% 20%, rgb(var(--rgb-copper-400) / 0.14), transparent 24%);
 }
 
 .footer-link {
-  color: rgba(245, 240, 232, 0.58);
+  color: rgb(var(--rgb-cream-100) / 0.58);
   transition: color 0.28s ease, transform 0.28s ease;
 }
 

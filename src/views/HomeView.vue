@@ -327,7 +327,7 @@ function getProductCount(slug) {
   inset: -18% -24% auto 46%;
   height: 18rem;
   border-radius: 999px;
-  background: rgba(201, 150, 59, 0.08);
+  background: rgb(var(--rgb-gold-400) / 0.08);
   filter: blur(46px);
   pointer-events: none;
 }
@@ -355,10 +355,10 @@ function getProductCount(slug) {
 }
 
 .popular-products-points span {
-  border: 1px solid rgba(201, 150, 59, 0.14);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.14);
   border-radius: 999px;
-  background: rgba(201, 150, 59, 0.06);
-  color: rgba(248, 241, 224, 0.54);
+  background: rgb(var(--rgb-gold-400) / 0.06);
+  color: rgb(var(--rgb-cream-warm) / 0.54);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -379,21 +379,21 @@ function getProductCount(slug) {
   gap: 1rem;
   min-height: 9.25rem;
   padding: 1rem;
-  border: 1px solid rgba(201, 150, 59, 0.1);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.1);
   border-radius: 1.35rem;
   background:
-    radial-gradient(circle at 15% 0%, rgba(201, 150, 59, 0.12), transparent 38%),
-    rgba(10, 9, 8, 0.56);
+    radial-gradient(circle at 15% 0%, rgb(var(--rgb-gold-400) / 0.12), transparent 38%),
+    rgb(var(--rgb-obsidian-900) / 0.56);
   transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
 
 .popular-product-card:hover,
 .popular-product-card:focus-visible {
   transform: translateY(-2px);
-  border-color: rgba(201, 150, 59, 0.3);
+  border-color: rgb(var(--rgb-gold-400) / 0.3);
   background:
-    radial-gradient(circle at 15% 0%, rgba(201, 150, 59, 0.16), transparent 42%),
-    rgba(10, 9, 8, 0.7);
+    radial-gradient(circle at 15% 0%, rgb(var(--rgb-gold-400) / 0.16), transparent 42%),
+    rgb(var(--rgb-obsidian-900) / 0.7);
   outline: none;
 }
 
@@ -403,7 +403,7 @@ function getProductCount(slug) {
   justify-content: center;
   min-width: 0;
   border-radius: 1rem;
-  background: rgba(248, 241, 224, 0.94);
+  background: rgb(var(--rgb-cream-warm) / 0.94);
   overflow: hidden;
 }
 
@@ -428,7 +428,7 @@ function getProductCount(slug) {
 }
 
 .popular-product-index {
-  color: rgba(212, 175, 55, 0.72);
+  color: rgb(var(--rgb-gold-bright) / 0.72);
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -449,7 +449,7 @@ function getProductCount(slug) {
 .popular-product-material {
   margin-top: 0.65rem;
   overflow: hidden;
-  color: rgba(248, 241, 224, 0.42);
+  color: rgb(var(--rgb-cream-warm) / 0.42);
   font-size: 0.82rem;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -548,7 +548,7 @@ function getProductCount(slug) {
   inset: auto -20% -45% 20%;
   height: 9rem;
   border-radius: 999px;
-  background: rgba(201, 150, 59, 0.08);
+  background: rgb(var(--rgb-gold-400) / 0.08);
   filter: blur(34px);
   pointer-events: none;
 }
@@ -562,7 +562,7 @@ function getProductCount(slug) {
   font-family: var(--font-heading);
   font-size: 1.9rem;
   line-height: 1;
-  color: rgba(212, 175, 55, 0.92);
+  color: rgb(var(--rgb-gold-bright) / 0.92);
 }
 
 .feature-card {

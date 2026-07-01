@@ -169,8 +169,8 @@ const contactContextLabel = computed(() =>
   align-items: flex-start;
   padding: 1.25rem;
   border-radius: 1.5rem;
-  border: 1px solid rgba(201, 150, 59, 0.1);
-  background: rgba(10, 9, 8, 0.38);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.1);
+  background: rgb(var(--rgb-obsidian-900) / 0.38);
 }
 
 .contact-icon {
@@ -181,8 +181,8 @@ const contactContextLabel = computed(() =>
   align-items: center;
   justify-content: center;
   border-radius: 1rem;
-  border: 1px solid rgba(201, 150, 59, 0.12);
-  background: rgba(201, 150, 59, 0.08);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.12);
+  background: rgb(var(--rgb-gold-400) / 0.08);
   color: var(--color-gold-300);
 }
 </style>

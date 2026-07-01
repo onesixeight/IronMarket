@@ -39,10 +39,10 @@ defineProps({
   margin-bottom: 2rem;
   padding: 1.25rem;
   border-radius: 1.75rem;
-  border: 1px solid rgba(201, 150, 59, 0.12);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.12);
   background:
-    radial-gradient(circle at 12% 0%, rgba(201, 150, 59, 0.13), transparent 34%),
-    linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(10, 9, 8, 0.97));
+    radial-gradient(circle at 12% 0%, rgb(var(--rgb-gold-400) / 0.13), transparent 34%),
+    linear-gradient(180deg, rgb(var(--rgb-obsidian-800) / 0.96), rgb(var(--rgb-obsidian-900) / 0.97));
 }
 
 @media (min-width: 640px) {

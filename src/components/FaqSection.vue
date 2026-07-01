@@ -51,10 +51,10 @@ const faqItems = [
 .faq-item {
   overflow: hidden;
   border-radius: 1.35rem;
-  border: 1px solid rgba(201, 150, 59, 0.12);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.12);
   background:
-    radial-gradient(circle at 10% 0%, rgba(201, 150, 59, 0.09), transparent 32%),
-    linear-gradient(180deg, rgba(20, 18, 16, 0.96), rgba(10, 9, 8, 0.97));
+    radial-gradient(circle at 10% 0%, rgb(var(--rgb-gold-400) / 0.09), transparent 32%),
+    linear-gradient(180deg, rgb(var(--rgb-obsidian-800) / 0.96), rgb(var(--rgb-obsidian-900) / 0.97));
 }
 
 .faq-summary {
@@ -75,7 +75,7 @@ const faqItems = [
 }
 
 .faq-summary:focus-visible {
-  outline: 2px solid rgba(212, 175, 55, 0.72);
+  outline: 2px solid rgb(var(--rgb-gold-bright) / 0.72);
   outline-offset: -4px;
 }
 
@@ -87,7 +87,7 @@ const faqItems = [
   height: 2rem;
   flex: 0 0 auto;
   border-radius: 999px;
-  border: 1px solid rgba(201, 150, 59, 0.2);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.2);
   color: rgb(212, 175, 55);
   transition: transform 0.25s ease;
 }
@@ -101,6 +101,6 @@ const faqItems = [
   padding: 0 1.35rem 1.35rem;
   font-size: 0.95rem;
   line-height: 1.7;
-  color: rgba(248, 241, 224, 0.58);
+  color: rgb(var(--rgb-cream-warm) / 0.58);
 }
 </style>

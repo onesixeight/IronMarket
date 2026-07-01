@@ -69,10 +69,10 @@ function decline() {
   margin: 0 auto;
   max-width: 40rem;
   border-radius: 1.25rem;
-  border: 1px solid rgba(201, 150, 59, 0.18);
-  background: rgba(10, 9, 8, 0.94);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.18);
+  background: rgb(var(--rgb-obsidian-900) / 0.94);
   backdrop-filter: blur(18px);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 24px 60px rgb(var(--rgb-black) / 0.5);
   padding: 1rem 1.25rem;
 }
 
@@ -84,7 +84,7 @@ function decline() {
 
 .consent-text {
   margin: 0;
-  color: rgba(245, 240, 232, 0.78);
+  color: rgb(var(--rgb-cream-100) / 0.78);
   font-size: 0.82rem;
   line-height: 1.55;
 }
@@ -125,14 +125,14 @@ function decline() {
 }
 
 .consent-decline {
-  border: 1px solid rgba(201, 150, 59, 0.24);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.24);
   background: transparent;
-  color: rgba(245, 240, 232, 0.7);
+  color: rgb(var(--rgb-cream-100) / 0.7);
 }
 
 .consent-decline:hover {
-  border-color: rgba(201, 150, 59, 0.4);
-  color: rgba(245, 240, 232, 0.9);
+  border-color: rgb(var(--rgb-gold-400) / 0.4);
+  color: rgb(var(--rgb-cream-100) / 0.9);
 }
 
 .consent-enter-active {

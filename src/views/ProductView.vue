@@ -320,11 +320,11 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
   overflow: hidden;
   min-height: 24rem;
   background:
-    radial-gradient(circle at 50% 0%, rgba(201, 150, 59, 0.16), transparent 42%),
-    linear-gradient(180deg, rgba(245, 240, 232, 0.06), rgba(10, 9, 8, 0.96));
+    radial-gradient(circle at 50% 0%, rgb(var(--rgb-gold-400) / 0.16), transparent 42%),
+    linear-gradient(180deg, rgb(var(--rgb-cream-100) / 0.06), rgb(var(--rgb-obsidian-900) / 0.96));
   box-shadow:
-    0 28px 70px rgba(0, 0, 0, 0.34),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 28px 70px rgb(var(--rgb-black) / 0.34),
+    inset 0 1px 0 rgb(var(--rgb-white) / 0.04);
 }
 
 .product-media-card::before {
@@ -332,7 +332,7 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
   position: absolute;
   inset: 1rem;
   pointer-events: none;
-  border: 1px solid rgba(201, 150, 59, 0.08);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.08);
   border-radius: 1.25rem;
 }
 
@@ -343,7 +343,7 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
   height: 12rem;
   pointer-events: none;
   border-radius: 999px;
-  background: rgba(201, 150, 59, 0.1);
+  background: rgb(var(--rgb-gold-400) / 0.1);
   filter: blur(38px);
 }
 
@@ -361,18 +361,18 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
   display: grid;
   gap: 0.55rem;
   padding: 1rem 1.1rem;
-  border: 1px solid rgba(201, 150, 59, 0.14);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.14);
   border-radius: 1.25rem;
   background:
-    radial-gradient(circle at 0% 0%, rgba(201, 150, 59, 0.11), transparent 34%),
-    rgba(10, 9, 8, 0.44);
+    radial-gradient(circle at 0% 0%, rgb(var(--rgb-gold-400) / 0.11), transparent 34%),
+    rgb(var(--rgb-obsidian-900) / 0.44);
 }
 
 .product-payment-kicker {
   width: fit-content;
   border-radius: 999px;
-  border: 1px solid rgba(201, 150, 59, 0.18);
-  background: rgba(201, 150, 59, 0.08);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.18);
+  background: rgb(var(--rgb-gold-400) / 0.08);
   padding: 0.28rem 0.65rem;
   color: rgb(228, 185, 109);
   font-size: 0.68rem;
@@ -382,22 +382,22 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
 }
 
 .product-payment-note p {
-  color: rgba(245, 240, 232, 0.62);
+  color: rgb(var(--rgb-cream-100) / 0.62);
   font-size: 0.88rem;
   line-height: 1.65;
 }
 
 .product-material-note {
-  border: 1px solid rgba(201, 150, 59, 0.16);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.16);
   background:
-    radial-gradient(circle at 0% 0%, rgba(201, 150, 59, 0.1), transparent 38%),
-    rgba(31, 28, 23, 0.88);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    radial-gradient(circle at 0% 0%, rgb(var(--rgb-gold-400) / 0.1), transparent 38%),
+    rgb(31 28 23 / 0.88);
+  box-shadow: inset 0 1px 0 rgb(var(--rgb-white) / 0.04);
 }
 
 .product-material-label {
   margin-bottom: 0.18rem;
-  color: rgba(228, 185, 109, 0.82);
+  color: rgb(var(--rgb-gold-300) / 0.82);
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.16em;
@@ -416,8 +416,8 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
   gap: 0.8rem;
   align-items: start;
   border-radius: 1rem;
-  border: 1px solid rgba(201, 150, 59, 0.1);
-  background: rgba(10, 9, 8, 0.38);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.1);
+  background: rgb(var(--rgb-obsidian-900) / 0.38);
   padding: 0.85rem;
 }
 
@@ -428,11 +428,11 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
   width: 2.15rem;
   height: 2.15rem;
   border-radius: 0.8rem;
-  border: 1px solid rgba(201, 150, 59, 0.18);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.18);
   color: rgb(228, 185, 109);
   font-family: var(--font-heading);
   font-size: 0.8rem;
-  background: rgba(201, 150, 59, 0.08);
+  background: rgb(var(--rgb-gold-400) / 0.08);
 }
 
 .product-order-step strong {
@@ -443,7 +443,7 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
 
 .product-order-step p {
   margin-top: 0.2rem;
-  color: rgba(245, 240, 232, 0.5);
+  color: rgb(var(--rgb-cream-100) / 0.5);
   font-size: 0.78rem;
   line-height: 1.5;
 }
@@ -457,10 +457,10 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
 .product-trust-card {
   min-height: 100%;
   border-radius: 1.15rem;
-  border: 1px solid rgba(201, 150, 59, 0.1);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.1);
   background:
-    radial-gradient(circle at 20% 0%, rgba(201, 150, 59, 0.08), transparent 42%),
-    rgba(20, 18, 16, 0.74);
+    radial-gradient(circle at 20% 0%, rgb(var(--rgb-gold-400) / 0.08), transparent 42%),
+    rgb(var(--rgb-obsidian-800) / 0.74);
   padding: 0.9rem;
   transition:
     transform 0.28s ease,
@@ -470,8 +470,8 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
 
 .product-trust-card:hover {
   transform: translateY(-2px);
-  border-color: rgba(201, 150, 59, 0.28);
-  background-color: rgba(201, 150, 59, 0.06);
+  border-color: rgb(var(--rgb-gold-400) / 0.28);
+  background-color: rgb(var(--rgb-gold-400) / 0.06);
 }
 
 .product-trust-icon {
@@ -482,11 +482,11 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
   height: 2rem;
   margin-bottom: 0.75rem;
   border-radius: 0.75rem;
-  border: 1px solid rgba(201, 150, 59, 0.16);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.16);
   color: rgb(228, 185, 109);
   font-family: var(--font-heading);
   font-size: 0.82rem;
-  background: rgba(201, 150, 59, 0.08);
+  background: rgb(var(--rgb-gold-400) / 0.08);
 }
 
 .product-trust-card strong {
@@ -499,7 +499,7 @@ useSeo(seoName, () => product.value?.description || 'Запрашиваемый 
 .product-trust-card small {
   display: block;
   margin-top: 0.4rem;
-  color: rgba(245, 240, 232, 0.48);
+  color: rgb(var(--rgb-cream-100) / 0.48);
   font-size: 0.72rem;
   line-height: 1.45;
 }

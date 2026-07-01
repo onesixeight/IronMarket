@@ -122,19 +122,19 @@ const introPoints = [
   min-height: 4.25rem;
   padding: 1rem 1.15rem;
   border-radius: 1.1rem;
-  border: 1px solid rgba(201, 150, 59, 0.12);
-  background: rgba(10, 9, 8, 0.44);
+  border: 1px solid rgb(var(--rgb-gold-400) / 0.12);
+  background: rgb(var(--rgb-obsidian-900) / 0.44);
 }
 
 .application-examples-point-value {
   font-family: var(--font-heading);
   font-size: 1.75rem;
   line-height: 1;
-  color: rgba(212, 175, 55, 0.94);
+  color: rgb(var(--rgb-gold-bright) / 0.94);
 }
 
 .application-examples-point-label {
-  color: rgba(248, 241, 224, 0.5);
+  color: rgb(var(--rgb-cream-warm) / 0.5);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -149,15 +149,15 @@ const introPoints = [
 }
 
 .example-card {
-  background: linear-gradient(180deg, rgba(20, 18, 16, 0.92), rgba(10, 9, 8, 0.96));
+  background: linear-gradient(180deg, rgb(var(--rgb-obsidian-800) / 0.92), rgb(var(--rgb-obsidian-900) / 0.96));
   transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
 }
 
 .example-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(201, 150, 59, 0.26);
+  border-color: rgb(var(--rgb-gold-400) / 0.26);
   box-shadow:
-    0 24px 48px rgba(0, 0, 0, 0.42),
-    0 0 24px rgba(201, 150, 59, 0.08);
+    0 24px 48px rgb(var(--rgb-black) / 0.42),
+    0 0 24px rgb(var(--rgb-gold-400) / 0.08);
 }
 </style>
