@@ -44,6 +44,9 @@
 
             <div class="space-y-4 text-sm text-cream-100/70">
               <a :href="CONTACTS.email.href" class="footer-link block">{{ CONTACTS.email.value }}</a>
+              <router-link to="/contacts" class="footer-link block leading-relaxed">
+                {{ CONTACTS.location.address }}
+              </router-link>
               <div>{{ CONTACTS.hours.primary }}</div>
               <div class="text-cream-100/42">{{ CONTACTS.hours.note }}</div>
             </div>

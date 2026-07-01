@@ -23,6 +23,7 @@ assert.match(contactsConfig, /WHATSAPP_PHONE = CONTACTS\.phone\.raw/, 'WhatsApp 
 assert.match(contactsConfig, /TELEGRAM_USERNAME = CONTACTS\.telegram\.username/, 'Telegram username should be exported from the contact config')
 assert.match(header, /CONTACTS\.phone\.display/, 'Header should read the phone display from the contact config')
 assert.match(footer, /CONTACTS\.hours\.primary/, 'Footer should read hours from the contact config')
+assert.match(footer, /CONTACTS\.location\.address/, 'Footer should read the address from the contact config')
 assert.match(contacts, /CONTACTS\.location\.address/, 'Contacts view should read the address from the contact config')
 assert.doesNotMatch(header, /tel:\+77758537092/, 'Header should not hard-code the phone href')
 assert.doesNotMatch(footer, /mailto:etalonkovka@mail\.ru/, 'Footer should not hard-code the email href')
