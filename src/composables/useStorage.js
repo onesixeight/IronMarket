@@ -5,26 +5,46 @@ const validators = {
   },
 }
 
-export function loadStorage(key, fallback = null) {
+function getStorage() {
+  if (typeof globalThis === 'undefined' || !globalThis.localStorage) {
+    return null
+  }
+
+  return globalThis.localStorage
+}
+
+function removeStoredValue(storage, key) {
   try {
-    const raw = localStorage.getItem(key)
+    storage.removeItem(key)
+  } catch {
+    // Broken optional storage should be ignored the same way as unavailable storage.
+  }
+}
+
+export function loadStorage(key, fallback = null, storage = getStorage()) {
+  if (!storage) return fallback
+
+  try {
+    const raw = storage.getItem(key)
     if (!raw) return fallback
     const parsed = JSON.parse(raw)
     const validate = validators[key]
     if (validate && !validate(parsed)) {
-      localStorage.removeItem(key)
+      removeStoredValue(storage, key)
       return fallback
     }
     return parsed
   } catch {
-    localStorage.removeItem(key)
+    removeStoredValue(storage, key)
     return fallback
   }
 }
 
-export function saveStorage(key, value) {
+export function saveStorage(key, value, storage = getStorage()) {
+  if (!storage) return
+
   try {
-    localStorage.setItem(key, JSON.stringify(value))
+    storage.setItem(key, JSON.stringify(value))
   } catch {
     // Optional browser storage should never break the shopping flow.
   }
