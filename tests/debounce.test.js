@@ -54,4 +54,45 @@ import { debounce } from '../src/composables/useDebounce.js'
   assert.equal(calls, 1)
 }
 
-console.log('✓ debounce: trailing call / cancel / default delay')
+// leading запускает первый вызов сразу, а trailing добирает последний вызов из пачки.
+{
+  const values = []
+  const fn = debounce((value) => {
+    values.push(value)
+    return value.toUpperCase()
+  }, 30, { leading: true })
+
+  assert.equal(fn('a'), 'A')
+  assert.equal(fn('b'), 'A')
+  assert.deepEqual(values, ['a'])
+  await wait(50)
+  assert.deepEqual(values, ['a', 'b'])
+}
+
+// trailing можно отключить, если нужен только немедленный leading-вызов.
+{
+  const values = []
+  const fn = debounce((value) => values.push(value), 30, { leading: true, trailing: false })
+
+  fn('a')
+  fn('b')
+  await wait(50)
+  assert.deepEqual(values, ['a'])
+}
+
+// flush() выполняет отложенный вызов сразу и возвращает результат.
+{
+  let calls = 0
+  const fn = debounce((value) => {
+    calls++
+    return value * 2
+  }, 30)
+
+  assert.equal(fn(3), undefined)
+  assert.equal(fn.flush(), 6)
+  assert.equal(calls, 1)
+  await wait(50)
+  assert.equal(calls, 1)
+}
+
+console.log('✓ debounce: trailing / leading / cancel / flush / default delay')
