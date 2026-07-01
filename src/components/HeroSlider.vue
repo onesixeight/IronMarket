@@ -3,12 +3,13 @@
     aria-label="Главный слайдер"
     aria-roledescription="carousel"
     class="relative min-h-[560px] sm:min-h-[640px] lg:min-h-[780px] xl:h-[92vh] xl:max-h-[980px] overflow-hidden"
+    :class="{ 'is-hero-motion-ready': isHeroMotionReady }"
     @mouseenter="pauseForPointer"
     @mouseleave="resumeAfterPointer"
     @focusin="pauseForFocus"
   >
     <div
-      v-for="(slide, i) in slides"
+      v-for="{ slide, index: i } in renderedSlides"
       :key="slide.title"
       class="absolute inset-0 transition-opacity duration-1000 ease-in-out"
       :class="current === i ? 'opacity-100 z-10' : 'opacity-0 z-0'"
@@ -151,14 +152,17 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 
 const current = ref(0)
+const previousSlideIndex = ref(null)
 const isAutoPlayActive = ref(true)
 const isPointerInside = ref(false)
 const prefersReducedMotion = ref(false)
 
 const FIRST_AUTOPLAY_DELAY = 9000
 const AUTOPLAY_DELAY = 7000
+const SLIDE_TRANSITION_CLEANUP_DELAY = 1100
 const HERO_MOTION_DELAY = 3000
 let autoplayTimerId = null
+let slideCleanupTimerId = null
 let heroMotionTimerId = null
 let reduceMotionMediaQuery = null
 let reduceMotionChangeHandler = null
@@ -177,6 +181,17 @@ const autoPlayLabel = computed(() => (
       ? 'Поставить автоперелистывание на паузу'
       : 'Включить автоперелистывание'
 ))
+
+const renderedSlides = computed(() => {
+  const indexes = previousSlideIndex.value === null || previousSlideIndex.value === current.value
+    ? [current.value]
+    : [previousSlideIndex.value, current.value]
+
+  return indexes.map((index) => ({
+    index,
+    slide: slides[index],
+  }))
+})
 
 const slides = [
   {
@@ -238,25 +253,52 @@ const slides = [
   },
 ]
 
-function next() {
-  current.value = (current.value + 1) % slides.length
-  scheduleAutoPlay()
-}
-
-function prev() {
-  current.value = (current.value - 1 + slides.length) % slides.length
-  scheduleAutoPlay()
-}
-
-function goTo(i) {
-  current.value = i
-  scheduleAutoPlay()
-}
-
 function clearAutoPlay() {
   if (autoplayTimerId) {
     window.clearTimeout(autoplayTimerId)
     autoplayTimerId = null
+  }
+}
+
+function clearSlideCleanup() {
+  if (slideCleanupTimerId) {
+    window.clearTimeout(slideCleanupTimerId)
+    slideCleanupTimerId = null
+  }
+}
+
+function scheduleSlideCleanup() {
+  clearSlideCleanup()
+
+  slideCleanupTimerId = window.setTimeout(() => {
+    previousSlideIndex.value = null
+    slideCleanupTimerId = null
+  }, SLIDE_TRANSITION_CLEANUP_DELAY)
+}
+
+function setCurrentSlide(index) {
+  const nextIndex = (index + slides.length) % slides.length
+  if (nextIndex === current.value) return false
+
+  previousSlideIndex.value = current.value
+  current.value = nextIndex
+  scheduleSlideCleanup()
+  return true
+}
+
+function next() {
+  setCurrentSlide(current.value + 1)
+  scheduleAutoPlay()
+}
+
+function prev() {
+  setCurrentSlide(current.value - 1)
+  scheduleAutoPlay()
+}
+
+function goTo(i) {
+  if (setCurrentSlide(i)) {
+    scheduleAutoPlay()
   }
 }
 
@@ -288,7 +330,7 @@ function scheduleAutoPlay(delay = AUTOPLAY_DELAY) {
   }
 
   autoplayTimerId = window.setTimeout(() => {
-    current.value = (current.value + 1) % slides.length
+    setCurrentSlide(current.value + 1)
     scheduleAutoPlay()
   }, delay)
 }
@@ -354,6 +396,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   clearAutoPlay()
+  clearSlideCleanup()
   clearHeroMotionDelay()
   reduceMotionMediaQuery?.removeEventListener('change', reduceMotionChangeHandler)
 })
@@ -363,7 +406,10 @@ onBeforeUnmount(() => {
 .hero-pattern {
   background-image: repeating-linear-gradient(45deg, transparent, transparent 42px, rgba(201,150,59,0.14) 42px, rgba(201,150,59,0.14) 43px);
   background-size: 120px 120px;
-  animation: heroPatternDrift 18s linear 2.2s infinite;
+}
+
+.is-hero-motion-ready .hero-pattern {
+  animation: heroPatternDrift 18s linear infinite;
 }
 
 .hero-image-breathe {
@@ -377,9 +423,11 @@ onBeforeUnmount(() => {
   background:
     radial-gradient(circle at 24% 22%, rgba(230, 188, 103, 0.18), transparent 19rem),
     linear-gradient(112deg, transparent 24%, rgba(245, 240, 232, 0.08) 46%, transparent 64%);
-  mix-blend-mode: screen;
   transform: translate3d(-2rem, 0, 0) scale(1);
-  animation: heroLightWake 10s ease-in-out 1.8s infinite alternate;
+}
+
+.is-hero-motion-ready .hero-light-sweep {
+  animation: heroLightWake 10s ease-in-out infinite alternate;
 }
 
 .autoplay-toggle {
