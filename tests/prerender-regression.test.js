@@ -21,6 +21,7 @@ assert.ok(routePaths.includes('/catalog'), 'Prerender routes should include the 
 assert.ok(routePaths.includes(`/catalog/${catalog.categories[0].slug}`), 'Prerender routes should include categories')
 assert.ok(routePaths.includes(`/product/${catalog.products[0].id}`), 'Prerender routes should include products')
 assert.equal(new Set(routePaths).size, routePaths.length, 'Prerender routes should be unique')
+assert.ok(routes.every((route) => Array.isArray(route.sourceFiles) && route.sourceFiles.length > 0), 'Indexable routes should declare source files for sitemap lastmod')
 assert.ok(!routePaths.includes('/cart'), 'Prerender routes should skip redirected cart pages')
 assert.ok(!routePaths.includes('/checkout'), 'Prerender routes should skip redirected checkout pages')
 assert.ok(!routePaths.includes('/thank-you'), 'Prerender routes should skip noindex thank-you pages')

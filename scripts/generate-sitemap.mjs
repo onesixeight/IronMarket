@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -8,9 +9,9 @@ import { buildSiteRoutes } from './site-routes.mjs'
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const publicDir = resolve(projectRoot, 'public')
 const sitemapPath = resolve(publicDir, 'sitemap.xml')
-const today = new Date().toISOString().slice(0, 10)
 const routes = buildSiteRoutes()
 const existingLastmodByLoc = readExistingLastmodByLoc(sitemapPath)
+const sourceLastmodCache = new Map()
 
 function escapeXml(value) {
   return String(value)
@@ -35,9 +36,47 @@ function readExistingLastmodByLoc(path) {
   return entries
 }
 
+function normalizeLastmod(value) {
+  if (typeof value !== 'string') return null
+  const date = value.trim().slice(0, 10)
+  return /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : null
+}
+
+function readSourceLastmod(sourceFiles = []) {
+  if (!Array.isArray(sourceFiles) || sourceFiles.length === 0) return null
+
+  const key = sourceFiles.join('\0')
+  if (sourceLastmodCache.has(key)) return sourceLastmodCache.get(key)
+
+  try {
+    const output = execFileSync(
+      'git',
+      ['log', '-1', '--format=%cs', '--', ...sourceFiles],
+      {
+        cwd: projectRoot,
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'ignore'],
+      }
+    )
+    const lastmod = normalizeLastmod(output)
+    sourceLastmodCache.set(key, lastmod)
+    return lastmod
+  } catch {
+    sourceLastmodCache.set(key, null)
+    return null
+  }
+}
+
 function getLastmod(route) {
   const loc = toSiteUrl(route.path)
-  return route.lastmod || existingLastmodByLoc.get(loc) || today
+  return normalizeLastmod(route.lastmod)
+    || readSourceLastmod(route.sourceFiles)
+    || normalizeLastmod(existingLastmodByLoc.get(loc))
+}
+
+function renderLastmod(route) {
+  const lastmod = getLastmod(route)
+  return lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ''
 }
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -45,8 +84,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 ${routes
   .map(
     (route) => `  <url>
-    <loc>${escapeXml(toSiteUrl(route.path))}</loc>
-    <lastmod>${getLastmod(route)}</lastmod>
+    <loc>${escapeXml(toSiteUrl(route.path))}</loc>${renderLastmod(route)}
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority}</priority>
   </url>`
