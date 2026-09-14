@@ -5,10 +5,12 @@ import { fileURLToPath } from 'node:url'
 
 import { SITE_ORIGIN, toSiteUrl } from '../src/config/site.js'
 import { buildSiteRoutes } from './site-routes.mjs'
+import { ensureSitemapHistory } from './sitemap-history.mjs'
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const publicDir = resolve(projectRoot, 'public')
 const sitemapPath = resolve(publicDir, 'sitemap.xml')
+ensureSitemapHistory(projectRoot)
 const routes = buildSiteRoutes()
 const existingLastmodByLoc = readExistingLastmodByLoc(sitemapPath)
 const sourceLastmodCache = new Map()

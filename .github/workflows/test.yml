@@ -19,6 +19,9 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
+        with:
+          # Sitemap lastmod comes from the commits that changed each route.
+          fetch-depth: 0
 
       - name: Setup Node
         uses: actions/setup-node@v5
