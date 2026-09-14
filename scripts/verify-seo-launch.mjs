@@ -62,7 +62,10 @@ function parseJsonLd(html) {
 }
 
 function hasSchemaType(schemas, type) {
-  return schemas.some((schema) => schema['@type'] === type)
+  if (Array.isArray(schemas)) return schemas.some((schema) => hasSchemaType(schema, type))
+  if (!schemas || typeof schemas !== 'object') return false
+  return [schemas['@type']].flat().includes(type)
+    || Object.values(schemas).some((value) => hasSchemaType(value, type))
 }
 
 function assertRouteMetadata(routePath, expectedTitlePattern) {
@@ -148,9 +151,19 @@ function run() {
 
   const firstProduct = catalog.products[0]
   const productPage = assertRouteMetadata(`/product/${firstProduct.id}`, new RegExp(String(firstProduct.id)))
-  assertCheck(hasSchemaType(productPage.schemas, 'Product'), 'product page has Product JSON-LD')
+  const expectedProductType = firstProduct.hidePrice ? 'ItemPage' : 'Product'
+  assertCheck(hasSchemaType(productPage.schemas, expectedProductType), `product page has ${expectedProductType} JSON-LD`)
   assertCheck(productPage.html.includes(firstProduct.name), 'product page contains product name')
   assertCheck(!/<link\b[^>]*rel="preload"[^>]*as="image"/.test(productPage.html), 'product page does not preload the homepage hero')
+
+  const listingPaths = ['/catalog', ...catalog.categories.map((category) => `/catalog/${category.slug}`)]
+  const hiddenProductPaths = catalog.products.filter((product) => product.hidePrice).map((product) => `/product/${product.id}`)
+  const unsupportedProductPaths = [...listingPaths, ...hiddenProductPaths].filter((path) => {
+    const schemas = parseJsonLd(readFileSync(resolve(distDir, routeHtmlPath(path)), 'utf8'))
+    return hasSchemaType(schemas, 'Product') || hasSchemaType(schemas, 'Offer')
+      || !hasSchemaType(schemas, listingPaths.includes(path) ? 'ItemList' : 'ItemPage')
+  })
+  assertCheck(unsupportedProductPaths.length === 0, 'catalog lists and price-on-request pages avoid unsupported Product offers', unsupportedProductPaths.join(', '))
 
   const notFoundHtml = readDist('404.html')
   assertCheck(/<meta name="robots" content="noindex, nofollow"/.test(notFoundHtml), '404 document is noindex')

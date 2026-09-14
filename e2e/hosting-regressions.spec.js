@@ -24,3 +24,15 @@ test('hashed assets receive immutable cache headers', async ({ request }) => {
   expect(response.status()).toBe(200)
   expect(response.headers()['cache-control']).toContain('immutable')
 })
+
+test('trailing slash URLs permanently redirect to a working canonical page', async ({ request }) => {
+  const query = '?product=6149&utm_source=google&note=a%2Fb'
+  for (const canonical of ['/catalog', '/contacts', '/about', '/delivery', '/thank-you', '/catalog/kovanye-balyasiny', '/product/6150']) {
+    const response = await request.get(`${canonical}/${query}`, { maxRedirects: 0 })
+    expect(response.status()).toBe(301)
+    expect(response.headers().location).toBe(`${canonical}${query}`)
+    const destination = await request.get(response.headers().location, { maxRedirects: 0 })
+    expect(destination.status()).toBe(200)
+    expect(await destination.text()).toContain(`href="https://etalon-kovka.kz${canonical}"`)
+  }
+})

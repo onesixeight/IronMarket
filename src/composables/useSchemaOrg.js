@@ -46,21 +46,22 @@ export function useSchemaOrg(getData, options = {}) {
 export function schemaProduct(product) {
   const p = toValue(product)
   if (!p) return null
+  const hasPublicPrice = !p.hidePrice && typeof p.price === 'number' && Number.isFinite(p.price) && p.price >= 0
   const result = {
-    '@type': 'Product',
+    // Price-on-request pages describe an item without claiming a Google product offer.
+    '@type': hasPublicPrice ? 'Product' : 'ItemPage',
     name: p.name,
-    image: p.image,
+    image: toAbsoluteSiteUrl(p.image),
     description: p.description || p.name,
     url: p.id ? toSiteUrl(`/product/${p.id}`) : toSiteUrl('/catalog'),
-    brand: { '@type': 'Brand', name: SITE_NAME },
   }
-  if (!p.hidePrice) {
+  if (hasPublicPrice) {
+    result.brand = { '@type': 'Brand', name: SITE_NAME }
     result.offers = {
       '@type': 'Offer',
       url: result.url,
       priceCurrency: 'KZT',
       price: String(p.price),
-      availability: 'https://schema.org/InStock',
     }
   }
   return result
@@ -102,29 +103,13 @@ export function schemaItemList(products, listName) {
   return {
     '@type': 'ItemList',
     name: listName,
-    itemListElement: list.map((p, i) => {
-      const item = {
-        '@type': 'Product',
-        name: p.name,
-        image: p.image,
-        url: toSiteUrl(`/product/${p.id}`),
-      }
-      // Как в schemaProduct: у позиций «цена по запросу» блока offers нет,
-      // иначе Google может показать нереальную цену «0 ₸» в выдаче.
-      if (!p.hidePrice) {
-        item.offers = {
-          '@type': 'Offer',
-          priceCurrency: 'KZT',
-          price: String(p.price),
-          availability: 'https://schema.org/InStock',
-        }
-      }
-      return {
-        '@type': 'ListItem',
-        position: i + 1,
-        item,
-      }
-    }),
+    itemListElement: list.map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: p.name,
+      image: toAbsoluteSiteUrl(p.image),
+      url: toSiteUrl(`/product/${p.id}`),
+    })),
   }
 }
 
