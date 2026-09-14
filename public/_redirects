@@ -4,3 +4,12 @@
 /checkout/ /contacts 301
 /wishlist /catalog 301
 /wishlist/ /catalog 301
+
+# Canonical HTML URLs omit the trailing slash. Keep query parameters intact.
+/catalog/ /catalog 301
+/about/ /about 301
+/contacts/ /contacts 301
+/delivery/ /delivery 301
+/thank-you/ /thank-you 301
+/catalog/:category/ /catalog/:category 301
+/product/:id/ /product/:id 301

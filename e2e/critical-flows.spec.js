@@ -60,12 +60,12 @@ test('product page exposes SEO metadata, inquiry link, and recently viewed', asy
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://etalon-kovka.kz/product/6150')
   await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', 'https://etalon-kovka.kz/product/6150')
 
-  const productSchemas = await page.locator('script[type="application/ld+json"]').evaluateAll((nodes) => (
+  const schemas = await page.locator('script[type="application/ld+json"]').evaluateAll((nodes) => (
     nodes
       .map((node) => JSON.parse(node.textContent || '{}'))
-      .filter((schema) => schema['@type'] === 'Product')
   ))
-  expect(productSchemas.some((schema) => String(schema.url).endsWith('/product/6150'))).toBe(true)
+  expect(schemas.some((schema) => schema['@type'] === 'ItemPage' && String(schema.url).endsWith('/product/6150'))).toBe(true)
+  expect(schemas.some((schema) => schema['@type'] === 'Product' || schema.offers)).toBe(false)
 
   const whatsappLink = page.getByTestId('product-whatsapp-link')
   await expect(whatsappLink).toHaveAttribute('href', /^https:\/\/wa\.me\//)

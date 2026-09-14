@@ -1,4 +1,7 @@
 import assert from 'node:assert/strict'
+import { ref } from 'vue'
+
+import catalog from '../src/data/catalog.json' with { type: 'json' }
 
 import {
   schemaFaqPage,
@@ -28,18 +31,37 @@ assert.equal(priced.url, 'https://etalon-kovka.kz/product/10')
 assert.equal(priced.offers.priceCurrency, 'KZT')
 assert.equal(priced.offers.url, 'https://etalon-kovka.kz/product/10')
 assert.equal(priced.offers.price, '1500') // строка
-assert.equal(priced.offers.availability, 'https://schema.org/InStock')
+assert.equal(priced.image, 'https://etalon-kovka.kz/x.webp')
+assert.equal(priced.offers.availability, undefined, 'Do not claim stock without inventory data')
 
-// --- schemaProduct: при hidePrice блок offers отсутствует ---
-const hidden = schemaProduct({ id: 11, name: 'Корона', image: '/y.webp', price: 0, hidePrice: true })
+// --- Price-on-request pages keep useful metadata without incomplete Product markup ---
+const hidden = schemaProduct({ id: 11, name: 'Корона', image: '/y.webp', price: 1500, hidePrice: true })
+assert.equal(hidden['@type'], 'ItemPage')
 assert.equal(hidden.offers, undefined)
+assert.equal(hidden.brand, undefined)
+assert.equal(hidden.review, undefined)
+assert.equal(hidden.aggregateRating, undefined)
 assert.equal(hidden.url, 'https://etalon-kovka.kz/product/11')
 assert.equal(hidden.description, 'Корона') // fallback на имя при пустом описании
+assert.equal(hidden.image, 'https://etalon-kovka.kz/y.webp')
+
+for (const price of [undefined, null, '', '1500', NaN, Infinity, -1]) {
+  const invalid = schemaProduct({ id: 11, name: 'Корона', price })
+  assert.equal(invalid['@type'], 'ItemPage', `Invalid catalog price ${String(price)} must not create an Offer`)
+  assert.equal(invalid.offers, undefined)
+}
+assert.equal(schemaProduct({ id: 12, name: 'Образец', price: 0 }).offers.price, '0', 'An explicitly visible zero price is distinct from a hidden price')
+
+const reactiveProduct = ref({ id: 11, name: 'Корона', price: 1500, hidePrice: true })
+assert.equal(schemaProduct(reactiveProduct)['@type'], 'ItemPage')
+reactiveProduct.value.hidePrice = false
+assert.equal(schemaProduct(reactiveProduct)['@type'], 'Product')
+assert.equal(schemaProduct(reactiveProduct).offers.price, '1500')
 
 // --- schemaProduct: null-продукт возвращает null ---
 assert.equal(schemaProduct(null), null)
 
-// --- schemaItemList: позиции с 1, у hidePrice нет блока offers ---
+// --- Lists link to item pages without declaring product snippets for each row ---
 const list = schemaItemList(
   [
     { id: 1, name: 'A', image: '/a.webp', price: 100 },
@@ -52,10 +74,23 @@ assert.equal(list.name, 'Каталог')
 assert.equal(list.itemListElement.length, 2)
 assert.equal(list.itemListElement[0].position, 1)
 assert.equal(list.itemListElement[1].position, 2)
-assert.equal(list.itemListElement[0].item.offers.availability, 'https://schema.org/InStock')
-assert.equal(list.itemListElement[0].item.url, 'https://etalon-kovka.kz/product/1')
-assert.equal(list.itemListElement[0].item.offers.price, '100')
-assert.equal(list.itemListElement[1].item.offers, undefined) // цена «0» не публикуем
+assert.deepEqual(list.itemListElement[0], {
+  '@type': 'ListItem', position: 1, name: 'A',
+  image: 'https://etalon-kovka.kz/a.webp', url: 'https://etalon-kovka.kz/product/1',
+})
+assert.deepEqual(list.itemListElement[1], {
+  '@type': 'ListItem', position: 2, name: 'B',
+  image: 'https://etalon-kovka.kz/b.webp', url: 'https://etalon-kovka.kz/product/2',
+})
+
+for (const product of catalog.products.filter((item) => item.hidePrice)) {
+  const schema = schemaProduct(product)
+  assert.equal(schema['@type'], 'ItemPage', `Hidden-price product ${product.id} must not declare an incomplete Product`)
+  assert.equal(schema.offers, undefined)
+}
+const categoryList = schemaItemList(catalog.products.filter((p) => p.categorySlug === 'kovanye-balyasiny'), 'Кованые балясины')
+assert.ok(categoryList.itemListElement.length > 0)
+assert.ok(categoryList.itemListElement.every((item) => item['@type'] === 'ListItem' && !item.item && !item.offers))
 
 // --- schemaItemList: пустой/нет данных → null ---
 assert.equal(schemaItemList([], 'X'), null)
