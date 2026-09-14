@@ -42,7 +42,7 @@ assert.match(deliveryView, /Останется указать город, поз
 assert.doesNotMatch(deliveryView, /Нужно понять доставку под ваш объём/)
 assert.match(deliveryView, /после подтверждения наличия, количества и доставки/i)
 assert.match(faqSection, /Kaspi/)
-assert.match(faqSection, /после подтверждения заказа/i)
+assert.match(faqSection, /после подтверждения наличия, количества и доставки/i)
 assert.match(breadcrumb, /overflow-x-auto/)
 assert.match(breadcrumb, /whitespace-nowrap/)
 assert.match(breadcrumb, /aria-label="Хлебные крошки"/)
