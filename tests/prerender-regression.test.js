@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url'
 
 import { buildSiteRoutes, normalizeRoutePath } from '../scripts/site-routes.mjs'
 import catalog from '../src/data/catalog.json' with { type: 'json' }
+import { buildPrerenderRoutes, routeOutputPath } from '../scripts/prerender-routes.mjs'
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url))
 const packageJson = JSON.parse(fs.readFileSync(path.join(projectRoot, 'package.json'), 'utf8'))
@@ -29,6 +30,11 @@ assert.ok(routes.every((route) => Array.isArray(route.sourceFiles) && route.sour
 assert.ok(!routePaths.includes('/cart'), 'Prerender routes should skip redirected cart pages')
 assert.ok(!routePaths.includes('/checkout'), 'Prerender routes should skip redirected checkout pages')
 assert.ok(!routePaths.includes('/thank-you'), 'Prerender routes should skip noindex thank-you pages')
+const generatedPaths = buildPrerenderRoutes().map((route) => route.path)
+assert.ok(generatedPaths.includes('/thank-you'), 'The noindex thank-you page still needs a direct HTTP entry point')
+assert.ok(generatedPaths.includes('/404'), 'Generate a rendered error document for Cloudflare')
+assert.equal(routeOutputPath('/404'), path.join(projectRoot, 'dist', '404.html'))
+assert.equal(routeOutputPath('/thank-you'), path.join(projectRoot, 'dist', 'thank-you', 'index.html'))
 
 assert.match(packageJson.scripts.build, /prerender-routes\.mjs/, 'Production build should prerender indexable routes')
 assert.doesNotMatch(

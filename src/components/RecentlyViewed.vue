@@ -10,6 +10,7 @@
         v-for="(p, i) in products"
         :key="p.id"
         :product="p"
+        sizes="(min-width: 1280px) 249px, (min-width: 1024px) calc((100vw - 284px) / 4), (min-width: 640px) calc((100vw - 208px) / 3), calc((100vw - 132px) / 2)"
         v-reveal="i * 0.04"
       />
     </div>

@@ -18,7 +18,7 @@ assert.doesNotMatch(catalogView, /scrollToCatalogProducts/)
 assert.match(catalogView, /class="catalog-control-bar/)
 assert.match(catalogView, /class="catalog-category-card/)
 assert.match(catalogView, /:aria-label="`Открыть категорию/)
-assert.match(catalogView, /:style="\{ '--category-index': i \}"/)
+assert.doesNotMatch(catalogView, /:style="\{ '--category-index': i \}"/)
 assert.match(catalogView, /catalog-category-card:focus-visible/)
 assert.match(catalogView, /prefers-reduced-motion/)
 assert.ok(

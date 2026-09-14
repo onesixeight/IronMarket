@@ -35,6 +35,7 @@
           />
 
           <CustomSelect
+            v-if="hasPublicPrices"
             :options="sortOptions"
             v-model="productStore.sortBy"
             placeholder="Сортировка"
@@ -124,18 +125,18 @@
           :key="cat.id"
           :to="'/catalog/' + cat.slug"
           class="catalog-category-card group"
-          :style="{ '--category-index': i }"
           :aria-label="`Открыть категорию ${cat.name}`"
           v-reveal="i * 0.04"
         >
           <div class="catalog-category-image">
             <img
-              :src="cat.image"
-              :alt="cat.name"
-              class="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-110"
               loading="lazy"
               decoding="async"
               sizes="124px"
+              :srcset="getProductImageSrcset(cat.image)"
+              :src="cat.image"
+              :alt="cat.name"
+              class="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-110"
             />
           </div>
           <div class="catalog-category-content">
@@ -154,7 +155,7 @@
 </template>
 
 <script setup>
-import { computed, watch } from 'vue'
+import { computed, onUnmounted, watch } from 'vue'
 import { useProductStore } from '../stores/products'
 import ProductCard from '../components/ProductCard.vue'
 import CatalogProjectShortcuts from '../components/CatalogProjectShortcuts.vue'
@@ -164,10 +165,12 @@ import { useSeo } from '../composables/useSeo'
 import { useSchemaOrg, schemaItemList } from '../composables/useSchemaOrg.js'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 import { debounce } from '../composables/useDebounce.js'
+import { getProductImageSrcset } from '../composables/useResponsiveImage.js'
 
 const productStore = useProductStore()
 
 const debouncedSearch = debounce((val) => { productStore.searchQuery = val }, 200)
+onUnmounted(() => debouncedSearch.cancel())
 
 function onSearchInput(e) {
   debouncedSearch(e.target.value)
@@ -178,6 +181,7 @@ useSeo('Каталог продукции', 'Полный каталог дек�
 useSchemaOrg(() => schemaItemList(productStore.filteredProducts, 'Каталог кованых элементов'))
 const categories = computed(() => productStore.categories)
 const selectedCategory = computed(() => productStore.selectedCategory)
+const hasPublicPrices = computed(() => productStore.allProducts.some((product) => !product.hidePrice))
 const catalogStats = computed(() => [
   { value: productStore.allProducts.length, label: 'позиций в каталоге' },
   { value: categories.value.length, label: 'категорий' },
@@ -188,6 +192,10 @@ watch(
   () => [productStore.searchQuery, productStore.selectedCategory, productStore.sortBy],
   () => { productStore.currentPage = 1 }
 )
+
+watch(hasPublicPrices, (hasPrices) => {
+  if (!hasPrices) productStore.sortBy = 'name'
+}, { immediate: true })
 
 const categoryOptions = computed(() => [
   { value: null, label: 'Все категории' },
@@ -315,7 +323,6 @@ function resetCatalogFilters() {
     transform 0.35s ease,
     border-color 0.35s ease,
     box-shadow 0.35s ease;
-  transition-delay: calc(var(--category-index) * 8ms);
 }
 
 .catalog-category-card:hover,
@@ -459,7 +466,7 @@ function resetCatalogFilters() {
 
 @media (prefers-reduced-motion: reduce) {
   .catalog-category-card {
-    transition-delay: 0ms;
+    transition: none;
   }
 }
 </style>

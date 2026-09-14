@@ -18,6 +18,8 @@
         type="tel"
         data-testid="contact-phone"
         placeholder="+7 (___) ___-__-__"
+        pattern="\+7 \([0-9]{3}\) [0-9]{3}-[0-9]{2}-[0-9]{2}"
+        title="Введите полный номер телефона: +7 (775) 123-45-67"
         required
         autocomplete="tel"
         class="form-input"

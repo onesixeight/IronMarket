@@ -39,6 +39,8 @@ Yandex Metrika получает JavaScript event goals через `reachGoal`.
 
 ## Cloudflare / Prerender
 
-- Текущий Cloudflare build использует `npm run build:static`, потому что Cloudflare Workers Builds не устанавливает системные зависимости Playwright.
-- Полный `npm run build` сохраняет prerender 187 индексируемых маршрутов для локальной/CI-проверки.
-- Если нужен максимум SEO на Cloudflare, следующий шаг: отдельный GitHub Actions deploy с prerendered `dist`.
+- На проверенном production-сайте `/`, `/catalog` и `/product/6149` уже отдают готовый HTML с собственными title, canonical и JSON-LD. При этом в Cloudflare Workers Builds обнаружена отдельная настройка `npm run build:static`: следующий автоматический deploy с такой командой может заменить готовый HTML на SPA.
+- `npm run build` сохраняет prerender всех индексируемых маршрутов в `dist`. `npm run build:static` остаётся упрощённой сборкой без prerender и не эквивалентен production-сборке для SEO.
+- GitHub Actions использует Node 24 LTS: lint, unit/regression tests, проверку зависимостей, одну полную сборку, затем `verify:seo`, `verify:perf` и E2E. Успешный `dist` сохраняется в артефакт `site-dist-<commit SHA>` на 7 дней; при сбое сохраняются Playwright-отчёт, screenshots, traces и videos.
+- Для блокировки публикации до проверок подготовлен `scripts/verify-github-ci.mjs`. Он читает публичный GitHub API без токена, требует точный `WORKERS_CI_COMMIT_SHA`, ветку `main` и успешный push-запуск `.github/workflows/test.yml`, затем сверяет commit с текущим `main`. Проверка ждёт не более 12 минут с интервалом 60 секунд, учитывает rate-limit headers и прекращает публикацию при ошибках CI/API или смене commit.
+- Подключение в Cloudflare: production Deploy command `node scripts/verify-github-ci.mjs && npx wrangler deploy`. Build command должна сохранять prerender; `build:static` для публикации применять нельзя. Изменение этих настроек выполняется отдельно после проверки полной сборки на хосте. Version command для preview-веток остаётся отдельной от production-проверки.

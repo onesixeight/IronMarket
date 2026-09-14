@@ -21,11 +21,16 @@ npm run dev      # dev-сервер на localhost:5173
 npm run build    # production-сборка в dist/ (перед сборкой генерируется sitemap.xml)
 npm run build:static # static-сборка для Cloudflare Workers Builds без Playwright-prerender
 npm run preview  # предпросмотр production-сборки
+npm run preview:cloudflare # локальная проверка заголовков, redirect и HTTP 404 на Wrangler
 npm run lint     # ESLint
 npm test         # регрессионные тесты (node --test)
 npm run test:e2e # Playwright E2E по критическим сценариям
 npm run format   # Prettier
 ```
+
+Требуется Node.js 24 LTS. Команды `dev`, `test` и обе сборки автоматически создают уменьшенные версии фотографий и маленький favicon. Производные файлы в `public/images/optimized/` и `src/data/image-variants.json` не хранятся в Git; оригиналы остаются в каталоге для увеличения. После замены фото варианты пересоздаются с новым хешем.
+
+Полная сборка в Cloudflare Workers Builds использует закреплённый Chromium без системной установки зависимостей. Эта же ветка запуска проверяется в GitHub Actions. Для публикации требуется `npm run build`; `build:static` не создаёт HTML страниц и применяется только для диагностики.
 
 ## Функционал
 

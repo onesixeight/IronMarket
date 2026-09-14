@@ -93,7 +93,7 @@
             class="flex items-center gap-3 border-b border-gold-400/8 px-4 py-3 transition-colors hover:bg-gold-400/6 last:border-b-0"
             @click="openSearchResult(p)"
           >
-            <img :src="p.image" :alt="p.name" loading="lazy" decoding="async" sizes="48px" class="h-12 w-12 rounded-xl border border-gold-400/10 bg-obsidian-800/86 p-1.5 object-contain" @error="applyImageFallback" />
+            <img loading="lazy" decoding="async" sizes="48px" :srcset="getProductImageSrcset(p.image)" :src="p.image" :alt="p.name" class="h-12 w-12 rounded-xl border border-gold-400/10 bg-obsidian-800/86 p-1.5 object-contain" @error="applyImageFallback" />
             <div class="min-w-0 flex-1">
               <div class="truncate text-sm font-medium text-cream-100">{{ p.name }}</div>
               <div class="mt-1 text-xs uppercase tracking-[0.16em] text-gold-300/72">Каталог</div>
@@ -133,9 +133,9 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatPrice } from '../composables/usePrice.js'
-import { debounce } from '../composables/useDebounce.js'
 import { trackCatalogOpen, trackProductOpen } from '../composables/useAnalytics.js'
 import { applyImageFallback } from '../composables/useImageFallback.js'
+import { getProductImageSrcset } from '../composables/useResponsiveImage.js'
 import { lockScroll, unlockScroll } from '../composables/useScrollLock.js'
 import { isTypingTarget } from '../composables/useUtils.js'
 import { CONTACTS } from '../config/contacts.js'
@@ -159,13 +159,8 @@ const navItems = [
   { to: '/contacts', label: 'Контакты' },
 ]
 
-const updateSearch = debounce((val) => {
-  productStore.searchQuery = val
-}, 200)
-
 function onSearchInput() {
   showDropdown.value = true
-  updateSearch(searchInput.value)
 }
 
 function getNavTestId(to) {
@@ -178,15 +173,19 @@ const searchResults = computed(() => {
 })
 
 function toggleSearch() {
-  searchOpen.value = !searchOpen.value
-  showDropdown.value = searchOpen.value
+  if (searchOpen.value) {
+    closeSearch()
+    return
+  }
+  searchInput.value = productStore.searchQuery
+  searchOpen.value = true
+  showDropdown.value = true
 }
 
 function closeSearch() {
   searchOpen.value = false
   showDropdown.value = false
   searchInput.value = ''
-  productStore.searchQuery = ''
 }
 
 function toggleMobileMenu() {
@@ -199,10 +198,14 @@ function closeMobileMenu() {
 }
 
 function goToCatalog() {
+  const query = searchInput.value.trim()
   trackCatalogOpen({
     source: 'header_search',
-    search_query: searchInput.value || undefined,
+    search_query: query || undefined,
   })
+  productStore.searchQuery = query
+  productStore.selectedCategory = null
+  productStore.currentPage = 1
   router.push('/catalog')
   closeSearch()
 }
@@ -253,7 +256,6 @@ onUnmounted(() => {
   document.removeEventListener('keydown', onKeyDown)
   document.removeEventListener('pointerdown', onDocumentPointerDown)
   if (mobileMenu.value) unlockScroll()
-  updateSearch.cancel()
 })
 </script>
 

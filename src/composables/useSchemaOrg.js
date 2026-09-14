@@ -102,24 +102,29 @@ export function schemaItemList(products, listName) {
   return {
     '@type': 'ItemList',
     name: listName,
-    itemListElement: list.map((p, i) => ({
-      '@type': 'ListItem',
-      position: i + 1,
-      item: {
+    itemListElement: list.map((p, i) => {
+      const item = {
         '@type': 'Product',
         name: p.name,
         image: p.image,
         url: toSiteUrl(`/product/${p.id}`),
-        offers: {
+      }
+      // Как в schemaProduct: у позиций «цена по запросу» блока offers нет,
+      // иначе Google может показать нереальную цену «0 ₸» в выдаче.
+      if (!p.hidePrice) {
+        item.offers = {
           '@type': 'Offer',
           priceCurrency: 'KZT',
-          price: p.hidePrice ? '0' : String(p.price),
-          availability: p.hidePrice
-            ? 'https://schema.org/PreOrder'
-            : 'https://schema.org/InStock',
-        },
-      },
-    })),
+          price: String(p.price),
+          availability: 'https://schema.org/InStock',
+        }
+      }
+      return {
+        '@type': 'ListItem',
+        position: i + 1,
+        item,
+      }
+    }),
   }
 }
 

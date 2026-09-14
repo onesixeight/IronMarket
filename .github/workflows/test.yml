@@ -6,26 +6,71 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v5
 
       - name: Setup Node
         uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Run lint
+        run: npm run lint
+
       - name: Run tests
         run: npm test
+
+      - name: Audit dependencies
+        run: npm audit --audit-level=high
 
       - name: Install Playwright browser
         run: npx playwright install --with-deps chromium
 
-      - name: Build and run E2E tests
-        run: npm run test:e2e:ci
+      - name: Build site
+        run: npm run build
+        env:
+          # Exercise the same rootless Chromium runtime used by Workers Builds.
+          WORKERS_CI: '1'
+
+      - name: Verify SEO
+        run: npm run verify:seo
+
+      - name: Verify performance budgets
+        run: npm run verify:perf
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      - name: Save verified site
+        uses: actions/upload-artifact@v7
+        with:
+          name: site-dist-${{ github.sha }}
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Save failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-diagnostics-${{ github.sha }}
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7

@@ -11,7 +11,7 @@ const contactsConfig = fs.readFileSync(new URL('../src/config/contacts.js', impo
 
 assert.match(header, /brand-mark-ornament-small\.webp/, 'Header should use the optimized compact branding asset')
 assert.match(html, /brand-mark-ornament-small\.webp/, 'Preloader should use the optimized compact branding asset')
-assert.match(html, /favicon-brand-mark\.png/, 'Index HTML should point favicon to the new brand mark export')
+assert.match(html, /sizes="48x48" href="\/images\/optimized\/favicon-48\.png"/, 'Index should use the small generated brand favicon')
 assert.doesNotMatch(header, /M12 2L2 7l10 5 10-5/, 'Header should no longer use the old layered inline mark')
 
 assert.equal(CONTACTS.phone.display, '+7 775 853 70 92')

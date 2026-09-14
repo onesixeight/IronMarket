@@ -9,6 +9,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { chromium } from '@playwright/test'
 
 import { buildSiteRoutes } from './site-routes.mjs'
+import { getChromiumLaunchOptions } from './chromium-runtime.mjs'
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const distDir = resolve(projectRoot, 'dist')
@@ -17,9 +18,42 @@ const host = '127.0.0.1'
 const renderTimeoutMs = 20000
 const concurrency = Math.max(1, Number(process.env.PRERENDER_CONCURRENCY || 4))
 
+export function buildPrerenderRoutes() {
+  // Operational/error pages need direct HTTP entry points, but stay out of the sitemap.
+  return [...buildSiteRoutes(), { path: '/thank-you' }, { path: '/404' }]
+}
+
 export function routeOutputPath(routePath) {
+  if (routePath === '/404') return resolve(distDir, '404.html')
   const normalizedPath = routePath === '/' ? '' : String(routePath).replace(/^\/+|\/+$/g, '')
   return resolve(distDir, normalizedPath, 'index.html')
+}
+
+export function preparePrerenderDocument(routePath) {
+  // The page already contains its content. A JS-controlled overlay must not hide it.
+  document.getElementById('preloader')?.remove()
+  for (const element of document.querySelectorAll('.reveal-pending')) {
+    element.classList.remove('reveal-pending', 'reveal-visible')
+    for (const className of [...element.classList]) {
+      if (className.startsWith('reveal-delay-')) element.classList.remove(className)
+    }
+  }
+
+  for (const preload of document.querySelectorAll('link[rel="preload"][as="image"]')) {
+    preload.remove()
+  }
+  if (routePath !== '/') return
+
+  const hero = document.querySelector('main img[fetchpriority="high"]')
+  if (!hero) throw new Error('Home prerender is missing its high-priority hero image.')
+  const preload = document.createElement('link')
+  preload.rel = 'preload'
+  preload.as = 'image'
+  preload.setAttribute('fetchpriority', 'high')
+  preload.setAttribute('imagesizes', hero.getAttribute('sizes') || '100vw')
+  if (hero.getAttribute('srcset')) preload.setAttribute('imagesrcset', hero.getAttribute('srcset'))
+  preload.setAttribute('href', hero.getAttribute('src'))
+  document.head.appendChild(preload)
 }
 
 async function getFreePort() {
@@ -87,6 +121,7 @@ async function renderRoute(context, origin, route) {
       { timeout: renderTimeoutMs }
     )
     await page.waitForTimeout(100)
+    await page.evaluate(preparePrerenderDocument, route.path)
 
     return {
       path: route.path,
@@ -106,7 +141,7 @@ async function writeRenderedRoutes(renderedRoutes) {
 }
 
 async function renderRoutes(origin, routes) {
-  const browser = await chromium.launch()
+  const browser = await chromium.launch(await getChromiumLaunchOptions())
   const context = await browser.newContext({ locale: 'ru-RU' })
   await context.addInitScript(() => {
     window.localStorage.setItem('cookie-consent', 'declined')
@@ -141,7 +176,7 @@ export async function prerender() {
 
   try {
     await waitForPreview(origin, preview)
-    const routes = buildSiteRoutes()
+    const routes = buildPrerenderRoutes()
     const renderedRoutes = await renderRoutes(origin, routes)
     await writeRenderedRoutes(renderedRoutes)
     console.log(`Prerendered ${renderedRoutes.length} routes into dist`)

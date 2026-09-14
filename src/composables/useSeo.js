@@ -94,7 +94,7 @@ export function useSeo(title, description, image, { noindex = false } = {}) {
       d || 'Кованые элементы, узоры, балясины и комплектующие с продажей и поставкой в Астане и по Казахстану.'
     )
 
-    getMetaRobots().setAttribute('content', noindex ? 'noindex, nofollow' : 'index, follow')
+    getMetaRobots().setAttribute('content', toValue(noindex) ? 'noindex, nofollow' : 'index, follow')
 
     setCanonicalUrl(canonicalUrl)
     setOrCreateMeta('og:title', t || DEFAULT_TITLE)

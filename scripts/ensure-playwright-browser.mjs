@@ -6,6 +6,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 import { chromium } from '@playwright/test'
+import { getChromiumLaunchOptions, isWorkersBuild } from './chromium-runtime.mjs'
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const playwrightCli = resolve(projectRoot, 'node_modules/playwright/cli.js')
@@ -48,6 +49,15 @@ function runPlaywrightInstall() {
 }
 
 export async function ensurePlaywrightBrowser() {
+  if (isWorkersBuild()) {
+    const options = await getChromiumLaunchOptions()
+    // Smoke-test the portable binary and bundled shared libraries before rendering.
+    const browser = await chromium.launch(options)
+    await browser.close()
+    console.log('Portable Chromium ready for unprivileged Workers Builds.')
+    return
+  }
+
   const executablePath = chromium.executablePath()
 
   if (await pathExists(executablePath)) {

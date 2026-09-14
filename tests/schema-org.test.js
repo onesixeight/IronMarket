@@ -39,7 +39,7 @@ assert.equal(hidden.description, 'Корона') // fallback на имя при 
 // --- schemaProduct: null-продукт возвращает null ---
 assert.equal(schemaProduct(null), null)
 
-// --- schemaItemList: позиции с 1, PreOrder для hidePrice ---
+// --- schemaItemList: позиции с 1, у hidePrice нет блока offers ---
 const list = schemaItemList(
   [
     { id: 1, name: 'A', image: '/a.webp', price: 100 },
@@ -55,8 +55,7 @@ assert.equal(list.itemListElement[1].position, 2)
 assert.equal(list.itemListElement[0].item.offers.availability, 'https://schema.org/InStock')
 assert.equal(list.itemListElement[0].item.url, 'https://etalon-kovka.kz/product/1')
 assert.equal(list.itemListElement[0].item.offers.price, '100')
-assert.equal(list.itemListElement[1].item.offers.availability, 'https://schema.org/PreOrder')
-assert.equal(list.itemListElement[1].item.offers.price, '0')
+assert.equal(list.itemListElement[1].item.offers, undefined) // цена «0» не публикуем
 
 // --- schemaItemList: пустой/нет данных → null ---
 assert.equal(schemaItemList([], 'X'), null)

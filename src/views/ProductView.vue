@@ -8,12 +8,15 @@
           class="product-media-card rounded-2xl p-8 lg:p-12 flex items-center justify-center relative group transition-all duration-300 bg-obsidian-800 border border-gold-400/[0.08] hover:border-gold-400/20"
         >
           <img
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            sizes="(min-width: 1024px) 50vw, calc(100vw - 96px)"
+            :srcset="getProductImageSrcset(product.image)"
             :src="product.image"
             :alt="product.name"
             data-testid="product-detail-image"
             class="max-w-full max-h-[500px] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
-            decoding="async"
-            sizes="(min-width: 1024px) 50vw, 100vw"
             @error="applyImageFallback"
           />
           <button
@@ -209,6 +212,7 @@ import { useProductStore } from '../stores/products'
 import ProductCard from '../components/ProductCard.vue'
 import ImageLightbox from '../components/ImageLightbox.vue'
 import { useSeo } from '../composables/useSeo'
+import { getProductImageSrcset } from '../composables/useResponsiveImage.js'
 import { useSchemaOrg, schemaProduct } from '../composables/useSchemaOrg.js'
 import { formatPrice } from '../composables/usePrice.js'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
@@ -318,7 +322,9 @@ const breadcrumbItems = computed(() => {
 
 const seoName = computed(() => product.value?.name || 'Товар не найден')
 const seoImage = computed(() => product.value?.image)
-useSeo(seoName, () => product.value?.description || 'Запрашиваемый товар не найден.', seoImage)
+useSeo(seoName, () => product.value?.description || 'Запрашиваемый товар не найден.', seoImage, {
+  noindex: () => !product.value,
+})
 </script>
 
 <style scoped>

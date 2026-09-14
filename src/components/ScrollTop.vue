@@ -1,7 +1,7 @@
 <template>
   <transition name="scroll-top">
     <button
-      v-show="visible"
+      v-if="visible"
       @click="scrollToTop"
       class="fixed bottom-6 right-6 z-50 w-11 h-11 bg-obsidian-700 hover:bg-gold-600 text-cream-100 rounded-xl shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
       aria-label="Наверх"

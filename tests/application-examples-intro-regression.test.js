@@ -33,18 +33,8 @@ assert.match(
 )
 assert.match(
   applicationExamples,
-  /:srcset="item\.srcset"/,
+  /:srcset="getProductImageSrcset\(item\.image\)"/,
   'Application examples should expose responsive image candidates'
-)
-assert.match(
-  applicationExamples,
-  /buildExampleSrcset\(example\.image\)/,
-  'Application examples should derive srcset from the source image'
-)
-assert.match(
-  applicationExamples,
-  /512w\.jpg 512w/,
-  'Application examples should include compact mobile image candidates'
 )
 assert.match(
   applicationExamples,

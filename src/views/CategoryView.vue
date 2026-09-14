@@ -12,7 +12,7 @@
         <CategoryRequestPanel :category="category" :product-count="products.length" v-reveal="0.04" />
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          <ProductCard v-for="(p, i) in paginatedProducts" :key="p.id" :product="p" v-reveal="i * 0.04" />
+          <ProductCard v-for="(p, i) in paginatedProducts" :key="p.id" :product="p" sizes="(min-width: 1280px) 249px, (min-width: 1024px) calc((100vw - 284px) / 4), (min-width: 640px) calc((100vw - 148px) / 2), calc(100vw - 74px)" v-reveal="i * 0.04" />
         </div>
 
         <Pagination
@@ -68,7 +68,7 @@ const paginatedProducts = computed(() => {
 
 watch(() => route.params.slug, () => { currentPage.value = 1 })
 
-const seoTitle = computed(() => category.value ? category.value.name : 'Категория')
-const seoDesc = computed(() => category.value?.description)
-useSeo(seoTitle, seoDesc)
+const seoTitle = computed(() => category.value ? category.value.name : 'Категория не найдена')
+const seoDesc = computed(() => category.value?.description || 'Запрашиваемая категория не найдена.')
+useSeo(seoTitle, seoDesc, null, { noindex: () => !category.value })
 </script>

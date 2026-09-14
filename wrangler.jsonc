@@ -1,7 +1,6 @@
 {
-  // Конфигурация Cloudflare Workers для SPA (Vue 3).
-  // not_found_handling: single-page-application — все неизвестные пути
-  // отдаются через index.html, что заменяет Vercel/Netlify _redirects.
+  // npm run build создаёт HTML всех страниц и 404.html.
+  // Неизвестные URL получают настоящий HTTP 404; старые пути — через _redirects.
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ironmarket",
   "compatibility_date": "2026-06-29",
@@ -10,7 +9,8 @@
   },
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "single-page-application"
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page"
   },
   "compatibility_flags": [
     "nodejs_compat"

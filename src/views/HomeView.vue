@@ -76,7 +76,7 @@
             >
               <div class="category-card-media flex items-start justify-between gap-4">
                 <div class="w-14 h-14 rounded-[1.15rem] border border-gold-400/14 bg-gold-400/6 p-2.5">
-                  <img :src="cat.image" :alt="cat.name" loading="lazy" decoding="async" sizes="56px" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <img loading="lazy" decoding="async" sizes="36px" :srcset="getProductImageSrcset(cat.image)" :src="cat.image" :alt="cat.name" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <span class="text-[10px] uppercase tracking-[0.18em] text-gold-300/70">
                   {{ String(i + 1).padStart(2, '0') }}
@@ -136,7 +136,7 @@
                 @click="trackProductOpen(p, { source: 'home_popular_products' })"
               >
                 <span class="popular-product-image">
-                  <img :src="p.image" :alt="p.name" loading="lazy" decoding="async" sizes="(max-width: 480px) 88px, 104px" />
+                  <img loading="lazy" decoding="async" sizes="(max-width: 480px) 88px, 104px" :srcset="getProductImageSrcset(p.image)" :src="p.image" :alt="p.name" />
                 </span>
 
                 <span class="popular-product-copy">
@@ -227,6 +227,7 @@ import { useSeo } from '../composables/useSeo'
 import { trackCatalogOpen, trackContactFormOpen, trackProductOpen } from '../composables/useAnalytics.js'
 import { useSchemaOrg, schemaOrganization } from '../composables/useSchemaOrg.js'
 import { useProductStore } from '../stores/products'
+import { getProductImageSrcset } from '../composables/useResponsiveImage.js'
 
 useSeo(
   'Кованые элементы в Астане',
