@@ -22,7 +22,7 @@ assert.match(serviceWorker, /self\.addEventListener\('fetch'/, 'Service worker s
 assert.match(serviceWorker, /const PRECACHE_ASSETS = \[\]/, 'Source service worker should expose a build-time precache marker')
 assert.match(serviceWorker, /cache\.addAll\(PRECACHE_URLS\)/, 'Service worker should precache app shell and injected assets')
 assert.match(serviceWorker, /request\.mode === 'navigate'/, 'Service worker should handle SPA navigations separately')
-assert.match(serviceWorker, /url\.pathname\.startsWith\('\/assets\/'\)/, 'Service worker should cache Vite assets')
+assert.match(serviceWorker, /isVersionedAsset\(url\)/, 'Service worker should cache hashed Vite assets separately')
 assert.match(packageJson.scripts.build, /inject-sw-precache\.mjs/, 'Build should inject hashed Vite assets into dist/sw.js')
 assert.match(packageJson.scripts['build:static'], /inject-sw-precache\.mjs/, 'Static deploy build should also inject hashed Vite assets into dist/sw.js')
 assert.match(swPrecacheScript, /const precacheExtensions = new Set\(\['\.css', '\.js'\]\)/, 'Precache script should target CSS and JS chunks')

@@ -28,13 +28,13 @@
         >
           <div :class="index === 0 ? 'aspect-[16/9]' : 'aspect-[4/5]'" class="relative overflow-hidden">
             <img
-              :src="item.image"
-              :srcset="item.srcset"
-              :sizes="index === 0 ? '(min-width: 1024px) 66vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'"
-              :alt="item.title"
-              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               loading="lazy"
               decoding="async"
+              :sizes="index === 0 ? '(min-width: 1024px) 66vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'"
+              :srcset="getProductImageSrcset(item.image)"
+              :src="item.image"
+              :alt="item.title"
+              class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               width="1024"
               height="1024"
             />
@@ -75,21 +75,15 @@
 </template>
 
 <script setup>
+import { getProductImageSrcset } from '../composables/useResponsiveImage.js'
+
 const examples = [
   { image: '/images/examples/app-railings.jpg', title: 'Перила и лестницы', desc: 'Аккуратные композиции для интерьеров и входных групп, где важны ритм, тактильность и статусный силуэт.' },
   { image: '/images/examples/app-fences.jpg', title: 'Заборы и секции', desc: 'Практичные ограждения с декоративными акцентами для частных домов, участков и фасадных линий.' },
   { image: '/images/examples/app-balcony.jpg', title: 'Балконы и фасады', desc: 'Кованые элементы, которые делают экстерьер выразительным и собирают композицию в единый образ.' },
   { image: '/images/examples/app-grilles.jpg', title: 'Решётки и проёмы', desc: 'Функциональные решения для окон и ниш с аккуратным декоративным рисунком.' },
   { image: '/images/examples/app-gates.jpg', title: 'Ворота и калитки', desc: 'От строгих линий до более насыщенных орнаментов — под разные стили и типы объектов.' },
-].map((example) => ({
-  ...example,
-  srcset: buildExampleSrcset(example.image),
-}))
-
-function buildExampleSrcset(image) {
-  const basePath = image.replace(/\.jpg$/, '')
-  return `${basePath}-512w.jpg 512w, ${basePath}-768w.jpg 768w, ${image} 1024w`
-}
+]
 
 const introPoints = [
   { value: '01', label: 'Интерьеры' },

@@ -5,5 +5,7 @@ export function applyImageFallback(event, fallback = DEFAULT_PRODUCT_IMAGE) {
   if (!image || image.dataset.fallbackApplied === 'true') return
 
   image.dataset.fallbackApplied = 'true'
+  image.removeAttribute('srcset')
+  image.removeAttribute('sizes')
   image.src = fallback
 }

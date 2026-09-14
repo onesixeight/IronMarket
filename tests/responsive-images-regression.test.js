@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import sharp from 'sharp'
 
 const publicDir = fileURLToPath(new URL('../public', import.meta.url))
 
@@ -59,4 +60,22 @@ for (const imageSet of responsiveSets) {
   }
 }
 
-console.log('ok responsive-images: hero and example image candidates exist')
+const generated = JSON.parse(fs.readFileSync(new URL('../src/data/image-variants.json', import.meta.url), 'utf8'))
+for (const source of [
+  '/images/examples/app-railings.jpg',
+  '/images/products/bizzon/nakladnoi-uzor-bonzur-iz-truby-15x15mm.webp',
+]) {
+  const candidates = generated[source].split(', ').map(candidate => candidate.split(' '))
+  assert.ok(candidates.length > 1, 'Large images should offer compact responsive candidates')
+  for (const [url, descriptor] of candidates) {
+    const metadata = await sharp(publicFile(url)).metadata()
+    assert.equal(metadata.width, Number.parseInt(descriptor), `Width descriptor must match the actual image: ${url}`)
+  }
+  assert.ok(fs.statSync(publicFile(candidates[0][0])).size < fs.statSync(publicFile(source)).size)
+  assert.equal(candidates.at(-1)[0], source, 'Original image should remain available for large displays')
+}
+const favicon = publicFile('/images/optimized/favicon-48.png')
+assert.equal((await sharp(favicon).metadata()).width, 48)
+assert.ok(fs.statSync(favicon).size < 5_000, 'Favicon should stay lightweight')
+
+console.log('ok responsive-images: real image candidates and dimensions verified')

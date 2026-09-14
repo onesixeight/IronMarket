@@ -4,16 +4,20 @@
   "version": "1.0.0",
   "type": "module",
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "scripts": {
-    "prebuild": "node scripts/generate-sitemap.mjs",
-    "prebuild:static": "node scripts/generate-sitemap.mjs",
+    "images": "node scripts/generate-responsive-images.mjs",
+    "predev": "npm run images",
+    "pretest": "npm run images",
+    "prebuild": "npm run images && node scripts/generate-sitemap.mjs",
+    "prebuild:static": "npm run images && node scripts/generate-sitemap.mjs",
     "dev": "vite",
     "build": "vite build && node scripts/inject-sw-precache.mjs && node scripts/ensure-playwright-browser.mjs && node scripts/prerender-routes.mjs",
     "build:static": "vite build && node scripts/inject-sw-precache.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
+    "preview:cloudflare": "wrangler dev --local --ip 127.0.0.1 --port 4173",
     "test": "node --test",
     "test:e2e": "playwright test",
     "test:e2e:ci": "npm run build && playwright test",
@@ -21,6 +25,7 @@
     "verify:seo:ci": "npm run build && npm run verify:seo",
     "verify:perf": "node scripts/verify-performance-budget.mjs",
     "verify:perf:ci": "npm run build && npm run verify:perf",
+    "verify:ci": "node scripts/verify-github-ci.mjs",
     "prerender": "node scripts/prerender-routes.mjs",
     "format": "prettier --write ."
   },
@@ -32,6 +37,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.61.1",
+    "@sparticuz/chromium": "149.0.0",
     "@tailwindcss/vite": "^4.1.0",
     "@vitejs/plugin-vue": "^5.2.3",
     "eslint": "^10.6.0",
@@ -39,8 +45,9 @@
     "eslint-plugin-vue": "^10.9.2",
     "globals": "^17.7.0",
     "prettier": "^3.9.4",
-    "sharp": "^0.35.2",
+    "sharp": "^0.35.4",
     "tailwindcss": "^4.1.0",
-    "vite": "^6.4.3"
+    "vite": "^6.4.3",
+    "wrangler": "4.131.2"
   }
 }

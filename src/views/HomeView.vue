@@ -32,7 +32,7 @@
             <div class="eyebrow mb-5">Как заказать</div>
             <h2 class="section-title text-3xl sm:text-4xl leading-tight">Каталог показывает стиль, а точный расчёт собираем вместе.</h2>
             <p class="section-lead mt-4 text-sm sm:text-base">
-              Для кованых элементов важны размеры, количество и задача объекта. Поэтому вместо фальшивой корзины мы ведём клиента к заявке и живому подбору.
+              Укажите, для какого изделия нужны элементы, его размеры, количество секций и город доставки. По этим данным уточним состав заказа и наличие позиций.
             </p>
             <router-link to="/contacts" class="metal-button mt-8" @click="trackContactFormOpen({ source: 'home_order_steps' })">Оставить заявку</router-link>
           </div>
@@ -76,7 +76,7 @@
             >
               <div class="category-card-media flex items-start justify-between gap-4">
                 <div class="w-14 h-14 rounded-[1.15rem] border border-gold-400/14 bg-gold-400/6 p-2.5">
-                  <img :src="cat.image" :alt="cat.name" loading="lazy" decoding="async" sizes="56px" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" />
+                  <img loading="lazy" decoding="async" sizes="36px" :srcset="getProductImageSrcset(cat.image)" :src="cat.image" :alt="cat.name" class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-110" />
                 </div>
                 <span class="text-[10px] uppercase tracking-[0.18em] text-gold-300/70">
                   {{ String(i + 1).padStart(2, '0') }}
@@ -136,7 +136,7 @@
                 @click="trackProductOpen(p, { source: 'home_popular_products' })"
               >
                 <span class="popular-product-image">
-                  <img :src="p.image" :alt="p.name" loading="lazy" decoding="async" sizes="(max-width: 480px) 88px, 104px" />
+                  <img loading="lazy" decoding="async" sizes="(max-width: 480px) 88px, 104px" :srcset="getProductImageSrcset(p.image)" :src="p.image" :alt="p.name" />
                 </span>
 
                 <span class="popular-product-copy">
@@ -166,7 +166,7 @@
             <div class="eyebrow mb-5">Почему выбирают нас</div>
             <h2 class="section-title text-3xl sm:text-4xl leading-tight">Материал, ритм и композиция работают вместе.</h2>
             <p class="section-lead mt-4 text-sm sm:text-base max-w-xl">
-              Мы не перегружаем интерфейс и каталог лишним, а делаем упор на ощущение мастерской: плотные тёмные поверхности, тёплый металл и спокойная премиальная подача.
+              Подбираем декоративные элементы с учётом размеров изделия, рисунка и количества секций. Наличие выбранных позиций уточняем перед заказом.
             </p>
 
             <div class="mt-8 grid gap-3 sm:grid-cols-2">
@@ -227,6 +227,7 @@ import { useSeo } from '../composables/useSeo'
 import { trackCatalogOpen, trackContactFormOpen, trackProductOpen } from '../composables/useAnalytics.js'
 import { useSchemaOrg, schemaOrganization } from '../composables/useSchemaOrg.js'
 import { useProductStore } from '../stores/products'
+import { getProductImageSrcset } from '../composables/useResponsiveImage.js'
 
 useSeo(
   'Кованые элементы в Астане',
@@ -278,13 +279,13 @@ const requestSteps = [
 const principles = [
   {
     kicker: 'Композиция',
-    title: 'Никакой случайности',
-    desc: 'Подбор элементов строится вокруг общего характера изделия, а не вокруг бессистемной покупки деталей.',
+    title: 'Общий рисунок',
+    desc: 'Подбираем сочетания элементов для ворот, ограждения или лестницы с учётом размеров и желаемого стиля.',
   },
   {
     kicker: 'Практика',
-    title: 'Каталог для работы',
-    desc: 'Категории и карточки помогают быстро понять, что взять для проекта и как это будет смотреться в композиции.',
+    title: 'Подбор по задаче',
+    desc: 'Для заявки достаточно описания объекта и примерных размеров. Фото или эскиз можно отправить в мессенджере.',
   },
 ]
 
@@ -294,21 +295,21 @@ const features = [
       h('path', { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', d: 'M11.42 15.17l-5.1-5.1m0 0L11.42 4.97m-5.1 5.1H21' })
     ]),
     title: 'Продажа и поставка',
-    desc: 'Работаем как поставщик по Астане и Казахстану: держим акцент на понятном каталоге, подборе позиций и аккуратной подаче.',
+    desc: 'Поставляем кованые элементы по Астане и Казахстану. Состав заказа и способ доставки согласуем по заявке.',
   },
   {
     icon: () => h('svg', { class: 'w-5 h-5', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24', 'stroke-width': '1.5' }, [
       h('path', { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', d: 'M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z' })
     ]),
-    title: 'Премиальное ощущение',
-    desc: 'Даже утилитарные позиции в каталоге поданы как часть мастерской среды, а не как случайный прайс-лист.',
+    title: 'Подбор по фото или эскизу',
+    desc: 'Отправьте пример изделия, размеры и количество секций — эти данные помогут подобрать подходящие позиции.',
   },
   {
     icon: () => h('svg', { class: 'w-5 h-5', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24', 'stroke-width': '1.5' }, [
       h('path', { 'stroke-linecap': 'round', 'stroke-linejoin': 'round', d: 'M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H21M3.375 14.25h.008M21 12.75H3.375m0 0V5.625A1.125 1.125 0 014.5 4.5h15A1.875 1.875 0 0121.375 6.375v8.25' })
     ]),
     title: 'Под проект и доставку',
-    desc: 'Сайт помогает не только выбрать элемент, но и быстро перейти к обсуждению объёма, задач и комплектации.',
+    desc: 'Для расчёта укажите выбранные позиции, количество и город. Стоимость и условия доставки уточним до оплаты.',
   },
 ]
 

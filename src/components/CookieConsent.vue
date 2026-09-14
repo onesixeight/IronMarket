@@ -12,7 +12,7 @@
         <p class="consent-text">
           Мы используем cookie, чтобы сайт работал удобнее: запоминаем
           выбранные позиции и улучшаем подбор кованых элементов.
-          <router-link to="/about" class="consent-link" @click="accept">Подробнее</router-link>.
+          <router-link to="/about" class="consent-link">Подробнее</router-link>.
         </p>
         <div class="consent-actions">
           <button type="button" class="consent-btn consent-decline" data-testid="cookie-decline" @click="decline">Отклонить</button>

@@ -1,0 +1,6 @@
+/cart /catalog 301
+/cart/ /catalog 301
+/checkout /contacts 301
+/checkout/ /contacts 301
+/wishlist /catalog 301
+/wishlist/ /catalog 301

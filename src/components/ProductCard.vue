@@ -2,12 +2,13 @@
   <article data-testid="product-card" class="group relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-gold-400/10 bg-obsidian-900/82 shadow-[0_24px_60px_rgba(0,0,0,0.22)] transition-transform duration-300 hover:-translate-y-1">
     <router-link :to="'/product/' + product.id" class="relative block overflow-hidden rounded-t-[1.75rem] aspect-[4/3] bg-[radial-gradient(circle_at_top,rgba(201,150,59,0.14),transparent_48%),linear-gradient(180deg,rgba(255,255,255,0.04),rgba(10,9,8,0.02))]" @click="trackCardOpen('product_card_image')">
       <img
+        loading="lazy"
+        decoding="async"
+        :sizes="sizes"
+        :srcset="getProductImageSrcset(product.image)"
         :src="product.image"
         :alt="product.name"
         class="absolute inset-0 h-full w-full object-contain p-5 transition-transform duration-500 ease-out group-hover:scale-[1.05]"
-        loading="lazy"
-        decoding="async"
-        sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, 100vw"
         @error="applyImageFallback"
       />
       <div v-if="product.badge" class="absolute left-4 top-4 rounded-full border border-gold-400/18 bg-obsidian-950/88 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-gold-300">
@@ -77,9 +78,14 @@ import { trackLead, trackProductOpen } from '../composables/useAnalytics.js'
 import { applyImageFallback } from '../composables/useImageFallback.js'
 import { formatPrice } from '../composables/usePrice.js'
 import { getProductWhatsAppLink } from '../composables/useProductInquiry.js'
+import { getProductImageSrcset } from '../composables/useResponsiveImage.js'
 
 const props = defineProps({
   product: { type: Object, required: true },
+  sizes: {
+    type: String,
+    default: '(min-width: 1280px) 352px, (min-width: 1024px) calc((100vw - 224px) / 3), (min-width: 640px) calc((100vw - 148px) / 2), calc(100vw - 74px)',
+  },
 })
 
 const whatsappInquiryLink = computed(() => getProductWhatsAppLink(props.product))

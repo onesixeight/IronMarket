@@ -24,5 +24,5 @@
 
 <script setup>
 import { useSeo } from '../composables/useSeo'
-useSeo('Страница не найдена', 'Запрашиваемая страница не существует или была удалена.')
+useSeo('Страница не найдена', 'Запрашиваемая страница не существует или была удалена.', null, { noindex: true })
 </script>

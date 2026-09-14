@@ -126,12 +126,20 @@ function run() {
   assertCheck(new Set(lastmods).size > 1, 'sitemap lastmod values are source-based, not one generated date')
 
   const home = assertRouteMetadata('/', /Эталон Ковка|Кованые элементы/)
+  const imagePreload = home.html.match(/<link\b[^>]*rel="preload"[^>]*as="image"[^>]*>/)?.[0] || ''
+  assertCheck(imagePreload.includes('imagesrcset=') && imagePreload.includes('imagesizes='), 'home image preload uses responsive candidates')
+  const hiddenRoutes = expectedRoutes.filter((route) => {
+    const html = readFileSync(resolve(distDir, routeHtmlPath(route.path)), 'utf8')
+    return /id="preloader"|\breveal-pending\b/.test(html)
+  })
+  assertCheck(hiddenRoutes.length === 0, 'prerendered content is visible before JavaScript', hiddenRoutes.map((route) => route.path).join(', '))
   assertCheck(hasSchemaType(home.schemas, 'LocalBusiness'), 'home page has LocalBusiness JSON-LD')
   const faqSchema = home.schemas.find((schema) => schema['@type'] === 'FAQPage')
   assertCheck(Boolean(faqSchema), 'home page has FAQPage JSON-LD')
   assertCheck((faqSchema?.mainEntity?.length || 0) >= 6, 'home FAQPage JSON-LD includes commercial questions')
 
   const catalogPage = assertRouteMetadata('/catalog', /Каталог продукции|Кованые элементы/)
+  assertCheck(!/<link\b[^>]*rel="preload"[^>]*as="image"/.test(catalogPage.html), 'catalog does not preload the homepage hero')
   assertCheck(hasSchemaType(catalogPage.schemas, 'ItemList'), 'catalog page has ItemList JSON-LD')
 
   const firstCategory = catalog.categories[0]
@@ -142,6 +150,14 @@ function run() {
   const productPage = assertRouteMetadata(`/product/${firstProduct.id}`, new RegExp(String(firstProduct.id)))
   assertCheck(hasSchemaType(productPage.schemas, 'Product'), 'product page has Product JSON-LD')
   assertCheck(productPage.html.includes(firstProduct.name), 'product page contains product name')
+  assertCheck(!/<link\b[^>]*rel="preload"[^>]*as="image"/.test(productPage.html), 'product page does not preload the homepage hero')
+
+  const notFoundHtml = readDist('404.html')
+  assertCheck(/<meta name="robots" content="noindex, nofollow"/.test(notFoundHtml), '404 document is noindex')
+  assertCheck(notFoundHtml.includes('Страница не найдена'), '404 document contains the rendered error page')
+  assertCheck(!notFoundHtml.includes('id="preloader"'), '404 document is visible without JavaScript')
+  const thankYouHtml = readDist('thank-you/index.html')
+  assertCheck(/<meta name="robots" content="noindex, nofollow"/.test(thankYouHtml), 'direct thank-you page exists and is noindex')
 
   const contactsPage = assertRouteMetadata('/contacts', /Контакты|Связаться/)
   assertCheck(contactsPage.html.includes(CONTACTS.location.address), 'contacts page contains full address')

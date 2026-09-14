@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 import { readdir, readFile, stat, writeFile } from 'node:fs/promises'
+import { createHash } from 'node:crypto'
 import { dirname, extname, join, relative } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const projectRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const distDir = join(projectRoot, 'dist')
@@ -43,6 +44,17 @@ function serializePrecacheAssets(assets) {
   return `const PRECACHE_ASSETS = ${JSON.stringify(assets, null, 2)}`
 }
 
+export function injectPrecache(source, assets) {
+  if (!source.includes(precacheMarker) || !source.includes('__BUILD_ID__')) {
+    throw new Error('Unable to find the service worker precache or build version marker.')
+  }
+  const sortedAssets = [...assets].sort()
+  const buildId = createHash('sha256').update(source).update(JSON.stringify(sortedAssets)).digest('hex').slice(0, 16)
+  return source
+    .replace('__BUILD_ID__', buildId)
+    .replace(precacheMarker, serializePrecacheAssets(sortedAssets))
+}
+
 async function main() {
   if (!(await pathExists(swPath))) {
     throw new Error('dist/sw.js was not found. Run vite build before injecting the service worker precache list.')
@@ -54,17 +66,15 @@ async function main() {
     .sort()
 
   const source = await readFile(swPath, 'utf8')
-  if (!source.includes(precacheMarker)) {
-    throw new Error('Unable to find the service worker precache marker.')
-  }
-
-  const output = source.replace(precacheMarker, serializePrecacheAssets(assetFiles))
+  const output = injectPrecache(source, assetFiles)
   await writeFile(swPath, output, 'utf8')
 
   console.log(`Injected ${assetFiles.length} JS/CSS assets into dist/sw.js precache list`)
 }
 
-main().catch((error) => {
-  console.error(error)
-  process.exit(1)
-})
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    console.error(error)
+    process.exit(1)
+  })
+}
