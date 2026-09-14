@@ -25,7 +25,9 @@ export async function getChromiumLaunchOptions({
 
   return {
     executablePath,
-    args: portableChromium.args,
+    // The Lambda single-process workaround stalls concurrent page operations on
+    // Workers Builds' Ubuntu host. Keep renderer processes separate there.
+    args: portableChromium.args.filter((argument) => argument !== '--single-process'),
     headless: true,
     env: {
       ...env,

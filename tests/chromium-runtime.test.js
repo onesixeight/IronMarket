@@ -28,7 +28,7 @@ test('Workers launch uses bundled libraries and preserves the parent environment
     env,
     platform: 'linux',
     loadPortableChromium: async () => ({
-      default: { executablePath: async () => '/tmp/chromium', args: ['--no-sandbox'] },
+      default: { executablePath: async () => '/tmp/chromium', args: ['--single-process', '--no-sandbox'] },
       inflate: async (archive) => { archives.push(archive); return '/tmp/al2023' },
     }),
   })
