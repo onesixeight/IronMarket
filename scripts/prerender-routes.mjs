@@ -17,6 +17,14 @@ const viteBin = resolve(projectRoot, 'node_modules/vite/bin/vite.js')
 const host = '127.0.0.1'
 const renderTimeoutMs = 20000
 const concurrency = Math.max(1, Number(process.env.PRERENDER_CONCURRENCY || 4))
+let currentStage = 'starting'
+let firstPageStarted = false
+const activeRoutes = new Map()
+
+function logStage(stage) {
+  currentStage = stage
+  console.log(`[prerender] ${stage}`)
+}
 
 export function buildPrerenderRoutes() {
   // Operational/error pages need direct HTTP entry points, but stay out of the sitemap.
@@ -95,7 +103,11 @@ function startPreview(port) {
 }
 
 async function createPage(context, origin) {
+  const isFirstPage = !firstPageStarted
+  firstPageStarted = true
+  if (isFirstPage) logStage('first newPage: start')
   const page = await context.newPage()
+  if (isFirstPage) logStage('first newPage: done')
   await page.route('**/*', (route) => {
     const requestUrl = new URL(route.request().url())
     if (requestUrl.origin !== origin) {
@@ -107,11 +119,14 @@ async function createPage(context, origin) {
 }
 
 async function renderRoute(context, origin, route) {
+  activeRoutes.set(route.path, 'newPage')
   const page = await createPage(context, origin)
   const url = new URL(route.path, origin).href
 
   try {
+    activeRoutes.set(route.path, 'goto')
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: renderTimeoutMs })
+    activeRoutes.set(route.path, 'waitForApp')
     await page.waitForFunction(
       () => {
         const app = document.querySelector('#app')
@@ -121,14 +136,21 @@ async function renderRoute(context, origin, route) {
       { timeout: renderTimeoutMs }
     )
     await page.waitForTimeout(100)
+    activeRoutes.set(route.path, 'prepareDocument')
     await page.evaluate(preparePrerenderDocument, route.path)
 
+    activeRoutes.set(route.path, 'content')
     return {
       path: route.path,
       html: await page.content(),
     }
+  } catch (error) {
+    console.error(`[prerender] ${route.path} failed at ${activeRoutes.get(route.path)}: ${error.message}`)
+    throw error
   } finally {
+    activeRoutes.set(route.path, 'page.close')
     await page.close()
+    activeRoutes.delete(route.path)
   }
 }
 
@@ -141,8 +163,11 @@ async function writeRenderedRoutes(renderedRoutes) {
 }
 
 async function renderRoutes(origin, routes) {
+  logStage(`launch: start (${routes.length} routes, concurrency ${concurrency})`)
   const browser = await chromium.launch(await getChromiumLaunchOptions())
+  logStage('launch: done; newContext: start')
   const context = await browser.newContext({ locale: 'ru-RU' })
+  logStage('newContext: done')
   await context.addInitScript(() => {
     window.localStorage.setItem('cookie-consent', 'declined')
     window.localStorage.removeItem('recently-viewed')
@@ -156,14 +181,20 @@ async function renderRoutes(origin, routes) {
       const route = routes[cursor]
       cursor += 1
       renderedRoutes.push(await renderRoute(context, origin, route))
+      if (renderedRoutes.length % 25 === 0 || renderedRoutes.length === routes.length) {
+        logStage(`rendered ${renderedRoutes.length}/${routes.length}; last ${route.path}`)
+      }
     }
   }
 
   try {
     await Promise.all(Array.from({ length: Math.min(concurrency, routes.length) }, worker))
   } finally {
+    logStage('context.close: start')
     await context.close()
+    logStage('context.close: done; browser.close: start')
     await browser.close()
+    logStage('browser.close: done')
   }
 
   return renderedRoutes
@@ -178,6 +209,7 @@ export async function prerender() {
     await waitForPreview(origin, preview)
     const routes = buildPrerenderRoutes()
     const renderedRoutes = await renderRoutes(origin, routes)
+    logStage('writing rendered HTML')
     await writeRenderedRoutes(renderedRoutes)
     console.log(`Prerendered ${renderedRoutes.length} routes into dist`)
   } finally {
@@ -188,8 +220,12 @@ export async function prerender() {
 const isDirectRun = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
 
 if (isDirectRun) {
+  const deadline = setTimeout(() => {
+    console.error(`[prerender] Timed out after 8 minutes. Last stage: ${currentStage}. Active routes: ${JSON.stringify(Object.fromEntries(activeRoutes))}`)
+    process.exit(1)
+  }, 8 * 60 * 1000)
   prerender().catch((error) => {
     console.error(error)
     process.exit(1)
-  })
+  }).finally(() => clearTimeout(deadline))
 }

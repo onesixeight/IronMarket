@@ -46,6 +46,7 @@ jobs:
         env:
           # Exercise the same rootless Chromium runtime used by Workers Builds.
           WORKERS_CI: '1'
+          DEBUG: 'pw:api,pw:browser'
 
       - name: Verify SEO
         run: npm run verify:seo

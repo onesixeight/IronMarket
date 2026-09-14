@@ -50,11 +50,38 @@ function runPlaywrightInstall() {
 
 export async function ensurePlaywrightBrowser() {
   if (isWorkersBuild()) {
-    const options = await getChromiumLaunchOptions()
-    // Smoke-test the portable binary and bundled shared libraries before rendering.
-    const browser = await chromium.launch(options)
-    await browser.close()
-    console.log('Portable Chromium ready for unprivileged Workers Builds.')
+    let stage = 'prepare-runtime'
+    let deadline
+    const runStage = async (name, operation) => {
+      stage = name
+      console.log(`[portable-smoke] ${name}: start`)
+      const result = await operation()
+      console.log(`[portable-smoke] ${name}: done`)
+      return result
+    }
+    const smoke = async () => {
+      const options = await runStage('prepare-runtime', getChromiumLaunchOptions)
+      const browser = await runStage('launch', () => chromium.launch(options))
+      const context = await runStage('newContext', () => browser.newContext())
+      const page = await runStage('newPage', () => context.newPage())
+      await runStage('setContent', () => page.setContent('<main><h1>Portable Chromium smoke</h1></main>'))
+      const html = await runStage('content', () => page.content())
+      if (!html.includes('Portable Chromium smoke')) throw new Error('Portable Chromium did not render the smoke document.')
+      await runStage('page.close', () => page.close())
+      await runStage('context.close', () => context.close())
+      await runStage('browser.close', () => browser.close())
+    }
+    try {
+      await Promise.race([
+        smoke(),
+        new Promise((_, reject) => {
+          deadline = setTimeout(() => reject(new Error(`Portable Chromium smoke timed out after 60s at ${stage}.`)), 60000)
+        }),
+      ])
+      console.log('Portable Chromium ready for unprivileged Workers Builds.')
+    } finally {
+      clearTimeout(deadline)
+    }
     return
   }
 
