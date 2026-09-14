@@ -95,12 +95,37 @@ ${routes
 </urlset>
 `
 
-const robots = `User-agent: *
+const blockedAiCrawlers = [
+  'Amazonbot',
+  'Applebot-Extended',
+  'Bytespider',
+  'CCBot',
+  'ClaudeBot',
+  'CloudflareBrowserRenderingCrawler',
+  'Google-Extended',
+  'GPTBot',
+  'meta-externalagent',
+]
+
+const robots = `# Content usage preferences are sent in the Content-Signal HTTP response header.
+# Policy: https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/#content-signals-policy
+# The current signals are search=yes, ai-train=no, use=reference.
+# Access to this site is subject to these content usage conditions:
+# A yes signal permits its corresponding use; a no signal prohibits that use.
+# An omitted signal neither grants nor restricts permission for that use.
+# Search covers indexing, links and short excerpts, but not AI-generated summaries.
+# AI training includes training and fine-tuning models.
+# Reference use permits indexing, excerpts and links back to the source.
+# These restrictions expressly reserve rights under Article 4 of EU Directive
+# 2019/790 on copyright and related rights in the Digital Single Market.
+User-agent: *
 Allow: /
 Disallow: /cart
 Disallow: /checkout
 Disallow: /wishlist
 Disallow: /thank-you
+
+${blockedAiCrawlers.map((agent) => `User-agent: ${agent}\nDisallow: /`).join('\n\n')}
 
 Sitemap: ${SITE_ORIGIN}/sitemap.xml
 `
