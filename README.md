@@ -19,7 +19,7 @@
 npm install
 npm run dev      # dev-сервер на localhost:5173
 npm run build    # production-сборка в dist/ (перед сборкой генерируется sitemap.xml)
-npm run build:static # static-сборка для Cloudflare Workers Builds без Playwright-prerender
+npm run build:static # диагностическая сборка без HTML страниц (не для публикации)
 npm run preview  # предпросмотр production-сборки
 npm run preview:cloudflare # локальная проверка заголовков, redirect и HTTP 404 на Wrangler
 npm run lint     # ESLint
