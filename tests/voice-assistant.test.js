@@ -15,7 +15,7 @@ function setup(startSession) {
     supportsVoice: () => true,
     loadClient: async () => {
       imports += 1
-      return { Conversation: { startSession }, workletPaths: { rawAudioProcessor: '/assets/raw-audio.js' } }
+      return { Conversation: { startSession }, workletPaths: { rawAudioProcessor: '/assets/raw-audio.js', audioConcatProcessor: '/assets/output-audio.js' } }
     },
   })
   return { assistant, get imports() { return imports } }
@@ -69,9 +69,9 @@ test('an explicit start uses the public voice agent and supports mute and bounde
   await assistant.prepare()
   await assistant.start()
   assert.equal(options.agentId, VOICE_AGENT_ID)
-  assert.equal(options.connectionType, 'webrtc')
+  assert.equal(options.connectionType, 'websocket')
   assert.equal(options.useWakeLock, false)
-  assert.deepEqual(options.workletPaths, { rawAudioProcessor: '/assets/raw-audio.js' })
+  assert.deepEqual(options.workletPaths, { rawAudioProcessor: '/assets/raw-audio.js', audioConcatProcessor: '/assets/output-audio.js' })
   assistant.toggleMute()
   assert.equal(microphoneMuted, true)
   options.onModeChange({ mode: 'speaking' })

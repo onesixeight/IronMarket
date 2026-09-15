@@ -222,10 +222,12 @@ async function verifyAssetBudgets() {
   )
   checkAssetBudget(findSingleAsset(assets, /^HomeView-[^.]+\.js$/, 'home route JS'), budgets.homeViewJs, 'home route JS')
 
-  // Keep the catalog's original budget; the voice SDK is an optional download.
-  const optionalVoiceSdk = findSingleAsset(assets, /^voice-assistant-sdk-[^.]+\.js$/, 'optional voice SDK')
-  checkAssetBudget(optionalVoiceSdk, budgets.voiceAssistantSdk, 'optional voice SDK')
-  const totalJsGzip = assets.filter((asset) => asset.name.endsWith('.js') && asset !== optionalVoiceSdk).reduce((total, asset) => total + asset.gzipKb, 0)
+  // Keep the catalog's original budget; voice code and worklets load on demand.
+  findSingleAsset(assets, /^voice-assistant-sdk-[^.]+\.js$/, 'optional voice SDK')
+  const isVoiceAsset = (asset) => /^(?:voice-assistant-sdk|rawAudioProcessor|audioConcatProcessor)-[^.]+\.js$/.test(asset.name)
+  const voiceGzipKb = assets.filter(isVoiceAsset).reduce((total, asset) => total + asset.gzipKb, 0)
+  checkAssetBudget({ gzipKb: voiceGzipKb }, budgets.voiceAssistantSdk, 'optional voice SDK and worklets')
+  const totalJsGzip = assets.filter((asset) => asset.name.endsWith('.js') && !isVoiceAsset(asset)).reduce((total, asset) => total + asset.gzipKb, 0)
   const totalCssGzip = assets
     .filter((asset) => asset.name.endsWith('.css'))
     .reduce((total, asset) => total + asset.gzipKb, 0)

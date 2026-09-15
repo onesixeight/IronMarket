@@ -14,7 +14,7 @@ function microphoneError(error) {
 
 export function useVoiceAssistant({
   loadClient = () => import('./voiceAssistantClient.js'),
-  supportsVoice = () => window.isSecureContext && Boolean(navigator.mediaDevices?.getUserMedia && window.RTCPeerConnection),
+  supportsVoice = () => window.isSecureContext && Boolean(navigator.mediaDevices?.getUserMedia && window.AudioContext && window.AudioWorkletNode && window.WebSocket),
 } = {}) {
   const status = ref('idle')
   const ready = ref(false)
@@ -101,7 +101,7 @@ export function useVoiceAssistant({
         try {
           created = await client.Conversation.startSession({
           agentId: VOICE_AGENT_ID,
-          connectionType: 'webrtc',
+          connectionType: 'websocket',
           useWakeLock: false,
           workletPaths: client.workletPaths,
           onConnect: () => { if (current()) status.value = 'connected' },
