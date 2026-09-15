@@ -86,14 +86,16 @@ test('unversioned images refresh online and remain available offline', async () 
   assert.equal(network.calls.length, 3)
 })
 
-test('voice SDK is fetched on demand instead of during service worker installation', async () => {
+test('voice SDK and worklets are fetched on demand instead of during service worker installation', async () => {
   const network = createNetwork()
-  const voicePath = '/assets/voice-assistant-sdk-test.js'
-  const worker = createWorker(network, ['/assets/app-first.js', voicePath])
+  const voicePaths = ['voice-assistant-sdk', 'rawAudioProcessor', 'audioConcatProcessor'].map((name) => `/assets/${name}-test.js`)
+  const worker = createWorker(network, ['/assets/app-first.js', ...voicePaths])
   await worker.lifecycle('install')
-  assert.ok(!network.calls.includes(requestKey(voicePath)))
-  assert.equal(await (await worker.request(voicePath)).text(), 'first')
-  assert.ok(network.calls.includes(requestKey(voicePath)))
+  for (const voicePath of voicePaths) {
+    assert.ok(!network.calls.includes(requestKey(voicePath)))
+    assert.equal(await (await worker.request(voicePath)).text(), 'first')
+    assert.ok(network.calls.includes(requestKey(voicePath)))
+  }
 })
 
 test('hashed chunks use their cache, and a new release cleans only owned caches', async () => {
