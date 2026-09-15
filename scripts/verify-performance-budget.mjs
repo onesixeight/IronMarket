@@ -29,6 +29,7 @@ export const PERFORMANCE_BUDGETS = {
     routerVendorJs: 15,
     homeViewJs: 16,
     totalJs: 130,
+    voiceAssistantSdk: 180,
     totalCss: 30,
   },
 }
@@ -169,6 +170,7 @@ async function collectHomeVitals(origin) {
         resourceCount: resources.length,
         jsRequests: resources.filter((entry) => entry.name.endsWith('.js')).length,
         cssRequests: resources.filter((entry) => entry.name.endsWith('.css')).length,
+        voiceAssistantRequested: resources.some((entry) => entry.name.includes('/voice-assistant-sdk-')),
         heroImageComplete: Boolean(heroImage?.complete),
       }
     })
@@ -220,7 +222,10 @@ async function verifyAssetBudgets() {
   )
   checkAssetBudget(findSingleAsset(assets, /^HomeView-[^.]+\.js$/, 'home route JS'), budgets.homeViewJs, 'home route JS')
 
-  const totalJsGzip = assets.filter((asset) => asset.name.endsWith('.js')).reduce((total, asset) => total + asset.gzipKb, 0)
+  // Keep the catalog's original budget; the voice SDK is an optional download.
+  const optionalVoiceSdk = findSingleAsset(assets, /^voice-assistant-sdk-[^.]+\.js$/, 'optional voice SDK')
+  checkAssetBudget(optionalVoiceSdk, budgets.voiceAssistantSdk, 'optional voice SDK')
+  const totalJsGzip = assets.filter((asset) => asset.name.endsWith('.js') && asset !== optionalVoiceSdk).reduce((total, asset) => total + asset.gzipKb, 0)
   const totalCssGzip = assets
     .filter((asset) => asset.name.endsWith('.css'))
     .reduce((total, asset) => total + asset.gzipKb, 0)
@@ -239,6 +244,7 @@ async function verifyRuntimeBudgets() {
     const vitals = await collectHomeVitals(origin)
 
     assertCheck(vitals.heroImageComplete, 'hero LCP image is loaded')
+    assertCheck(!vitals.voiceAssistantRequested, 'voice SDK is not requested before opening the assistant')
     assertCheck(
       vitals.domContentLoadedMs <= PERFORMANCE_BUDGETS.domContentLoadedMs,
       `DOMContentLoaded ${formatMs(vitals.domContentLoadedMs)} <= ${formatMs(PERFORMANCE_BUDGETS.domContentLoadedMs)}`
