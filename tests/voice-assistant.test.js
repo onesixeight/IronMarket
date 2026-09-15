@@ -61,7 +61,7 @@ test('microphone refusal returns to a retryable state', async () => {
   assert.equal(attempts, 2)
 })
 
-test('an explicit start uses the public voice agent and supports mute and bounded transcript', async () => {
+test('an explicit start uses the public voice agent and supports muting and unmuting', async () => {
   let options
   let microphoneMuted
   const session = { endSession: async () => {}, setMicMuted: (value) => { microphoneMuted = value } }
@@ -74,12 +74,10 @@ test('an explicit start uses the public voice agent and supports mute and bounde
   assert.deepEqual(options.workletPaths, { rawAudioProcessor: '/assets/raw-audio.js', audioConcatProcessor: '/assets/output-audio.js' })
   assistant.toggleMute()
   assert.equal(microphoneMuted, true)
+  assistant.toggleMute()
+  assert.equal(microphoneMuted, false)
   options.onModeChange({ mode: 'speaking' })
   assert.equal(assistant.mode.value, 'speaking')
-  for (let i = 0; i < 6; i += 1) options.onMessage({ message: `Текст ${i}`, role: 'agent', event_id: i })
-  options.onMessage({ message: 'Уточнение', role: 'agent', event_id: 5 })
-  assert.equal(assistant.messages.value.length, 4)
-  assert.equal(assistant.messages.value.at(-1).text, 'Уточнение')
   await assistant.end()
 })
 
@@ -155,7 +153,31 @@ test('server disconnect and disposed instances ignore late events', async () => 
   assert.equal(assistant.status.value, 'error')
   await assistant.start()
   await assistant.dispose()
-  callbacks.onMessage({ message: 'Late', role: 'agent' })
-  assert.equal(assistant.messages.value.length, 0)
+  callbacks.onModeChange({ mode: 'speaking' })
+  assert.equal(assistant.mode.value, 'listening')
   assert.equal(ends, 1)
+})
+
+test('a normal agent end_call returns to idle, resets mute, and allows another call', async () => {
+  let callbacks
+  let starts = 0
+  const { assistant } = setup(async (options) => {
+    callbacks = options
+    starts += 1
+    return { endSession: async () => {}, setMicMuted: () => {} }
+  })
+  await assistant.prepare()
+  await assistant.start()
+  assistant.toggleMute()
+  callbacks.onModeChange({ mode: 'speaking' })
+  callbacks.onDisconnect({ reason: 'agent', context: { type: 'end_call', reason: 'Agent ended the call' } })
+
+  assert.equal(assistant.status.value, 'idle')
+  assert.equal(assistant.muted.value, false)
+  assert.equal(assistant.mode.value, 'listening')
+  assert.equal(assistant.error.value, '')
+  await assistant.start()
+  assert.equal(starts, 2)
+  assert.equal(assistant.status.value, 'connected')
+  await assistant.end()
 })
