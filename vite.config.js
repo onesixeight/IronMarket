@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
 
 const VENDOR_CHUNKS = [
+  { name: 'voice-assistant-sdk', packages: ['/node_modules/@elevenlabs/client/'] },
   { name: 'vendor-vue', packages: ['/node_modules/vue/', '/node_modules/@vue/'] },
   { name: 'vendor-router', packages: ['/node_modules/vue-router/'] },
   { name: 'vendor-pinia', packages: ['/node_modules/pinia/'] },

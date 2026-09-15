@@ -48,7 +48,8 @@ export function injectPrecache(source, assets) {
   if (!source.includes(precacheMarker) || !source.includes('__BUILD_ID__')) {
     throw new Error('Unable to find the service worker precache or build version marker.')
   }
-  const sortedAssets = [...assets].sort()
+  // Optional voice SDK is downloaded only after the visitor opens the assistant.
+  const sortedAssets = assets.filter((asset) => !/\/voice-assistant-sdk-[^/]+\.js$/.test(asset)).sort()
   const buildId = createHash('sha256').update(source).update(JSON.stringify(sortedAssets)).digest('hex').slice(0, 16)
   return source
     .replace('__BUILD_ID__', buildId)
