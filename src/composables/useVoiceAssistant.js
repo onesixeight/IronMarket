@@ -21,7 +21,6 @@ export function useVoiceAssistant({
   const error = ref('')
   const muted = ref(false)
   const mode = ref('listening')
-  const messages = ref([])
   const busy = computed(() => ['loading', 'connecting', 'disconnecting'].includes(status.value))
   let client
   let loading
@@ -30,7 +29,6 @@ export function useVoiceAssistant({
   let conversation
   let generation = 0
   let disposed = false
-  let messageId = 0
 
   async function prepare() {
     if (disposed || ready.value) return
@@ -91,7 +89,6 @@ export function useVoiceAssistant({
     const attempt = ++generation
     const current = () => !disposed && attempt === generation
     error.value = ''
-    messages.value = []
     muted.value = false
     status.value = 'connecting'
 
@@ -115,12 +112,6 @@ export function useVoiceAssistant({
             status.value = error.value ? 'error' : 'idle'
           },
           onModeChange: ({ mode: nextMode }) => { if (current()) mode.value = nextMode },
-          onMessage: ({ message, role, event_id: eventId }) => {
-            if (!current() || !message || !['user', 'agent'].includes(role)) return
-            const existing = messages.value.find((item) => eventId !== undefined && item.eventId === eventId && item.role === role)
-            if (existing) existing.text = message
-            else messages.value = [...messages.value, { id: ++messageId, eventId, role, text: message }].slice(-4)
-          },
           onError: () => {
             if (!current()) return
             error.value = 'Разговор прервался. Попробуйте подключиться ещё раз.'
@@ -166,5 +157,5 @@ export function useVoiceAssistant({
     return end()
   }
 
-  return { status, ready, busy, error, muted, mode, messages, prepare, start, end, toggleMute, dispose }
+  return { status, ready, busy, error, muted, mode, prepare, start, end, toggleMute, dispose }
 }

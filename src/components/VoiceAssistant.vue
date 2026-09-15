@@ -28,13 +28,6 @@
       </p>
       <p v-if="error" class="voice-assistant__error" role="alert">{{ error }}</p>
 
-      <ol v-if="messages.length" class="voice-assistant__messages" aria-label="Последние реплики разговора" aria-live="polite" aria-relevant="additions text">
-        <li v-for="message in messages" :key="message.id">
-          <span>{{ message.role === 'user' ? 'Вы' : 'ИИ-помощник' }}</span>
-          <p>{{ message.text }}</p>
-        </li>
-      </ol>
-
       <div class="voice-assistant__actions">
         <template v-if="status === 'connected'">
           <button type="button" class="voice-assistant__secondary" :aria-pressed="muted" @click="toggleMute">{{ muted ? 'Включить микрофон' : 'Выключить микрофон' }}</button>
@@ -70,7 +63,7 @@ import { useVoiceAssistant } from '../composables/useVoiceAssistant.js'
 const open = ref(false)
 const panel = ref(null)
 const launcher = ref(null)
-const { status, ready, busy, error, muted, mode, messages, prepare, start, end, toggleMute, dispose } = useVoiceAssistant()
+const { status, ready, busy, error, muted, mode, prepare, start, end, toggleMute, dispose } = useVoiceAssistant()
 const statusText = computed(() => {
   if (status.value === 'loading') return 'Загружаем помощника…'
   if (status.value === 'connecting') return 'Разрешите микрофон для подключения…'
@@ -154,10 +147,6 @@ onBeforeUnmount(() => {
 .voice-assistant__indicator { flex: 0 0 0.45rem; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: rgb(var(--rgb-cream-100) / 0.4); }
 .voice-assistant__indicator.is-connected { background: #8ed4a3; }
 .voice-assistant__error { margin: 0 0 1rem; color: #f5b4a5; font-size: 0.78rem; line-height: 1.5; }
-.voice-assistant__messages { display: grid; gap: 0.65rem; margin: 0 0 1rem; padding: 0; list-style: none; }
-.voice-assistant__messages li { padding: 0.75rem; border-radius: 0.8rem; background: rgb(var(--rgb-gold-400) / 0.06); }
-.voice-assistant__messages span { color: var(--color-gold-300); font-size: 0.65rem; font-weight: 700; }
-.voice-assistant__messages p { margin: 0.2rem 0 0; font-size: 0.78rem; line-height: 1.5; overflow-wrap: anywhere; }
 .voice-assistant__actions { display: grid; gap: 0.6rem; }
 .voice-assistant__primary, .voice-assistant__secondary { min-height: 2.75rem; padding: 0.65rem 1rem; border-radius: 0.8rem; font-size: 0.8rem; font-weight: 700; }
 .voice-assistant__primary { background: linear-gradient(135deg, #c9963b, #e4b96d); color: #090807; }
