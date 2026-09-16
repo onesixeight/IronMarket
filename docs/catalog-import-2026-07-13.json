@@ -1,0 +1,2426 @@
+{
+  "sourceDocument": "Прайс оптовый 13.07.26.pdf",
+  "sourceDate": "2026-07-13",
+  "sourceSha256": "e0afb846e219f513af133fde402a81af871ab7f5ea5b12e8ac2edf6d7e8c7fc5",
+  "sourceRows": 344,
+  "existingMatches": 169,
+  "addedProducts": 175,
+  "notes": [
+    "Цены и минимальные оптовые партии из PDF не импортированы. Новые товары: price=null, hidePrice=true.",
+    "Для существующих моделей небольшие расхождения размеров и обозначений профиля не создают дубликаты; их карточки сохранены.",
+    "ID 6278 и 6287 дублируют уже сопоставленные Восьмёрку и Бабочку; ID 6321 (Перчик, квадрат 12 мм) отсутствует в PDF. Все три карточки сохранены.",
+    "Строка 5.0.7.0: в PDF указано 140х900 мм для барашка 14 см. Размер не импортирован как достоверный; требуется уточнение ширины.",
+    "Б-122/2 8,5 мм и дуга 8,5–8,8 мм внесены с сечением 8,8х8,8 мм согласно описанию PDF.",
+    "Иллюстрации извлечены из PDF без столбцов стоимости. Совпадающие исходные иллюстрации используют один файл; несколько моделей могут иметь общую иллюстрацию поставщика."
+  ],
+  "rows": [
+    {
+      "sourceRow": "1.0.2.0",
+      "sourcePage": 1,
+      "sourceName": "КОРОНА НА ВОРОТА \"АСТАНА\"",
+      "productId": 6150,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.2.4",
+      "sourcePage": 1,
+      "sourceName": "КОРОНА \"КАЛИТКА №1\"",
+      "productId": 6158,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.3.0",
+      "sourcePage": 1,
+      "sourceName": "\"АСТАНА\" КОРОНА \"БАБОЧКА\"",
+      "productId": 6151,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.3.4",
+      "sourcePage": 1,
+      "sourceName": "КОРОНА НА КАЛИТКУ \"АСТАНА\"",
+      "productId": 6157,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.4.0",
+      "sourcePage": 1,
+      "sourceName": "КОРОНА \"ВИКИНГ\"",
+      "productId": 6156,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.4.4",
+      "sourcePage": 1,
+      "sourceName": "КОРОНА \"ПРЕСТИЖ\"",
+      "productId": 6155,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.5.0",
+      "sourcePage": 1,
+      "sourceName": "КОРОНА \"ВОЛНА\"",
+      "productId": 6152,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.5.4",
+      "sourcePage": 1,
+      "sourceName": "КОРОНА \"УЛИТКА\"",
+      "productId": 6153,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.6.0",
+      "sourcePage": 1,
+      "sourceName": "КОРОНА \"ЖАСМИН\"",
+      "productId": 6279,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.6.4",
+      "sourcePage": 1,
+      "sourceName": "КОРОНА \"ШАФРАН\" (пара)",
+      "productId": 6281,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.8.0",
+      "sourcePage": 1,
+      "sourceName": "КОРОНА \"ЗАВИТОК\"",
+      "productId": 6154,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.10.0",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"АВГУСТ №1\"",
+      "productId": 6168,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.10.4",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"РЕТРО кв. 10\"",
+      "productId": 6289,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.11.0",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"АВГУСТ №2\"",
+      "productId": 6284,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.11.4",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"РОМАШКА 500\"",
+      "productId": 6186,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.12.0",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"АСТАНА\"",
+      "productId": 6174,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.12.4",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"РОМАШКА 700\"",
+      "productId": 6185,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.15.0",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"БАБОЧКА\"",
+      "productId": 6178,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.15.4",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"СЕТОЧКА-1\"",
+      "productId": 6189,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.16.0",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"БАБОЧКА МАХАОН\"",
+      "productId": 6285,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.16.4",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"СЕТОЧКА-2\"",
+      "productId": 6190,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.18.0",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"ЗАВИТОК\"",
+      "productId": 6176,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.18.4",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"СЕТОЧКА-3\"",
+      "productId": 6191,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.19.0",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"ВИНЬЕТКА БОЛЬШАЯ\"",
+      "productId": 6182,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.19.4",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"СНЕЖИНКА\"",
+      "productId": 6184,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.20.0",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"ВИНЬЕТКА МАЛЕНЬКАЯ\"",
+      "productId": 6183,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.20.4",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"ФОНТАН\"",
+      "productId": 6175,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.21.0",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"КАРАБАС\"",
+      "productId": 6187,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.21.4",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"ФОРТУНА\" кв. 10 мм.",
+      "productId": 6290,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.23.0",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"ЛАДЬЯ БОЛЬШАЯ\" кв. 10 мм.",
+      "productId": 6322,
+      "status": "added"
+    },
+    {
+      "sourceRow": "1.0.23.4",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"ЩИТ\"",
+      "productId": 6172,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "1.0.24.0",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"ЛАДЬЯ МАЛЕНЬКАЯ\" кв. 10 мм.",
+      "productId": 6323,
+      "status": "added"
+    },
+    {
+      "sourceRow": "1.0.24.4",
+      "sourcePage": 1,
+      "sourceName": "УЗОР \"ЭЛИТА\"",
+      "productId": 6188,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.0.0",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"МИРАЖ\" кв. 10 мм",
+      "productId": 6308,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.0.4",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"ВОСЬМЁРКА\"",
+      "productId": 6192,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.2.0",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"ОБЛАКО\"",
+      "productId": 6177,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.2.4",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"У-005\"",
+      "productId": 6198,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.4.0",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"ПАВЛИН №1\"",
+      "productId": 6173,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.4.4",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"У-006\"",
+      "productId": 6197,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.5.0",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"ПАВЛИН №2\"",
+      "productId": 6324,
+      "status": "added"
+    },
+    {
+      "sourceRow": "2.0.5.4",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"У-007\"",
+      "productId": 6196,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.6.0",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"ПАРАГРАФ\"",
+      "productId": 6170,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.6.4",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"У-047\"",
+      "productId": 6195,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.7.0",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"ПАУТИНКА №1\"",
+      "productId": 6180,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.7.4",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"У-048\"",
+      "productId": 6194,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.9.0",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"ПАУТИНКА №2\"",
+      "productId": 6181,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.9.4",
+      "sourcePage": 2,
+      "sourceName": "УЗОР \"У-049\"",
+      "productId": 6193,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.12.0",
+      "sourcePage": 2,
+      "sourceName": "УГОЛОК \"АСТАНА\"",
+      "productId": 6166,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.12.4",
+      "sourcePage": 2,
+      "sourceName": "УГОЛОК \"ПРЕСТИЖ\"",
+      "productId": 6164,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.13.0",
+      "sourcePage": 2,
+      "sourceName": "УГОЛОК \"БАБОЧКА\"",
+      "productId": 6159,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.13.4",
+      "sourcePage": 2,
+      "sourceName": "УГОЛОК \"УЛИТКА\"",
+      "productId": 6161,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.14.0",
+      "sourcePage": 2,
+      "sourceName": "УГОЛОК \"ВОЛНА\"",
+      "productId": 6160,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.14.4",
+      "sourcePage": 2,
+      "sourceName": "УГОЛОК \"УЛИТКА\" Большой",
+      "productId": 6165,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.15.0",
+      "sourcePage": 2,
+      "sourceName": "УГОЛОК \"ВЕРШИНА\"",
+      "productId": 6163,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.15.4",
+      "sourcePage": 2,
+      "sourceName": "УГОЛОК \"ШАФРАН\" (пара)",
+      "productId": 6167,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.17.0",
+      "sourcePage": 2,
+      "sourceName": "УГОЛОК \"КОЛЬЦО\"",
+      "productId": 6162,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.19.0",
+      "sourcePage": 2,
+      "sourceName": "БАЛЯСИНА \"АРКА\"",
+      "productId": 6199,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.19.4",
+      "sourcePage": 2,
+      "sourceName": "\"Б-138\"",
+      "productId": 6218,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.20.0",
+      "sourcePage": 2,
+      "sourceName": "БАЛЯСИНА \"БАНТИК\"",
+      "productId": 6200,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.20.4",
+      "sourcePage": 2,
+      "sourceName": "\"Б-138/1\"",
+      "productId": 6219,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.21.0",
+      "sourcePage": 2,
+      "sourceName": "БАЛЯСИНА \"БЕРЁЗКА\"",
+      "productId": 6201,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.21.4",
+      "sourcePage": 2,
+      "sourceName": "Б-140 кв. 12",
+      "productId": 6270,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.22.0",
+      "sourcePage": 2,
+      "sourceName": "БАЛЯСИНА \"БУКЕТ №1\"",
+      "productId": 6325,
+      "status": "added"
+    },
+    {
+      "sourceRow": "2.0.22.4",
+      "sourcePage": 2,
+      "sourceName": "Б-145 кв. 12",
+      "productId": 6307,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.23.0",
+      "sourcePage": 2,
+      "sourceName": "БАЛЯСИНА \"БУКЕТ №2\"",
+      "productId": 6203,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.23.4",
+      "sourcePage": 2,
+      "sourceName": "Б-140 кв. 14",
+      "productId": 6326,
+      "status": "added"
+    },
+    {
+      "sourceRow": "2.0.24.0",
+      "sourcePage": 2,
+      "sourceName": "БАЛЯСИНА \"БУКЕТ №3\"",
+      "productId": 6204,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.24.4",
+      "sourcePage": 2,
+      "sourceName": "Б-145 кв. 14",
+      "productId": 6327,
+      "status": "added"
+    },
+    {
+      "sourceRow": "2.0.25.0",
+      "sourcePage": 2,
+      "sourceName": "БАЛЯСИНА \"БУКЕТ №3 - ВЬЮН\" кв. 10",
+      "productId": 6272,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.25.4",
+      "sourcePage": 2,
+      "sourceName": "\"Б-169\"",
+      "productId": 6220,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.26.0",
+      "sourcePage": 2,
+      "sourceName": "БАЛЯСИНА \"ВОЛНА\"",
+      "productId": 6205,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "2.0.26.4",
+      "sourcePage": 2,
+      "sourceName": "\"Б-179\"",
+      "productId": 6221,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.0.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"ВОСТОК\" кв. 10",
+      "productId": 6273,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.0.4",
+      "sourcePage": 3,
+      "sourceName": "\" Б - 1 9 1 \"",
+      "productId": 6222,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.1.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"ГАММА\"",
+      "productId": 6206,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.1.4",
+      "sourcePage": 3,
+      "sourceName": "Б-Стойка кв. 10 мм. с 1-им фонариком.",
+      "productId": 6328,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.2.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"ГИТАРА\"",
+      "productId": 6207,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.2.4",
+      "sourcePage": 3,
+      "sourceName": "Б-Стойка кв. 10 мм. с 2-мя фонариками.",
+      "productId": 6329,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.3.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"ЖАСМИН\"",
+      "productId": 6274,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.3.4",
+      "sourcePage": 3,
+      "sourceName": "фонариками. Б-Стойка кв. 12 мм с 1-им сложным Фонариком",
+      "productId": 6330,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.4.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"КОНЁК\"",
+      "productId": 6208,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.4.4",
+      "sourcePage": 3,
+      "sourceName": "Б-Стойка кв. 12 мм с 2-мя сложными Фонариками",
+      "productId": 6331,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.5.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"ЛИАНА\"",
+      "productId": 6209,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.6.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"ЛИРА\"",
+      "productId": 6210,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.6.4",
+      "sourcePage": 3,
+      "sourceName": "\"ДУГА ПРОСТАЯ кв. 12 мм, длина 1,0 м\"",
+      "productId": 6332,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.7.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"МОДЕРН\"",
+      "productId": 6211,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.7.4",
+      "sourcePage": 3,
+      "sourceName": "\"Б-122/2 8,5мм\" (КРУЧЁНКА)",
+      "productId": 6333,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.8.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"НОТА\"",
+      "productId": 6212,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.8.4",
+      "sourcePage": 3,
+      "sourceName": "\"Б-122/2 10 мм\" ( К Р У Ч ЁНКА)",
+      "productId": 6334,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.9.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"ПРЕСТИЖ\"",
+      "productId": 6213,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.9.4",
+      "sourcePage": 3,
+      "sourceName": "\"Б-122/2 12 мм\" (КРУЧЁНКА)",
+      "productId": 6335,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.10.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"ПАЛЕРМО\"",
+      "productId": 6214,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.10.4",
+      "sourcePage": 3,
+      "sourceName": "\"ДУГА ПРОСТАЯ кв. 8,5-8,8 мм, д л и н а 1,5 м\"",
+      "productId": 6336,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.11.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"ЦВЕТОК\" кв.10",
+      "productId": 6276,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.11.4",
+      "sourcePage": 3,
+      "sourceName": "\"ДУГА ПРОСТАЯ кв. 12 мм, длина 1,5 м\"",
+      "productId": 6337,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.12.0",
+      "sourcePage": 3,
+      "sourceName": "\"Б-006\"",
+      "productId": 6215,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.12.4",
+      "sourcePage": 3,
+      "sourceName": "\"ДУГА ПРОСТАЯ кв. 10 мм, длина 1,5 м\"",
+      "productId": 6338,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.13.0",
+      "sourcePage": 3,
+      "sourceName": "БАЛЯСИНА \"Б-007\" кв. 10",
+      "productId": 6202,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.13.4",
+      "sourcePage": 3,
+      "sourceName": "\"ДУГА КРУЧЁННАЯ кв. 10 мм, длина 1,5 м\"",
+      "productId": 6339,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.14.0",
+      "sourcePage": 3,
+      "sourceName": "\"Б-135 Ф\"",
+      "productId": 6216,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.14.4",
+      "sourcePage": 3,
+      "sourceName": "\"ДУГА КРУЧЁННАЯ кв. 12 мм, длина 1,0 м\"",
+      "productId": 6340,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.15.0",
+      "sourcePage": 3,
+      "sourceName": "\"Б-137 Ф\"",
+      "productId": 6217,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.15.4",
+      "sourcePage": 3,
+      "sourceName": "\"ДУГА КРУЧЁННАЯ кв. 12 мм, длина 1,5м\"",
+      "productId": 6341,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.17.0",
+      "sourcePage": 3,
+      "sourceName": "РУЧКА \"БАБОЧКА\"",
+      "productId": 6223,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.18.0",
+      "sourcePage": 3,
+      "sourceName": "РУЧКА \"ВОЛНА\"",
+      "productId": 6224,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.20.0",
+      "sourcePage": 3,
+      "sourceName": "РУЧКА КОВАНАЯ, с листом. 600 мм.",
+      "productId": 6225,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.23.0",
+      "sourcePage": 3,
+      "sourceName": "Кольцо \"d-100\"",
+      "productId": 6342,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.23.4",
+      "sourcePage": 3,
+      "sourceName": "Эска \"С-25 Круч. КОВ.\" №5 25 см. Кручёная",
+      "productId": 6303,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "3.0.24.0",
+      "sourcePage": 3,
+      "sourceName": "Кольцо \"d-120\"",
+      "productId": 6343,
+      "status": "added"
+    },
+    {
+      "sourceRow": "3.0.24.4",
+      "sourcePage": 3,
+      "sourceName": "Эска \"С-30 КОВ.\" 30 см.",
+      "productId": 6344,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.0.0",
+      "sourcePage": 4,
+      "sourceName": "Кольцо \"d-150\"",
+      "productId": 6345,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.0.4",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-30Р КОВ.\" №6 30 см",
+      "productId": 6304,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "4.0.1.0",
+      "sourcePage": 4,
+      "sourceName": "\"ПИКА ПРОСТАЯ\" кв 10. (40 см.)",
+      "productId": 6346,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.1.4",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-30 Круч. КОВ.\" №7 3 0 см. Кручёная",
+      "productId": 6305,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "4.0.2.0",
+      "sourcePage": 4,
+      "sourceName": "\"ПИКА С ЛИСТОМ\" кв 10 (40 см.)",
+      "productId": 6347,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.2.4",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-35 КОВ.\" 35 см.",
+      "productId": 6348,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.4.0",
+      "sourcePage": 4,
+      "sourceName": "\"ПИКА ВИНТ ПРОСТАЯ\" кв 10. (40 см.)",
+      "productId": 6349,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.4.4",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-35 Круч. КОВ.\" №8 3 5 см. Кручёная",
+      "productId": 6306,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "4.0.5.0",
+      "sourcePage": 4,
+      "sourceName": "\"ПИКА ВИНТ С ЛИСТОМ\" кв 10 (40 см.)",
+      "productId": 6350,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.5.4",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-40 КОВ.\" 40 см.",
+      "productId": 6351,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.6.0",
+      "sourcePage": 4,
+      "sourceName": "\"ПИКА ШАРИК+ЛИСТИК\" кв 12 (50 см)",
+      "productId": 6299,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "4.0.6.4",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-40Р КОВ.\" 40 см.",
+      "productId": 6352,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.8.0",
+      "sourcePage": 4,
+      "sourceName": "Лебедь \"Ф-№9\" 27 см",
+      "productId": 6297,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "4.0.8.4",
+      "sourcePage": 4,
+      "sourceName": "Барашек \"Ф№30 КОВ.\" 30 см.",
+      "productId": 6353,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.9.0",
+      "sourcePage": 4,
+      "sourceName": "Кобра \"Ф-№10\" 25 см",
+      "productId": 6298,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "4.0.9.4",
+      "sourcePage": 4,
+      "sourceName": "Барашек \"Ф№40 КОВ.\" 40 см.",
+      "productId": 6354,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.10.0",
+      "sourcePage": 4,
+      "sourceName": "\"ЗАПЯТАЯ\" кованая 13см.",
+      "productId": 6295,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "4.0.10.4",
+      "sourcePage": 4,
+      "sourceName": "Барашек \"Ф№50 КОВ.\" 50 см.",
+      "productId": 6355,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.11.0",
+      "sourcePage": 4,
+      "sourceName": "ЗАПЯТАЯ кованая 20см.",
+      "productId": 6296,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "4.0.11.4",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-50 КОВ.\" 50 см.",
+      "productId": 6356,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.13.0",
+      "sourcePage": 4,
+      "sourceName": "Барашек \"Ф№1\" 15 см",
+      "productId": 6292,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "4.0.13.4",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-50Р КОВ.\" 50 см.",
+      "productId": 6357,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.14.0",
+      "sourcePage": 4,
+      "sourceName": "Барашек \"Ф№2\" 21 см",
+      "productId": 6300,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "4.0.14.4",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-60 КОВ.\" 60 см.",
+      "productId": 6358,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.15.0",
+      "sourcePage": 4,
+      "sourceName": "Эска \"Ф-№3\" 21 см",
+      "productId": 6301,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "4.0.15.4",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-60Р КОВ.\" 60 см.",
+      "productId": 6359,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.16.0",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-22 КОВ\" №4 22 см",
+      "productId": 6302,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "4.0.16.4",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-70 КОВ.\" 70 см.",
+      "productId": 6360,
+      "status": "added"
+    },
+    {
+      "sourceRow": "4.0.17.0",
+      "sourcePage": 4,
+      "sourceName": "Эска \"С-25 КОВ.\" №4/53 25 см",
+      "productId": 6361,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.2.0",
+      "sourcePage": 5,
+      "sourceName": "\"ЗАПЯТАЯ Алмата\" кв. 10 мм. 16 см.",
+      "productId": 6362,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.2.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-30Р нак.\" 30 см",
+      "productId": 6363,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.3.0",
+      "sourcePage": 5,
+      "sourceName": "Барашек \"Ф№1/1\" кв 10 мм. 12 см",
+      "productId": 6293,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "5.0.3.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-35 нак.\" 35 см",
+      "productId": 6364,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.4.0",
+      "sourcePage": 5,
+      "sourceName": "Барашек \"Ф№1/1\" кв 10 мм. 14 см",
+      "productId": 6294,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "5.0.4.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-40 нак.\" 40 см",
+      "productId": 6365,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.5.0",
+      "sourcePage": 5,
+      "sourceName": "\"ЗАПЯТАЯ Алмата\" кв. 8,5 мм. 16 см.",
+      "productId": 6366,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.5.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-40Р нак.\" 40 см",
+      "productId": 6367,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.6.0",
+      "sourcePage": 5,
+      "sourceName": "Барашек \"Ф№1/1\" кв 8,5 мм. 12 см",
+      "productId": 6368,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.6.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-50 нак.\" 50 см.",
+      "productId": 6369,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.7.0",
+      "sourcePage": 5,
+      "sourceName": "Барашек \"Ф№1/1\" кв. 8,5 мм. 14см.",
+      "productId": 6370,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.7.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-50Р нак.\" 50 см.",
+      "productId": 6371,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.8.0",
+      "sourcePage": 5,
+      "sourceName": "Барашек \"Ф№2/1\" 21 см",
+      "productId": 6372,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.8.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-60 нак.\" 60 см.",
+      "productId": 6373,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.9.0",
+      "sourcePage": 5,
+      "sourceName": "Эска \"Ф№3/1\" 21 см",
+      "productId": 6374,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.9.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-60Р нак.\" 60 см.",
+      "productId": 6375,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.10.0",
+      "sourcePage": 5,
+      "sourceName": "Барашек \"Ф№30 нак.\" 30 см.",
+      "productId": 6376,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.10.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-70 нак.\" 70 см.",
+      "productId": 6377,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.11.0",
+      "sourcePage": 5,
+      "sourceName": "Барашек \"Ф№40 нак.\" 40 см.",
+      "productId": 6378,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.11.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-80 нак.\" 80 см.",
+      "productId": 6379,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.12.0",
+      "sourcePage": 5,
+      "sourceName": "Барашек \"Ф№50 нак.\" 50 см.",
+      "productId": 6380,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.12.4",
+      "sourcePage": 5,
+      "sourceName": "Барашек \"Ф№1\" ков. кв. 8,5 мм 15 см",
+      "productId": 6381,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.13.0",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-17 нак.\" 17 см",
+      "productId": 6382,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.13.4",
+      "sourcePage": 5,
+      "sourceName": "Барашек \"Ф№2\" ков. кв. 8,5 мм. 21 см",
+      "productId": 6383,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.14.0",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-22 нак.\" 22 см",
+      "productId": 6384,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.14.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-25 КОВ.\" №4/53 кв. 8,5 мм 25 см",
+      "productId": 6385,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.15.0",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-25 нак.\" 25 см",
+      "productId": 6386,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.15.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-25 Круч. КОВ.\" №5 кв. 8,5 мм. 25 см. Кручёная",
+      "productId": 6387,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.16.0",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-25 Круч. НАК.\" 25 см. Кручёная",
+      "productId": 6388,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.16.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-50 КОВ.\" кв. 8,5мм. 50 см.",
+      "productId": 6389,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.17.0",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-30 нак.\" 30 см",
+      "productId": 6390,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.17.4",
+      "sourcePage": 5,
+      "sourceName": "Эска \"С-50Р КОВ.\" кв. 8,5 мм. 50 см. Равносторонняя",
+      "productId": 6391,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.19.0",
+      "sourcePage": 5,
+      "sourceName": "КОРОНА НА ВОРОТА \"АСТАНА\" кв. 8,5 мм.",
+      "productId": 6392,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.19.4",
+      "sourcePage": 5,
+      "sourceName": "КОРОНА \"ЖАСМИН\" кв. 8,5 мм.",
+      "productId": 6393,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.20.0",
+      "sourcePage": 5,
+      "sourceName": "кв. 8,5 мм. КОРОНА \"БАБОЧКА\" кв. 8,5 мм.",
+      "productId": 6394,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.20.4",
+      "sourcePage": 5,
+      "sourceName": "КОРОНА \"КАЛИТКА №1\" к в . 8 , 5 мм.",
+      "productId": 6395,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.21.0",
+      "sourcePage": 5,
+      "sourceName": "КОРОНА \"ВИКИНГ\" кв. 8,5 мм.",
+      "productId": 6396,
+      "status": "added"
+    },
+    {
+      "sourceRow": "5.0.21.4",
+      "sourcePage": 5,
+      "sourceName": "КОРОНА НА КАЛИТКУ \"АСТАНА\" кв. 8,5 мм.",
+      "productId": 6397,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.0.0",
+      "sourcePage": 6,
+      "sourceName": "КОРОНА \"ВОЛНА\" кв. 8,5 мм.",
+      "productId": 6398,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.0.4",
+      "sourcePage": 6,
+      "sourceName": "КОРОНА \"ПРЕСТИЖ\" к в . 8 , 5 мм.",
+      "productId": 6399,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.1.0",
+      "sourcePage": 6,
+      "sourceName": "КОРОНА \"ЗАВИТОК\" кв. 8,5 мм.",
+      "productId": 6400,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.1.4",
+      "sourcePage": 6,
+      "sourceName": "КОРОНА \"УЛИТКА\" к в . 8 , 5 м м .",
+      "productId": 6401,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.3.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"АВГУСТ №1\" кв. 8,5 мм.",
+      "productId": 6402,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.3.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ПАВЛИН №2\" к в . 8,5 мм.",
+      "productId": 6171,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "6.0.4.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"АВГУСТ №2\" кв. 8,5 мм",
+      "productId": 6403,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.4.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ПАУТИНКА №1\" к в . 8,5 мм.",
+      "productId": 6404,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.6.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"АСТАНА\" кв. 8,5 мм.",
+      "productId": 6405,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.6.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ПАУТИНКА МИНИ\" кв. 8,5 мм.",
+      "productId": 6406,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.9.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"БАБОЧКА\" кв. 8,5 мм.",
+      "productId": 6407,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.9.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"РЕТРО\" кв. 8,5 мм.",
+      "productId": 6408,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.11.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"БАБОЧКА МАХАОН\" кв. 8,5 мм.",
+      "productId": 6286,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "6.0.11.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"РОМАШКА 500\" кв. 8,5 мм.",
+      "productId": 6409,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.13.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"БАБОЧКА МИНИ\" кв. 8,5 мм",
+      "productId": 6410,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.13.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"РОМАШКА 700\" кв. 8,5 мм.",
+      "productId": 6411,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.15.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ЗАВИТОК\" кв. 8,5 мм.",
+      "productId": 6412,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.15.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"СНЕЖИНКА\" кв. 8,5 мм.",
+      "productId": 6413,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.16.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ВИНЬЕТКА БОЛЬШАЯ\" кв. 8,5 мм.",
+      "productId": 6414,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.16.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ФОНТАН\" к в . 8 , 5 м м .",
+      "productId": 6415,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.17.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ВИНЬЕТКА МАЛЕНЬКАЯ\" кв. 8,5 мм.",
+      "productId": 6416,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.17.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ФОРТУНА\" к в . 8 , 5 м м .",
+      "productId": 6417,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.19.0",
+      "sourcePage": 6,
+      "sourceName": "кв. 8,5 мм. УЗОР \"ЛАДЬЯ БОЛЬШАЯ\" кв. 8,5 мм.",
+      "productId": 6418,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.19.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ВОСЬМЁРКА\" к в . 8 , 5 м м .",
+      "productId": 6419,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.20.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ЛАДЬЯ МАЛЕНЬКАЯ\" кв. 8,5 мм.",
+      "productId": 6288,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "6.0.20.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"У-007\" кв. 8,5 мм.",
+      "productId": 6420,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.21.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"МИРАЖ\" кв. 8,5 мм",
+      "productId": 6169,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "6.0.21.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР У-007 с лист. Астана кв. 8,5 мм",
+      "productId": 6421,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.23.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"МИРАЖ УЗКИЙ\" кв. 8,5 мм",
+      "productId": 6422,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.23.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"У-048\" кв. 8,5 мм.",
+      "productId": 6423,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.24.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ОБЛАКО\" кв. 8,5 мм.",
+      "productId": 6424,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.24.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ШАНЫРАК\" кв. 8,5 мм.",
+      "productId": 6179,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "6.0.25.0",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ПАВЛИН №1\" кв. 8,5 мм.",
+      "productId": 6425,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.25.4",
+      "sourcePage": 6,
+      "sourceName": "УЗОР \"ШАНЫРАК КРУГ 500\" кв. 8,5 мм.",
+      "productId": 6426,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.28.0",
+      "sourcePage": 6,
+      "sourceName": "УГОЛОК \"АСТАНА\" кв. 8,5 мм.",
+      "productId": 6427,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.28.4",
+      "sourcePage": 6,
+      "sourceName": "УГОЛОК \"КОЛЬЦО\" кв. 8,5 мм.",
+      "productId": 6428,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.29.0",
+      "sourcePage": 6,
+      "sourceName": "УГОЛОК \"БАБОЧКА\" кв. 8,5 мм.",
+      "productId": 6429,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.29.4",
+      "sourcePage": 6,
+      "sourceName": "УГОЛОК \"ПРЕСТИЖ\" кв. 8,5 мм.",
+      "productId": 6430,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.30.0",
+      "sourcePage": 6,
+      "sourceName": "УГОЛОК \"ВОЛНА\" кв. 8,5 мм.",
+      "productId": 6431,
+      "status": "added"
+    },
+    {
+      "sourceRow": "6.0.30.4",
+      "sourcePage": 6,
+      "sourceName": "УГОЛОК \"УЛИТКА\" кв. 8,5 мм.",
+      "productId": 6432,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.0.0",
+      "sourcePage": 7,
+      "sourceName": "УГОЛОК \"ВЕРШИНА\" кв. 8,5 мм.",
+      "productId": 6433,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.0.4",
+      "sourcePage": 7,
+      "sourceName": "УГОЛОК \"ШАФРАН\" (пара) к в . 8 , 5 м м",
+      "productId": 6434,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.3.0",
+      "sourcePage": 7,
+      "sourceName": "БАЛЯСИНА \"БУКЕТ №1\" кв. 8,5 мм.",
+      "productId": 6435,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.3.4",
+      "sourcePage": 7,
+      "sourceName": "БАЛЯСИНА \"ЦВЕТОК\" кв. 8,5 мм",
+      "productId": 6436,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.4.0",
+      "sourcePage": 7,
+      "sourceName": "БАЛЯСИНА \"БУКЕТ №2\" кв. 8,5 мм.",
+      "productId": 6437,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.4.4",
+      "sourcePage": 7,
+      "sourceName": "БАЛЯСИНА \"ЦВЕТОК МИНИ\" к в. 8,5 мм.",
+      "productId": 6438,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.5.0",
+      "sourcePage": 7,
+      "sourceName": "БАЛЯСИНА \"БУКЕТ №3\" кв. 8,5 мм",
+      "productId": 6439,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.5.4",
+      "sourcePage": 7,
+      "sourceName": "БАЛЯСИНА \"Б-007\" к в . 8 , 5 м м .",
+      "productId": 6440,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.6.0",
+      "sourcePage": 7,
+      "sourceName": "БАЛЯСИНА \"АРКА\" кв. 8,5 мм.",
+      "productId": 6441,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.6.4",
+      "sourcePage": 7,
+      "sourceName": "\"Б-135 Ф\" кв. 8,5 мм",
+      "productId": 6442,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.7.0",
+      "sourcePage": 7,
+      "sourceName": "БАЛЯСИНА \"ВОЛНА\" кв. 8,5 мм.",
+      "productId": 6443,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.7.4",
+      "sourcePage": 7,
+      "sourceName": "\"Б-137 Ф\" кв. 8,5 мм",
+      "productId": 6444,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.8.0",
+      "sourcePage": 7,
+      "sourceName": "БАЛЯСИНА \"ВОСТОК\" кв. 8,5 мм",
+      "productId": 6445,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.8.4",
+      "sourcePage": 7,
+      "sourceName": "\"Б-138/1\" кв. 8,5 мм",
+      "productId": 6446,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.9.0",
+      "sourcePage": 7,
+      "sourceName": "БАЛЯСИНА \"ЖАСМИН\" кв. 8,5 мм",
+      "productId": 6447,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.9.4",
+      "sourcePage": 7,
+      "sourceName": "\"Б-179\" кв.8,5 мм",
+      "productId": 6448,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.10.0",
+      "sourcePage": 7,
+      "sourceName": "БАЛЯСИНА \"ЛИАНА\" кв. 8,5 мм.",
+      "productId": 6449,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.10.4",
+      "sourcePage": 7,
+      "sourceName": "\"Б-191\" к в . 8 , 5 м м",
+      "productId": 6450,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.11.0",
+      "sourcePage": 7,
+      "sourceName": "БАЛЯСИНА \"ПРЕСТИЖ\" кв. 8,5 мм.",
+      "productId": 6451,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.13.0",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Астана\" кв. 10",
+      "productId": 6311,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "7.0.13.4",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Палермо\" к в . 1 0 с о т т я ж к о й",
+      "productId": 6315,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "7.0.14.0",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Астана\" кв. 8,5",
+      "productId": 6452,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.14.4",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Палермо\" к в . 1 2 с о т т я ж к о й",
+      "productId": 6317,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "7.0.15.0",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Букет\" кв. 12",
+      "productId": 6312,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "7.0.15.4",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Пика\" к в . 1 0",
+      "productId": 6319,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "7.0.16.0",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Букет ТР\" кв. 12 с оттяжкой",
+      "productId": 6313,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "7.0.16.4",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Пика\" к в . 8 , 5",
+      "productId": 6318,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "7.0.18.0",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Карабас\" кв. 10",
+      "productId": 6316,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "7.0.18.4",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Розочка\" к в . 8 , 5",
+      "productId": 6320,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "7.0.20.0",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Лодочка\" кв. 8,5",
+      "productId": 6314,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "7.0.20.4",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Угол Б а б о ч к а \"",
+      "productId": 6309,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "7.0.22.0",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Лодочка\" кв. 10",
+      "productId": 6453,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.22.4",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Угол В е р ш и н а \" к в . 1 0",
+      "productId": 6310,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "7.0.24.0",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Лодочка\" кв. 12 с оттяжкой",
+      "productId": 6454,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.24.4",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Угол В е р ш и н а \" к в . 8 , 5",
+      "productId": 6455,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.26.0",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Облако\" кв. 10",
+      "productId": 6456,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.26.4",
+      "sourcePage": 7,
+      "sourceName": "Перчик \"Гроздь\" прямые кв. 10 мм.",
+      "productId": 6457,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.27.0",
+      "sourcePage": 7,
+      "sourceName": "Листик \"Облако\" кв. 8,5",
+      "productId": 6458,
+      "status": "added"
+    },
+    {
+      "sourceRow": "7.0.27.4",
+      "sourcePage": 7,
+      "sourceName": "Перчик \"Гроздь\" изогнутые кв. 10 мм",
+      "productId": 6459,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.2.0",
+      "sourcePage": 8,
+      "sourceName": "КОРОНА \"АСТАНА\" с квадратной трубы",
+      "productId": 6149,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.2.4",
+      "sourcePage": 8,
+      "sourceName": "КОРОНА \"ЖАСМИН\" с к вадратной трубы",
+      "productId": 6280,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.4.0",
+      "sourcePage": 8,
+      "sourceName": "трубы КОРОНА \"ВОЛНА\" с квадратной трубы",
+      "productId": 6226,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.4.4",
+      "sourcePage": 8,
+      "sourceName": "трубы КОРОНА \"УЛИТКА\" с к в а дратной трубы",
+      "productId": 6227,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.6.0",
+      "sourcePage": 8,
+      "sourceName": "КОРОНА \"ВЕСНА\" с квадратной трубы",
+      "productId": 6460,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.6.4",
+      "sourcePage": 8,
+      "sourceName": "КОРОНА \"ШАФРАН\" с квадратной трубы",
+      "productId": 6461,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.8.0",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"АВГУСТ №1\" с квадратной трубы",
+      "productId": 6283,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.8.4",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"РЕТРО\" с квадратной трубы",
+      "productId": 6462,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.9.0",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"АВГУСТ № 2\" с квадратной трубы",
+      "productId": 6269,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.9.4",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"СЕНТЯБРЬ\" с квадратной трубы",
+      "productId": 6463,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.10.0",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"БАБОЧКА\" с квадратной трубы",
+      "productId": 6228,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.10.4",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"СЕТОЧКА\" с к в а д р а т н о й т р у б ы",
+      "productId": 6231,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.11.0",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"БОНЖУР\" с квадратной трубы",
+      "productId": 6277,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.11.4",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"ТОПЧАН 1,5 м\" с к в а д р а т ной трубы",
+      "productId": 6464,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.14.0",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"КАЗАХСТАН\" с квадратной трубы",
+      "productId": 6465,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.14.4",
+      "sourcePage": 8,
+      "sourceName": "трубы УЗОР \"ТОПЧАН 2,0 м\" с к в а д р а т ной трубы",
+      "productId": 6466,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.16.0",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"КАЗАХСТАН МИНИ\" с квадратной трубы",
+      "productId": 6467,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.16.4",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"ФОНТАН\" с к в а д р а т н о й трубы",
+      "productId": 6232,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.18.0",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"КАЗАХСТАН СРЕДНИЙ\" с квадратной трубы",
+      "productId": 6468,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.18.4",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"У-006\" с к в а д р а т н о й трубы",
+      "productId": 6233,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.20.0",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"МИРАЖ\" с квадратной трубы",
+      "productId": 6229,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.20.4",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"У-007\" с к в а д ратной трубы",
+      "productId": 6234,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.22.0",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"МАДОННА\" с квадратной трубы",
+      "productId": 6469,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.22.4",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"У-048\" с к в а д ратной трубы",
+      "productId": 6235,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.24.0",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"МОТЫЛЁК\" с квадратной трубы",
+      "productId": 6470,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.24.4",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"СЕКЦИЯ А С М А Н \" с к в а д ратной трубы",
+      "productId": 6471,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.27.0",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"ОБЛАКО\" с квадратной трубы",
+      "productId": 6230,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "8.0.27.4",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"СЕКЦИЯ ПРЕЛЕСТЬ\" с к вадратной трубы",
+      "productId": 6472,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.29.0",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"ПАУТИНКА\" с квадратной трубы",
+      "productId": 6473,
+      "status": "added"
+    },
+    {
+      "sourceRow": "8.0.29.4",
+      "sourcePage": 8,
+      "sourceName": "УЗОР \"СЕКЦИЯ СЕНТЯБРЬ\" с к вадратной трубы",
+      "productId": 6474,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.1.0",
+      "sourcePage": 9,
+      "sourceName": "УГОЛОК \"БАБОЧКА\" с квадратной трубы",
+      "productId": 6236,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.1.4",
+      "sourcePage": 9,
+      "sourceName": "УГОЛОК \"СЕТОЧКА\" (пара) с к в а д р а т ной трубы",
+      "productId": 6282,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.3.0",
+      "sourcePage": 9,
+      "sourceName": "УГОЛОК \"БАБОЧКА\" БОЛЬШОЙ с квадратной трубы",
+      "productId": 6237,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.3.4",
+      "sourcePage": 9,
+      "sourceName": "УГОЛОК \"ШАФРАН\" (пара) с к в а д р а т ной трубы",
+      "productId": 6238,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.4.0",
+      "sourcePage": 9,
+      "sourceName": "УГОЛОК \"ВЕСНА\" с квадратной трубы",
+      "productId": 6475,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.4.4",
+      "sourcePage": 9,
+      "sourceName": "УГОЛОК \"ШАФРАН М И Н И \" ( п а р а ) с к в а д р а т н о й трубы",
+      "productId": 6476,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.8.0",
+      "sourcePage": 9,
+      "sourceName": "УГОЛОК \"КАПЛЯ\" с квадратной трубы",
+      "productId": 6477,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.10.0",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"АРКА\" с квадратной трубы",
+      "productId": 6478,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.10.4",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"ПРЕСТИЖ\" с к в а д ратной трубы",
+      "productId": 6245,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.12.0",
+      "sourcePage": 9,
+      "sourceName": "трубы БАЛЯСИНА \"Букет №1\" с квадратной трубы",
+      "productId": 6239,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.12.4",
+      "sourcePage": 9,
+      "sourceName": "трубы БАЛЯСИНА \"Б-135Ф\" с к в а д р а т ной трубы",
+      "productId": 6479,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.13.0",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"БУКЕТ №2\" с квадратной трубы",
+      "productId": 6240,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.13.4",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"Б-136\" с к в а дратной трубы",
+      "productId": 6480,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.14.0",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"БУКЕТ №3\" с квадратной трубы",
+      "productId": 6241,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.14.4",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"Б-137Ф\" с к в а д р атной трубы",
+      "productId": 6481,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.15.0",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"БУКЕТ ВЬЮН- СЕТОЧКА\" с квадратной трубы",
+      "productId": 6482,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.15.4",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"Б-169\" с к вадратной трубы",
+      "productId": 6246,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.16.0",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"ВАЗА\" с квадратной трубы",
+      "productId": 6483,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.16.4",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"Б-179\" с к вадратной трубы",
+      "productId": 6247,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.17.0",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"ВОЛНА\" с квадратной трубы",
+      "productId": 6242,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.17.4",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"Б-180\" с к вадратной трубы",
+      "productId": 6484,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.18.0",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"ЖАСМИН\" с квадратной трубы",
+      "productId": 6275,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.18.4",
+      "sourcePage": 9,
+      "sourceName": "\"ШАНЫРАК 500\" с квадратной т р убы",
+      "productId": 6291,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.19.0",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"ЛИАНА\" с квадратной трубы",
+      "productId": 6243,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.19.4",
+      "sourcePage": 9,
+      "sourceName": "Труба Вальсир. 1 , 0 м.",
+      "productId": 6485,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.20.0",
+      "sourcePage": 9,
+      "sourceName": "БАЛЯСИНА \"НОТА\" с квадратной трубы",
+      "productId": 6244,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.20.4",
+      "sourcePage": 9,
+      "sourceName": "Труба Вальсир. 2 , 0 м.",
+      "productId": 6486,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.22.0",
+      "sourcePage": 9,
+      "sourceName": "ЗАПЯТАЯ Труб. 20 см.",
+      "productId": 6487,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.22.4",
+      "sourcePage": 9,
+      "sourceName": "Эска \"С-60 Р Труб.\" 6 0 с м .",
+      "productId": 6253,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.23.0",
+      "sourcePage": 9,
+      "sourceName": "Эска \"С-30 Труб.\" 30 см.",
+      "productId": 6248,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.23.4",
+      "sourcePage": 9,
+      "sourceName": "Эска \"С-70 Труб.\" 70 с м .",
+      "productId": 6254,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.25.0",
+      "sourcePage": 9,
+      "sourceName": "Эска \"С-40 Труб.\" 40 см.",
+      "productId": 6249,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.25.4",
+      "sourcePage": 9,
+      "sourceName": "Эска \"С-70 Р Труб.\" 7 0 с м .",
+      "productId": 6255,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "9.0.27.0",
+      "sourcePage": 9,
+      "sourceName": "Эска \"С-40 Р Труб.\" 40 см.",
+      "productId": 6488,
+      "status": "added"
+    },
+    {
+      "sourceRow": "9.0.27.4",
+      "sourcePage": 9,
+      "sourceName": "Барашек \"Ф-15 Труб.\" 15 см.",
+      "productId": 6256,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.0.0",
+      "sourcePage": 10,
+      "sourceName": "Эска \"С-50 Труб.\" 50 см.",
+      "productId": 6250,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.0.4",
+      "sourcePage": 10,
+      "sourceName": "Барашек \"Ф-25 Т р у б . \" 2 5 см.",
+      "productId": 6257,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.2.0",
+      "sourcePage": 10,
+      "sourceName": "Эска \"С-50 Р Труб.\" 50 см.",
+      "productId": 6251,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.2.4",
+      "sourcePage": 10,
+      "sourceName": "Барашек \"Ф-40 Труб.\" 40 см.",
+      "productId": 6258,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.3.0",
+      "sourcePage": 10,
+      "sourceName": "Эска \"С-60 Труб.\" 60 см.",
+      "productId": 6252,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.3.4",
+      "sourcePage": 10,
+      "sourceName": "Барашек \"Ф-50 Т р у б . \" 5 0 см.",
+      "productId": 6259,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.6.0",
+      "sourcePage": 10,
+      "sourceName": "СТОЙКА для перил из трубы ø76 мм. Длина 1м.",
+      "productId": 6260,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.6.4",
+      "sourcePage": 10,
+      "sourceName": "Квадратная СТОЙКА для перил 50х50 мм. Длина 1,2 м.",
+      "productId": 6266,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.8.0",
+      "sourcePage": 10,
+      "sourceName": "СТОЙКА для перил из трубы ø57 мм. Длина 1м.",
+      "productId": 6261,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.8.4",
+      "sourcePage": 10,
+      "sourceName": "Квадратная СТОЙКА для перил 60х60 мм. Длина 1,2 м.",
+      "productId": 6267,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.10.0",
+      "sourcePage": 10,
+      "sourceName": "СТОЙКА для перил из трубы ø48 мм. Длина 1м.",
+      "productId": 6262,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.10.4",
+      "sourcePage": 10,
+      "sourceName": "Квадратная СТОЙКА для перил 80х80 мм. Длина 1,2 м.",
+      "productId": 6268,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.12.0",
+      "sourcePage": 10,
+      "sourceName": "СТОЙКА для перил из трубы ø76 мм. Длина 1,2 м.",
+      "productId": 6263,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.13.0",
+      "sourcePage": 10,
+      "sourceName": "СТОЙКА для перил из трубы ø57 мм. Длина 1,2 м.",
+      "productId": 6264,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.14.0",
+      "sourcePage": 10,
+      "sourceName": "СТОЙКА для перил из трубы ø48 мм. Длина 1,2 м.",
+      "productId": 6265,
+      "status": "existing"
+    },
+    {
+      "sourceRow": "10.0.16.0",
+      "sourcePage": 10,
+      "sourceName": "Балясина \"ХайТэк Б-01\" (Прямоугольник) с квадратной трубы",
+      "productId": 6489,
+      "status": "added"
+    },
+    {
+      "sourceRow": "10.0.16.4",
+      "sourcePage": 10,
+      "sourceName": "Балясина \"ХайТэк Б - 0 5 \" ( А р к а ) с к в а д р а т н о й трубы",
+      "productId": 6490,
+      "status": "added"
+    },
+    {
+      "sourceRow": "10.0.21.0",
+      "sourcePage": 10,
+      "sourceName": "трубы Балясина \"ХайТэк Б-02\" (Треугольник) с квадратной трубы",
+      "productId": 6491,
+      "status": "added"
+    },
+    {
+      "sourceRow": "10.0.21.4",
+      "sourcePage": 10,
+      "sourceName": "Балясина \"ХайТэк Б-06\" ( К л а с с и к а ) с к в а д р а тной трубы",
+      "productId": 6492,
+      "status": "added"
+    },
+    {
+      "sourceRow": "10.0.23.0",
+      "sourcePage": 10,
+      "sourceName": "Балясина \"ХайТэк Б-03\" (Погоны) с квадратной трубы",
+      "productId": 6493,
+      "status": "added"
+    },
+    {
+      "sourceRow": "10.0.23.4",
+      "sourcePage": 10,
+      "sourceName": "трубы Балясина ХайТек Б-07\" ( О в ал) с к в а д р а тной трубы",
+      "productId": 6494,
+      "status": "added"
+    },
+    {
+      "sourceRow": "10.0.25.0",
+      "sourcePage": 10,
+      "sourceName": "Балясина \"ХайТэк Б-04\" (Ромбы) с квадратной трубы",
+      "productId": 6495,
+      "status": "added"
+    },
+    {
+      "sourceRow": "10.0.25.4",
+      "sourcePage": 10,
+      "sourceName": "трубы Балясина ХайТек Б-08\" ( О в а л с к ольцом) с к в а д р а тной трубы",
+      "productId": 6496,
+      "status": "added"
+    }
+  ]
+}
