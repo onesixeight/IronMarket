@@ -28,11 +28,16 @@
 </template>
 
 <script setup>
-defineProps({
+import { useRoute } from 'vue-router'
+import { schemaBreadcrumbList, useSchemaOrg } from '../composables/useSchemaOrg.js'
+
+const props = defineProps({
   items: {
     type: Array,
     required: true,
     validator: (value) => value.every(i => typeof i.label === 'string'),
   },
 })
+const route = useRoute()
+useSchemaOrg(() => schemaBreadcrumbList(props.items, route.path), { id: 'breadcrumbs' })
 </script>

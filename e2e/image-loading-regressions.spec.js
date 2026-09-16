@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test'
 import { readFileSync } from 'node:fs'
+import { getProductImageSrcset } from '../src/composables/useResponsiveImage.js'
 
 const variants = JSON.parse(readFileSync(new URL('../src/data/image-variants.json', import.meta.url), 'utf8'))
 const exampleUrls = Object.entries(variants)
   .filter(([original]) => original.startsWith('/images/examples/'))
-  .flatMap(([, srcset]) => srcset.split(', ').map(candidate => candidate.split(' ')[0]))
+  .flatMap(([original]) => getProductImageSrcset(original).split(', ').map(candidate => candidate.split(' ')[0]))
 
 test.use({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, serviceWorkers: 'block' })
 

@@ -2,6 +2,7 @@
 logs
 *.log
 .playwright-cli/
+.playwright-mcp/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -75,7 +76,6 @@ web_modules/
 .env
 .env.*
 !.env.example
-!.env.production
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache

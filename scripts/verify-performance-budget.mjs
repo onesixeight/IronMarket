@@ -8,6 +8,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { gzipSync } from 'node:zlib'
 
 import { chromium } from '@playwright/test'
+import { isConstructorAsset } from './inject-sw-precache.mjs'
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const distDir = resolve(projectRoot, 'dist')
@@ -24,6 +25,7 @@ export const PERFORMANCE_BUDGETS = {
   resourceCount: 45,
   assetGzipKb: {
     appEntryJs: 35,
+    catalogDataJs: 25,
     globalCss: 20,
     vueVendorJs: 40,
     routerVendorJs: 15,
@@ -31,6 +33,10 @@ export const PERFORMANCE_BUDGETS = {
     totalJs: 130,
     voiceAssistantSdk: 180,
     totalCss: 30,
+    constructorEditorJs: 70,
+    constructorDataJs: 22,
+    constructorTotalJs: 90,
+    constructorTotalCss: 16,
   },
 }
 
@@ -110,6 +116,10 @@ async function collectHomeVitals(origin) {
     locale: 'ru-RU',
     viewport: { width: 1365, height: 768 },
   })
+  // Context events include the service worker's precache requests, unlike the
+  // page's PerformanceResourceTiming entries alone.
+  const requestedUrls = []
+  context.on('request', (request) => requestedUrls.push(request.url()))
 
   await context.addInitScript(() => {
     window.localStorage.setItem('cookie-consent', 'declined')
@@ -154,8 +164,11 @@ async function collectHomeVitals(origin) {
       timeout: previewTimeoutMs,
     })
     await page.waitForTimeout(1500)
+    await page.waitForFunction(async () => Boolean((await navigator.serviceWorker.getRegistration())?.active), null, {
+      timeout: previewTimeoutMs,
+    })
 
-    return await page.evaluate(() => {
+    const vitals = await page.evaluate(() => {
       const navigation = performance.getEntriesByType('navigation')[0]
       const resources = performance
         .getEntriesByType('resource')
@@ -174,6 +187,11 @@ async function collectHomeVitals(origin) {
         heroImageComplete: Boolean(heroImage?.complete),
       }
     })
+    return {
+      ...vitals,
+      constructorRequested: requestedUrls.some((url) => isConstructorAsset(new URL(url).pathname)),
+      voiceAssistantRequested: requestedUrls.some((url) => /\/(?:voice-assistant-sdk|rawAudioProcessor|audioConcatProcessor)-/.test(url)),
+    }
   } finally {
     await context.close()
     await browser.close()
@@ -208,11 +226,51 @@ function checkAssetBudget(asset, maxKb, label) {
   assertCheck(asset.gzipKb <= maxKb, `${label} gzip ${formatKb(asset.gzipKb)} <= ${formatKb(maxKb)}`)
 }
 
+export function getAssetTotals(assets) {
+  const isVoiceAsset = (asset) => /^(?:voice-assistant-sdk|rawAudioProcessor|audioConcatProcessor)-[^.]+\.js$/.test(asset.name)
+  const sum = (predicate) => assets.filter(predicate).reduce((total, asset) => total + asset.gzipKb, 0)
+  return {
+    voiceJs: sum(isVoiceAsset),
+    constructorJs: sum((asset) => isConstructorAsset(asset.name) && asset.name.endsWith('.js')),
+    constructorCss: sum((asset) => isConstructorAsset(asset.name) && asset.name.endsWith('.css')),
+    storefrontJs: sum((asset) => asset.name.endsWith('.js') && !isVoiceAsset(asset) && !isConstructorAsset(asset.name)),
+    storefrontCss: sum((asset) => asset.name.endsWith('.css') && !isConstructorAsset(asset.name)),
+  }
+}
+
+export function assertConstructorIsolation(manifest, precachedAssets = []) {
+  const constructorKey = 'src/views/ConstructorView.vue'
+  const editor = manifest[constructorKey]
+  if (!editor?.isDynamicEntry || !isConstructorAsset(editor.file)) {
+    throw new Error('Constructor must exist as a named lazy production route')
+  }
+  const staticFiles = (key, seen = new Set()) => {
+    if (seen.has(key)) return []
+    seen.add(key)
+    const chunk = manifest[key]
+    if (!chunk) throw new Error(`Build manifest is missing ${key}`)
+    return [chunk.file, ...(chunk.css || []), ...(chunk.imports || []).flatMap((dependency) => staticFiles(dependency, seen))]
+  }
+  const editorFiles = staticFiles(constructorKey).filter(isConstructorAsset)
+  if (!editorFiles.some((file) => /constructor-data-[\w-]+\.js$/.test(file)) || !editorFiles.some((file) => file.endsWith('.css'))) {
+    throw new Error('Constructor metadata and CSS must remain separate on-demand assets')
+  }
+  for (const [key, chunk] of Object.entries(manifest)) {
+    if (key === constructorKey || (!chunk.isEntry && !chunk.isDynamicEntry)) continue
+    const leaked = staticFiles(key).filter(isConstructorAsset)
+    if (leaked.length) throw new Error(`Storefront/shared entry ${key} imports constructor assets: ${leaked.join(', ')}`)
+  }
+  const precachedEditor = precachedAssets.filter(isConstructorAsset)
+  if (precachedEditor.length) throw new Error(`Service worker must not precache constructor assets: ${precachedEditor.join(', ')}`)
+  return [...new Set(editorFiles)]
+}
+
 async function verifyAssetBudgets() {
   const assets = await collectAssetSizes()
   const budgets = PERFORMANCE_BUDGETS.assetGzipKb
 
   checkAssetBudget(findSingleAsset(assets, /^index-[^.]+\.js$/, 'app entry JS'), budgets.appEntryJs, 'app entry JS')
+  checkAssetBudget(findSingleAsset(assets, /^catalog-data-[^.]+\.js$/, 'catalog data JS'), budgets.catalogDataJs, 'catalog data JS')
   checkAssetBudget(findSingleAsset(assets, /^index-[^.]+\.css$/, 'global CSS'), budgets.globalCss, 'global CSS')
   checkAssetBudget(findSingleAsset(assets, /^vendor-vue-[^.]+\.js$/, 'Vue vendor JS'), budgets.vueVendorJs, 'Vue vendor JS')
   checkAssetBudget(
@@ -222,18 +280,26 @@ async function verifyAssetBudgets() {
   )
   checkAssetBudget(findSingleAsset(assets, /^HomeView-[^.]+\.js$/, 'home route JS'), budgets.homeViewJs, 'home route JS')
 
+  // These are additional, on-demand editor budgets. Storefront limits stay unchanged.
+  checkAssetBudget(findSingleAsset(assets, /^constructor-editor-[^.]+\.js$/, 'constructor editor JS'), budgets.constructorEditorJs, 'constructor editor JS')
+  checkAssetBudget(findSingleAsset(assets, /^constructor-data-[^.]+\.js$/, 'constructor metadata JS'), budgets.constructorDataJs, 'constructor metadata JS')
+  findSingleAsset(assets, /^constructor-editor-[^.]+\.css$/, 'constructor CSS')
+  const totals = getAssetTotals(assets)
+  checkAssetBudget({ gzipKb: totals.constructorJs }, budgets.constructorTotalJs, 'on-demand constructor total JS')
+  checkAssetBudget({ gzipKb: totals.constructorCss }, budgets.constructorTotalCss, 'on-demand constructor total CSS')
+
+  const manifest = JSON.parse(await readFile(resolve(distDir, '.vite/manifest.json'), 'utf8'))
+  const serviceWorker = await readFile(resolve(distDir, 'sw.js'), 'utf8')
+  const precacheMatch = serviceWorker.match(/const PRECACHE_ASSETS = (\[[\s\S]*?\])/)
+  if (!precacheMatch) throw new Error('Built service worker precache list is missing')
+  assertConstructorIsolation(manifest, JSON.parse(precacheMatch[1]))
+  console.log('ok constructor code, metadata and CSS are absent from storefront imports and SW precache')
+
   // Keep the catalog's original budget; voice code and worklets load on demand.
   findSingleAsset(assets, /^voice-assistant-sdk-[^.]+\.js$/, 'optional voice SDK')
-  const isVoiceAsset = (asset) => /^(?:voice-assistant-sdk|rawAudioProcessor|audioConcatProcessor)-[^.]+\.js$/.test(asset.name)
-  const voiceGzipKb = assets.filter(isVoiceAsset).reduce((total, asset) => total + asset.gzipKb, 0)
-  checkAssetBudget({ gzipKb: voiceGzipKb }, budgets.voiceAssistantSdk, 'optional voice SDK and worklets')
-  const totalJsGzip = assets.filter((asset) => asset.name.endsWith('.js') && !isVoiceAsset(asset)).reduce((total, asset) => total + asset.gzipKb, 0)
-  const totalCssGzip = assets
-    .filter((asset) => asset.name.endsWith('.css'))
-    .reduce((total, asset) => total + asset.gzipKb, 0)
-
-  assertCheck(totalJsGzip <= budgets.totalJs, `total JS gzip ${formatKb(totalJsGzip)} <= ${formatKb(budgets.totalJs)}`)
-  assertCheck(totalCssGzip <= budgets.totalCss, `total CSS gzip ${formatKb(totalCssGzip)} <= ${formatKb(budgets.totalCss)}`)
+  checkAssetBudget({ gzipKb: totals.voiceJs }, budgets.voiceAssistantSdk, 'optional voice SDK and worklets')
+  checkAssetBudget({ gzipKb: totals.storefrontJs }, budgets.totalJs, 'storefront total JS')
+  checkAssetBudget({ gzipKb: totals.storefrontCss }, budgets.totalCss, 'storefront total CSS')
 }
 
 async function verifyRuntimeBudgets() {
@@ -247,6 +313,7 @@ async function verifyRuntimeBudgets() {
 
     assertCheck(vitals.heroImageComplete, 'hero LCP image is loaded')
     assertCheck(!vitals.voiceAssistantRequested, 'voice SDK is not requested before opening the assistant')
+    assertCheck(!vitals.constructorRequested, 'constructor JS, metadata and CSS are not requested on the homepage, including SW installation')
     assertCheck(
       vitals.domContentLoadedMs <= PERFORMANCE_BUDGETS.domContentLoadedMs,
       `DOMContentLoaded ${formatMs(vitals.domContentLoadedMs)} <= ${formatMs(PERFORMANCE_BUDGETS.domContentLoadedMs)}`

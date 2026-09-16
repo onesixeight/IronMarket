@@ -100,6 +100,8 @@ export function useSeo(title, description, image, { noindex = false } = {}) {
     setOrCreateMeta('og:title', t || DEFAULT_TITLE)
     setOrCreateMeta('og:description', d || DEFAULT_DESCRIPTION)
     setOrCreateMeta('og:url', canonicalUrl)
+    // These storefront pages are websites, not articles. Product details belong
+    // in schema.org JSON-LD; "product" is not a global type in https://ogp.me/.
     setOrCreateMeta('og:type', 'website')
     setOrCreateMeta('og:image', socialImage)
     setOrCreateMetaName('twitter:card', 'summary_large_image')

@@ -3,6 +3,12 @@ import { trackPageView } from '../composables/useAnalytics.js'
 
 const routes = [
   {
+    path: '/constructor',
+    name: 'Constructor',
+    component: () => import('../views/ConstructorView.vue'),
+    meta: { editor: true },
+  },
+  {
     path: '/',
     name: 'Home',
     component: () => import('../views/HomeView.vue'),

@@ -3,6 +3,7 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { loadEnv } from 'vite'
 
 import { SITE_ORIGIN, toSiteUrl } from '../src/config/site.js'
 import { CONTACTS } from '../src/config/contacts.js'
@@ -98,8 +99,12 @@ function assertBuiltAnalyticsIds(indexHtml) {
   if (!bundlePath) return
 
   const bundle = readDist(bundlePath.replace(/^\//, ''))
-  assertCheck(bundle.includes('G-3TYNDM52D9'), 'Google Analytics ID is present in built bundle')
-  assertCheck(bundle.includes('110264764'), 'Yandex Metrika ID is present in built bundle')
+  const env = loadEnv('production', projectRoot, 'VITE_')
+  for (const key of ['VITE_GOOGLE_ANALYTICS_ID', 'VITE_YANDEX_METRIKA_ID']) {
+    const id = (env[key] || '').trim()
+    assertCheck(Boolean(id), `${key} is configured for the production build`, 'Set the platform build variable before publishing.')
+    if (id) assertCheck(bundle.includes(id), `${key} is present in built bundle`)
+  }
 }
 
 function run() {

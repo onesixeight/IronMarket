@@ -17,6 +17,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      VITE_GOOGLE_ANALYTICS_ID: ${{ vars.VITE_GOOGLE_ANALYTICS_ID }}
+      VITE_YANDEX_METRIKA_ID: ${{ vars.VITE_YANDEX_METRIKA_ID }}
     steps:
       - uses: actions/checkout@v5
         with:

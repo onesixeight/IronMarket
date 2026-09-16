@@ -7,7 +7,7 @@
         <div class="text-center mb-16" v-reveal>
           <h1 class="ornament-line font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-cream-50 mb-6">О компании</h1>
           <p class="text-cream-100/70 max-w-2xl mx-auto text-[15px] leading-relaxed">
-            С 2006 года мы продаём и поставляем кованые элементы для ворот, ограждений, лестниц и фасадных решений. Основное направление компании — Астана, при этом работаем и с заказами по Казахстану.
+            {{ COMPANY_SINCE }} мы продаём и поставляем кованые элементы для ворот, ограждений, лестниц и фасадных решений. Основное направление компании — Астана, при этом работаем и с заказами по Казахстану.
           </p>
         </div>
 
@@ -19,7 +19,8 @@
             v-reveal="i * 0.08"
           >
             <div class="font-heading text-4xl lg:text-5xl font-bold text-gold-400 mb-3">
-              <AnimatedCounter :value="s.value" :delay="i * 120" />
+              <span v-if="s.animated === false">{{ s.value }}</span>
+              <AnimatedCounter v-else :value="s.value" :delay="i * 120" />
             </div>
             <div class="text-xs text-cream-100/60 uppercase tracking-widest font-medium">{{ s.label }}</div>
           </div>
@@ -92,6 +93,7 @@ import ContactForm from '../components/ContactForm.vue'
 import { useSeo } from '../composables/useSeo'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 import AnimatedCounter from '../components/AnimatedCounter.vue'
+import { COMPANY, COMPANY_SINCE } from '../config/company.js'
 useSeo('О компании', 'Продажа и поставка декоративных кованых элементов в Астане и по Казахстану. Помогаем с подбором позиций под объект и объём заказа.')
 
 const IconShield = () => h('svg', { class: 'w-6 h-6', fill: 'none', stroke: 'currentColor', viewBox: '0 0 24 24', 'stroke-width': '1.5' }, [
@@ -105,7 +107,7 @@ const IconPerson = () => h('svg', { class: 'w-6 h-6', fill: 'none', stroke: 'cur
 ])
 
 const stats = [
-  { value: '18+', label: 'Лет опыта' },
+  { value: String(COMPANY.foundedYear), label: 'Год основания', animated: false },
   { value: '5000+', label: 'Изделий' },
   { value: '10+', label: 'Категорий' },
   { value: 'KZ', label: 'География' },

@@ -28,6 +28,12 @@ export const staticRoutes = [
     ],
   },
   {
+    path: '/constructor',
+    changefreq: 'monthly',
+    priority: '0.8',
+    sourceFiles: ['src/views/ConstructorView.vue', 'src/data/constructor-elements.json'],
+  },
+  {
     path: '/about',
     changefreq: 'monthly',
     priority: '0.6',

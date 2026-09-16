@@ -18,19 +18,22 @@
       </router-view>
     </main>
 
-    <AppFooter />
     <ToastContainer />
-    <ScrollTop />
-    <FloatingMessenger />
-    <VoiceAssistant />
-    <div class="h-28 lg:hidden" aria-hidden="true"></div>
-    <MobileBottomNav />
-    <CookieConsent />
+    <template v-if="!isEditor">
+      <AppFooter />
+      <ScrollTop />
+      <FloatingMessenger />
+      <VoiceAssistant />
+      <div class="h-28 lg:hidden" aria-hidden="true"></div>
+      <MobileBottomNav />
+      <CookieConsent />
+    </template>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import AppHeader from './components/AppHeader.vue'
 import AppFooter from './components/AppFooter.vue'
 import ToastContainer from './components/ToastContainer.vue'
@@ -39,6 +42,9 @@ import FloatingMessenger from './components/FloatingMessenger.vue'
 import VoiceAssistant from './components/VoiceAssistant.vue'
 import MobileBottomNav from './components/MobileBottomNav.vue'
 import CookieConsent from './components/CookieConsent.vue'
+
+const currentRoute = useRoute()
+const isEditor = computed(() => currentRoute.meta.editor === true)
 
 onMounted(() => {
   const preloader = document.getElementById('preloader')
