@@ -31,6 +31,17 @@ export function buildPrerenderRoutes() {
   return [...buildSiteRoutes(), { path: '/thank-you' }, { path: '/404' }]
 }
 
+export function getPrerenderDeadlineMs(routeCount) {
+  if (!Number.isSafeInteger(routeCount) || routeCount < 1) {
+    throw new RangeError('Prerender route count must be a positive integer.')
+  }
+  // Allow startup plus three seconds per route on slower build hosts, while
+  // retaining the previous minimum for small catalogues. Per-page checks stay bounded.
+  const deadlineMs = Math.max(8 * 60 * 1000, 60 * 1000 + routeCount * 3000)
+  if (deadlineMs > 2147483647) throw new RangeError('Prerender route count exceeds the supported timer range.')
+  return deadlineMs
+}
+
 export function routeOutputPath(routePath) {
   if (routePath === '/404') return resolve(distDir, '404.html')
   const normalizedPath = routePath === '/' ? '' : String(routePath).replace(/^\/+|\/+$/g, '')
@@ -200,14 +211,13 @@ async function renderRoutes(origin, routes) {
   return renderedRoutes
 }
 
-export async function prerender() {
+export async function prerender(routes = buildPrerenderRoutes()) {
   const port = await getFreePort()
   const origin = `http://${host}:${port}`
   const preview = startPreview(port)
 
   try {
     await waitForPreview(origin, preview)
-    const routes = buildPrerenderRoutes()
     const renderedRoutes = await renderRoutes(origin, routes)
     logStage('writing rendered HTML')
     await writeRenderedRoutes(renderedRoutes)
@@ -220,11 +230,14 @@ export async function prerender() {
 const isDirectRun = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
 
 if (isDirectRun) {
+  const routes = buildPrerenderRoutes()
+  const deadlineMs = getPrerenderDeadlineMs(routes.length)
+  logStage(`deadline ${deadlineMs / 1000} seconds for ${routes.length} routes`)
   const deadline = setTimeout(() => {
-    console.error(`[prerender] Timed out after 8 minutes. Last stage: ${currentStage}. Active routes: ${JSON.stringify(Object.fromEntries(activeRoutes))}`)
+    console.error(`[prerender] Timed out after ${deadlineMs / 1000} seconds (${routes.length} routes). Last stage: ${currentStage}. Active routes: ${JSON.stringify(Object.fromEntries(activeRoutes))}`)
     process.exit(1)
-  }, 8 * 60 * 1000)
-  prerender().catch((error) => {
+  }, deadlineMs)
+  prerender(routes).catch((error) => {
     console.error(error)
     process.exit(1)
   }).finally(() => clearTimeout(deadline))
