@@ -44,12 +44,22 @@ function serializePrecacheAssets(assets) {
   return `const PRECACHE_ASSETS = ${JSON.stringify(assets, null, 2)}`
 }
 
+export function isConstructorAsset(asset) {
+  return /(?:^|\/)constructor-(?:editor|data)-[\w-]+\.(?:js|css)$/.test(asset)
+}
+
+export function getPrecacheAssets(assets) {
+  // Keep optional editor and voice downloads out of installation. Their hashed
+  // files still use the service worker's runtime cache after the feature opens.
+  return assets.filter((asset) => !isConstructorAsset(asset) &&
+    !/\/(?:voice-assistant-sdk|rawAudioProcessor|audioConcatProcessor)-[^/]+\.js$/.test(asset)).sort()
+}
+
 export function injectPrecache(source, assets) {
   if (!source.includes(precacheMarker) || !source.includes('__BUILD_ID__')) {
     throw new Error('Unable to find the service worker precache or build version marker.')
   }
-  // The voice SDK and audio worklets are optional, on-demand downloads.
-  const sortedAssets = assets.filter((asset) => !/\/(?:voice-assistant-sdk|rawAudioProcessor|audioConcatProcessor)-[^/]+\.js$/.test(asset)).sort()
+  const sortedAssets = getPrecacheAssets(assets)
   const buildId = createHash('sha256').update(source).update(JSON.stringify(sortedAssets)).digest('hex').slice(0, 16)
   return source
     .replace('__BUILD_ID__', buildId)
@@ -70,7 +80,7 @@ async function main() {
   const output = injectPrecache(source, assetFiles)
   await writeFile(swPath, output, 'utf8')
 
-  console.log(`Injected ${assetFiles.length} JS/CSS assets into dist/sw.js precache list`)
+  console.log(`Injected ${getPrecacheAssets(assetFiles).length} JS/CSS assets into dist/sw.js precache list`)
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

@@ -8,6 +8,7 @@ import {
   schemaOrganization,
   schemaProduct,
   schemaItemList,
+  schemaBreadcrumbList,
 } from '../src/composables/useSchemaOrg.js'
 
 // --- schemaOrganization: локальная компания с контактами и адресом ---
@@ -108,3 +109,22 @@ assert.equal(faq.mainEntity[0].acceptedAnswer['@type'], 'Answer')
 assert.equal(schemaFaqPage([]), null)
 
 console.log('✓ schema-org: organization / product / item list / FAQ')
+
+const breadcrumbItems = ref([
+  { to: '/', label: 'Главная' },
+  { to: '/catalog', label: 'Каталог' },
+  { label: 'Кованые уголки' },
+])
+assert.deepEqual(schemaBreadcrumbList(breadcrumbItems, '/catalog/kovanye-ugolki'), {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Главная', item: 'https://etalon-kovka.kz/' },
+    { '@type': 'ListItem', position: 2, name: 'Каталог', item: 'https://etalon-kovka.kz/catalog' },
+    { '@type': 'ListItem', position: 3, name: 'Кованые уголки', item: 'https://etalon-kovka.kz/catalog/kovanye-ugolki' },
+  ],
+})
+breadcrumbItems.value = [{ to: '/', label: 'Главная' }, { label: 'Товар не найден' }]
+assert.equal(schemaBreadcrumbList(breadcrumbItems, '/product/missing').itemListElement[1].item, 'https://etalon-kovka.kz/product/missing')
+assert.equal(schemaBreadcrumbList([]), null)
+assert.equal(schemaBreadcrumbList([{ label: 'Главная' }]), null)
+assert.equal(schemaBreadcrumbList([{ to: '/', label: 'Главная' }, { label: undefined }]), null)

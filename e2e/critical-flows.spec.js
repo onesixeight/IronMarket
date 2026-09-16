@@ -1,4 +1,7 @@
 import { expect, test } from '@playwright/test'
+import { loadEnv } from 'vite'
+
+const analyticsEnv = loadEnv('production', process.cwd(), 'VITE_')
 
 async function analyticsSnapshot(page) {
   return page.evaluate(() => ({
@@ -88,7 +91,9 @@ test('header search shows results and closes on outside click', async ({ page })
   await page.getByTestId('header-search-input').fill('Барашек')
   await expect(page.getByTestId('header-search-result').first()).toBeVisible()
 
-  await page.mouse.click(900, 520)
+  const panelBounds = await searchPanel.boundingBox()
+  expect(panelBounds).not.toBeNull()
+  await page.mouse.click(12, panelBounds.y + panelBounds.height + 12)
   await expect(searchPanel).toBeHidden()
 })
 
@@ -165,10 +170,10 @@ test('cookie consent gates analytics and tracks catalog and product intents', as
 
   const initialSnapshot = await analyticsSnapshot(page)
   expect(initialSnapshot.consent).toBe('accepted')
-  expect(initialSnapshot.dataLayer.some((entry) => entry[0] === 'config' && entry[1] === 'G-3TYNDM52D9')).toBe(true)
+  expect(initialSnapshot.dataLayer.some((entry) => entry[0] === 'config' && entry[1] === analyticsEnv.VITE_GOOGLE_ANALYTICS_ID)).toBe(true)
   expect(hasGoogleEvent(initialSnapshot, 'page_view')).toBe(true)
-  expect(initialSnapshot.yandexCalls.some((entry) => entry[0] === '110264764' && entry[1] === 'init')).toBe(true)
-  expect(initialSnapshot.yandexCalls.some((entry) => entry[0] === '110264764' && entry[1] === 'hit')).toBe(true)
+  expect(initialSnapshot.yandexCalls.some((entry) => entry[0] === analyticsEnv.VITE_YANDEX_METRIKA_ID && entry[1] === 'init')).toBe(true)
+  expect(initialSnapshot.yandexCalls.some((entry) => entry[0] === analyticsEnv.VITE_YANDEX_METRIKA_ID && entry[1] === 'hit')).toBe(true)
 
   await page.getByTestId('nav-catalog').click()
   await expect(page).toHaveURL(/\/catalog$/)

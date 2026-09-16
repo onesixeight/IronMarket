@@ -228,6 +228,7 @@ import { trackCatalogOpen, trackContactFormOpen, trackProductOpen } from '../com
 import { useSchemaOrg, schemaOrganization } from '../composables/useSchemaOrg.js'
 import { useProductStore } from '../stores/products'
 import { getProductImageSrcset } from '../composables/useResponsiveImage.js'
+import { COMPANY_SINCE } from '../config/company.js'
 
 useSeo(
   'Кованые элементы в Астане',
@@ -254,7 +255,7 @@ const popularProducts = computed(() => {
 
 const atelierStats = [
   { value: '60+', label: 'позиций в каталоге' },
-  { value: '20+', label: 'лет в ремесле' },
+  { value: COMPANY_SINCE, label: 'продажа и поставка' },
   { value: 'KZ', label: 'доставка по Казахстану' },
 ]
 

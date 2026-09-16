@@ -47,6 +47,26 @@ test('dismissing header search preserves the existing catalog filter', async ({ 
   await expect(page.getByTestId('product-card').first()).toContainText('Барашек')
 })
 
+test('Escape from header search closes suggestions, restores focus and preserves the catalog filter', async ({ page }) => {
+  await page.goto('/catalog')
+  await page.getByTestId('cookie-decline').click()
+  const catalogSearch = page.getByTestId('catalog-search-input')
+  await catalogSearch.fill('Барашек')
+  await expect(page.getByTestId('product-card').first()).toContainText('Барашек')
+  const trigger = page.getByTestId('header-search-button')
+  await trigger.click()
+  const input = page.getByTestId('header-search-input')
+  await input.fill('Корона')
+  await expect(page.getByTestId('header-search-result').first()).toBeVisible()
+  await input.press('Escape')
+  await expect(page.getByTestId('header-search-panel')).toBeHidden()
+  await expect(trigger).toBeFocused()
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+  await expect(catalogSearch).toHaveValue('Барашек')
+  await trigger.click()
+  await expect(input).toHaveValue('Барашек')
+})
+
 test('cookie details do not grant consent or initialize analytics', async ({ page }) => {
   await page.goto('/')
   await page.getByTestId('cookie-consent').getByRole('link', { name: 'Подробнее' }).click()

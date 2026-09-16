@@ -151,6 +151,7 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { trackCatalogOpen } from '../composables/useAnalytics.js'
+import { COMPANY_SINCE } from '../config/company.js'
 
 const current = ref(0)
 const previousSlideIndex = ref(null)
@@ -208,7 +209,7 @@ const slides = [
     ],
     facts: [
       { value: '60+', label: 'позиций в каталоге' },
-      { value: '20+', label: 'лет в ремесле' },
+      { value: COMPANY_SINCE, label: 'продажа и поставка' },
       { value: '7/7', label: 'без выходных' },
     ],
     image: '/images/hero/hero-ornamental-pattern-v2.webp',

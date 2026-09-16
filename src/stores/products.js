@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import catalog from '../data/catalog.json'
+import catalog from '../data/catalog.json' with { type: 'json' }
 
 export const useProductStore = defineStore('products', () => {
   const categories = ref(catalog.categories)
@@ -8,16 +8,8 @@ export const useProductStore = defineStore('products', () => {
   const searchQuery = ref('')
   const selectedCategory = ref(null)
   const sortBy = ref('name')
-  const priceMin = ref(0)
-  const priceMax = ref(0)
   const currentPage = ref(1)
   const perPage = 20
-
-  const allPriceRange = computed(() => {
-    const prices = allProducts.value.map(p => p.price)
-    if (prices.length === 0) return { min: 0, max: 0 }
-    return { min: Math.min(...prices), max: Math.max(...prices) }
-  })
 
   const categoryProductCount = computed(() => {
     const map = new Map()
@@ -38,12 +30,6 @@ export const useProductStore = defineStore('products', () => {
         p.name.toLowerCase().includes(q) ||
         p.description?.toLowerCase().includes(q)
       )
-    }
-    if (priceMin.value > 0) {
-      result = result.filter(p => p.price >= priceMin.value)
-    }
-    if (priceMax.value > 0) {
-      result = result.filter(p => p.price <= priceMax.value)
     }
     switch (sortBy.value) {
       case 'price-asc':
@@ -95,8 +81,8 @@ export const useProductStore = defineStore('products', () => {
 
   return {
     categories, allProducts, searchQuery, selectedCategory, sortBy,
-    priceMin, priceMax, currentPage, perPage,
-    filteredProducts, paginatedProducts, totalPages, allPriceRange, categoryProductCount,
+    currentPage, perPage,
+    filteredProducts, paginatedProducts, totalPages, categoryProductCount,
     getCategoryBySlug, getProductsByCategory, getProductById,
     getRelatedProducts, searchProducts,
   }

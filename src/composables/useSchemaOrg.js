@@ -113,6 +113,22 @@ export function schemaItemList(products, listName) {
   }
 }
 
+export function schemaBreadcrumbList(items, currentPath = '/') {
+  const list = toValue(items)
+  if (!Array.isArray(list) || list.length < 2) return null
+  if (list.some((item) => typeof item.label !== 'string' || !item.label.trim())) return null
+
+  return {
+    '@type': 'BreadcrumbList',
+    itemListElement: list.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.label,
+      item: toSiteUrl(item.to || currentPath),
+    })),
+  }
+}
+
 export function schemaFaqPage(items) {
   const list = toValue(items)
   if (!Array.isArray(list) || list.length === 0) return null

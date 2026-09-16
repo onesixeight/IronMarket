@@ -29,18 +29,16 @@ export async function generateResponsiveImages() {
     const input = await readFile(resolve(publicDir, `.${source}`))
     const { width } = await sharp(input).metadata()
     const hash = createHash('sha256').update(input).update(`webp-${quality}-v1`).digest('hex').slice(0, 12)
-    const candidates = []
     for (const size of widths.filter(size => size < width)) {
       const name = `${hash}-${size}w.webp`
       const target = resolve(outputDir, name)
       if (!(await exists(target))) {
         await sharp(input).resize({ width: size, withoutEnlargement: true }).webp({ quality }).toFile(target)
       }
-      candidates.push(`/images/optimized/${name} ${size}w`)
     }
-    // Retain the original as the largest candidate; the lightbox uses it directly.
-    candidates.push(`${source} ${width}w`)
-    manifest[source] = candidates.join(', ')
+    // The getter reconstructs the same srcset from a hash and original width.
+    // Small originals have no generated candidates, so their hash is unnecessary.
+    manifest[source] = [width > widths[0] ? hash : '', width]
   }
 
   const faviconPath = resolve(outputDir, 'favicon-48.png')

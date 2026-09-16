@@ -315,8 +315,8 @@ const breadcrumbItems = computed(() => {
   const items = [{ to: '/', label: 'Главная' }, { to: '/catalog', label: 'Каталог' }]
   if (product.value && category.value) {
     items.push({ to: '/catalog/' + product.value.categorySlug, label: category.value.name })
-    items.push({ label: product.value.name })
   }
+  items.push({ label: product.value?.name || 'Товар не найден' })
   return items
 })
 

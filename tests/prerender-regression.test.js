@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 
 import { buildSiteRoutes, normalizeRoutePath } from '../scripts/site-routes.mjs'
 import catalog from '../src/data/catalog.json' with { type: 'json' }
-import { buildPrerenderRoutes, routeOutputPath } from '../scripts/prerender-routes.mjs'
+import { buildPrerenderRoutes, getPrerenderDeadlineMs, routeOutputPath } from '../scripts/prerender-routes.mjs'
 
 const projectRoot = fileURLToPath(new URL('..', import.meta.url))
 const packageJson = JSON.parse(fs.readFileSync(path.join(projectRoot, 'package.json'), 'utf8'))
@@ -19,10 +19,11 @@ const playwrightBrowserScript = fs.readFileSync(
 const routes = buildSiteRoutes(catalog)
 const routePaths = routes.map((route) => route.path)
 
-assert.equal(routes.length, 5 + catalog.categories.length + catalog.products.length)
+assert.equal(routes.length, 6 + catalog.categories.length + catalog.products.length)
 assert.equal(normalizeRoutePath('catalog///'), '/catalog')
 assert.ok(routePaths.includes('/'), 'Prerender routes should include the homepage')
 assert.ok(routePaths.includes('/catalog'), 'Prerender routes should include the catalog index')
+assert.ok(routePaths.includes('/constructor'), 'The public constructor needs an indexable HTTP entry point')
 assert.ok(routePaths.includes(`/catalog/${catalog.categories[0].slug}`), 'Prerender routes should include categories')
 assert.ok(routePaths.includes(`/product/${catalog.products[0].id}`), 'Prerender routes should include products')
 assert.equal(new Set(routePaths).size, routePaths.length, 'Prerender routes should be unique')
@@ -31,6 +32,17 @@ assert.ok(!routePaths.includes('/cart'), 'Prerender routes should skip redirecte
 assert.ok(!routePaths.includes('/checkout'), 'Prerender routes should skip redirected checkout pages')
 assert.ok(!routePaths.includes('/thank-you'), 'Prerender routes should skip noindex thank-you pages')
 const generatedPaths = buildPrerenderRoutes().map((route) => route.path)
+assert.equal(getPrerenderDeadlineMs(1), 8 * 60 * 1000, 'Small builds keep the existing minimum startup allowance')
+assert.equal(getPrerenderDeadlineMs(140), 8 * 60 * 1000, 'The minimum includes the startup allowance')
+assert.equal(getPrerenderDeadlineMs(141), 483000, 'The deadline grows as soon as the workload exceeds the minimum')
+assert.equal(getPrerenderDeadlineMs(365), 19 * 60 * 1000 + 15000, 'The release catalogue receives enough time on slower build hosts')
+assert.equal(getPrerenderDeadlineMs(generatedPaths.length), Math.max(480000, 60000 + generatedPaths.length * 3000))
+assert.ok(getPrerenderDeadlineMs(365) <= 20 * 60 * 1000, 'Leave headroom for the other steps in the 25-minute CI job')
+for (const invalid of [0, -1, 1.5, NaN, Infinity, '365', Number.MAX_SAFE_INTEGER]) {
+  assert.throws(() => getPrerenderDeadlineMs(invalid), RangeError, `Reject invalid or overflowing timer input: ${invalid}`)
+}
+assert.ok(generatedPaths.includes('/constructor'), 'Production builds must render the constructor for direct visits')
+assert.equal(routeOutputPath('/constructor'), path.join(projectRoot, 'dist', 'constructor', 'index.html'))
 assert.ok(generatedPaths.includes('/thank-you'), 'The noindex thank-you page still needs a direct HTTP entry point')
 assert.ok(generatedPaths.includes('/404'), 'Generate a rendered error document for Cloudflare')
 assert.equal(routeOutputPath('/404'), path.join(projectRoot, 'dist', '404.html'))

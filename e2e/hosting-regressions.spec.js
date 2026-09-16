@@ -1,5 +1,14 @@
 import { test, expect } from '@playwright/test'
 
+test('HTML responses consistently disallow embedding through both frame headers', async ({ request }) => {
+  for (const path of ['/', '/catalog', '/product/6149', '/does-not-exist']) {
+    const response = await request.get(path)
+    expect(response.headers()['x-frame-options']).toBe('DENY')
+    const directives = response.headers()['content-security-policy'].split(';').map((entry) => entry.trim())
+    expect(directives).toContain("frame-ancestors 'none'")
+  }
+})
+
 test('unknown routes send HTTP 404 with noindex instead of the homepage', async ({ request }) => {
   for (const path of ['/does-not-exist', '/product/no-such-product', '/catalog/no-such-category']) {
     const response = await request.get(path)

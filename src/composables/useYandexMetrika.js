@@ -1,8 +1,4 @@
-const DEFAULT_YANDEX_METRIKA_ID = '110264764'
-
-export const YM_COUNTER_ID = String(
-  import.meta.env.VITE_YANDEX_METRIKA_ID || DEFAULT_YANDEX_METRIKA_ID
-).trim()
+export const YM_COUNTER_ID = String(import.meta.env.VITE_YANDEX_METRIKA_ID || '').trim()
 
 const YM_SCRIPT_ID = 'yandex-metrika-tag'
 const YM_SCRIPT_SRC = 'https://mc.yandex.ru/metrika/tag.js'

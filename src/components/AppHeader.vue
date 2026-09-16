@@ -154,6 +154,7 @@ const searchPanelElement = ref(null)
 const navItems = [
   { to: '/', label: 'Главная' },
   { to: '/catalog', label: 'Каталог' },
+  { to: '/constructor', label: 'Конструктор' },
   { to: '/about', label: 'О нас' },
   { to: '/delivery', label: 'Доставка' },
   { to: '/contacts', label: 'Контакты' },
@@ -233,8 +234,15 @@ watch(mobileMenu, (value) => {
 
 function onKeyDown(e) {
   if (e.key !== 'Escape') return
+  if (searchOpen.value && searchPanelElement.value?.contains(e.target)) {
+    e.preventDefault()
+    closeSearch()
+    searchButtonElement.value?.focus()
+    return
+  }
   if (isTypingTarget(e.target)) return
   closeMobileMenu()
+  if (searchOpen.value) searchButtonElement.value?.focus()
   closeSearch()
 }
 
