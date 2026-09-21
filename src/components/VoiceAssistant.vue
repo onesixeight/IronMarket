@@ -12,7 +12,7 @@
     >
       <div class="voice-assistant__heading">
         <div>
-          <p class="voice-assistant__eyebrow">ИИ · Тестовая версия</p>
+          <p class="voice-assistant__eyebrow">ИИ-помощник</p>
           <h2 id="voice-assistant-title">Голосовой помощник</h2>
         </div>
         <button type="button" class="voice-assistant__close" aria-label="Закрыть помощника и завершить разговор" @click="closePanel">
@@ -51,7 +51,7 @@
       @click="togglePanel"
     >
       <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="8.5" y="3" width="7" height="12" rx="3.5" /><path stroke-linecap="round" d="M5 11a7 7 0 0 0 14 0M12 18v3m-3 0h6" /></svg>
-      <span>Голосовой помощник<small>ИИ · Тест</small></span>
+      <span>Голосовой помощник<small>ИИ-помощник</small></span>
     </button>
   </aside>
 </template>

@@ -253,11 +253,12 @@ const popularProducts = computed(() => {
   return [...selected, ...fallback].slice(0, POPULAR_PRODUCTS_LIMIT)
 })
 
-const atelierStats = [
-  { value: '60+', label: 'позиций в каталоге' },
+// Число берём из каталога, чтобы блок не отставал от его наполнения.
+const atelierStats = computed(() => [
+  { value: String(productStore.allProducts.length), label: 'позиций в каталоге' },
   { value: COMPANY_SINCE, label: 'продажа и поставка' },
   { value: 'KZ', label: 'доставка по Казахстану' },
-]
+])
 
 const requestSteps = [
   {

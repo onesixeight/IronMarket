@@ -3,6 +3,7 @@ import { computed, nextTick, onMounted, onScopeDispose, ref, useId, watch } from
 import ConstructorPreview from './ConstructorPreview.vue'
 import { lockScroll, unlockScroll } from '../../composables/useScrollLock.js'
 import { buildWhatsAppLink } from '../../composables/messengerConfig.js'
+import { trackLead } from '../../composables/useAnalytics.js'
 import {
   buildHandoffText,
   discussionProducts,
@@ -216,7 +217,12 @@ onScopeDispose(() => {
             Файл для продолжения редактирования
           </button>
         </div>
-        <a :href="whatsappLink" class="handoff-whatsapp" target="_blank" rel="noopener noreferrer"
+        <a
+          :href="whatsappLink"
+          class="handoff-whatsapp"
+          target="_blank"
+          rel="noopener noreferrer"
+          @click="trackLead('whatsapp', { source: 'constructor' })"
           >Обсудить в WhatsApp</a
         >
         <p class="sheet-muted">Откроется сообщение для проверки. PNG или PDF прикрепите вручную.</p>

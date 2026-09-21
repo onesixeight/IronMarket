@@ -61,6 +61,13 @@ export function preparePrerenderDocument(routePath) {
   for (const preload of document.querySelectorAll('link[rel="preload"][as="image"]')) {
     preload.remove()
   }
+  // Vite's runtime injects modulepreload links while loading the route. Saved
+  // into static HTML they are never reused: the service worker serves its own
+  // precached copy, so Chrome discards the preload ("cross-world mismatch").
+  // The route chunks are already in the SW precache list.
+  for (const preload of document.querySelectorAll('link[rel="modulepreload"]')) {
+    preload.remove()
+  }
   if (routePath !== '/') return
 
   const hero = document.querySelector('main img[fetchpriority="high"]')
@@ -153,7 +160,17 @@ async function renderRoute(context, origin, route) {
     activeRoutes.set(route.path, 'content')
     return {
       path: route.path,
-      html: await page.content(),
+      // Serialize a clone for the constructor: the strict style-src CSP drops
+      // inline style attributes, and Vue (still mounted) would re-apply them
+      // through the CSSOM between the cleanup and page.content(). Components
+      // mirror the styles with classes, so the saved shell renders correctly
+      // before JavaScript loads.
+      html: await page.evaluate((path) => {
+        if (path !== '/constructor') return document.documentElement.outerHTML
+        const clone = document.documentElement.cloneNode(true)
+        for (const element of clone.querySelectorAll('[style]')) element.removeAttribute('style')
+        return `<!doctype html>${clone.outerHTML}`
+      }, route.path),
     }
   } catch (error) {
     console.error(`[prerender] ${route.path} failed at ${activeRoutes.get(route.path)}: ${error.message}`)

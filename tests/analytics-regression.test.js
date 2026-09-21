@@ -85,6 +85,37 @@ assert.match(headers, /https:\/\/www\.google-analytics\.com/)
 assert.match(headers, /https:\/\/mc\.yandex\.ru/)
 assert.match(headers, /https:\/\/static\.cloudflareinsights\.com/)
 assert.match(headers, /https:\/\/cloudflareinsights\.com/)
+// Metrika webvisor connects over WebSocket; the constructor PNG export loads
+// its SVG through a blob URL. Both must stay allowed in the single strict CSP
+// copy (duplicate CSP headers intersect, so the policy stays unified instead
+// of per-route relaxations; the constructor avoids inline styles instead).
+const headerRules = []
+let currentRule = null
+for (const rawLine of headers.split(/\r?\n/)) {
+  if (!rawLine || rawLine.startsWith('#')) continue
+  if (!rawLine.startsWith(' ')) {
+    currentRule = { path: rawLine.trim(), csp: null }
+    headerRules.push(currentRule)
+  } else if (currentRule && rawLine.trim().startsWith('Content-Security-Policy:')) {
+    currentRule.csp = rawLine.trim().slice('Content-Security-Policy:'.length).trim()
+  }
+}
+const cspRules = headerRules.filter((rule) => rule.csp)
+assert.equal(cspRules.length, 1, 'the site must ship exactly one CSP rule')
+const storefrontCsp = cspRules[0].csp
+assert.match(storefrontCsp, /connect-src[^;]*wss:\/\/mc\.yandex\.ru/)
+assert.match(storefrontCsp, /img-src[^;]*blob:/)
+assert.ok(!storefrontCsp.includes("'unsafe-inline'"), 'the storefront keeps the strict style-src')
+const vercelConfig = JSON.parse(vercel)
+const vercelCspRules = vercelConfig.headers.filter((rule) =>
+  rule.headers.some((entry) => entry.key === 'Content-Security-Policy')
+)
+assert.equal(vercelCspRules.length, 1, 'vercel.json must mirror the single CSP rule')
+const vercelGeneralCsp = vercelCspRules[0].headers.find((entry) => entry.key === 'Content-Security-Policy')?.value
+assert.match(vercelGeneralCsp, /connect-src[^;]*wss:\/\/mc\.yandex\.ru/)
+assert.match(vercelGeneralCsp, /img-src[^;]*blob:/)
+assert.ok(!vercelGeneralCsp.includes("'unsafe-inline'"))
+
 assert.match(vercel, /"deploymentEnabled": false/)
 assert.match(vercel, /https:\/\/www\.googletagmanager\.com/)
 assert.match(vercel, /https:\/\/www\.google-analytics\.com/)

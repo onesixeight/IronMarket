@@ -1,6 +1,8 @@
 # Заголовки для Cloudflare Workers (static assets).
 # CSP здесь дополнен доменом Яндекс.Метрики (mc.yandex.ru),
 # грузится только после согласия пользователя (CookieConsent).
+# img-src разрешает blob: для экспорта эскиза конструктора в PNG,
+# connect-src — wss://mc.yandex.ru для вебвизора Метрики.
 # (vercel.json дублирует политику для совместимости, если вернёмся на Vercel.)
 
 /assets/*
@@ -14,4 +16,4 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(self), geolocation=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://mc.yandex.ru https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self'; font-src 'self'; img-src 'self' data: https:; connect-src 'self' https://wa.me https://t.me https://mc.yandex.ru https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://cloudflareinsights.com wss://api.elevenlabs.io; frame-src https://yandex.ru https://*.yandex.ru; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://mc.yandex.ru https://www.googletagmanager.com https://static.cloudflareinsights.com; style-src 'self'; font-src 'self'; img-src 'self' data: https: blob:; connect-src 'self' https://wa.me https://t.me https://mc.yandex.ru https://www.googletagmanager.com https://www.google-analytics.com https://region1.google-analytics.com https://analytics.google.com https://cloudflareinsights.com wss://mc.yandex.ru wss://api.elevenlabs.io; frame-src https://yandex.ru https://*.yandex.ru; frame-ancestors 'none'; base-uri 'self'; form-action 'self'

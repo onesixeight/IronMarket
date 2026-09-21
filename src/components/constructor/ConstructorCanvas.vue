@@ -822,6 +822,7 @@ defineExpose({ getSvgElement: () => svgElement.value, fitView })
             :viewBox="cropViewBox(item.product)"
             preserveAspectRatio="none"
             overflow="hidden"
+            class="constructor-blend"
             style="mix-blend-mode: multiply"
           >
             <image
@@ -862,6 +863,7 @@ defineExpose({ getSvgElement: () => svgElement.value, fitView })
           :viewBox="cropViewBox(item.product)"
           preserveAspectRatio="none"
           overflow="hidden"
+          class="constructor-blend-static"
           style="mix-blend-mode: multiply; pointer-events: none"
         >
           <image
@@ -1042,6 +1044,7 @@ defineExpose({ getSvgElement: () => svgElement.value, fitView })
           :viewBox="cropViewBox(ghostItem.product)"
           preserveAspectRatio="none"
           overflow="hidden"
+          class="constructor-blend"
           style="mix-blend-mode: multiply"
         >
           <image
@@ -1186,6 +1189,15 @@ defineExpose({ getSvgElement: () => svgElement.value, fitView })
 .constructor-drawing__element {
   cursor: grab;
   outline: none;
+}
+/* Class mirrors the inline style so the prerendered shell (inline styles are
+   stripped for CSP) keeps the multiply blending before Vue mounts. */
+.constructor-blend {
+  mix-blend-mode: multiply;
+}
+.constructor-blend-static {
+  mix-blend-mode: multiply;
+  pointer-events: none;
 }
 .constructor-drawing__element:focus-visible .constructor-drawing__hit-area {
   stroke: #677441;

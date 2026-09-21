@@ -147,6 +147,38 @@ export function escapeHtml(value) {
   )
 }
 
+// The print popup inherits the strict style-src CSP of the opener, which drops
+// inline <style> text written via document.write. The CSSOM is not restricted,
+// so the report ships an empty <style> and the rules are inserted below.
+const REPORT_CSS_RULES = [
+  '*{box-sizing:border-box}',
+  'body{margin:0;padding:28px;color:#24251f;background:#fff;font:14px/1.5 Arial,sans-serif;overflow-wrap:anywhere}',
+  'main{max-width:1000px;margin:auto}',
+  'h1{font-size:26px;margin:0 0 6px}',
+  'h2{font-size:18px;margin:24px 0 8px}',
+  'p{margin:8px 0}',
+  '.sketch{width:100%;max-height:440px;object-fit:contain;background:#f7f4eb;border:1px solid #ddd;margin-top:16px}',
+  'table{width:100%;border-collapse:collapse}',
+  'th,td{padding:9px;border-bottom:1px solid #ddd;text-align:left;vertical-align:top}',
+  'thead{display:table-header-group}',
+  'tr{break-inside:avoid}',
+  'small,.note{color:#5d6055}',
+  '.comment{white-space:pre-wrap}',
+  '.warnings{border-left:3px solid #a27b37;padding-left:14px}',
+  '@media print{body{padding:0;font-size:11px}.sketch{max-height:330px}h2{break-after:avoid}a{color:inherit}}',
+  '@page{size:A4;margin:14mm}',
+]
+
+export function applyPrintReportStyles(targetDocument) {
+  const style = targetDocument.querySelector('style[data-report-styles]')
+  if (!style) return
+  if (style.sheet) {
+    for (const rule of REPORT_CSS_RULES) style.sheet.insertRule(rule, style.sheet.cssRules.length)
+  } else {
+    style.textContent = REPORT_CSS_RULES.join('\n')
+  }
+}
+
 export function buildPrintReportHtml(project, products, pngDataUrl) {
   if (!/^data:image\/png;base64,[A-Za-z0-9+/=]+$/u.test(pngDataUrl)) {
     throw new Error('Для печати нужно подготовить изображение эскиза.')
@@ -161,9 +193,7 @@ export function buildPrintReportHtml(project, products, pngDataUrl) {
     .join('')
   const discussion = discussionProducts(project, products)
   const warnings = getProjectWarnings(project, products)
-  return `<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Подборка элементов ковки</title><style>
-  *{box-sizing:border-box}body{margin:0;padding:28px;color:#24251f;background:#fff;font:14px/1.5 Arial,sans-serif;overflow-wrap:anywhere}main{max-width:1000px;margin:auto}h1{font-size:26px;margin:0 0 6px}h2{font-size:18px;margin:24px 0 8px}p{margin:8px 0}.sketch{width:100%;max-height:440px;object-fit:contain;background:#f7f4eb;border:1px solid #ddd;margin-top:16px}table{width:100%;border-collapse:collapse}th,td{padding:9px;border-bottom:1px solid #ddd;text-align:left;vertical-align:top}thead{display:table-header-group}tr{break-inside:avoid}small,.note{color:#5d6055}.comment{white-space:pre-wrap}.warnings{border-left:3px solid #a27b37;padding-left:14px}@media print{body{padding:0;font-size:11px}.sketch{max-height:330px}h2{break-after:avoid}a{color:inherit}}@page{size:A4;margin:14mm}
-  </style></head><body><main><h1>Подборка элементов ковки</h1><p>${escapeHtml(types[project.type])} · ${project.width} × ${project.height} мм${project.type === 'fence' ? ` · Секций: ${project.sections}` : ''}</p><img class="sketch" src="${pngDataUrl}" alt="Эскиз подобранных элементов"><h2>Комплектация${project.type === 'fence' ? ' на все секции' : ''}</h2>${rows.length ? `<table><thead><tr><th>Элемент</th><th>Размер одной детали</th><th>Количество</th></tr></thead><tbody>${body}</tbody></table>` : '<p>Элементы на эскиз пока не добавлены.</p>'}${discussion.length ? `<h2>Для обсуждения с мастером</h2><p class="note">Эти элементы не размещены на эскизе и не входят в количество деталей. Размеры и количество нужно уточнить.</p><ul>${discussion.map((product) => `<li>${escapeHtml(product.name)} · арт. ${product.id}</li>`).join('')}</ul>` : ''}${project.comment?.trim() ? `<h2>Комментарий</h2><p class="comment">${escapeHtml(project.comment.trim())}</p>` : ''}${warnings.length ? `<section class="warnings"><h2>Проверить размещение</h2><ul>${[...new Set(warnings.map((warning) => warning.message))].map((message) => `<li>${escapeHtml(message)}</li>`).join('')}</ul></section>` : ''}<p class="note">Эскиз для подбора. Каркас, крепёж, изготовление и монтаж не включены в комплектацию. Стоимость и наличие уточняются при заказе. Размеры деталей, крепления и возможность изготовления должен проверить мастер.</p></main></body></html>`
+  return `<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Подборка элементов ковки</title><style data-report-styles></style></head><body><main><h1>Подборка элементов ковки</h1><p>${escapeHtml(types[project.type])} · ${project.width} × ${project.height} мм${project.type === 'fence' ? ` · Секций: ${project.sections}` : ''}</p><img class="sketch" src="${pngDataUrl}" alt="Эскиз подобранных элементов"><h2>Комплектация${project.type === 'fence' ? ' на все секции' : ''}</h2>${rows.length ? `<table><thead><tr><th>Элемент</th><th>Размер одной детали</th><th>Количество</th></tr></thead><tbody>${body}</tbody></table>` : '<p>Элементы на эскиз пока не добавлены.</p>'}${discussion.length ? `<h2>Для обсуждения с мастером</h2><p class="note">Эти элементы не размещены на эскизе и не входят в количество деталей. Размеры и количество нужно уточнить.</p><ul>${discussion.map((product) => `<li>${escapeHtml(product.name)} · арт. ${product.id}</li>`).join('')}</ul>` : ''}${project.comment?.trim() ? `<h2>Комментарий</h2><p class="comment">${escapeHtml(project.comment.trim())}</p>` : ''}${warnings.length ? `<section class="warnings"><h2>Проверить размещение</h2><ul>${[...new Set(warnings.map((warning) => warning.message))].map((message) => `<li>${escapeHtml(message)}</li>`).join('')}</ul></section>` : ''}<p class="note">Эскиз для подбора. Каркас, крепёж, изготовление и монтаж не включены в комплектацию. Стоимость и наличие уточняются при заказе. Размеры деталей, крепления и возможность изготовления должен проверить мастер.</p></main></body></html>`
 }
 
 // Open synchronously in the click handler so async image work cannot trigger a popup block.
@@ -182,6 +212,7 @@ export async function printProjectReport(element, project, products) {
     popup.document.open()
     popup.document.write(buildPrintReportHtml(snapshot, products, png))
     popup.document.close()
+    applyPrintReportStyles(popup.document)
     await Promise.all([...popup.document.images].map((image) => image.decode()))
     if (popup.closed) throw new Error('Окно печати закрыто.')
     popup.focus()
