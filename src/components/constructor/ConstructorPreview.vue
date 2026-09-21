@@ -107,6 +107,7 @@ function cropViewBox(product) {
           :viewBox="cropViewBox(item.product)"
           preserveAspectRatio="none"
           overflow="hidden"
+          class="constructor-blend"
           style="mix-blend-mode: multiply"
         >
           <image
@@ -138,6 +139,11 @@ function cropViewBox(product) {
 </template>
 
 <style scoped>
+/* Mirrors the inline style so the prerendered shell keeps blending before
+   Vue mounts; the inline copy still travels into exported SVG files. */
+.constructor-blend {
+  mix-blend-mode: multiply;
+}
 .composition-preview {
   display: block;
   width: 100%;

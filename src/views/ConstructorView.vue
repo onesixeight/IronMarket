@@ -24,6 +24,7 @@ import { saveDraft } from '../constructor/drafts.js'
 import { downloadFile } from '../constructor/export.js'
 import { useConstructor, CONSTRUCTOR_STORAGE_KEY } from '../composables/useConstructor.js'
 import { useConstructorTemplates } from '../composables/useConstructorTemplates.js'
+import { trackGoal } from '../composables/useAnalytics.js'
 import { useSeo } from '../composables/useSeo.js'
 import { useToast } from '../composables/useToast.js'
 import '../assets/constructor.css'
@@ -145,6 +146,7 @@ onMounted(() => {
   media = window.matchMedia('(max-width: 900px)')
   resize()
   media.addEventListener('change', resize)
+  trackGoal('constructor_open', { construction: project.value.type })
   try {
     hasSaved.value = Boolean(localStorage.getItem(CONSTRUCTOR_STORAGE_KEY))
   } catch {
@@ -327,8 +329,13 @@ function applyTemplate(id) {
     templatesOpen.value = false
     selectItem(null)
     fitView()
+    trackGoal('constructor_template_apply', { template: id })
     toast.success('Композиция применена. Доступна отмена.')
   })
+}
+function openHandoff() {
+  handoffOpen.value = true
+  trackGoal('constructor_handoff_open', { items: project.value.items.length })
 }
 function addElement(product, itemDimensions) {
   const item = addProduct(product, itemDimensions)
@@ -498,7 +505,7 @@ async function openProject(event) {
       <button type="button" @click="openSetup"><span>1</span>Основа</button
       ><button type="button" @click="templatesOpen = true"><span>2</span>Рисунок</button
       ><button type="button" @click="enterEditor"><span>3</span>Эскиз</button
-      ><button type="button" @click="handoffOpen = true"><span>4</span>Подборка</button>
+      ><button type="button" @click="openHandoff"><span>4</span>Подборка</button>
     </nav>
     <form ref="setupElement" class="constructor-setup" @submit.prevent="setDimensions">
       <div class="construction-types" aria-label="Тип конструкции">
@@ -785,7 +792,7 @@ async function openProject(event) {
         <ConstructorIcon name="grid" />Детали</button
       ><button type="button" :aria-expanded="mobilePanel === 'tools'" @click="openPanel('tools')">
         <ConstructorIcon name="space" />Расстановка</button
-      ><button type="button" @click="handoffOpen = true"><ConstructorIcon name="download" />Подборка</button>
+      ><button type="button" @click="openHandoff"><ConstructorIcon name="download" />Подборка</button>
     </nav>
     <footer class="client-completion">
       <div>
@@ -797,7 +804,7 @@ async function openProject(event) {
           ></span
         >
       </div>
-      <button type="button" class="constructor-button primary" @click="handoffOpen = true">
+      <button type="button" class="constructor-button primary" @click="openHandoff">
         Подготовить подборку для мастера <ConstructorIcon name="arrow" />
       </button>
     </footer>
