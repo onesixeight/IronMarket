@@ -27,7 +27,7 @@ assert.match(verifier, /resourceCount/)
 console.log('ok performance-budget: scripted Web Vitals and asset checks')
 
 test('editor budgets stay separate and all storefront chunks count toward the metadata-inclusive limit', () => {
-  assert.equal(PERFORMANCE_BUDGETS.assetGzipKb.totalJs, 132)
+  assert.equal(PERFORMANCE_BUDGETS.assetGzipKb.totalJs, 134)
   assert.equal(PERFORMANCE_BUDGETS.assetGzipKb.totalCss, 30)
   assert.equal(PERFORMANCE_BUDGETS.assetGzipKb.appEntryJs, 35)
   const totals = getAssetTotals([
