@@ -320,9 +320,12 @@ const breadcrumbItems = computed(() => {
   return items
 })
 
-const seoName = computed(() => product.value?.name || 'Товар не найден')
+const seoName = computed(() => product.value ? `${product.value.name} — арт. ${product.value.id}` : 'Товар не найден')
+const seoDescription = computed(() => product.value
+  ? `${product.value.name}. Артикул ${product.value.id}. ${product.value.description || 'Подбор и поставка в Астане и по Казахстану.'}`
+  : 'Запрашиваемый товар не найден.')
 const seoImage = computed(() => product.value?.image)
-useSeo(seoName, () => product.value?.description || 'Запрашиваемый товар не найден.', seoImage, {
+useSeo(seoName, seoDescription, seoImage, {
   noindex: () => !product.value,
 })
 </script>

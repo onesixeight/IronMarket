@@ -18,7 +18,7 @@
         <Pagination
           :current-page="currentPage"
           :total-pages="totalPages"
-          @update:current-page="currentPage = $event"
+          :page-path="pagePath"
         />
 
         <div v-if="products.length === 0" class="text-center py-20 animate-fade-in">
@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useProductStore } from '../stores/products'
 import ProductCard from '../components/ProductCard.vue'
@@ -50,25 +50,32 @@ import Pagination from '../components/Pagination.vue'
 import { useSeo } from '../composables/useSeo'
 import { useSchemaOrg, schemaItemList } from '../composables/useSchemaOrg.js'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
+import { CATALOG_PAGE_SIZE, listingPagePath } from '../config/pagination.js'
+import categorySeo from '../data/category-seo.json' with { type: 'json' }
 
 const route = useRoute()
 const productStore = useProductStore()
-const currentPage = ref(1)
-const perPage = 20
+const currentPage = computed(() => Number(route.params.page || 1))
+const perPage = CATALOG_PAGE_SIZE
+const pagePath = (page) => listingPagePath(`/catalog/${route.params.slug}`, page)
 
 const category = computed(() => productStore.getCategoryBySlug(route.params.slug))
+const metadata = computed(() => categorySeo[route.params.slug])
 const products = computed(() => productStore.getProductsByCategory(route.params.slug))
 const totalPages = computed(() => Math.ceil(products.value.length / perPage))
 
-useSchemaOrg(() => schemaItemList(products.value, category.value?.name || 'Категория'))
 const paginatedProducts = computed(() => {
   const start = (currentPage.value - 1) * perPage
   return products.value.slice(start, start + perPage)
 })
 
-watch(() => route.params.slug, () => { currentPage.value = 1 })
+useSchemaOrg(() => schemaItemList(paginatedProducts.value, category.value?.name || 'Категория'))
 
-const seoTitle = computed(() => category.value ? category.value.name : 'Категория не найдена')
-const seoDesc = computed(() => category.value?.description || 'Запрашиваемая категория не найдена.')
-useSeo(seoTitle, seoDesc, null, { noindex: () => !category.value })
+const seoTitle = computed(() => category.value
+  ? `${metadata.value?.title || category.value.name}${currentPage.value > 1 ? ` — Страница ${currentPage.value}` : ''}`
+  : 'Категория не найдена')
+const seoDesc = computed(() => category.value
+  ? `${metadata.value?.description || category.value.description}${currentPage.value > 1 ? ` Страница ${currentPage.value}.` : ''}`
+  : 'Запрашиваемая категория не найдена.')
+useSeo(seoTitle, seoDesc, null, { noindex: () => !category.value || currentPage.value > totalPages.value })
 </script>

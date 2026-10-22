@@ -52,6 +52,7 @@
         v-if="productStore.filteredProducts.length > 0"
         :current-page="productStore.currentPage"
         :total-pages="productStore.totalPages"
+        :page-path="isDefaultListing ? pagePath : null"
         @update:current-page="productStore.currentPage = $event"
       />
 
@@ -156,6 +157,7 @@
 
 <script setup>
 import { computed, onUnmounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useProductStore } from '../stores/products'
 import ProductCard from '../components/ProductCard.vue'
 import CatalogProjectShortcuts from '../components/CatalogProjectShortcuts.vue'
@@ -166,8 +168,16 @@ import { useSchemaOrg, schemaItemList } from '../composables/useSchemaOrg.js'
 import AppBreadcrumb from '../components/AppBreadcrumb.vue'
 import { debounce } from '../composables/useDebounce.js'
 import { getProductImageSrcset } from '../composables/useResponsiveImage.js'
+import { listingPagePath } from '../config/pagination.js'
 
 const productStore = useProductStore()
+const route = useRoute()
+const router = useRouter()
+const pagePath = (page) => listingPagePath('/catalog', page)
+const isDefaultListing = computed(() => !productStore.searchQuery && !productStore.selectedCategory && productStore.sortBy === 'name')
+watch(() => route.params.page, (page) => {
+  productStore.currentPage = Number(page || 1)
+}, { immediate: true })
 
 const debouncedSearch = debounce((val) => { productStore.searchQuery = val }, 200)
 onUnmounted(() => debouncedSearch.cancel())
@@ -176,9 +186,12 @@ function onSearchInput(e) {
   debouncedSearch(e.target.value)
 }
 
-useSeo('Каталог продукции', 'Полный каталог декоративных кованых изделий: короны, узоры, балясины, уголки и другие элементы.')
+const pageSuffix = computed(() => route.params.page ? ` — Страница ${route.params.page}` : '')
+useSeo(() => `Каталог кованых элементов в Астане${pageSuffix.value}`,
+  () => `Каталог кованых элементов: короны, узоры, балясины, уголки и другие детали. Подбор в Астане и поставка по Казахстану.${pageSuffix.value ? ` Страница ${route.params.page}.` : ''}`,
+  null, { noindex: () => Number(route.params.page || 1) > productStore.totalPages })
 
-useSchemaOrg(() => schemaItemList(productStore.filteredProducts, 'Каталог кованых элементов'))
+useSchemaOrg(() => schemaItemList(productStore.paginatedProducts, 'Каталог кованых элементов'))
 const categories = computed(() => productStore.categories)
 const selectedCategory = computed(() => productStore.selectedCategory)
 const hasPublicPrices = computed(() => productStore.allProducts.some((product) => !product.hidePrice))
@@ -190,7 +203,10 @@ const catalogStats = computed(() => [
 
 watch(
   () => [productStore.searchQuery, productStore.selectedCategory, productStore.sortBy],
-  () => { productStore.currentPage = 1 }
+  () => {
+    productStore.currentPage = 1
+    if (route.params.page) router.replace({ path: '/catalog', query: route.query, hash: route.hash })
+  }
 )
 
 watch(hasPublicPrices, (hasPrices) => {

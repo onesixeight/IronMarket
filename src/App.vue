@@ -11,9 +11,9 @@
     <AppHeader />
 
     <main id="main-content" class="relative z-10 flex-1">
-      <router-view v-slot="{ Component, route }">
+      <router-view v-slot="{ Component }">
         <transition name="page">
-          <component :is="Component" :key="route.name" />
+          <component :is="Component" />
         </transition>
       </router-view>
     </main>

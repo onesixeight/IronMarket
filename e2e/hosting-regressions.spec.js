@@ -36,7 +36,7 @@ test('hashed assets receive immutable cache headers', async ({ request }) => {
 
 test('trailing slash URLs permanently redirect to a working canonical page', async ({ request }) => {
   const query = '?product=6149&utm_source=google&note=a%2Fb'
-  for (const canonical of ['/catalog', '/contacts', '/about', '/delivery', '/thank-you', '/catalog/kovanye-balyasiny', '/product/6150']) {
+  for (const canonical of ['/catalog', '/constructor', '/contacts', '/about', '/delivery', '/thank-you', '/catalog/kovanye-balyasiny', '/product/6150', '/catalog/page/2', '/catalog/korony-na-vorota/page/2']) {
     const response = await request.get(`${canonical}/${query}`, { maxRedirects: 0 })
     expect(response.status()).toBe(301)
     expect(response.headers().location).toBe(`${canonical}${query}`)

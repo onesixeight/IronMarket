@@ -1,4 +1,5 @@
 import { watchEffect, toValue, onScopeDispose } from 'vue'
+import { useRoute } from 'vue-router'
 
 import { DEFAULT_SOCIAL_IMAGE, SITE_NAME, toAbsoluteSiteUrl, toSiteUrl } from '../config/site.js'
 const DEFAULT_TITLE = 'Эталон Ковка — кованые элементы в Астане'
@@ -41,46 +42,23 @@ function getCanonicalLink() {
   return cachedCanonical
 }
 
-function getCurrentPath() {
-  if (typeof window === 'undefined') return '/'
-  return window.location.pathname || '/'
-}
-
-function toCanonicalUrl(path = getCurrentPath()) {
-  const cleanPath = path === '/' ? '/' : `/${String(path).replace(/^\/+|\/+$/g, '')}`
-  return toSiteUrl(cleanPath)
-}
-
-function setCanonicalUrl(url) {
-  getCanonicalLink().setAttribute('href', url)
-}
-
-function setOrCreateMeta(property, content) {
-  let el = document.querySelector(`meta[property="${property}"]`)
+function setOrCreateMeta(property, content, attribute = 'property') {
+  let el = document.querySelector(`meta[${attribute}="${property}"]`)
   if (!el) {
     el = document.createElement('meta')
-    el.setAttribute('property', property)
-    document.head.appendChild(el)
-  }
-  el.setAttribute('content', content || '')
-}
-
-function setOrCreateMetaName(name, content) {
-  let el = document.querySelector(`meta[name="${name}"]`)
-  if (!el) {
-    el = document.createElement('meta')
-    el.setAttribute('name', name)
+    el.setAttribute(attribute, property)
     document.head.appendChild(el)
   }
   el.setAttribute('content', content || '')
 }
 
 export function useSeo(title, description, image, { noindex = false } = {}) {
+  const route = useRoute()
   const stop = watchEffect(() => {
     const t = toValue(title)
     const d = toValue(description)
     const img = toValue(image)
-    const canonicalUrl = toCanonicalUrl()
+    const canonicalUrl = toSiteUrl(route.path)
     const socialImage = toAbsoluteSiteUrl(img || DEFAULT_SOCIAL_IMAGE)
 
     const fullTitle = t
@@ -91,12 +69,12 @@ export function useSeo(title, description, image, { noindex = false } = {}) {
 
     getMetaDesc().setAttribute(
       'content',
-      d || 'Кованые элементы, узоры, балясины и комплектующие с продажей и поставкой в Астане и по Казахстану.'
+      d || DEFAULT_DESCRIPTION
     )
 
     getMetaRobots().setAttribute('content', toValue(noindex) ? 'noindex, nofollow' : 'index, follow')
 
-    setCanonicalUrl(canonicalUrl)
+    getCanonicalLink().setAttribute('href', canonicalUrl)
     setOrCreateMeta('og:title', t || DEFAULT_TITLE)
     setOrCreateMeta('og:description', d || DEFAULT_DESCRIPTION)
     setOrCreateMeta('og:url', canonicalUrl)
@@ -104,10 +82,10 @@ export function useSeo(title, description, image, { noindex = false } = {}) {
     // in schema.org JSON-LD; "product" is not a global type in https://ogp.me/.
     setOrCreateMeta('og:type', 'website')
     setOrCreateMeta('og:image', socialImage)
-    setOrCreateMetaName('twitter:card', 'summary_large_image')
-    setOrCreateMetaName('twitter:title', t || DEFAULT_TITLE)
-    setOrCreateMetaName('twitter:description', d || DEFAULT_DESCRIPTION)
-    setOrCreateMetaName('twitter:image', socialImage)
+    setOrCreateMeta('twitter:card', 'summary_large_image', 'name')
+    setOrCreateMeta('twitter:title', t || DEFAULT_TITLE, 'name')
+    setOrCreateMeta('twitter:description', d || DEFAULT_DESCRIPTION, 'name')
+    setOrCreateMeta('twitter:image', socialImage, 'name')
   })
 
   onScopeDispose(stop)

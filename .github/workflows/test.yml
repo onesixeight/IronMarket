@@ -16,7 +16,7 @@ concurrency:
 jobs:
   test:
     runs-on: ubuntu-latest
-    # The expanded catalogue prerenders 365 routes with rootless Chromium.
+    # The catalogue and its pagination prerender with rootless Chromium.
     timeout-minutes: 25
     env:
       VITE_GOOGLE_ANALYTICS_ID: ${{ vars.VITE_GOOGLE_ANALYTICS_ID }}

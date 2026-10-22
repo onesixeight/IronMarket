@@ -30,7 +30,9 @@ export const PERFORMANCE_BUDGETS = {
     vueVendorJs: 40,
     routerVendorJs: 15,
     homeViewJs: 16,
-    totalJs: 130,
+    // Dedicated category metadata adds ~1 KiB gzip to the lazy category route.
+    // Keep per-entry and homepage/runtime budgets unchanged.
+    totalJs: 132,
     voiceAssistantSdk: 180,
     totalCss: 30,
     constructorEditorJs: 70,
