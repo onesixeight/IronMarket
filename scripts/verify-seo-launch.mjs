@@ -119,6 +119,7 @@ function assertAllRouteMetadataAndLinks() {
       continue
     }
     const html = readFileSync(file, 'utf8')
+    if (/\bdata-v-app(?:\s|=|>)/.test(html)) issues.push(`${route.path}: saved HTML contains a stale Vue mount marker`)
     const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1]
     const description = html.match(/<meta name="description" content="([^"]*)"/)?.[1]
     for (const [value, seen, label] of [[title, titles, 'title'], [description, descriptions, 'description']]) {
