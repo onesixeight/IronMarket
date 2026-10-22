@@ -30,7 +30,9 @@ export const PERFORMANCE_BUDGETS = {
     vueVendorJs: 40,
     routerVendorJs: 15,
     homeViewJs: 16,
-    totalJs: 130,
+    // Category metadata adds ~1 KiB gzip; patched Vue 3.5.44 adds ~1.7 KiB.
+    // Keep per-entry and homepage/runtime budgets unchanged.
+    totalJs: 134,
     voiceAssistantSdk: 180,
     totalCss: 30,
     constructorEditorJs: 70,

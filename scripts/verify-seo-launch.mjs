@@ -107,6 +107,60 @@ function assertBuiltAnalyticsIds(indexHtml) {
   }
 }
 
+function assertAllRouteMetadataAndLinks() {
+  const titles = new Map()
+  const descriptions = new Map()
+  const linksByPath = new Map()
+  const issues = []
+  for (const route of expectedRoutes) {
+    const file = resolve(distDir, routeHtmlPath(route.path))
+    if (!existsSync(file)) {
+      issues.push(`${route.path}: missing HTML`)
+      continue
+    }
+    const html = readFileSync(file, 'utf8')
+    if (/\bdata-v-app(?:\s|=|>)/.test(html)) issues.push(`${route.path}: saved HTML contains a stale Vue mount marker`)
+    const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1]
+    const description = html.match(/<meta name="description" content="([^"]*)"/)?.[1]
+    for (const [value, seen, label] of [[title, titles, 'title'], [description, descriptions, 'description']]) {
+      if (!value?.trim()) issues.push(`${route.path}: missing ${label}`)
+      else if (seen.has(value)) issues.push(`${route.path}: duplicate ${label} with ${seen.get(value)}`)
+      else seen.set(value, route.path)
+    }
+    const canonicals = [...html.matchAll(/<link rel="canonical" href="([^"]+)"/g)].map((match) => match[1])
+    if (canonicals.length !== 1 || canonicals[0] !== toSiteUrl(route.path)) issues.push(`${route.path}: invalid canonical`)
+    if ((html.match(/<h1\b/g) || []).length !== 1) issues.push(`${route.path}: expected one H1`)
+    if (!html.includes('<meta name="robots" content="index, follow"')) issues.push(`${route.path}: not indexable`)
+    const links = [...html.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)].flatMap((match) => {
+      const url = new URL(match[1].replaceAll('&amp;', '&'), SITE_ORIGIN)
+      return url.origin === SITE_ORIGIN ? [url.pathname] : []
+    })
+    linksByPath.set(route.path, links)
+    const broken = links.filter((path) => /^(?:\/catalog(?:\/|$)|\/product\/)/.test(path) && !expectedLocs.has(toSiteUrl(path)))
+    if (broken.length) issues.push(`${route.path}: broken catalog links ${[...new Set(broken)].join(', ')}`)
+    if (route.path === '/catalog' || route.path.startsWith('/catalog/')) {
+      const itemList = parseJsonLd(html).find((schema) => schema['@type'] === 'ItemList')
+      const visibleProducts = new Set(links.filter((path) => path.startsWith('/product/')))
+      const schemaProducts = new Set((itemList?.itemListElement || []).map((item) => new URL(item.url).pathname))
+      if (visibleProducts.size !== schemaProducts.size || [...visibleProducts].some((path) => !schemaProducts.has(path))) {
+        issues.push(`${route.path}: ItemList differs from visible products`)
+      }
+    }
+  }
+  assertCheck(issues.length === 0, `all ${expectedRoutes.length} indexable pages have unique metadata and valid HTML links`, issues.join('; '))
+
+  const reachable = new Set(['/'])
+  for (const path of reachable) {
+    for (const link of linksByPath.get(path) || []) {
+      if (linksByPath.has(link)) reachable.add(link)
+    }
+  }
+  const orphanProducts = catalog.products.filter((product) => !reachable.has(`/product/${product.id}`))
+  assertCheck(orphanProducts.length === 0, 'all products are reachable from the homepage through HTML links', orphanProducts.map((product) => product.id).join(', '))
+  const orphanRoutes = expectedRoutes.filter((route) => !reachable.has(route.path))
+  assertCheck(orphanRoutes.length === 0, 'all sitemap pages are reachable from the homepage through HTML links', orphanRoutes.map((route) => route.path).join(', '))
+}
+
 function run() {
   const indexHtml = readDist('index.html')
   const sitemap = readDist('sitemap.xml')
@@ -134,6 +188,7 @@ function run() {
   assertCheck(new Set(lastmods).size > 1, 'sitemap lastmod values are source-based, not one generated date')
 
   const home = assertRouteMetadata('/', /Эталон Ковка|Кованые элементы/)
+  assertAllRouteMetadataAndLinks()
   const imagePreload = home.html.match(/<link\b[^>]*rel="preload"[^>]*as="image"[^>]*>/)?.[0] || ''
   assertCheck(imagePreload.includes('imagesrcset=') && imagePreload.includes('imagesizes='), 'home image preload uses responsive candidates')
   const hiddenRoutes = expectedRoutes.filter((route) => {
@@ -146,7 +201,7 @@ function run() {
   assertCheck(Boolean(faqSchema), 'home page has FAQPage JSON-LD')
   assertCheck((faqSchema?.mainEntity?.length || 0) >= 6, 'home FAQPage JSON-LD includes commercial questions')
 
-  const catalogPage = assertRouteMetadata('/catalog', /Каталог продукции|Кованые элементы/)
+  const catalogPage = assertRouteMetadata('/catalog', /Каталог кованых элементов/)
   assertCheck(!/<link\b[^>]*rel="preload"[^>]*as="image"/.test(catalogPage.html), 'catalog does not preload the homepage hero')
   assertCheck(hasSchemaType(catalogPage.schemas, 'ItemList'), 'catalog page has ItemList JSON-LD')
 
@@ -161,7 +216,7 @@ function run() {
   assertCheck(productPage.html.includes(firstProduct.name), 'product page contains product name')
   assertCheck(!/<link\b[^>]*rel="preload"[^>]*as="image"/.test(productPage.html), 'product page does not preload the homepage hero')
 
-  const listingPaths = ['/catalog', ...catalog.categories.map((category) => `/catalog/${category.slug}`)]
+  const listingPaths = expectedRoutes.filter((route) => route.path === '/catalog' || route.path.startsWith('/catalog/')).map((route) => route.path)
   const hiddenProductPaths = catalog.products.filter((product) => product.hidePrice).map((product) => `/product/${product.id}`)
   const unsupportedProductPaths = [...listingPaths, ...hiddenProductPaths].filter((path) => {
     const schemas = parseJsonLd(readFileSync(resolve(distDir, routeHtmlPath(path)), 'utf8'))

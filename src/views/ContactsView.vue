@@ -127,8 +127,8 @@ import { CONTACTS } from '../config/contacts.js'
 import { useProductStore } from '../stores/products'
 
 useSeo(
-  'Контакты',
-  'Свяжитесь с Эталон Ковка: телефон, email и форма запроса для подбора кованых элементов и комплектующих.'
+  'Контакты и адрес в Астане',
+  `Эталон Ковка: ${CONTACTS.phone.display}. ${CONTACTS.location.address}. ${CONTACTS.hours.primary}. Подбор и согласование заказа в мессенджерах.`
 )
 
 const route = useRoute()

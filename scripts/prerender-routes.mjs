@@ -49,6 +49,9 @@ export function routeOutputPath(routePath) {
 }
 
 export function preparePrerenderDocument(routePath) {
+  // This runtime marker means Vue has attached handlers in the current browser.
+  // A saved copy must not advertise interactivity before the next app mount.
+  document.getElementById('app')?.removeAttribute('data-v-app')
   // The page already contains its content. A JS-controlled overlay must not hide it.
   document.getElementById('preloader')?.remove()
   for (const element of document.querySelectorAll('.reveal-pending')) {

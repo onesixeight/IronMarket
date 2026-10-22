@@ -1,18 +1,22 @@
 <template>
   <nav v-if="totalPages > 1" aria-label="Навигация по страницам">
     <div class="flex items-center justify-center gap-1.5 mt-10">
-      <button
+      <component
+        :is="pagePath && currentPage > 1 ? RouterLink : 'button'"
+        :to="pagePath && currentPage > 1 ? pagePath(currentPage - 1) : undefined"
         aria-label="Предыдущая страница"
         @click="goTo(currentPage - 1)"
         :disabled="currentPage === 1"
         class="page-btn"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
-      </button>
+      </component>
 
       <template v-for="(p, index) in visiblePages" :key="pageKey(p, index)">
         <span v-if="p === '...'" class="px-2 text-obsidian-500 text-sm" aria-hidden="true">…</span>
-        <button
+        <component
+          :is="pagePath ? RouterLink : 'button'"
+          :to="pagePath ? pagePath(p) : undefined"
           v-else
           :aria-label="`Страница ${p}`"
           :aria-current="p === currentPage ? 'page' : undefined"
@@ -21,33 +25,37 @@
           :class="p === currentPage && 'page-btn-active'"
         >
           {{ p }}
-        </button>
+        </component>
       </template>
 
-      <button
+      <component
+        :is="pagePath && currentPage < totalPages ? RouterLink : 'button'"
+        :to="pagePath && currentPage < totalPages ? pagePath(currentPage + 1) : undefined"
         aria-label="Следующая страница"
         @click="goTo(currentPage + 1)"
         :disabled="currentPage === totalPages"
         class="page-btn"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-      </button>
+      </component>
     </div>
   </nav>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const props = defineProps({
   currentPage: { type: Number, required: true },
   totalPages: { type: Number, required: true },
+  pagePath: { type: Function, default: null },
 })
 
 const emit = defineEmits(['update:currentPage'])
 
 function goTo(page) {
-  if (page >= 1 && page <= props.totalPages) {
+  if (!props.pagePath && page >= 1 && page <= props.totalPages) {
     emit('update:currentPage', page)
   }
 }

@@ -19,7 +19,18 @@ const playwrightBrowserScript = fs.readFileSync(
 const routes = buildSiteRoutes(catalog)
 const routePaths = routes.map((route) => route.path)
 
-assert.equal(routes.length, 6 + catalog.categories.length + catalog.products.length)
+assert.equal(routes.filter((route) => !route.path.includes('/page/')).length, 6 + catalog.categories.length + catalog.products.length)
+assert.ok(routePaths.includes('/catalog/page/2'), 'Prerender includes independently addressable listing pages')
+const fixtureRoutes = buildSiteRoutes({
+  categories: [{ slug: 'sample' }],
+  products: Array.from({ length: 41 }, (_, id) => ({ id: `sample-${id}`, categorySlug: 'sample' })),
+}).map((route) => route.path)
+for (const base of ['/catalog', '/catalog/sample']) {
+  assert.ok(fixtureRoutes.includes(`${base}/page/2`))
+  assert.ok(fixtureRoutes.includes(`${base}/page/3`))
+  assert.ok(!fixtureRoutes.includes(`${base}/page/1`), 'The first page keeps its existing canonical URL')
+  assert.ok(!fixtureRoutes.includes(`${base}/page/4`), 'Empty listing pages stay outside sitemap/prerender')
+}
 assert.equal(normalizeRoutePath('catalog///'), '/catalog')
 assert.ok(routePaths.includes('/'), 'Prerender routes should include the homepage')
 assert.ok(routePaths.includes('/catalog'), 'Prerender routes should include the catalog index')

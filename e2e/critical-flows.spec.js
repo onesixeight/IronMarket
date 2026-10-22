@@ -35,6 +35,8 @@ test('desktop catalog navigation lands on the product list controls', async ({ p
 
 test('catalog search filters products and keeps inquiry links valid', async ({ page }) => {
   await page.goto('/catalog')
+  // Prerendered inputs exist before the lazy route has attached its handlers.
+  await expect(page.locator('#app')).toHaveAttribute('data-v-app', '')
 
   const productCards = page.getByTestId('product-card')
   await expect(productCards.first()).toBeVisible()
@@ -83,6 +85,7 @@ test('product page exposes SEO metadata, inquiry link, and recently viewed', asy
 
 test('header search shows results and closes on outside click', async ({ page }) => {
   await page.goto('/')
+  await expect(page.locator('#app')).toHaveAttribute('data-v-app', '')
 
   const searchPanel = page.getByTestId('header-search-panel')
   await page.getByTestId('header-search-button').click()

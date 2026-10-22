@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { trackPageView } from '../composables/useAnalytics.js'
 
+const catalogView = () => import('../views/CatalogView.vue')
+const categoryView = () => import('../views/CategoryView.vue')
+
 const routes = [
   {
     path: '/constructor',
@@ -16,12 +19,20 @@ const routes = [
   {
     path: '/catalog',
     name: 'Catalog',
-    component: () => import('../views/CatalogView.vue'),
+    component: catalogView,
+  },
+  {
+    path: '/catalog/page/:page([1-9]\\d*)',
+    component: catalogView,
   },
   {
     path: '/catalog/:slug',
     name: 'Category',
-    component: () => import('../views/CategoryView.vue'),
+    component: categoryView,
+  },
+  {
+    path: '/catalog/:slug/page/:page([1-9]\\d*)',
+    component: categoryView,
   },
   {
     path: '/product/:id',

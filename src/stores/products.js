@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import catalog from '../data/catalog.json' with { type: 'json' }
+import { CATALOG_PAGE_SIZE } from '../config/pagination.js'
 
 export const useProductStore = defineStore('products', () => {
   const categories = ref(catalog.categories)
@@ -9,7 +10,7 @@ export const useProductStore = defineStore('products', () => {
   const selectedCategory = ref(null)
   const sortBy = ref('name')
   const currentPage = ref(1)
-  const perPage = 20
+  const perPage = CATALOG_PAGE_SIZE
 
   const categoryProductCount = computed(() => {
     const map = new Map()

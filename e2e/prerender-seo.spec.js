@@ -4,13 +4,14 @@ import catalog from '../src/data/catalog.json' with { type: 'json' }
 
 test('prerender removes loading overlays and prepares only the home responsive preload', async ({ page }) => {
   const fixture = `<html><head><link rel="preload" as="image" href="/old.webp"></head><body>
-    <div id="preloader" style="opacity:0"></div>
+    <div id="app" data-v-app><div id="preloader" style="opacity:0"></div>
     <main class="reveal-pending reveal-delay-20"><h1>Visible content</h1>
     <img fetchpriority="high" sizes="100vw" srcset="/small.webp 768w, /large.webp 1536w" src="/large.webp"></main>
-    </body></html>`
+    </div></body></html>`
   await page.setContent(fixture)
   await page.evaluate(preparePrerenderDocument, '/')
   await expect(page.locator('#preloader, .reveal-pending')).toHaveCount(0)
+  await expect(page.locator('#app')).not.toHaveAttribute('data-v-app')
   const preload = page.locator('link[rel="preload"][as="image"]')
   await expect(preload).toHaveCount(1)
   await expect(preload).toHaveAttribute('imagesrcset', '/small.webp 768w, /large.webp 1536w')
