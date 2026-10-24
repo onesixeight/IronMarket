@@ -67,11 +67,20 @@ test('Escape from header search closes suggestions, restores focus and preserves
   await expect(input).toHaveValue('Барашек')
 })
 
-test('cookie details do not grant consent or initialize analytics', async ({ page }) => {
+test('cookie details open Google explanation without granting consent or initializing analytics', async ({ page, context }) => {
+  const detailsUrl = 'https://policies.google.com/technologies/cookies?hl=ru'
+  await context.route(detailsUrl, (route) => route.fulfill({
+    contentType: 'text/html; charset=utf-8', body: '<h1>Как Google использует файлы cookie</h1>',
+  }))
   await page.goto('/')
+  const popupPromise = page.waitForEvent('popup')
   await page.getByTestId('cookie-consent').getByRole('link', { name: 'Подробнее' }).click()
+  const detailsPage = await popupPromise
+  await expect(detailsPage).toHaveURL(detailsUrl)
+  await expect(detailsPage.getByRole('heading')).toHaveText('Как Google использует файлы cookie')
+  await detailsPage.close()
 
-  await expect(page).toHaveURL(/\/about$/)
+  await expect(page).toHaveURL('/')
   expect(await page.evaluate(() => localStorage.getItem('cookie-consent'))).toBeNull()
   await expect(page.locator('#google-analytics-gtag, #yandex-metrika-tag')).toHaveCount(0)
   await expect(page.getByTestId('cookie-consent')).toBeVisible()
