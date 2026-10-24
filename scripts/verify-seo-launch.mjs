@@ -37,7 +37,11 @@ function readDist(path) {
   }
 
   pass(`dist/${path} exists`)
-  return readFileSync(filePath, 'utf8')
+  const content = readFileSync(filePath, 'utf8')
+  if (path.endsWith('.html')) {
+    assertCheck(/^<!doctype html>/i.test(content), `dist/${path} declares HTML standards mode`)
+  }
+  return content
 }
 
 function routeHtmlPath(routePath) {
@@ -119,6 +123,7 @@ function assertAllRouteMetadataAndLinks() {
       continue
     }
     const html = readFileSync(file, 'utf8')
+    if (!/^<!doctype html>/i.test(html)) issues.push(`${route.path}: missing HTML5 doctype`)
     if (/\bdata-v-app(?:\s|=|>)/.test(html)) issues.push(`${route.path}: saved HTML contains a stale Vue mount marker`)
     const title = html.match(/<title>([\s\S]*?)<\/title>/)?.[1]
     const description = html.match(/<meta name="description" content="([^"]*)"/)?.[1]

@@ -169,7 +169,9 @@ async function renderRoute(context, origin, route) {
       // mirror the styles with classes, so the saved shell renders correctly
       // before JavaScript loads.
       html: await page.evaluate((path) => {
-        if (path !== '/constructor') return document.documentElement.outerHTML
+        // outerHTML excludes the document's doctype. Preserve standards mode
+        // when the saved document is opened directly by a browser or crawler.
+        if (path !== '/constructor') return `<!doctype html>${document.documentElement.outerHTML}`
         const clone = document.documentElement.cloneNode(true)
         for (const element of clone.querySelectorAll('[style]')) element.removeAttribute('style')
         return `<!doctype html>${clone.outerHTML}`

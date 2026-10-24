@@ -158,7 +158,7 @@ test('cookie consent gates analytics and tracks catalog and product intents', as
     body: '',
   }))
 
-  await page.goto('/')
+  await page.goto('/?utm_source=regression&utm_medium=test')
 
   await expect(page.getByTestId('cookie-consent')).toBeVisible()
   expect((await analyticsSnapshot(page)).scripts).toEqual({ google: false, yandex: false })
@@ -175,6 +175,9 @@ test('cookie consent gates analytics and tracks catalog and product intents', as
   expect(initialSnapshot.consent).toBe('accepted')
   expect(initialSnapshot.dataLayer.some((entry) => entry[0] === 'config' && entry[1] === analyticsEnv.VITE_GOOGLE_ANALYTICS_ID)).toBe(true)
   expect(hasGoogleEvent(initialSnapshot, 'page_view')).toBe(true)
+  const landing = initialSnapshot.dataLayer.find((entry) => entry[0] === 'event' && entry[1] === 'page_view')
+  expect(new URL(landing[2].page_location).searchParams.get('utm_source')).toBe('regression')
+  expect(new URL(landing[2].page_location).searchParams.get('utm_medium')).toBe('test')
   expect(initialSnapshot.yandexCalls.some((entry) => entry[0] === analyticsEnv.VITE_YANDEX_METRIKA_ID && entry[1] === 'init')).toBe(true)
   expect(initialSnapshot.yandexCalls.some((entry) => entry[0] === analyticsEnv.VITE_YANDEX_METRIKA_ID && entry[1] === 'hit')).toBe(true)
 
@@ -184,12 +187,21 @@ test('cookie consent gates analytics and tracks catalog and product intents', as
 
   await expect.poll(async () => hasGoogleEvent(await analyticsSnapshot(page), 'catalog_open')).toBe(true)
   await expect.poll(async () => hasYandexGoal(await analyticsSnapshot(page), 'catalog_open')).toBe(true)
+  const catalogSnapshot = await analyticsSnapshot(page)
+  const catalogEvent = catalogSnapshot.dataLayer.find((entry) => entry[0] === 'event' && entry[1] === 'catalog_open')
+  expect(catalogEvent[2]).toMatchObject({ interaction_source: 'desktop_header' })
+  expect(catalogEvent[2]).not.toHaveProperty('source')
+  const yandexCatalogGoal = catalogSnapshot.yandexCalls.find((entry) => entry[1] === 'reachGoal' && entry[2] === 'catalog_open')
+  expect(yandexCatalogGoal[3]).toMatchObject({ source: 'desktop_header' })
 
   await page.getByTestId('product-card').first().getByTestId('product-card-detail').click()
   await expect(page).toHaveURL(/\/product\/\d+$/)
 
   await expect.poll(async () => hasGoogleEvent(await analyticsSnapshot(page), 'select_item')).toBe(true)
   await expect.poll(async () => hasYandexGoal(await analyticsSnapshot(page), 'product_open')).toBe(true)
+  const productEvent = (await analyticsSnapshot(page)).dataLayer.find((entry) => entry[0] === 'event' && entry[1] === 'select_item')
+  expect(productEvent[2]).toMatchObject({ interaction_source: 'product_card_detail' })
+  expect(productEvent[2]).not.toHaveProperty('source')
 })
 
 test('lead picker prepares scenario-specific messenger and form paths', async ({ page }) => {

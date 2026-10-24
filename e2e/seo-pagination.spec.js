@@ -71,6 +71,8 @@ test('first-page aliases redirect and out-of-range listings return a real 404', 
 
 test('filtering from a later catalog page returns to its base URL and can be cleared', async ({ page }) => {
   await page.goto('/catalog/page/2')
+  // The prerendered input is visible before Vue attaches its input handler.
+  await expect(page.locator('#app')).toHaveAttribute('data-v-app', '')
   const search = page.getByTestId('catalog-search-input')
   await search.fill('Барашек')
   await expect(page).toHaveURL(/\/catalog$/)
