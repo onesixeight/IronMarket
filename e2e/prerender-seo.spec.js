@@ -2,6 +2,22 @@ import { expect, test } from '@playwright/test'
 import { preparePrerenderDocument } from '../scripts/prerender-routes.mjs'
 import catalog from '../src/data/catalog.json' with { type: 'json' }
 
+test('prerendered documents load in HTML standards mode on direct visits', async ({ page, request }) => {
+  const paths = [
+    '/', '/catalog/page/2', `/catalog/${catalog.categories[0].slug}`,
+    `/product/${catalog.products[0].id}`, '/constructor', '/thank-you', '/missing-standards-check',
+  ]
+  for (const path of paths) {
+    const response = await request.get(path)
+    expect(response.status()).toBe(path === '/missing-standards-check' ? 404 : 200)
+    expect((await response.text()).slice(0, 40), path).toMatch(/^<!doctype html>/i)
+    await page.goto(path)
+    expect(await page.evaluate(() => ({
+      doctype: document.doctype?.name, mode: document.compatMode,
+    })), path).toEqual({ doctype: 'html', mode: 'CSS1Compat' })
+  }
+})
+
 test('prerender removes loading overlays and prepares only the home responsive preload', async ({ page }) => {
   const fixture = `<html><head><link rel="preload" as="image" href="/old.webp"></head><body>
     <div id="app" data-v-app><div id="preloader" style="opacity:0"></div>

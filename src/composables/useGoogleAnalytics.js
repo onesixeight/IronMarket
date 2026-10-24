@@ -56,5 +56,11 @@ export function trackGooglePageView(payload = {}) {
 
 export function trackGoogleEvent(name, params = {}) {
   if (typeof window === 'undefined' || !loaded || !window.gtag || !name) return
-  window.gtag('event', name, params)
+  // Callers use source for the UI placement. Keep it separate from Google's
+  // traffic attribution fields and avoid mutating the payload shared with Metrika.
+  const { source, ...eventParams } = params
+  if (source !== undefined && eventParams.interaction_source === undefined) {
+    eventParams.interaction_source = source
+  }
+  window.gtag('event', name, eventParams)
 }
