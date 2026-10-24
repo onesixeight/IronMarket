@@ -31,3 +31,9 @@
 Сравнение опубликованной и исправленной версии каталога и товара выполнено при 1280×900 и 390×844. Размеры и расположение основных блоков совпадают, горизонтального переполнения нет; у блока связанных товаров обнаружена разница положения на 1 px после переключения режима HTML. CSS и разметка компонентов не переписывались.
 
 Обязательный аудит зависимостей обнаружил обновлённые 23 октября advisories для служебной цепочки Wrangler → Miniflare → undici 7.29.1. Для выпуска добавлен узкий override Miniflare на совместимую undici 7.30.1: изменена одна зависимость, версии Wrangler и Miniflare сохранены. Повторный audit: 0 уязвимостей. Исправленная версия подтверждена [advisory undici](https://github.com/advisories/GHSA-xjj6-f33q-929c); downgrade Wrangler через `audit fix --force` не применялся.
+
+## Совместимость установки в Cloudflare
+
+Первый production build коммита `8444fd2` остановился до сборки: npm 10.9.2 из образа Cloudflare сообщил `Missing: undici@7.29.1 from lock file`. Ошибка воспроизведена чистой установкой в изолированной копии package-файлов через npm 10.9.2; npm 11.9.0 принимает тот же lock-файл и успешно прошёл GitHub CI.
+
+Версия npm закреплена как `packageManager: npm@11.9.0` для Cloudflare; GitHub Actions явно устанавливает ту же версию до `npm ci`. Установка по lock-файлу, проверка уязвимостей и проверка успешного CI перед deployment сохраняются. Это поддержанный [способ выбора npm в Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/build-image/#package-manager-versions); переменная `NPM_VERSION` для Workers Builds не используется.
