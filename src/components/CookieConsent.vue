@@ -12,7 +12,7 @@
         <p class="consent-text">
           Мы используем файлы cookie для улучшения работы сайта и анализа посещаемости.
           Нажимая «Принять», вы соглашаетесь с их использованием.
-          <router-link to="/about" class="consent-link">Подробнее</router-link>.
+          <a href="https://policies.google.com/technologies/cookies?hl=ru" target="_blank" rel="noopener noreferrer" class="consent-link">Подробнее</a>.
         </p>
         <div class="consent-actions">
           <button type="button" class="consent-btn consent-decline" data-testid="cookie-decline" @click="decline">Отклонить</button>
